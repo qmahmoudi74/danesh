@@ -1,0 +1,104 @@
+/* Danesh design tokens: the only file in the renderer allowed to contain color literals (01-UI-SPEC Amendment A).
+   Light is the default; dark follows prefers-color-scheme, which Electron drives from the user's theme preference. */
+:root {
+  color-scheme: light dark;
+
+  --color-surface: #FAF8F4;
+  --color-surface-raised: #F0ECE4;
+  --color-chrome: #F2EFE9;
+  --color-overlay: #FFFFFF;
+  --color-hover: #E9E5DC;
+  --color-pressed: #E1DBD0;
+  --color-selected: #E5E0D5;
+  --color-text: #1C1A17;
+  --color-text-muted: #5C564D;
+  --color-accent: #1B5E8C;
+  --color-accent-hover: #144A70;
+  --color-on-accent: #FFFFFF;
+  --color-link: #1B5E8C;
+  --color-border-control: #8A8378;
+  --color-border-subtle: #DDD7CB;
+  --color-focus: #0B3D63;
+  --color-pass: #1C6B38;
+  --color-pass-tint: #E1F0E4;
+  --color-fail: #A8281F;
+  --color-fail-tint: #FAE3E0;
+  --color-warn: #7A4F00;
+  --color-warn-tint: #FAEDCC;
+  --color-info-tint: #E0ECF5;
+  --color-scrollbar: #C4BDB1;
+  --color-scrollbar-hover: #8F877B;
+  --color-danger-chrome: #C42B1C;
+  --color-on-danger-chrome: #FFFFFF;
+  --color-brand-mark: #1B5E8C;
+  --color-on-brand-mark: #FAF8F4;
+  --shadow-overlay: 0 8px 24px rgb(28 26 23 / 0.14), 0 1px 3px rgb(28 26 23 / 0.10);
+
+  /* Fixed swatches for the theme previews in Settings: they show each theme regardless of the active one. */
+  --preview-light-surface: #FAF8F4;
+  --preview-light-chrome: #E9E5DC;
+  --preview-light-line: #CFC8BB;
+  --preview-light-accent: #1B5E8C;
+  --preview-dark-surface: #1C1B19;
+  --preview-dark-chrome: #2B2926;
+  --preview-dark-line: #4A4640;
+  --preview-dark-accent: #7FB2DC;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --duration-instant: 80ms;
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --duration-slow: 240ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+
+  --title-bar-height: 40px;
+  --sidebar-expanded: 232px;
+  --sidebar-rail: 64px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-surface: #1C1B19;
+    --color-surface-raised: #262421;
+    --color-chrome: #161513;
+    --color-overlay: #2C2A27;
+    --color-hover: #2B2926;
+    --color-pressed: #34312D;
+    --color-selected: #312E2A;
+    --color-text: #EDE9E2;
+    --color-text-muted: #A8A196;
+    --color-accent: #7FB2DC;
+    --color-accent-hover: #9AC4E6;
+    --color-on-accent: #0D1B26;
+    --color-link: #8EBDE3;
+    --color-border-control: #7A7368;
+    --color-border-subtle: #36332E;
+    --color-focus: #A9D1F2;
+    --color-pass: #7CCB98;
+    --color-pass-tint: #1D3326;
+    --color-fail: #F2968C;
+    --color-fail-tint: #3D2220;
+    --color-warn: #E5B865;
+    --color-warn-tint: #3A2E16;
+    --color-info-tint: #1E2E3B;
+    --color-scrollbar: #4E4A43;
+    --color-scrollbar-hover: #79736A;
+    --color-brand-mark: #7FB2DC;
+    --color-on-brand-mark: #161513;
+    --shadow-overlay: 0 12px 32px rgb(0 0 0 / 0.45), 0 1px 3px rgb(0 0 0 / 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 0ms;
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+  }
+}

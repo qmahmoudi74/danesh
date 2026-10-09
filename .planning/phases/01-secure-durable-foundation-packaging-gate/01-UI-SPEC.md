@@ -546,7 +546,7 @@ spinner", "Disclosure open/close has no animation" and "Home has one tab stop".
 
 Preference: `system` («هماهنگ با سیستم», default) | `light` («روشن») | `dark` («تیره»). Main stores it and sets
 `nativeTheme.themeSource` before creating the window; the window background color is the effective theme's
-`--color-chrome`. CSS selects tokens with `@media (prefers-color-scheme: dark)`, which Electron drives from
+`--color-surface` (what shows while resizing). CSS selects tokens with `@media (prefers-color-scheme: dark)`, which Electron drives from
 `themeSource`, so the first frame is correct with no script. `color-scheme: light dark` makes native widgets match.
 Changing the theme cross-fades the whole window in 240ms with the View Transitions API (instant under reduced motion).
 Both themes are designed independently on a warm-paper neutral family; dark is not an inversion.
