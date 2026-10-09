@@ -11,7 +11,7 @@ provides:
   - Installed Windows native toolchain with approved lifecycle restrictions
   - MIT project LICENSE and accepted ADR 0004
   - Verified upstream license grants and documented declaration compatibility
-requirements-completed: [REL-08]
+requirements-completed: []
 ---
 
 # Plan 01-02 completed
@@ -24,7 +24,7 @@ The user explicitly approved:
 
 > I approve the reviewed exact dependency pins, pnpm 12.9.1, the existing lockfile, the frozen-lockfile installation, the reviewed esbuild install script, and the expected official Electron binary download.
 
-The full reply and named exceptions are preserved in `evidence/01-02-user-approval.md`. Local task commits were separately authorized. No installation preceded the human checkpoint.
+The full reply and named exceptions are preserved in `.planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-user-approval.md`. Local task commits were separately authorized. No installation preceded the human checkpoint.
 
 | Task | Commit | Result |
 | --- | --- | --- |
@@ -73,3 +73,9 @@ The two-document pnpm lockfile has 737 package/version records (15 manager, 722 
 Actual Danesh packaging, macOS verification, utilityProcess engine smoke and the full release notice inventory remain unverified and belong to later plans. A production dependency graph is not packaged-artifact evidence. Restricted-license inclusion in future distributed artifacts still requires separate review.
 
 Plan 01-03 may now execute; no later plan is authorized. Automatic chaining remains disabled. Evidence is linked from the dependency review and includes `01-02-final-verification.txt`, `01-02-license-applicability-check.json` and `01-02-type-compatibility-followup.json`.
+
+REL-01 and REL-08 contributions in this plan pass. Their global completion remains gated by unfinished sibling plans declaring the same IDs, following GSD's shared-requirement rule; those checkboxes are not marked complete here.
+
+## Self-Check: PASSED
+
+The five recorded task/checkpoint/follow-up commits exist and their ancestry order was verified. Actual required installation and license checks passed. Approval, native/type compatibility and license-provenance evidence exists at the recorded repository paths.

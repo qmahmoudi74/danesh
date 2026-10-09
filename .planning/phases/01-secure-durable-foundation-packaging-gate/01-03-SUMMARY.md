@@ -88,7 +88,7 @@ The first migration creates STRICT tables and records its LF-normalized SHA-256,
 | Manifest/lockfile preservation | `git diff --quiet b4e98d8 -- package.json apps/desktop/package.json pnpm-lock.yaml pnpm-workspace.yaml` exits 0 |
 | Whitespace | `git diff --check` exits 0 |
 
-Actual final command output is retained in `evidence/01-03-final-verification.txt`, including the recheck after the final test-only schema guard. E2E launches strip ELECTRON_RUN_AS_NODE and create owned temporary library paths containing Persian characters and spaces. The harness uses the already installed Electron binary; no browser, model, probe or extra engine binary was downloaded.
+Actual final command output is retained in `.planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-03-final-verification.txt`, including the recheck after the final test-only schema guard. E2E launches strip ELECTRON_RUN_AS_NODE and create owned temporary library paths containing Persian characters and spaces. The harness uses the already installed Electron binary; no browser, model, probe or extra engine binary was downloaded.
 
 ## Findings corrected during implementation
 
@@ -110,3 +110,7 @@ GSD `requirements.ready-ids` returned no ready IDs for PLAT-01, PLAT-02, PLAT-03
 There are no remaining blockers for this plan's acceptance criteria. Packaged Windows/macOS builds, restricted-license inclusion in distributed artifacts, clean-machine installation, full engine smoke, general migration/recovery machinery and comprehensive shell/egress hardening remain later work and are not claimed verified here.
 
 Next executable plan: **01-05**, whose dependencies 01-02 and 01-03 are now complete. It implements repository license/ADR/features/report gates. Execution stops here at the user's boundary; automatic chaining remains disabled.
+
+## Self-Check: PASSED
+
+All 36 recorded source/config/test files exist. The three required task commits exist and their ancestry order was verified. The actual mandated static and runtime commands passed; recorded evidence resolves from the repository root.
