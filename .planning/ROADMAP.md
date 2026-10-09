@@ -42,11 +42,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. User data lives in a versioned database with forward-only migrations. The app snapshots data before migrating, a failed migration leaves prior data intact and restorable, and a database written by a newer version is refused. Large artifacts are written atomically into a content-addressed store.
   5. Danesh's own license is recorded in an ADR. The ADR-with-spike template, the acceptance-scenarios-before-implementation practice and the evidence-path verification report (verified, partially verified, blocked) are all in use for this phase's own work.
 
-**Plans**: 15 plans — planning complete and ready for implementation; the latest plan-checker findings (3 blockers, 1 warning) were corrected directly and verified only by deterministic checks, NOT formally rechecked by the AI plan checker (2026-10-09)
+**Plans**: 1/15 plans executed — planning complete and ready for implementation; the latest plan-checker findings (3 blockers, 1 warning) were corrected directly and verified only by deterministic checks, NOT formally rechecked by the AI plan checker (2026-10-09)
 
 Plans:
 **Wave 1**
-- [ ] 01-01-PLAN.md — Acceptance scenarios (12 Gherkin files), ADR template and ADR 0001-0003 pass policies, written before any implementation
+- [x] 01-01-PLAN.md — Acceptance scenarios (12 Gherkin files), ADR template and ADR 0001-0003 pass policies, written before any implementation
 - [ ] 01-02-PLAN.md — Exact-pinned manifests (license MIT), consolidated package-legitimacy checkpoint, frozen install, MIT LICENSE and ADR 0004
 
 **Wave 2** *(blocked on Wave 1 completion)*
@@ -344,7 +344,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Secure, Durable Foundation & Packaging Gate | 0/TBD | Not started | - |
+| 1. Secure, Durable Foundation & Packaging Gate | 1/15 | In Progress | - |
 | 2. PDF Import & Faithful Canonical Model | 0/TBD | Not started | - |
 | 3. Persian-First Semantic Reader, Outline & Search | 0/TBD | Not started | - |
 | 4. Local Model Manager & AI Runtime | 0/TBD | Not started | - |
