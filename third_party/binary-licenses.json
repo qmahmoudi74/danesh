@@ -1,0 +1,122 @@
+{
+  "scope": "License declarations and release obligations from approved research; this is not packaged-artifact verification. Planned assets have not been downloaded.",
+  "entries": [
+    {
+      "component": "Electron",
+      "license": "MIT",
+      "source": "https://github.com/electron/electron",
+      "shippedIn": "Electron runtime",
+      "reviewedOn": "2026-10-10",
+      "obligations": [
+        "Preserve LICENSE and LICENSES.chromium.html"
+      ],
+      "status": "reviewed"
+    },
+    {
+      "component": "Electron FFmpeg",
+      "license": "LGPL-2.1-or-later",
+      "source": "https://github.com/electron/electron",
+      "shippedIn": "Separate Electron dynamic library",
+      "reviewedOn": "2026-10-10",
+      "obligations": [
+        "Research A6 assumption; verify binary contents/terms, notices, source and relinking before release"
+      ],
+      "status": "needs-review"
+    },
+    {
+      "component": "better-sqlite3 prebuilds (all packaged target variants)",
+      "license": "MIT",
+      "source": "https://github.com/WiseLibs/better-sqlite3",
+      "shippedIn": "Native SQLite addon",
+      "reviewedOn": "2026-10-10",
+      "obligations": [
+        "Preserve MIT; SQLite public domain"
+      ],
+      "status": "reviewed"
+    },
+    {
+      "component": "node-llama-cpp and @node-llama-cpp CPU prebuilds",
+      "license": "MIT",
+      "source": "https://github.com/withcatai/node-llama-cpp",
+      "shippedIn": "LLM utility host",
+      "reviewedOn": "2026-10-10",
+      "obligations": [
+        "Preserve wrapper and llama.cpp/ggml MIT notices"
+      ],
+      "status": "reviewed"
+    },
+    {
+      "component": "onnxruntime-node binaries",
+      "license": "MIT",
+      "source": "https://github.com/microsoft/onnxruntime",
+      "shippedIn": "TTS utility host",
+      "reviewedOn": "2026-10-10",
+      "obligations": [
+        "Preserve MIT and embedded third-party notices"
+      ],
+      "status": "reviewed"
+    },
+    {
+      "component": "DirectML.dll",
+      "license": "MIT",
+      "source": "https://github.com/microsoft/DirectML",
+      "shippedIn": "Windows ONNX runtime",
+      "reviewedOn": "2026-10-10",
+      "obligations": [
+        "Verify actual DLL redistribution terms and embedded notices before release"
+      ],
+      "status": "needs-review"
+    },
+    {
+      "component": "tesseract.js-core WASM",
+      "license": "Apache-2.0 AND BSD-2-Clause",
+      "source": "https://github.com/naptha/tesseract.js-core",
+      "shippedIn": "OCR utility host",
+      "reviewedOn": "2026-10-10",
+      "obligations": [
+        "Preserve Tesseract Apache license and Leptonica BSD notices"
+      ],
+      "status": "reviewed"
+    },
+    {
+      "component": "stories15M-q4_0.gguf",
+      "license": "MIT",
+      "source": "https://huggingface.co/ggml-org/tiny-llamas/tree/99dd1a73db5a37100bd4ae633f4cfce6560e1567",
+      "shippedIn": "Planned Plan 01-09 probe (not present)",
+      "reviewedOn": "2026-10-10",
+      "obligations": [
+        "Research A5 upstream inherited grant needs verification before obtaining or shipping"
+      ],
+      "status": "needs-review"
+    },
+    {
+      "component": "fa_IR-mana-medium.onnx and .onnx.json",
+      "license": "MIT AND CC0-1.0",
+      "source": "https://huggingface.co/MahtaFetrat/Mana-Persian-Piper/tree/ad9dd8518bedf517bd7cbc9f63b8e5c844bf5bc0",
+      "shippedIn": "Planned Plan 01-09 probe (not present)",
+      "reviewedOn": "2026-10-10",
+      "obligations": [
+        "Preserve model MIT notice; record CC0 dataset provenance; verify artifacts before shipping"
+      ],
+      "status": "needs-review"
+    },
+    {
+      "component": "eng.traineddata",
+      "license": "Apache-2.0",
+      "source": "https://github.com/tesseract-ocr/tessdata_fast/tree/87416418657359cb625c412a48b6e1d6d41c29bd",
+      "shippedIn": "Planned Plan 01-09 probe (not present)",
+      "reviewedOn": "2026-10-10",
+      "obligations": [
+        "Preserve Apache license; verify artifact before shipping"
+      ],
+      "status": "needs-review"
+    }
+  ],
+  "excluded": [
+    {
+      "component": "sherpa-onnx-node",
+      "status": "excluded",
+      "reason": "espeak-ng GPL code embedded in sherpa-onnx-c-api (R13)"
+    }
+  ]
+}
