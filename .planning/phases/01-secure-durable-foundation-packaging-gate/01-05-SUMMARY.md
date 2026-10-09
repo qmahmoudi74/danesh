@@ -75,4 +75,4 @@ Next: user-authorized 01-06, depending only on completed 01-03. No later plan ha
 
 ## Self-Check: PASSED
 
-Recorded files and evidence exist. Task commits exist in strict ancestry order. Required commands actually ran; the report absence is recorded as an expected failure, not a successful phase verification.
+Recorded files and evidence exist. Task commits exist in strict ancestry order. Required commands actually ran and their expected outcomes are documented above.
