@@ -1,0 +1,182 @@
+Actual Plan 01-05 final verification 2026-10-09T20:50:26.194Z
+
+COMMAND: pnpm vitest run --project tools
+
+ RUN  v5.0.3 D:/workspace/AI/danesh
+
+
+ Test Files  4 passed (4)
+      Tests  69 passed (69)
+   Start at  00:20:27
+   Duration  5.12s (tests 95%, transform 3%, import 2%)
+
+
+EXIT: 0
+
+COMMAND: pnpm licenses:scan
+WARNING needs-review: Electron FFmpeg: Research A6 assumption; verify binary contents/terms, notices, source and relinking before release
+WARNING needs-review: DirectML.dll: Verify actual DLL redistribution terms and embedded notices before release
+WARNING needs-review: stories15M-q4_0.gguf: Research A5 upstream inherited grant needs verification before obtaining or shipping
+WARNING needs-review: fa_IR-mana-medium.onnx and .onnx.json: Preserve model MIT notice; record CC0 dataset provenance; verify artifacts before shipping
+WARNING needs-review: eng.traineddata: Preserve Apache license; verify artifact before shipping
+license-scan: scanned=739 lockfile=737 failures=0 notices=ok
+$ node tools/license-scan.ts
+
+EXIT: 0
+
+COMMAND: pnpm check:adr
+check-adr: failures=0
+$ node tools/check-adr.ts
+
+EXIT: 0
+
+COMMAND: node tools/check-features-first.ts --allow-unbound
+INFO features/core/content-addressed-store.feature: not yet implemented packages/storage/src/cas.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/domain/src/jobs/fsm.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/domain/src/jobs/recovery.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/storage/src/jobs-repo.ts
+INFO features/core/durable-jobs.feature: not yet implemented apps/core/src/sample-job.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/policy.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/broker.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/guard.ts
+INFO features/core/engine-supervision.feature: not yet implemented packages/domain/src/supervision/backoff.ts
+INFO features/core/engine-supervision.feature: not yet implemented packages/domain/src/supervision/policy.ts
+INFO features/core/engine-supervision.feature: not yet implemented apps/main/src/supervisor.ts
+INFO features/core/ipc-validation.feature: not yet implemented apps/core/src/rpc-server.ts
+INFO features/core/ipc-validation.feature: not yet implemented packages/logging/src/jsonl.ts
+INFO features/core/storage-migrations.feature: not yet implemented packages/storage/src/migrate.ts
+INFO features/core/storage-migrations.feature: not yet implemented packages/storage/src/backup.ts
+INFO features/ui/app-shell.feature: not yet implemented apps/main/src/window.ts
+INFO features/ui/engine-crash.feature: not yet implemented apps/main/src/supervisor.ts
+INFO features/ui/engine-crash.feature: not yet implemented apps/core/src/engine-client.ts
+INFO features/ui/sample-job.feature: not yet implemented apps/renderer/src/sample-job/SampleJobCard.tsx
+INFO features/ui/sample-job.feature: not yet implemented apps/core/src/sample-job.ts
+INFO features/ui/startup-states.feature: not yet implemented apps/core/src/boot.ts
+INFO features/ui/startup-states.feature: not yet implemented apps/renderer/src/screens/Home.tsx
+INFO features/ui/system-check.feature: not yet implemented apps/renderer/src/screens/SystemCheck.tsx
+INFO features/ui/system-check.feature: not yet implemented apps/core/src/system-check.ts
+INFO features/ui/system-check.feature: not yet implemented apps/main/src/shell-ipc.ts
+INFO features/ui/zero-egress.feature: not yet implemented apps/main/src/egress-l1.ts
+INFO features/ui/zero-egress.feature: not yet implemented packages/egress/src/guard.ts
+INFO features/ui/zero-egress.feature: not yet implemented apps/core/src/checks/egress-zero.check.ts
+check-features-first: failures=0
+
+EXIT: 0
+
+COMMAND: node tools/check-report.ts --phase 01
+FAIL report not found: phase 01
+
+EXIT: 1
+
+COMMAND: pnpm typecheck && pnpm lint && pnpm depcruise && pnpm vitest run --project contracts --project main
+
+✔ no dependency violations found (54 modules, 98 dependencies cruised)
+
+
+ RUN  v5.0.3 D:/workspace/AI/danesh
+
+
+ Test Files  2 passed (2)
+      Tests  18 passed (18)
+   Start at  00:20:47
+   Duration  345ms (import 50%, transform 40%, tests 6%, worker 4%)
+
+$ tsc -p tsconfig.json --noEmit && tsc -p apps/renderer/tsconfig.json --noEmit
+$ eslint .
+$ depcruise apps packages tools --config .dependency-cruiser.cjs
+
+EXIT: 0
+
+COMMAND: pnpm build
+vite v7.3.7 building ssr environment for production...
+transforming...
+✓ 112 modules transformed.
+rendering chunks...
+out/main/chunks/utility-port-D7xZV9pN.js     0.18 kB
+out/main/chunks/control-QV9nMoo-.js          0.82 kB
+out/main/engine-sample.js                    1.14 kB
+out/main/index.js                            6.77 kB
+out/main/core.js                            11.73 kB
+out/main/chunks/host-protocol-WyOjoEhv.js  188.26 kB
+✓ built in 757ms
+vite v7.3.7 building ssr environment for production...
+transforming...
+✓ 99 modules transformed.
+rendering chunks...
+out/preload/index.cjs  192.70 kB
+✓ built in 453ms
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 124 modules transformed.
+rendering chunks...
+../desktop/out/renderer/index.html                                               0.46 kB
+../desktop/out/renderer/assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2   21.86 kB
+../desktop/out/renderer/assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2       34.52 kB
+../desktop/out/renderer/assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2      46.31 kB
+../desktop/out/renderer/assets/index-DW5yH51R.css                                7.80 kB
+../desktop/out/renderer/assets/index-BljrVk-v.js                               831.17 kB
+✓ built in 1.18s
+$ pnpm --dir apps/desktop run build
+$ electron-vite build
+
+EXIT: 0
+
+COMMAND: env -u ELECTRON_RUN_AS_NODE DANESH_E2E_GREP=@plan-01-03 pnpm test:e2e
+vite v7.3.7 building ssr environment for test...
+transforming...
+✓ 112 modules transformed.
+rendering chunks...
+out/main/chunks/utility-port-D7xZV9pN.js     0.18 kB
+out/main/chunks/control-QV9nMoo-.js          0.82 kB
+out/main/engine-sample.js                    1.14 kB
+out/main/index.js                            6.77 kB
+out/main/core.js                            11.95 kB
+out/main/chunks/host-protocol-WyOjoEhv.js  188.26 kB
+✓ built in 807ms
+vite v7.3.7 building ssr environment for test...
+transforming...
+✓ 99 modules transformed.
+rendering chunks...
+out/preload/index.cjs  192.87 kB
+✓ built in 502ms
+vite v7.3.7 building client environment for test...
+transforming...
+✓ 124 modules transformed.
+rendering chunks...
+../desktop/out/renderer/index.html                                               0.46 kB
+../desktop/out/renderer/assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2   21.86 kB
+../desktop/out/renderer/assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2       34.52 kB
+../desktop/out/renderer/assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2      46.31 kB
+../desktop/out/renderer/assets/index-DW5yH51R.css                                7.80 kB
+../desktop/out/renderer/assets/index-BljrVk-v.js                               831.17 kB
+✓ built in 1.23s
+
+Running 4 tests using 1 worker
+
+  ok 1 apps\desktop\.features-gen\app-shell.feature.spec.js:10:3 › An honest Persian-first shell behind a closed preload API › System check reaches the database through Core @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-happy (881ms)
+  ok 2 apps\desktop\.features-gen\app-shell.feature.spec.js:17:3 › An honest Persian-first shell behind a closed preload API › The page has no Node access or raw IPC surface @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-invalid (772ms)
+  ok 3 apps\desktop\.features-gen\app-shell.feature.spec.js:25:3 › An honest Persian-first shell behind a closed preload API › Core and the sample host run in separate processes @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-edge (720ms)
+  ok 4 apps\desktop\.features-gen\app-shell.feature.spec.js:31:3 › An honest Persian-first shell behind a closed preload API › The database probe row survives a relaunch @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-persistence (2.0s)
+
+  4 passed (5.3s)
+$ node tools/run-e2e.ts
+$ pnpm --dir apps/desktop run build:test
+$ electron-vite build --mode test
+(node:36208) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Debugger ending on ws://127.0.0.1:59922/6cd90a50-a2c9-4f1b-a311-348765997b88
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:59926/1846c310-6362-4b15-9e95-4a24b267416f
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:59930/815840cd-c697-4b36-8626-efee5765ecbb
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:61196/77aaac62-cfe1-4822-91da-8fecde55b443
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:61201/500a0266-6966-4f71-864a-1390a77436f8
+For help, see: https://nodejs.org/learn/getting-started/debugging
+
+EXIT: 0
+
+COMMAND: git diff --check
+
+EXIT: 0
