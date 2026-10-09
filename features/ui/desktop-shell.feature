@@ -80,3 +80,15 @@ Feature: A custom, themed desktop shell that keeps native window behavior
     Given Danesh is launched with that library folder
     When reduced motion is preferred
     Then every motion duration token is 0ms and the spinner does not rotate
+
+  @plan-01-17 @kind-edge
+  Scenario: Keyboard shortcuts work without a menu bar and on any keyboard layout
+    Given Danesh is launched with that library folder
+    When I press CmdOrCtrl and the physical 2 key
+    Then the route is "#/system-check" and its h1 «بررسی سامانه» has focus
+    When I press CmdOrCtrl and the physical comma key
+    Then the route is "#/settings" and its h1 «تنظیمات» has focus
+    When I press CmdOrCtrl and the physical equals key
+    Then the page zoom level is above 0
+    When I press CmdOrCtrl and the physical 0 key
+    Then the page zoom level is 0
