@@ -82,9 +82,12 @@ function attachRenderer(port: UtilityPort): void {
     if (!request.success) return;
     const { id, method, input } = request.data;
     const reject = (code: RpcErrorCode) => port.postMessage({ id, ok: false, error: { code } });
-    const contract = methods[method];
+    const contract = Object.hasOwn(methods, method) ? methods[method] : undefined;
     if (!contract) return reject('UNKNOWN_METHOD');
-    if (Buffer.byteLength(JSON.stringify(input) ?? '', 'utf8') > contract.maxInputBytes) return reject('PAYLOAD_TOO_LARGE');
+    let inputBytes: number;
+    try { inputBytes = Buffer.byteLength(JSON.stringify(input) ?? '', 'utf8'); }
+    catch { return reject('INVALID_INPUT'); }
+    if (inputBytes > contract.maxInputBytes) return reject('PAYLOAD_TOO_LARGE');
     const parsed = contract.input.safeParse(input);
     if (!parsed.success) return reject('INVALID_INPUT');
     if (!init || !db) return reject('UNAVAILABLE');

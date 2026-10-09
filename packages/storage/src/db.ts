@@ -4,7 +4,13 @@ import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 import initialMigration from '../migrations/0001_init.sql?raw';
 
-export interface Db extends Pick<Database.Database, 'exec' | 'prepare' | 'transaction' | 'pragma' | 'close'> {}
+export interface Db {
+  exec: Database.Database['exec'];
+  prepare: Database.Database['prepare'];
+  transaction: Database.Database['transaction'];
+  pragma: Database.Database['pragma'];
+  close: Database.Database['close'];
+}
 export function openLibraryDb(libraryRoot: string, appVersion = '0.1.0'): Db {
   mkdirSync(libraryRoot, { recursive: true });
   const db = new Database(join(libraryRoot, 'danesh.db'));

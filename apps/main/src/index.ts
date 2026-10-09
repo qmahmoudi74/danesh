@@ -30,6 +30,9 @@ void app.whenReady().then(() => {
   let coreReady = false;
   let hello = false;
   let connected = false;
+  window.webContents.on('did-start-navigation', (details) => {
+    if (details.isMainFrame && !details.isSameDocument) { connected = false; hello = false; }
+  });
   const connect = () => {
     if (!coreReady || !hello || connected || window.isDestroyed()) return;
     connected = true;
@@ -48,7 +51,7 @@ void app.whenReady().then(() => {
     else spawnHost(parsed.data.kind, child);
   });
   child.postMessage({ type: 'init', libraryRoot: app.getPath('userData'), appVersion: app.getVersion(), electronVersion: process.versions.electron, platform: process.platform, arch: process.arch, mainPid: process.pid, exePath: app.getPath('exe') });
-  void window.loadURL(devUrl ?? 'app://danesh/index.html');
+  void window.loadURL(devUrl ?? 'app://danesh/index.html').catch((error: unknown) => { console.error(error); app.exit(1); });
 }).catch((error: unknown) => { console.error(error); app.exit(1); });
 app.on('window-all-closed', () => app.quit());
 app.on('before-quit', () => { killHosts(); core?.kill(); });

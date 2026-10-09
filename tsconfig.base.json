@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "target": "ES2024",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@danesh/contracts/*": ["./packages/contracts/src/*"],
+      "@danesh/domain/*": ["./packages/domain/src/*"],
+      "@danesh/storage/*": ["./packages/storage/src/*"],
+      "@danesh/egress/*": ["./packages/egress/src/*"],
+      "@danesh/engine-api/*": ["./packages/engine-api/src/*"],
+      "@danesh/logging/*": ["./packages/logging/src/*"],
+      "@danesh/engines/*": ["./packages/engines/*"]
+    }
+  }
+}

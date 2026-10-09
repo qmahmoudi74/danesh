@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import type Database from 'better-sqlite3';
+import { EngineEchoOutputSchema } from '../../packages/contracts/src/test-rpc.ts';
 
 Given('an isolated library folder whose path contains Persian letters and a space', ({ libraryRoot }) => {
   expect(libraryRoot).toMatch(/[\u0600-\u06ff]/); expect(libraryRoot).toContain(' ');
@@ -13,10 +14,11 @@ Given('Danesh is launched with that library folder', async ({ harness }) => { aw
 Given('the test build of Danesh is launched with that library folder', async ({ harness }) => { await harness.launch(); });
 When('a test-only echo travels through Core to the sample engine host', async ({ harness }) => {
   const output = await harness.page!.evaluate(() => window.danesh.call('test.engineEcho', {}));
-  Object.assign(harness, { echo: output });
+  harness.echo = EngineEchoOutputSchema.parse(output);
 });
 Then("the returned host process id differs from Core, Main and the window's renderer process ids", async ({ harness }) => {
-  const echo = (harness as typeof harness & { echo: { hostPid: number; corePid: number } }).echo;
+  const echo = harness.echo;
+  if (!echo) throw new Error('Echo not received');
   const mainPid = await harness.app!.evaluate(() => process.pid);
   const rendererPid = await harness.app!.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0]?.webContents.getOSProcessId());
   expect(new Set([echo.hostPid, echo.corePid, mainPid, rendererPid]).size).toBe(4);
@@ -34,7 +36,7 @@ Then('the «اجرای برنامه» and «پایگاه داده» rows show «
   await expect(page.locator('html')).toHaveAttribute('lang', 'fa');
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
   expect(await page.locator('meta[property="csp-nonce"]').getAttribute('content')).not.toBe('__CSP_NONCE__');
-  expect(await page.evaluate(() => (window as Window & { __cspViolations: string[] }).__cspViolations)).toEqual([]);
+  expect(await page.evaluate(() => (window as Window & { __cspViolations?: string[] }).__cspViolations)).toEqual([]);
 });
 Then("their technical details record a Core process id different from the window's renderer process id", async ({ harness }) => {
   if (!harness.page || !harness.app) throw new Error('App not launched');

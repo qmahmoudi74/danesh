@@ -9,6 +9,7 @@ interface Harness {
   app: ElectronApplication | undefined;
   page: Page | undefined;
   firstCount: number;
+  echo: { hostPid: number; corePid: number } | undefined;
   launch(): Promise<void>;
   close(): Promise<void>;
 }
@@ -25,19 +26,25 @@ export const test = base.extend<{ libraryRoot: string; harness: Harness }>({
   },
   harness: async ({ libraryRoot }, use) => {
     const harness: Harness = {
-      app: undefined, page: undefined, firstCount: 0,
+      app: undefined, page: undefined, firstCount: 0, echo: undefined,
       async launch() {
-        const env = { ...process.env }; delete env.ELECTRON_RUN_AS_NODE;
+        const env: Record<string, string> = Object.fromEntries(Object.entries(process.env).flatMap(([key, value]) => value === undefined ? [] : [[key, value]]));
+        delete env.ELECTRON_RUN_AS_NODE;
         const executablePath = env.DANESH_TEST_EXE ?? (require('electron') as string);
         harness.app = await _electron.launch({ executablePath, args: [...(env.DANESH_TEST_EXE ? [] : [resolve('apps/desktop')]), `--user-data-dir=${libraryRoot}`], env });
         harness.app.process().stderr?.on('data', (data: Buffer) => process.stderr.write(data));
         harness.page = await harness.app.firstWindow();
         await harness.page.waitForLoadState('domcontentloaded');
-        await harness.page.evaluate(() => {
+        await harness.app.context().addInitScript(() => {
           const violations: string[] = [];
           Object.assign(window, { __cspViolations: violations });
-          document.addEventListener('securitypolicyviolation', (event) => violations.push(event.violatedDirective));
+          document.addEventListener('securitypolicyviolation', (event) => violations.push(JSON.stringify({ directive: event.violatedDirective, blocked: event.blockedURI, source: event.sourceFile, line: event.lineNumber })));
         });
+        const firstNonce = await harness.page.locator('meta[property="csp-nonce"]').getAttribute('content');
+        const response = await harness.page.reload({ waitUntil: 'domcontentloaded' });
+        if (!response || !response.headers()['content-security-policy']?.includes("connect-src 'none'")) throw new Error('Missing restrictive CSP header');
+        const secondNonce = await harness.page.locator('meta[property="csp-nonce"]').getAttribute('content');
+        if (!firstNonce || !secondNonce || firstNonce === secondNonce || !response.headers()['content-security-policy']?.includes(`'nonce-${secondNonce}'`)) throw new Error('CSP nonce not fresh or not bound to document');
       },
       async close() { await harness.app?.close(); harness.app = undefined; harness.page = undefined; },
     };

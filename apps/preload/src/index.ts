@@ -38,7 +38,7 @@ ipcRenderer.on('danesh:port', (event) => {
 
 const api: DaneshApi = {
   async call(method, input) {
-    const contract = methods[method];
+    const contract = Object.hasOwn(methods, method) ? methods[method] : undefined;
     if (!contract) throw failure('UNKNOWN_METHOD');
     const parsed = contract.input.safeParse(input);
     if (!parsed.success) throw failure('INVALID_INPUT');
@@ -53,7 +53,7 @@ const api: DaneshApi = {
     });
   },
   on(topic, callback) {
-    if (!eventPayloads[topic]) throw failure('UNKNOWN_METHOD');
+    if (!Object.hasOwn(eventPayloads, topic)) throw failure('UNKNOWN_METHOD');
     let callbacks = subscribers.get(topic);
     if (!callbacks) { callbacks = new Set(); subscribers.set(topic, callbacks); }
     callbacks.add(callback);

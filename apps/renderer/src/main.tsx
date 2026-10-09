@@ -4,6 +4,7 @@ import '@fontsource-variable/vazirmatn';
 import { SmokeReportSchema, type SmokeReport } from '@danesh/contracts/smoke-report.ts';
 import './style.css';
 
+
 function App() {
   const [route, setRoute] = useState(location.hash);
   const [report, setReport] = useState<SmokeReport>();

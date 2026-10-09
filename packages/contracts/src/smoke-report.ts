@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+// Configure before constructing schemas: optional JIT probes otherwise violate CSP.
+z.config({ jitless: true });
+
 export const CHECK_ORDER = ['app-launch', 'database', 'cas-storage', 'engine-llm', 'engine-ocr', 'engine-tts', 'ui-responsive', 'egress-zero', 'fuses', 'codesign'] as const;
 export const CheckIdSchema = z.enum(CHECK_ORDER);
 export const CheckResultSchema = z.strictObject({
