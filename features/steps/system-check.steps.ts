@@ -48,7 +48,8 @@ When("I press «ذخیرهٔ گزارش» and cancel Main's save dialog", async 
 });
 Then('no report file is written and no export message is announced', async ({ harness, libraryRoot }) => {
   await expect(harness.page!.getByRole('button', { name: 'ذخیرهٔ گزارش', exact: true })).toBeEnabled();
-  expect((await readdir(libraryRoot)).filter((file) => file.endsWith('.json') || file.includes('.tmp-'))).toEqual([]);
+  // ui-preferences.json is the shell's own window/theme state (Plan 01-17), not an export.
+  expect((await readdir(libraryRoot)).filter((file) => file !== 'ui-preferences.json' && (file.endsWith('.json') || file.includes('.tmp-')))).toEqual([]);
   expect(await harness.page!.getByRole('status').innerText()).not.toMatch(/گزارش ذخیره شد|ذخیرهٔ گزارش انجام نشد/);
 });
 Then('focus returns to «ذخیرهٔ گزارش»', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'ذخیرهٔ گزارش', exact: true })).toBeFocused(); });

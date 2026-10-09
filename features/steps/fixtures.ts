@@ -33,7 +33,7 @@ export const test = base.extend<{ libraryRoot: string; harness: Harness }>({
         const env: Record<string, string> = Object.fromEntries(Object.entries(process.env).flatMap(([key, value]) => value === undefined ? [] : [[key, value]]));
         delete env.ELECTRON_RUN_AS_NODE;
         const executablePath = env.DANESH_TEST_EXE ?? (require('electron') as string);
-        harness.app = await _electron.launch({ executablePath, args: [...(env.DANESH_TEST_EXE ? [] : [resolve('apps/desktop')]), `--user-data-dir=${libraryRoot}`, ...(harness.coreReadyDelayMs ? [`--test-core-ready-delay=${harness.coreReadyDelayMs}`] : [])], env });
+        harness.app = await _electron.launch({ executablePath, args: [...(env.DANESH_TEST_EXE ? [] : [resolve('apps/desktop')]), `--user-data-dir=${libraryRoot}`, ...(harness.coreReadyDelayMs ? [`--test-core-ready-delay=${harness.coreReadyDelayMs}`] : [])], env, colorScheme: null });
         harness.app.process().stderr?.on('data', (data: Buffer) => process.stderr.write(data));
         harness.page = await harness.app.firstWindow();
         await harness.page.waitForLoadState('domcontentloaded');

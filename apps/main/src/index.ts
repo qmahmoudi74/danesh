@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, MessageChannelMain, utilityProcess } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, MessageChannelMain, nativeTheme, screen, utilityProcess } from 'electron';
 import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { CoreToMainSchema } from '@danesh/contracts/control.ts';
@@ -6,6 +6,9 @@ import { registerAppScheme, registerAppProtocol } from './protocol.ts';
 import { spawnHost, killHosts } from './hosts.ts';
 import { registerShellIpc, sendShellEvent } from './shell-ipc.ts';
 import { installAppMenu } from './menu.ts';
+import { loadPreferences, savePreferences, restoreWindowBounds, measureDrift, boundsToSave, MIN_WINDOW } from './preferences.ts';
+import { applyTheme, chromeWindowOptions, performWindowAction, readWindowState, trackWindowState, WINDOW_BACKGROUND } from './window-chrome.ts';
+import type { ThemePreference } from '@danesh/contracts/preferences.ts';
 import { type, release } from 'node:os';
 
 registerAppScheme();
@@ -14,10 +17,15 @@ const libraryRoot = userDataArg?.slice('--user-data-dir='.length) ?? (process.pl
 mkdirSync(libraryRoot, { recursive: true });
 app.setPath('userData', libraryRoot);
 let core: Electron.UtilityProcess | undefined;
+let preferences = loadPreferences(libraryRoot);
+const persistPreferences = () => { try { savePreferences(libraryRoot, preferences); } catch (error: unknown) { console.error('Could not save UI preferences', error); } };
 
 void app.whenReady().then(() => {
   registerAppProtocol(join(import.meta.dirname, '../renderer'));
-  const window = new BrowserWindow({ width: 1040, height: 720, minWidth: 720, minHeight: 520, backgroundColor: '#FAF8F4', show: false, webPreferences: { sandbox: true, contextIsolation: true, nodeIntegration: false, webSecurity: true, preload: join(import.meta.dirname, '../preload/index.cjs') } });
+  let theme = applyTheme(preferences.theme);
+  const placement = restoreWindowBounds(preferences.window, screen.getAllDisplays().map((display) => display.workArea), screen.getPrimaryDisplay().workArea);
+  const window = new BrowserWindow({ ...placement.bounds, minWidth: MIN_WINDOW.width, minHeight: MIN_WINDOW.height, ...chromeWindowOptions(process.platform, theme.dark), show: false, webPreferences: { sandbox: true, contextIsolation: true, nodeIntegration: false, webSecurity: true, preload: join(import.meta.dirname, '../preload/index.cjs') } });
+  const drift = measureDrift(placement.bounds, window.getBounds());
   const devUrl = !app.isPackaged ? process.env.ELECTRON_RENDERER_URL : undefined;
   const isAllowed = (address: string): boolean => {
     try { const url = new URL(address); return devUrl ? url.origin === new URL(devUrl).origin : url.protocol === 'app:' && url.hostname === 'danesh' && !url.port && !url.username && !url.password; }
@@ -25,8 +33,31 @@ void app.whenReady().then(() => {
   };
   window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
   window.webContents.on('will-navigate', (event, address) => { if (!isAllowed(address)) event.preventDefault(); });
-  window.once('ready-to-show', () => window.show());
-  installAppMenu((topic, payload) => sendShellEvent(window, topic, payload));
+  window.once('ready-to-show', () => { if (placement.maximized) window.maximize(); window.show(); });
+  const setTheme = (value: ThemePreference) => {
+    if (preferences.theme !== value) { preferences = { ...preferences, theme: value }; persistPreferences(); }
+    theme = applyTheme(value);
+    // nativeTheme only emits 'updated' when the effective scheme changes, so always resync the menu and renderer.
+    installMenu(); sendShellEvent(window, 'shell.theme', theme);
+    return theme;
+  };
+  const installMenu = () => installAppMenu((topic, payload) => sendShellEvent(window, topic, payload), preferences.theme, setTheme);
+  installMenu();
+  nativeTheme.on('updated', () => {
+    theme = { theme: preferences.theme, dark: nativeTheme.shouldUseDarkColors };
+    if (window.isDestroyed()) return;
+    window.setBackgroundColor(theme.dark ? WINDOW_BACKGROUND.dark : WINDOW_BACKGROUND.light);
+    installMenu(); sendShellEvent(window, 'shell.theme', theme);
+  });
+  trackWindowState(window, (state) => sendShellEvent(window, 'shell.windowState', state));
+  let boundsTimer: ReturnType<typeof setTimeout> | undefined;
+  const rememberBounds = () => {
+    clearTimeout(boundsTimer); boundsTimer = undefined;
+    if (window.isDestroyed() || window.isFullScreen() || window.isMinimized()) return;
+    preferences = { ...preferences, window: boundsToSave(window.getNormalBounds(), drift, window.isMaximized()) }; persistPreferences();
+  };
+  for (const event of ['resize', 'move', 'maximize', 'unmaximize'] as const) window.on(event as 'resize', () => { clearTimeout(boundsTimer); boundsTimer = setTimeout(rememberBounds, 400); });
+  window.on('close', rememberBounds);
   let coreState: 'starting' | 'ready' | 'unreachable' = 'starting';
   const publishCoreState = () => sendShellEvent(window, 'shell.coreState', { state: coreState });
   core = utilityProcess.fork(join(import.meta.dirname, 'core.js'), [], { serviceName: 'Danesh Core', stdio: ['ignore', 'pipe', 'pipe'] });
@@ -35,10 +66,17 @@ void app.whenReady().then(() => {
   child.stdout?.on('data', (chunk: Buffer) => process.stdout.write(chunk));
   child.stderr?.on('data', (chunk: Buffer) => process.stderr.write(chunk));
   const exportTargets = new Map<string, { resolve: () => void; reject: (error: Error) => void; timer: ReturnType<typeof setTimeout> }>();
-  registerShellIpc(window, (token, path) => new Promise<void>((resolve, reject) => {
-    const timer = setTimeout(() => { exportTargets.delete(token); reject(new Error('Core unavailable')); }, 5000);
-    exportTargets.set(token, { resolve, reject, timer }); child.postMessage({ type: 'export-target', token, path });
-  }), devUrl);
+  registerShellIpc(window, {
+    registerTarget: (token, path) => new Promise<void>((resolve, reject) => {
+      const timer = setTimeout(() => { exportTargets.delete(token); reject(new Error('Core unavailable')); }, 5000);
+      exportTargets.set(token, { resolve, reject, timer }); child.postMessage({ type: 'export-target', token, path });
+    }),
+    windowAction: (action) => performWindowAction(window, action),
+    windowState: () => readWindowState(window),
+    getTheme: () => theme,
+    setTheme,
+    showAppMenu: (x, y) => { const zoom = window.webContents.getZoomFactor(); Menu.getApplicationMenu()?.popup({ window, x: Math.round(x * zoom), y: Math.round(y * zoom) }); },
+  }, devUrl);
   let coreReady = false;
   let hello = false;
   let connected = false;
