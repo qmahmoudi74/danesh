@@ -2,7 +2,7 @@
 // evidence: fuse read-back, build-manifest diff, UTF-16 install-path bound, Persian library path, optional NSIS
 // install/run/uninstall (Windows) and codesign (macOS). Writes one evidence JSON; exits 1 unless every item passes.
 import { spawn, spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { homedir, tmpdir } from 'node:os';
 import { basename, dirname, join, resolve } from 'node:path';
 import { getCurrentFuseWire, FuseState as WireState, FuseV1Options } from '@electron/fuses';
@@ -127,6 +127,8 @@ async function main(): Promise<number> {
   const library = persian ? join(scratch, ' دانش آزمون', process.platform === 'darwin' ? 'کتابخانهٔ من ' : 'کتابخانهٔ من') : join(scratch, 'library');
   mkdirSync(dirname(library), { recursive: true });
   const run = await runApp(appPath, library);
+  // Keep the run's own metadata-only logs (D-16) next to the evidence; CI uploads evidence-tmp/.
+  if (existsSync(join(library, 'logs'))) cpSync(join(library, 'logs'), resolve('evidence-tmp', `logs-${process.platform}-${process.arch}`), { recursive: true });
   const items: Record<string, Item> = {
     appRun: { verdict: run.exitCode === 0 && run.report?.overall === 'pass' ? 'pass' : 'fail', exitCode: run.exitCode, durationMs: run.durationMs, reportError: run.reportError },
     persianLibraryPath: persian ? { verdict: existsSync(join(library, 'danesh.db')) ? 'pass' : 'fail', path: library, folder: basename(library) } : { verdict: 'not-applicable' },

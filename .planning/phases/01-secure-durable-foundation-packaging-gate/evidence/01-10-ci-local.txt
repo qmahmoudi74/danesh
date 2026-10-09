@@ -1,0 +1,21 @@
+Plan 01-10 local CI parity 2026-10-09T23:25:28Z, Windows 11 x64, pre-commit tree on 1ea973c
+COMMAND: env -u ELECTRON_RUN_AS_NODE pnpm ci:local
+ci-local summary
+install        exit=0    0.1s
+lint           exit=0    4.2s
+typecheck      exit=0    2.9s
+depcruise      exit=0    0.7s
+licenses       exit=0    0.5s
+adr            exit=0    0.1s
+features       exit=0    3.2s
+probes         exit=0    0.2s
+unit           exit=0    11.7s
+package        exit=0    40.6s
+smoke-windows  exit=0    38.7s
+e2e            exit=0    139.7s
+e2e-packaged   exit=0    28s
+ci-local: ok (13/13 steps run)
+exit=0
+
+e2e: 31 passed, 35 skipped (later plans), 0 failed. e2e-packaged (DaneshTest, @plan-01-08): 1 passed.
+pnpm check:ci: findings=0. check-ci tests 5/5, validate-evidence tests 6/6.

@@ -1,0 +1,77 @@
+# Windows + macOS CI (Plan 01-10, D-18). Mirrors tools/ci-steps.ts exactly; `pnpm check:ci` enforces that.
+# No secrets, no publishing, no release step.
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      NODE_LLAMA_CPP_SKIP_DOWNLOAD: 'true'
+      ONNXRUNTIME_NODE_INSTALL: skip
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - uses: actions/cache@v6
+        with:
+          path: resources/probes
+          key: probes-${{ hashFiles('tools/probes.lock.json') }}
+      - name: install
+        run: pnpm install --frozen-lockfile
+      - name: lint
+        run: pnpm lint
+      - name: typecheck
+        run: pnpm typecheck
+      - name: depcruise
+        run: pnpm depcruise
+      - name: licenses
+        run: pnpm licenses:scan
+      - name: adr
+        run: pnpm check:adr
+      - name: features
+        run: node tools/check-features-first.ts --allow-unbound
+      - name: probes
+        run: pnpm probes:fetch
+      - name: unit
+        run: pnpm test
+      - name: package
+        run: pnpm package
+      - name: smoke
+        if: runner.os == 'macOS'
+        run: pnpm smoke:packaged --persian-paths
+      - name: smoke-windows
+        if: runner.os == 'Windows'
+        run: pnpm smoke:packaged --persian-paths --install-nsis
+      - name: e2e
+        run: pnpm test:e2e
+      - name: e2e-packaged
+        env:
+          DANESH_E2E_PACKAGED: '1'
+          DANESH_E2E_GREP: '@plan-01-08'
+        run: pnpm test:e2e
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: evidence-${{ matrix.os }}
+          path: |
+            .planning/phases/01-secure-durable-foundation-packaging-gate/evidence/**
+            test-results/**
+            apps/desktop/playwright-report/**
+            evidence-tmp/**
