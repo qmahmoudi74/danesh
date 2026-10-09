@@ -1,0 +1,53 @@
+Plan 01-07 final verification 2026-10-09T22:23:17Z on win32-x64
+
+COMMAND: pnpm typecheck
+$ tsc -p tsconfig.json --noEmit && tsc -p apps/renderer/tsconfig.json --noEmit
+EXIT: 0
+
+COMMAND: pnpm lint
+$ eslint .
+EXIT: 0
+
+COMMAND: pnpm depcruise
+$ depcruise apps packages tools --config .dependency-cruiser.cjs
+✔ no dependency violations found (99 modules, 277 dependencies cruised)
+EXIT: 0
+
+COMMAND: pnpm test
+ RUN  v5.0.3 D:/workspace/AI/danesh
+ Test Files  18 passed (18)
+      Tests  220 passed (220)
+   Start at  01:53:25
+   Duration  4.70s (tests 82%, transform 9%, import 8%)
+EXIT: 0
+
+COMMAND: pnpm check:adr
+$ node tools/check-adr.ts
+check-adr: failures=0
+EXIT: 0
+
+COMMAND: pnpm licenses:scan
+WARNING needs-review: DirectML.dll: Verify actual DLL redistribution terms and embedded notices before release
+WARNING needs-review: stories15M-q4_0.gguf: Research A5 upstream inherited grant needs verification before obtaining or shipping
+WARNING needs-review: fa_IR-mana-medium.onnx and .onnx.json: Preserve model MIT notice; record CC0 dataset provenance; verify artifacts before shipping
+WARNING needs-review: eng.traineddata: Preserve Apache license; verify artifact before shipping
+license-scan: scanned=739 lockfile=737 failures=0 notices=ok
+EXIT: 0
+
+COMMAND: pnpm vitest run --project contracts --project core --project logging --project main
+ Test Files  12 passed (12)
+      Tests  144 passed (144)
+
+COMMAND: node tools/check-features-first.ts --allow-unbound
+check-features-first: failures=0
+
+COMMAND: env -u ELECTRON_RUN_AS_NODE DANESH_E2E_GREP=@plan-01-07 pnpm test:e2e (fresh test build)
+  ok 1 apps\desktop\.features-gen\app-shell.feature.spec.js:58:3 › An honest Persian-first shell behind a closed preload API › A malformed ping is rejected without logging Persian input
+  ok 2 apps\desktop\.features-gen\app-shell.feature.spec.js:66:3 › An honest Persian-first shell behind a closed preload API › Both routes obey CSP and reject external navigation
+  ok 3 apps\desktop\.features-gen\app-shell.feature.spec.js:76:3 › An honest Persian-first shell behind a closed preload API › A rejected call leaves the private connection usable
+  ok 4 apps\desktop\.features-gen\startup-states.feature.spec.js:64:3 › Startup preserves data and exposes honest recovery states › A second instance focuses the first without opening another Core
+  4 passed (7.3s)
+EXIT: 0
+
+Full E2E on the same commit: 28 passed, 38 skipped (later plans), 0 failed.
+Production bundle (pnpm build): 13 hook-free scenarios passed (01-17 shell, Home, menu, second instance, database reach/persistence); no test.* hooks, __daneshChromiumBlocked or readiness-delay flag in main/preload output.
