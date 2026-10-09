@@ -1,0 +1,157 @@
+{
+  "scope": "Attestation subject SHA-512 and source repository compared with registry metadata; no signature verification or tarball download",
+  "checks": [
+    {
+      "name": "better-sqlite3",
+      "version": "13.0.3",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/WiseLibs/better-sqlite3",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "node-llama-cpp",
+      "version": "3.22.1",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/withcatai/node-llama-cpp",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "vite",
+      "version": "7.3.7",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/vitejs/vite",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "@vitejs/plugin-react",
+      "version": "5.2.0",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/vitejs/vite-plugin-react",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "electron-builder",
+      "version": "26.17.0",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/electron-userland/electron-builder",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "@electron/fuses",
+      "version": "2.1.3",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/electron/fuses",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "react",
+      "version": "19.3.0",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/react/react",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "react-dom",
+      "version": "19.3.0",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/react/react",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "tailwindcss",
+      "version": "4.3.3",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/tailwindlabs/tailwindcss",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "@tailwindcss/vite",
+      "version": "4.3.3",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/tailwindlabs/tailwindcss",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "@fontsource-variable/vazirmatn",
+      "version": "5.3.0",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/fontsource/font-files",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "zod",
+      "version": "4.6.5",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/colinhacks/zod",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "vitest",
+      "version": "5.0.3",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/vitest-dev/vitest",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "@playwright/test",
+      "version": "1.64.0",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/microsoft/playwright",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "playwright-bdd",
+      "version": "9.2.1",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/vitalets/playwright-bdd",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "typescript-eslint",
+      "version": "8.71.1",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/typescript-eslint/typescript-eslint",
+      "repositoryMatchesMetadata": true
+    },
+    {
+      "name": "dependency-cruiser",
+      "version": "18.5.0",
+      "httpStatus": 200,
+      "digestMatchesMetadata": true,
+      "workflowRepository": "https://github.com/sverweij/dependency-cruiser",
+      "repositoryMatchesMetadata": true
+    }
+  ],
+  "noPublishedProvenance": [
+    "onnxruntime-node",
+    "tesseract.js",
+    "electron",
+    "electron-vite",
+    "react-aria-components",
+    "typescript",
+    "@types/node",
+    "@types/better-sqlite3",
+    "@amiceli/vitest-cucumber",
+    "eslint",
+    "spdx-expression-parse",
+    "spdx-satisfies",
+    "@types/react",
+    "@types/react-dom"
+  ]
+}

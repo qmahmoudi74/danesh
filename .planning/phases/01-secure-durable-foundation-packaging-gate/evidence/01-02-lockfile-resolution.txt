@@ -1,0 +1,6 @@
+Command: NODE_LLAMA_CPP_SKIP_DOWNLOAD=true ONNXRUNTIME_NODE_INSTALL=skip pnpm install --lockfile-only --ignore-scripts --registry=https://registry.npmjs.org/
+Exit code: 0
+Scope: all 2 workspace projects
+[WARN] Request took 16693ms: https://registry.npmjs.org/luxon
+[WARN] 4 deprecated subdependencies found: boolean@3.2.0, glob@7.2.3, inflight@1.0.6, rimraf@2.6.3
+Done in 53.5s using pnpm v12.9.1

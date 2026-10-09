@@ -1,0 +1,19 @@
+Plan 01-02 pre-install verification only. Task 3 install command deliberately NOT run.
+
+Task 1: bash -c 'set -e; node -e "const r=require(\"./package.json\"),d=require(\"./apps/desktop/package.json\");const all={...r.devDependencies,...d.dependencies,...d.devDependencies};const bad=Object.entries(all).filter(([k,v])=>!/^\d+\.\d+\.\d+$/.test(v));if(bad.length){console.error(\"UNPINNED\",bad);process.exit(1)}if(r.license!==\"MIT\"||d.license!==\"MIT\"){console.error(\"LICENSE-FIELD\");process.exit(1)}for(const s of [\"ci:local\",\"test:e2e\",\"smoke:packaged\",\"licenses:scan\",\"check:report\"])if(!r.scripts[s]){console.error(\"NO-SCRIPT\",s);process.exit(1)}if(\"sherpa-onnx-node\" in all){process.exit(1)}console.log(\"PINS-OK\",Object.keys(all).length)"; test -f pnpm-lock.yaml; test ! -e node_modules/.modules.yaml; echo LOCKFILE-ONLY-OK'
+Exit: 0
+PINS-OK 31
+LOCKFILE-ONLY-OK
+
+Task 4: bash -c 'set -e; head -n 3 LICENSE | grep -qx "MIT License"; grep -qx "Copyright (c) 2026 Danesh contributors" LICENSE; grep -q "WITHOUT WARRANTY OF ANY KIND" LICENSE; test "$(node -p "require(\"./package.json\").license")" = MIT; test "$(node -p "require(\"./apps/desktop/package.json\").license")" = MIT; f=docs/adr/0004-project-license.md; grep -q "^status: accepted" "$f"; grep -q "^kind: license" "$f"; grep -q "^date: 2026-10-09" "$f"; grep -q "Project license: MIT" "$f"; grep -q "NOTICE" "$f"; grep -q "OFL-1.1" "$f"; grep -q "D-COMMERCIAL" "$f"; echo LICENSE-ADR-OK'
+Exit: 0
+LICENSE-ADR-OK
+
+Additional dependency-free static audit: PASS
+31 direct manifest pins match registry and lockfile importers; npm view exit 0 for all31.
+Lockfile has two version9.0 documents: 15 manager +722 application packages=737 unique; registry licenses observed for all737.
+Only esbuild allowBuilds=true; all other known scripts explicitly blocked.
+SPDX source SHA-256 and LICENSE exact body match; authored artifacts LF/no BOM/no trailing whitespace.
+No root/desktop node_modules; no Plan01-02 canonical summary; no later plan execution.
+GSD summaries=[01-01-SUMMARY.md], incomplete_count=14, includes01-02/excludes01-01.
+Branch feat/danesh-phase-01; automatic chaining flags false.
