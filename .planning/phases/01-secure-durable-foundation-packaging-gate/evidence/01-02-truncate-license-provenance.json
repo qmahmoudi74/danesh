@@ -1,0 +1,188 @@
+{
+  "package": {
+    "bugs": {
+      "url": "https://github.com/parshap/truncate-utf8-bytes/issues"
+    },
+    "dist": {
+      "shasum": "405923909592d56f78a5818434b0b78489ca5f2b",
+      "tarball": "https://registry.npmjs.org/truncate-utf8-bytes/-/truncate-utf8-bytes-1.0.2.tgz",
+      "integrity": "sha512-95Pu1QXQvruGEhv62XCMO3Mm90GscOCClvrIUwCM0PYOXK3kaF3l3sIHxx71ThJfcbM2O5Au6SO3AWCSEfW4mQ==",
+      "signatures": [
+        {
+          "sig": "MEQCIComjtiXCeLTZPoOwbYG5hmrlLd++3qttGnSNJpMX5g4AiAPF69Sm/kMnNER/GKtO5tC1+lty3s7IBKplXl2fREC7g==",
+          "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+        }
+      ]
+    },
+    "main": "index.js",
+    "name": "truncate-utf8-bytes",
+    "_from": ".",
+    "author": {
+      "name": "Carl Xiong",
+      "email": "xiongc05@gmail.com"
+    },
+    "_shasum": "405923909592d56f78a5818434b0b78489ca5f2b",
+    "browser": "browser.js",
+    "gitHead": "c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+    "license": "WTFPL",
+    "scripts": {
+      "test": "tape test.js"
+    },
+    "_npmUser": {
+      "name": "parshap",
+      "email": "parshap+npm@gmail.com"
+    },
+    "homepage": "https://github.com/parshap/truncate-utf8-bytes#readme",
+    "keywords": [
+      "truncate",
+      "utf8"
+    ],
+    "repository": {
+      "url": "git+https://github.com/parshap/truncate-utf8-bytes.git",
+      "type": "git"
+    },
+    "_npmVersion": "3.10.7",
+    "description": "Truncate string to given length in bytes",
+    "maintainers": [
+      {
+        "name": "carltonf",
+        "email": "xiongc05@gmail.com"
+      },
+      {
+        "name": "parshap",
+        "email": "parshap+npm@gmail.com"
+      }
+    ],
+    "_nodeVersion": "6.6.0",
+    "contributors": [
+      {
+        "name": "Carl Xiong",
+        "email": "xiongc05@gmail.com"
+      },
+      {
+        "name": "Parsha Pourkhomami",
+        "email": "parshap@gmail.com"
+      }
+    ],
+    "dependencies": {
+      "utf8-byte-length": "^1.0.1"
+    },
+    "devDependencies": {
+      "tape": "^4.2.2"
+    },
+    "_npmOperationalInternal": {
+      "tmp": "tmp/truncate-utf8-bytes-1.0.2.tgz_1475174637574_0.12184767331928015",
+      "host": "packages-12-west.internal.npmjs.com"
+    },
+    "_id": "truncate-utf8-bytes@1.0.2",
+    "version": "1.0.2"
+  },
+  "treeStatus": 200,
+  "tree": {
+    "sha": "c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+    "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/trees/c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+    "tree": [
+      {
+        "path": ".gitmodules",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "d496220946e99d6f65bab189bc1afb739bce3825",
+        "size": 160,
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/blobs/d496220946e99d6f65bab189bc1afb739bce3825"
+      },
+      {
+        "path": ".npmignore",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "48b8bf9072d8716346ec810e5a1808305c97d50f",
+        "size": 8,
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/blobs/48b8bf9072d8716346ec810e5a1808305c97d50f"
+      },
+      {
+        "path": ".travis.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "1e25a8c2bb0f91f4eb551acd31bd8cc710e5122d",
+        "size": 130,
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/blobs/1e25a8c2bb0f91f4eb551acd31bd8cc710e5122d"
+      },
+      {
+        "path": "AUTHORS",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "6212900569953ca8e7ec291d9b7f33d1eb340b7d",
+        "size": 71,
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/blobs/6212900569953ca8e7ec291d9b7f33d1eb340b7d"
+      },
+      {
+        "path": "README.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "098819e305f4dccf3f00790f050b91994aab8b5a",
+        "size": 813,
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/blobs/098819e305f4dccf3f00790f050b91994aab8b5a"
+      },
+      {
+        "path": "browser.js",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "f0cfe50729ed83913a0abc7f7798886e565a0c65",
+        "size": 159,
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/blobs/f0cfe50729ed83913a0abc7f7798886e565a0c65"
+      },
+      {
+        "path": "index.js",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "39e899c37db279fb390eb9b477728155621502d4",
+        "size": 154,
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/blobs/39e899c37db279fb390eb9b477728155621502d4"
+      },
+      {
+        "path": "lib",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "23ca41459704530f6dc8d30c98890c507d2ee24d",
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/trees/23ca41459704530f6dc8d30c98890c507d2ee24d"
+      },
+      {
+        "path": "lib/truncate.js",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3fed3b6f0cf161d2c43f952ba2d60a37702c4869",
+        "size": 977,
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/blobs/3fed3b6f0cf161d2c43f952ba2d60a37702c4869"
+      },
+      {
+        "path": "package.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e0ab9844a86d5f5fa50288562b7ebdae053ebbe3",
+        "size": 704,
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/blobs/e0ab9844a86d5f5fa50288562b7ebdae053ebbe3"
+      },
+      {
+        "path": "test.js",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "bde24f4158267dbc04185e17b2c2344a70f6eb87",
+        "size": 2243,
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/blobs/bde24f4158267dbc04185e17b2c2344a70f6eb87"
+      },
+      {
+        "path": "vendor",
+        "mode": "040000",
+        "type": "tree",
+        "sha": "025dedffac25ea78a8c68b63202aad44428159ec",
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/trees/025dedffac25ea78a8c68b63202aad44428159ec"
+      },
+      {
+        "path": "vendor/big-list-of-naughty-strings",
+        "mode": "160000",
+        "type": "commit",
+        "sha": "5f5a11b34b86f811e9888e32f3053d8cb1466325"
+      }
+    ],
+    "truncated": false
+  }
+}

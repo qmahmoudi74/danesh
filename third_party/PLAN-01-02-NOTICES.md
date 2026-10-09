@@ -1,0 +1,13 @@
+# Plan 01-02 retained license and attribution evidence
+
+Danesh's original code is MIT; see the root LICENSE and ADR 0004. Third-party packages and assets keep their own licenses. These files are retained license evidence from the approved dependency installation, not a completed release notice inventory or proof of packaged contents.
+
+`PLAN-01-02-LICENSE-EVIDENCE.json` records every retained published source path, package/version, declared license, destination and SHA-256. Copies under `license-evidence/` preserve the published bytes, including upstream line endings. Apache-2.0 license and applicable NOTICE files found in the installed packages are retained, along with Vazirmatn's OFL-1.1 text and the named exception packages' published attribution/license material.
+
+SPDX data attribution: Copyright © 2010-2015 Linux Foundation and its Contributors, as stated in spdx-exceptions' published README. The SPDX standard data is licensed CC-BY-3.0; SPDX is a trademark of The Linux Foundation. The spdx-ranges code is additionally MIT, Copyright (c) 2015 Kyle E. Mitchell. Full published README and MIT license text are retained; no modifications to that material were made. Upstream package sources are https://github.com/kemitchell/spdx-exceptions.json and https://github.com/kemitchell/spdx-ranges.js. The fixed-tag SPDX CC-BY-3.0 license text is retained separately with its source hash.
+
+Lightning CSS is MPL-2.0 build-time tooling only under the user's narrow exception. Its published license and upstream attribution are retained. The production dependency graph contains none of the named exception packages; actual packaged application inspection remains outstanding because Plan 01-02 produces no application artifact. No distribution of restricted-license components is authorized by these copies.
+
+**Unverified condition:** truncate-utf8-bytes 1.0.2 declares WTFPL in package.json, but the installed published package contains no LICENSE/COPYING/NOTICE text, and its immutable upstream revision `c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708` also contains none. Its AUTHORS lists Carl Xiong and Parsha Pourkhomami; AUTHORS, README and package.json are retained. A generic WTFPL text would not prove the package publisher supplied that text, so none has been substituted as package evidence. The user's conditional exception is not recorded as fully verified.
+
+Plan 01-05 will generate the complete canonical `THIRD-PARTY-NOTICES.txt` and enforce the exact reviewed exceptions. Plan 01-08 must preserve required notices under `resources/licenses/` and inspect actual packaged archives and unpacked resources. Those plans have not been executed.

@@ -1,0 +1,2 @@
+# Retain published license and attribution bytes, including upstream whitespace.
+* -text -whitespace

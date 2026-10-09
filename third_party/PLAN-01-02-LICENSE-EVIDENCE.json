@@ -1,0 +1,683 @@
+{
+  "scope": "Verbatim published license, notice and attribution preservation for installed Apache-2.0 dependencies, OFL font and user-approved exception packages; not a complete release notice inventory",
+  "copies": [
+    {
+      "name": "@eslint/config-array",
+      "version": "0.23.5",
+      "license": "Apache-2.0",
+      "source": "node_modules/@eslint/config-array/LICENSE",
+      "destination": "third_party/license-evidence/@eslint__config-array@0.23.5/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/eslint/rewrite.git",
+        "directory": "packages/config-array"
+      }
+    },
+    {
+      "name": "@eslint/config-helpers",
+      "version": "0.7.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/@eslint/config-helpers/LICENSE",
+      "destination": "third_party/license-evidence/@eslint__config-helpers@0.7.0/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/eslint/rewrite.git",
+        "directory": "packages/config-helpers"
+      }
+    },
+    {
+      "name": "@eslint/core",
+      "version": "1.2.1",
+      "license": "Apache-2.0",
+      "source": "node_modules/@eslint/core/LICENSE",
+      "destination": "third_party/license-evidence/@eslint__core@1.2.1/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/eslint/rewrite.git",
+        "directory": "packages/core"
+      }
+    },
+    {
+      "name": "@eslint/object-schema",
+      "version": "3.0.5",
+      "license": "Apache-2.0",
+      "source": "node_modules/@eslint/object-schema/LICENSE",
+      "destination": "third_party/license-evidence/@eslint__object-schema@3.0.5/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/eslint/rewrite.git",
+        "directory": "packages/object-schema"
+      }
+    },
+    {
+      "name": "@eslint/plugin-kit",
+      "version": "0.7.3",
+      "license": "Apache-2.0",
+      "source": "node_modules/@eslint/plugin-kit/LICENSE",
+      "destination": "third_party/license-evidence/@eslint__plugin-kit@0.7.3/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/eslint/rewrite.git",
+        "directory": "packages/plugin-kit"
+      }
+    },
+    {
+      "name": "@fontsource-variable/vazirmatn",
+      "version": "5.3.0",
+      "license": "OFL-1.1",
+      "source": "node_modules/@fontsource-variable/vazirmatn/LICENSE",
+      "destination": "third_party/license-evidence/@fontsource-variable__vazirmatn@5.3.0/LICENSE",
+      "sha256": "e6f4ce7b6c830d5a25a4f8ac777c267cd7d3c180bc2a7150ca57cbb9b280c4b7",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/fontsource/font-files.git",
+        "directory": "fonts/variable/vazirmatn"
+      }
+    },
+    {
+      "name": "@fontsource-variable/vazirmatn",
+      "version": "5.3.0",
+      "license": "OFL-1.1",
+      "source": "node_modules/@fontsource-variable/vazirmatn/package.json",
+      "destination": "third_party/license-evidence/@fontsource-variable__vazirmatn@5.3.0/package.json",
+      "sha256": "f14e7c97a35f5df9dde086a1d243294189e60f5ad1a00cb0403c17626aabde86",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/fontsource/font-files.git",
+        "directory": "fonts/variable/vazirmatn"
+      }
+    },
+    {
+      "name": "@fontsource-variable/vazirmatn",
+      "version": "5.3.0",
+      "license": "OFL-1.1",
+      "source": "node_modules/@fontsource-variable/vazirmatn/README.md",
+      "destination": "third_party/license-evidence/@fontsource-variable__vazirmatn@5.3.0/README.md",
+      "sha256": "f3f69e1baa12210387339ffba30cb8e0078f36600383d2059fd090d5ca49fe1b",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/fontsource/font-files.git",
+        "directory": "fonts/variable/vazirmatn"
+      }
+    },
+    {
+      "name": "@humanfs/core",
+      "version": "0.19.2",
+      "license": "Apache-2.0",
+      "source": "node_modules/@humanfs/core/LICENSE",
+      "destination": "third_party/license-evidence/@humanfs__core@0.19.2/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/humanwhocodes/humanfs.git"
+      }
+    },
+    {
+      "name": "@humanfs/node",
+      "version": "0.16.8",
+      "license": "Apache-2.0",
+      "source": "node_modules/@humanfs/node/LICENSE",
+      "destination": "third_party/license-evidence/@humanfs__node@0.16.8/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/humanwhocodes/humanfs.git",
+        "directory": "packages/node"
+      }
+    },
+    {
+      "name": "@humanwhocodes/module-importer",
+      "version": "1.0.1",
+      "license": "Apache-2.0",
+      "source": "node_modules/@humanwhocodes/module-importer/LICENSE",
+      "destination": "third_party/license-evidence/@humanwhocodes__module-importer@1.0.1/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/humanwhocodes/module-importer.git"
+      }
+    },
+    {
+      "name": "@humanwhocodes/retry",
+      "version": "0.4.3",
+      "license": "Apache-2.0",
+      "source": "node_modules/@humanwhocodes/retry/LICENSE",
+      "destination": "third_party/license-evidence/@humanwhocodes__retry@0.4.3/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/humanwhocodes/retry.git"
+      }
+    },
+    {
+      "name": "@internationalized/date",
+      "version": "3.12.4",
+      "license": "Apache-2.0",
+      "source": "node_modules/@internationalized/date/LICENSE",
+      "destination": "third_party/license-evidence/@internationalized__date@3.12.4/LICENSE",
+      "sha256": "7dfe6526888bac51759c99f9a51262ba2711a8c12a067f2181609dd9a4066b84",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/adobe/react-spectrum/tree/main/packages/@internationalized/date"
+      }
+    },
+    {
+      "name": "@internationalized/number",
+      "version": "3.6.9",
+      "license": "Apache-2.0",
+      "source": "node_modules/@internationalized/number/LICENSE",
+      "destination": "third_party/license-evidence/@internationalized__number@3.6.9/LICENSE",
+      "sha256": "7dfe6526888bac51759c99f9a51262ba2711a8c12a067f2181609dd9a4066b84",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/adobe/react-spectrum"
+      }
+    },
+    {
+      "name": "@internationalized/string",
+      "version": "3.2.10",
+      "license": "Apache-2.0",
+      "source": "node_modules/@internationalized/string/LICENSE",
+      "destination": "third_party/license-evidence/@internationalized__string@3.2.10/LICENSE",
+      "sha256": "7dfe6526888bac51759c99f9a51262ba2711a8c12a067f2181609dd9a4066b84",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/adobe/react-spectrum"
+      }
+    },
+    {
+      "name": "@malept/cross-spawn-promise",
+      "version": "2.0.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/@malept/cross-spawn-promise/LICENSE",
+      "destination": "third_party/license-evidence/@malept__cross-spawn-promise@2.0.0/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "upstream": "https://github.com/malept/cross-spawn-promise"
+    },
+    {
+      "name": "@playwright/test",
+      "version": "1.64.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/@playwright/test/LICENSE",
+      "destination": "third_party/license-evidence/@playwright__test@1.64.0/LICENSE",
+      "sha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/microsoft/playwright.git"
+      }
+    },
+    {
+      "name": "@playwright/test",
+      "version": "1.64.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/@playwright/test/NOTICE",
+      "destination": "third_party/license-evidence/@playwright__test@1.64.0/NOTICE",
+      "sha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/microsoft/playwright.git"
+      }
+    },
+    {
+      "name": "@react-types/shared",
+      "version": "3.37.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/@react-types/shared/LICENSE",
+      "destination": "third_party/license-evidence/@react-types__shared@3.37.0/LICENSE",
+      "sha256": "7dfe6526888bac51759c99f9a51262ba2711a8c12a067f2181609dd9a4066b84",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/adobe/react-spectrum"
+      }
+    },
+    {
+      "name": "@swc/helpers",
+      "version": "0.5.23",
+      "license": "Apache-2.0",
+      "source": "node_modules/@swc/helpers/LICENSE",
+      "destination": "third_party/license-evidence/@swc__helpers@0.5.23/LICENSE",
+      "sha256": "d96eba1f1881334d50ffc144276dfa98e147a415e7c591ecdfcb81680361dc91",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/swc-project/swc.git",
+        "directory": "packages/helpers"
+      }
+    },
+    {
+      "name": "baseline-browser-mapping",
+      "version": "2.11.27",
+      "license": "Apache-2.0",
+      "source": "node_modules/baseline-browser-mapping/LICENSE.txt",
+      "destination": "third_party/license-evidence/baseline-browser-mapping@2.11.27/LICENSE.txt",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/web-platform-dx/baseline-browser-mapping.git"
+      }
+    },
+    {
+      "name": "detect-libc",
+      "version": "2.1.2",
+      "license": "Apache-2.0",
+      "source": "node_modules/detect-libc/LICENSE",
+      "destination": "third_party/license-evidence/detect-libc@2.1.2/LICENSE",
+      "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+      "upstream": {
+        "type": "git",
+        "url": "git://github.com/lovell/detect-libc.git"
+      }
+    },
+    {
+      "name": "ejs",
+      "version": "3.1.10",
+      "license": "Apache-2.0",
+      "source": "node_modules/ejs/LICENSE",
+      "destination": "third_party/license-evidence/ejs@3.1.10/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "upstream": {
+        "type": "git",
+        "url": "git://github.com/mde/ejs.git"
+      }
+    },
+    {
+      "name": "eslint-visitor-keys",
+      "version": "3.4.3",
+      "license": "Apache-2.0",
+      "source": "node_modules/@eslint-community/eslint-utils/node_modules/eslint-visitor-keys/LICENSE",
+      "destination": "third_party/license-evidence/eslint-visitor-keys@3.4.3/LICENSE",
+      "sha256": "d8bf34ff6d190640a01e7704ad78253fc181bc128949d71273fbbaa12f33c0b4",
+      "upstream": "eslint/eslint-visitor-keys"
+    },
+    {
+      "name": "eslint-visitor-keys",
+      "version": "5.0.1",
+      "license": "Apache-2.0",
+      "source": "node_modules/eslint-visitor-keys/LICENSE",
+      "destination": "third_party/license-evidence/eslint-visitor-keys@5.0.1/LICENSE",
+      "sha256": "d8bf34ff6d190640a01e7704ad78253fc181bc128949d71273fbbaa12f33c0b4",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/eslint/js.git",
+        "directory": "packages/eslint-visitor-keys"
+      }
+    },
+    {
+      "name": "expect-type",
+      "version": "1.4.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/expect-type/LICENSE",
+      "destination": "third_party/license-evidence/expect-type@1.4.0/LICENSE",
+      "sha256": "7c6cc83c84eaa249a85bf12fe3eedd831bb50c696e8890b5248223ae68c7b408",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/mmkal/expect-type.git"
+      }
+    },
+    {
+      "name": "exponential-backoff",
+      "version": "3.1.3",
+      "license": "Apache-2.0",
+      "source": "node_modules/exponential-backoff/LICENSE",
+      "destination": "third_party/license-evidence/exponential-backoff@3.1.3/LICENSE",
+      "sha256": "f5afc95c69e116ea6b1755f91a8763f53eadb78b4f1582a08d2d18586a03a117",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/coveooss/exponential-backoff.git"
+      }
+    },
+    {
+      "name": "idb-keyval",
+      "version": "6.3.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/idb-keyval/LICENCE",
+      "destination": "third_party/license-evidence/idb-keyval@6.3.0/LICENCE",
+      "sha256": "20c27d6339619eeb3113cb865d4e98a3f559e52964fc75caea9cb5fa72674565",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/jakearchibald/idb-keyval.git"
+      }
+    },
+    {
+      "name": "lightningcss-win32-x64-msvc",
+      "version": "1.32.0",
+      "license": "MPL-2.0",
+      "source": "node_modules/lightningcss-win32-x64-msvc/LICENSE",
+      "destination": "third_party/license-evidence/lightningcss-win32-x64-msvc@1.32.0/LICENSE",
+      "sha256": "5eba353fe5076ac3432177f8ab1cf75e3afcd0584251e37c3bfead5f447d040e",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/parcel-bundler/lightningcss.git"
+      }
+    },
+    {
+      "name": "lightningcss-win32-x64-msvc",
+      "version": "1.32.0",
+      "license": "MPL-2.0",
+      "source": "node_modules/lightningcss-win32-x64-msvc/package.json",
+      "destination": "third_party/license-evidence/lightningcss-win32-x64-msvc@1.32.0/package.json",
+      "sha256": "76456a8ca20848b96b5819f115368bebfbb941c51c860b62073e3e591c836b8b",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/parcel-bundler/lightningcss.git"
+      }
+    },
+    {
+      "name": "lightningcss-win32-x64-msvc",
+      "version": "1.32.0",
+      "license": "MPL-2.0",
+      "source": "node_modules/lightningcss-win32-x64-msvc/README.md",
+      "destination": "third_party/license-evidence/lightningcss-win32-x64-msvc@1.32.0/README.md",
+      "sha256": "7a8ce7a98de104127a9414f2ad3d1c36e169609c8c85b0e9c232dc723178bd2c",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/parcel-bundler/lightningcss.git"
+      }
+    },
+    {
+      "name": "lightningcss",
+      "version": "1.32.0",
+      "license": "MPL-2.0",
+      "source": "node_modules/lightningcss/LICENSE",
+      "destination": "third_party/license-evidence/lightningcss@1.32.0/LICENSE",
+      "sha256": "5eba353fe5076ac3432177f8ab1cf75e3afcd0584251e37c3bfead5f447d040e",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/parcel-bundler/lightningcss.git"
+      }
+    },
+    {
+      "name": "lightningcss",
+      "version": "1.32.0",
+      "license": "MPL-2.0",
+      "source": "node_modules/lightningcss/package.json",
+      "destination": "third_party/license-evidence/lightningcss@1.32.0/package.json",
+      "sha256": "1b7fbd47a660ecb37d1fa8304a14b726aa44a31bb3d3338f417593f6276b762f",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/parcel-bundler/lightningcss.git"
+      }
+    },
+    {
+      "name": "lightningcss",
+      "version": "1.32.0",
+      "license": "MPL-2.0",
+      "source": "node_modules/lightningcss/README.md",
+      "destination": "third_party/license-evidence/lightningcss@1.32.0/README.md",
+      "sha256": "5c0c95d29d204230e9bdb1b998b6dc960f88524f4202e2375062b75bba2b957b",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/parcel-bundler/lightningcss.git"
+      }
+    },
+    {
+      "name": "playwright-core",
+      "version": "1.64.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/playwright-core/LICENSE",
+      "destination": "third_party/license-evidence/playwright-core@1.64.0/LICENSE",
+      "sha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/microsoft/playwright.git"
+      }
+    },
+    {
+      "name": "playwright-core",
+      "version": "1.64.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/playwright-core/NOTICE",
+      "destination": "third_party/license-evidence/playwright-core@1.64.0/NOTICE",
+      "sha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/microsoft/playwright.git"
+      }
+    },
+    {
+      "name": "playwright",
+      "version": "1.64.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/playwright/LICENSE",
+      "destination": "third_party/license-evidence/playwright@1.64.0/LICENSE",
+      "sha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/microsoft/playwright.git"
+      }
+    },
+    {
+      "name": "playwright",
+      "version": "1.64.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/playwright/NOTICE",
+      "destination": "third_party/license-evidence/playwright@1.64.0/NOTICE",
+      "sha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/microsoft/playwright.git"
+      }
+    },
+    {
+      "name": "react-aria-components",
+      "version": "1.22.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/react-aria-components/LICENSE",
+      "destination": "third_party/license-evidence/react-aria-components@1.22.0/LICENSE",
+      "sha256": "7dfe6526888bac51759c99f9a51262ba2711a8c12a067f2181609dd9a4066b84",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/adobe/react-spectrum"
+      }
+    },
+    {
+      "name": "react-aria",
+      "version": "3.53.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/react-aria/LICENSE",
+      "destination": "third_party/license-evidence/react-aria@3.53.0/LICENSE",
+      "sha256": "7dfe6526888bac51759c99f9a51262ba2711a8c12a067f2181609dd9a4066b84",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/adobe/react-spectrum"
+      }
+    },
+    {
+      "name": "react-stately",
+      "version": "3.51.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/react-stately/LICENSE",
+      "destination": "third_party/license-evidence/react-stately@3.51.0/LICENSE",
+      "sha256": "7dfe6526888bac51759c99f9a51262ba2711a8c12a067f2181609dd9a4066b84",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/adobe/react-spectrum"
+      }
+    },
+    {
+      "name": "reflect-metadata",
+      "version": "0.2.2",
+      "license": "Apache-2.0",
+      "source": "node_modules/reflect-metadata/LICENSE",
+      "destination": "third_party/license-evidence/reflect-metadata@0.2.2/LICENSE",
+      "sha256": "c5217b0544ea9c91d010863582d6f6b35ec50e4146c34dee085ddcec5dd92def",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/rbuckton/reflect-metadata.git"
+      }
+    },
+    {
+      "name": "regexp-match-indices",
+      "version": "1.0.2",
+      "license": "Apache-2.0",
+      "source": "node_modules/regexp-match-indices/LICENSE",
+      "destination": "third_party/license-evidence/regexp-match-indices@1.0.2/LICENSE",
+      "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6",
+      "upstream": null
+    },
+    {
+      "name": "spdx-exceptions",
+      "version": "2.5.0",
+      "license": "CC-BY-3.0",
+      "source": "node_modules/spdx-exceptions/package.json",
+      "destination": "third_party/license-evidence/spdx-exceptions@2.5.0/package.json",
+      "sha256": "0af9bd4b68c9e3d1bc7a9208881cbde84da140d564a3bb42cf53184c6e83f2e3",
+      "upstream": "kemitchell/spdx-exceptions.json"
+    },
+    {
+      "name": "spdx-exceptions",
+      "version": "2.5.0",
+      "license": "CC-BY-3.0",
+      "source": "node_modules/spdx-exceptions/README.md",
+      "destination": "third_party/license-evidence/spdx-exceptions@2.5.0/README.md",
+      "sha256": "554b19eee11d2964e9f7b244e47944c08d52ca75539260a04f3227e6c0144513",
+      "upstream": "kemitchell/spdx-exceptions.json"
+    },
+    {
+      "name": "spdx-ranges",
+      "version": "2.1.1",
+      "license": "(MIT AND CC-BY-3.0)",
+      "source": "node_modules/spdx-ranges/LICENSE.md",
+      "destination": "third_party/license-evidence/spdx-ranges@2.1.1/LICENSE.md",
+      "sha256": "c5ca60a739543ef97683dfa0a94773b214c86c826c76a27b8f8e6eb38148cbce",
+      "upstream": "kemitchell/spdx-ranges.js"
+    },
+    {
+      "name": "spdx-ranges",
+      "version": "2.1.1",
+      "license": "(MIT AND CC-BY-3.0)",
+      "source": "node_modules/spdx-ranges/package.json",
+      "destination": "third_party/license-evidence/spdx-ranges@2.1.1/package.json",
+      "sha256": "a99622cd82fe76dcd21f22b41f9f826e8b8dc1c3ae75696018baf80f6586f000",
+      "upstream": "kemitchell/spdx-ranges.js"
+    },
+    {
+      "name": "spdx-ranges",
+      "version": "2.1.1",
+      "license": "(MIT AND CC-BY-3.0)",
+      "source": "node_modules/spdx-ranges/README.md",
+      "destination": "third_party/license-evidence/spdx-ranges@2.1.1/README.md",
+      "sha256": "829d1393efd566ecceded4570b95c762e592cce5337d56b4bd186f5c3c2024b3",
+      "upstream": "kemitchell/spdx-ranges.js"
+    },
+    {
+      "name": "sumchecker",
+      "version": "3.0.1",
+      "license": "Apache-2.0",
+      "source": "node_modules/sumchecker/LICENSE",
+      "destination": "third_party/license-evidence/sumchecker@3.0.1/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/malept/sumchecker.git"
+      }
+    },
+    {
+      "name": "tesseract.js-core",
+      "version": "7.0.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/tesseract.js-core/LICENSE",
+      "destination": "third_party/license-evidence/tesseract.js-core@7.0.0/LICENSE",
+      "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/naptha/tesseract.js-core.git"
+      }
+    },
+    {
+      "name": "tesseract.js",
+      "version": "7.0.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/tesseract.js/LICENSE.md",
+      "destination": "third_party/license-evidence/tesseract.js@7.0.0/LICENSE.md",
+      "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/naptha/tesseract.js.git"
+      }
+    },
+    {
+      "name": "truncate-utf8-bytes",
+      "version": "1.0.2",
+      "license": "WTFPL",
+      "source": "node_modules/truncate-utf8-bytes/AUTHORS",
+      "destination": "third_party/license-evidence/truncate-utf8-bytes@1.0.2/AUTHORS",
+      "sha256": "e10bd5710c7d7fdba909e3f2a1f1557b6daad714f209c938fc83dd5bb6c1983a",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/parshap/truncate-utf8-bytes.git"
+      }
+    },
+    {
+      "name": "truncate-utf8-bytes",
+      "version": "1.0.2",
+      "license": "WTFPL",
+      "source": "node_modules/truncate-utf8-bytes/package.json",
+      "destination": "third_party/license-evidence/truncate-utf8-bytes@1.0.2/package.json",
+      "sha256": "8da766c7092b0ce9fd8f3b2ac2f41d1b739df9210067d3f710d65d95c9c17a7a",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/parshap/truncate-utf8-bytes.git"
+      }
+    },
+    {
+      "name": "truncate-utf8-bytes",
+      "version": "1.0.2",
+      "license": "WTFPL",
+      "source": "node_modules/truncate-utf8-bytes/README.md",
+      "destination": "third_party/license-evidence/truncate-utf8-bytes@1.0.2/README.md",
+      "sha256": "59c44d27c11e230ea53388aab67fb4391461ad2ce3c9707d88acf0cba7aa4637",
+      "upstream": {
+        "type": "git",
+        "url": "git+https://github.com/parshap/truncate-utf8-bytes.git"
+      }
+    },
+    {
+      "name": "typescript",
+      "version": "6.0.3",
+      "license": "Apache-2.0",
+      "source": "node_modules/typescript/LICENSE.txt",
+      "destination": "third_party/license-evidence/typescript@6.0.3/LICENSE.txt",
+      "sha256": "a7d00bfd54525bc694b6e32f64c7ebcf5e6b7ae3657be5cc12767bce74654a47",
+      "upstream": {
+        "type": "git",
+        "url": "https://github.com/microsoft/TypeScript.git"
+      }
+    },
+    {
+      "name": "wasm-feature-detect",
+      "version": "1.9.0",
+      "license": "Apache-2.0",
+      "source": "node_modules/wasm-feature-detect/LICENSE",
+      "destination": "third_party/license-evidence/wasm-feature-detect@1.9.0/LICENSE",
+      "sha256": "bcf29b4fd3ec2cb5f9d40a0866da446f6da62170d2ccedf4aeca9cf9406dd20c",
+      "upstream": "GoogleChromeLabs/wasm-feature-detect"
+    }
+  ],
+  "truncateUtf8Bytes": {
+    "version": "1.0.2",
+    "declaredLicense": "WTFPL",
+    "publishedLicenseTextFound": false,
+    "retained": [
+      "package.json",
+      "README.md",
+      "AUTHORS"
+    ],
+    "condition": "UNVERIFIED: neither installed package nor immutable upstream source revision contains a license text; no generic SPDX text substituted as package evidence"
+  },
+  "packagedVerification": "NOT RUN: no Danesh distribution artifact exists",
+  "canonicalLicenseTexts": [
+    {
+      "license": "CC-BY-3.0",
+      "source": "https://raw.githubusercontent.com/spdx/license-list-data/v3.27.0/text/CC-BY-3.0.txt",
+      "tag": "v3.27.0",
+      "destination": "third_party/license-evidence/SPDX-v3.27.0/CC-BY-3.0.txt",
+      "sha256": "e6bc9e9c474700b708f568bac9e5a8a9bcb2b1dad53442f5ba449fcb848b8e76",
+      "scope": "Full license text for declared SPDX data license; upstream package attribution retained separately"
+    }
+  ]
+}

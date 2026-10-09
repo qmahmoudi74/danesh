@@ -15,6 +15,10 @@ The user approved the following named exceptions after reviewing the exact depen
 
 The platform packages are: lightningcss-android-arm64, lightningcss-darwin-arm64, lightningcss-darwin-x64, lightningcss-freebsd-x64, lightningcss-linux-arm-gnueabihf, lightningcss-linux-arm64-gnu, lightningcss-linux-arm64-musl, lightningcss-linux-x64-gnu, lightningcss-linux-x64-musl, lightningcss-win32-arm64-msvc and lightningcss-win32-x64-msvc. Every approved version is 1.32.0, including packages not installed on this Windows host.
 
+### Published-text verification result
+
+The installed truncate-utf8-bytes 1.0.2 package declares WTFPL but supplies no license text. Its pinned upstream revision `c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708` also supplies none. Package metadata, README and AUTHORS are retained as evidence; they are not treated as confirmation of a published WTFPL text. The user's conditional exception therefore remains unverified, and Plan 01-02 cannot be closed without a further explicit decision or verifiable publisher-supplied text. Do not substitute a generic WTFPL text as proof of the package's published license material.
+
 ## Notice preservation
 
 Retain verbatim published license, attribution and applicable NOTICE files for the named exceptions and installed Apache-2.0 dependencies. Vazirmatn's OFL-1.1 license text must be retained and shipped. Record package versions, upstream sources, source paths and SHA-256 values alongside retained copies under `third_party/`. Do not claim a metadata license declaration proves the contents of a native binary.
@@ -26,3 +30,5 @@ The future Plan 01-05 license scan must incorporate these exact reviewed excepti
 `apps/desktop` declares native/runtime packages as dependencies and build tooling as devDependencies. The MPL exception covers the Tailwind/Lightning CSS build graph only. Check the resolved production dependency graph for accidental reachability, and separately inspect actual packaged archives and unpacked resources before any distribution. A production graph check alone does not prove absence from a bundle or packaged artifact.
 
 No distributed application artifact exists in Plan 01-02. Actual archive and resource inspection therefore remains a required packaging check in Plan 01-08 and the phase's release gate. Flag any restricted-license component found in a packaged application for separate review before distributing it. Do not add packaging configuration or run later plans to claim that check passed now.
+
+The installed production dependency graph was inspected with `pnpm --dir apps/desktop list --prod --depth Infinity --json`: 163 distinct reachable package/version entries, none of the named exception packages. The graph and result are retained in the Plan 01-02 evidence directory. This supports the declared build-time boundary but does not replace packaged artifact inspection.
