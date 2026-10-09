@@ -3,6 +3,7 @@ import { readFile, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { Given, When, Then } from './fixtures.ts';
 import { SmokeReportSchema } from '../../packages/contracts/src/smoke-report.ts';
+import { genericFail, summary } from '../../apps/renderer/src/lib/copy.ts';
 
 Given('Danesh is launched with that library folder on System check', async ({ harness }) => {
   await harness.launch(); await harness.page!.getByRole('button', { name: 'بررسی سامانه', exact: true }).click();
@@ -50,3 +51,66 @@ Then('no report file is written and no export message is announced', async ({ ha
   expect(await harness.page!.getByRole('status').innerText()).not.toMatch(/گزارش ذخیره شد|ذخیرهٔ گزارش انجام نشد/);
 });
 Then('focus returns to «ذخیرهٔ گزارش»', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'ذخیرهٔ گزارش', exact: true })).toBeFocused(); });
+
+When('I open System check before any run', async ({ harness }) => { await harness.page!.getByRole('button', { name: 'بررسی سامانه', exact: true }).click(); });
+Then('the empty heading is «هنوز بررسی انجام نشده»', async ({ harness }) => { await expect(harness.page!.getByRole('heading', { name: 'هنوز بررسی انجام نشده', exact: true })).toBeVisible(); });
+Then('the empty body is «برای دیدن وضعیت بخش‌های اصلی برنامه، بررسی را اجرا کنید.»', async ({ harness }) => { await expect(harness.page!.getByText('برای دیدن وضعیت بخش‌های اصلی برنامه، بررسی را اجرا کنید.', { exact: true })).toBeVisible(); });
+Then('«اجرای بررسی» is available and no check has started automatically', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'اجرای بررسی', exact: true })).toBeEnabled(); await expect(harness.page!.locator('[data-check-id]')).toHaveCount(0); });
+Then('«ذخیرهٔ گزارش» is disabled with visible reason «پس از اجرای بررسی فعال می‌شود.»', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'ذخیرهٔ گزارش', exact: true })).toBeDisabled(); await expect(harness.page!.getByText('پس از اجرای بررسی فعال می‌شود.', { exact: true })).toBeVisible(); });
+
+When('I press «اجرای بررسی»', async ({ harness }) => {
+  await harness.page!.evaluate(async () => {
+    await window.danesh.call('test.checkRun', { delayMs: 400 });
+    const snapshots: { checkId: string; status: string }[][] = [];
+    Object.assign(window, { __rowSnapshots: snapshots });
+    new MutationObserver(() => snapshots.push([...document.querySelectorAll('[data-check-id]')].map((row) => ({ checkId: row.getAttribute('data-check-id') ?? '', status: row.getAttribute('data-status') ?? '' })))).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['data-status'] });
+  });
+  await harness.page!.getByRole('button', { name: 'اجرای بررسی', exact: true }).click();
+});
+Then('the Run control reads «در حال بررسی…» and cannot be re-triggered', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'در حال بررسی…', exact: true })).toBeDisabled(); });
+Then('each reported row moves from «در انتظار» through «در حال اجرا» to its final status', async ({ harness }) => {
+  await expect(harness.page!.getByRole('button', { name: 'اجرای دوباره', exact: true })).toBeEnabled();
+  const snapshots = await harness.page!.evaluate(() => (window as Window & { __rowSnapshots?: { checkId: string; status: string }[][] }).__rowSnapshots ?? []);
+  for (const id of ['app-launch', 'database']) {
+    const states = snapshots.flatMap((rows) => rows.filter((row) => row.checkId === id).map((row) => row.status));
+    expect(states).toContain('pending'); expect(states).toContain('running'); expect(states).toContain('pass');
+    expect(states.indexOf('pending')).toBeLessThan(states.indexOf('running')); expect(states.indexOf('running')).toBeLessThan(states.indexOf('pass'));
+  }
+});
+Then('rows remain in report order throughout the run', async ({ harness }) => {
+  const snapshots = await harness.page!.evaluate(() => (window as Window & { __rowSnapshots?: { checkId: string; status: string }[][] }).__rowSnapshots ?? []);
+  for (const rows of snapshots) if (rows.length) expect(rows.map((row) => row.checkId)).toEqual(['app-launch', 'database']);
+});
+When('the run completes', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'اجرای دوباره', exact: true })).toBeEnabled(); });
+Then('zero failed rows yield the summary «همهٔ بررسی‌ها موفق بود»', async ({ harness }) => { await expect(harness.page!.getByRole('status')).toContainText('همهٔ بررسی‌ها موفق بود'); });
+Then(/^any failed rows yield «\{n\} بررسی ناموفق بود\. برای هر مورد، توضیح و راه‌حل زیر آن نوشته شده است\.» with the actual count in Persian digits$/, async ({ harness }) => {
+  await harness.page!.evaluate(() => window.danesh.call('test.checkRun', { delayMs: 100, checks: [
+    { checkId: 'app-launch', status: 'pass', durationMs: 1, detail: 'Fixture pass', fields: {} },
+    { checkId: 'database', status: 'fail', durationMs: 1, detail: 'Fixture failure', fields: {} },
+  ] }));
+  await harness.page!.getByRole('button', { name: 'اجرای دوباره', exact: true }).click();
+  await expect(harness.page!.getByRole('status')).toContainText(summary(1));
+  expect(await harness.page!.locator('[data-status="fail"]').count()).toBe(1);
+  expect(await harness.page!.evaluate(() => (window as Window & { __cspViolations?: string[] }).__cspViolations)).toEqual([]);
+});
+Then('focus stays on the Run control, now labelled «اجرای دوباره»', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'اجرای دوباره', exact: true })).toBeFocused(); });
+Given('a test check is held running for more than 10 seconds', async ({ harness }) => { await harness.page!.evaluate(() => window.danesh.call('test.checkRun', { delayMs: 11000 })); });
+When('I start the run and wait 10 seconds', async ({ harness }) => { await harness.page!.getByRole('button', { name: 'اجرای بررسی', exact: true }).click(); await expect(harness.page!.getByText('اولین اجرا ممکن است کمی طول بکشد.', { exact: true })).toBeVisible({ timeout: 12000 }); });
+Then('«اولین اجرا ممکن است کمی طول بکشد.» appears', async ({ harness }) => { await expect(harness.page!.getByText('اولین اجرا ممکن است کمی طول بکشد.', { exact: true })).toBeVisible(); });
+Then('Run remains disabled until the run settles', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'در حال بررسی…', exact: true })).toBeDisabled(); await expect(harness.page!.getByRole('button', { name: 'اجرای دوباره', exact: true })).toBeEnabled({ timeout: 5000 }); });
+When('a test report contains pass and fail rows plus an unknown check id', async ({ harness }) => {
+  await harness.page!.evaluate(() => window.danesh.call('test.checkRun', { delayMs: 100, checks: [
+    { checkId: 'app-launch', status: 'pass', durationMs: 1, detail: 'Fixture pass', fields: {} },
+    { checkId: 'database', status: 'fail', durationMs: 1, detail: 'Fixture failure', fields: {} },
+    { checkId: 'future-check', status: 'fail', durationMs: 1, detail: 'Fixture unknown', fields: {} },
+  ] }));
+  await harness.page!.getByRole('button', { name: 'اجرای بررسی', exact: true }).click(); await expect(harness.page!.getByRole('status')).toContainText(summary(2));
+});
+Then('failures are not sorted ahead of the report order', async ({ harness }) => { expect(await harness.page!.locator('[data-check-id]').evaluateAll((rows) => rows.map((row) => row.getAttribute('data-check-id')))).toEqual(['app-launch', 'database', 'future-check']); });
+Then('no absent check is displayed as passed', async ({ harness }) => { await expect(harness.page!.locator('[data-check-id]')).toHaveCount(3); await expect(harness.page!.locator('[data-check-id="engine-llm"]')).toHaveCount(0); });
+Then('the unknown id is displayed inside an LTR isolate with the generic result sentence', async ({ harness }) => { await expect(harness.page!.locator('[data-check-id="future-check"] h2 bdi[dir="ltr"]')).toHaveText('future-check'); await expect(harness.page!.locator('[data-check-id="future-check"]')).toContainText(genericFail); });
+Then('every status shows its Persian word alongside its icon', async ({ harness }) => {
+  for (const id of ['app-launch', 'database', 'future-check']) {
+    const badge = harness.page!.locator(`[data-check-id="${id}"] .status-badge`); await expect(badge).toContainText(id === 'app-launch' ? 'موفق' : 'ناموفق'); await expect(badge.locator('svg[aria-hidden="true"]')).toBeVisible();
+  }
+});

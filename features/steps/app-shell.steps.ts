@@ -42,6 +42,7 @@ Then("their technical details record a Core process id different from the window
   if (!harness.page || !harness.app) throw new Error('App not launched');
   const rendererPid = await harness.app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0]?.webContents.getOSProcessId());
   for (const id of ['app-launch', 'database']) {
+    await harness.page.locator(`[data-check-id="${id}"]`).getByRole('button', { name: 'جزئیات فنی', exact: true }).click();
     const fields: unknown = JSON.parse(await harness.page.locator(`[data-check-id="${id}"] pre`).innerText());
     expect(fields).toHaveProperty('corePid');
     if (typeof fields !== 'object' || fields === null || !('corePid' in fields)) throw new Error('Missing pid');
@@ -64,6 +65,7 @@ Given('one System check run has written a database probe row', async ({ harness 
   await page.getByRole('button', { name: 'بررسی سامانه', exact: true }).click();
   await page.getByRole('button', { name: 'اجرای بررسی', exact: true }).click();
   await expect(page.locator('[data-check-id="database"]').getByText('موفق', { exact: true })).toBeVisible();
+  await page.locator('[data-check-id="database"]').getByRole('button', { name: 'جزئیات فنی', exact: true }).click();
   const fields = JSON.parse(await page.locator('[data-check-id="database"] pre').innerText()) as { count: number };
   harness.firstCount = fields.count; expect(harness.firstCount).toBe(1);
 });
@@ -74,6 +76,7 @@ When('I run System check again', async ({ harness }) => {
 });
 Then('the database check reads the probe row written by the first run', async ({ harness, libraryRoot }) => {
   await expect(harness.page!.locator('[data-check-id="database"]').getByText('موفق', { exact: true })).toBeVisible();
+  await harness.page!.locator('[data-check-id="database"]').getByRole('button', { name: 'جزئیات فنی', exact: true }).click();
   const fields = JSON.parse(await harness.page!.locator('[data-check-id="database"] pre').innerText()) as { count: number; journal_mode: string; user_version: number };
   expect(fields.count).toBe(harness.firstCount + 1); expect(fields.journal_mode).toBe('wal'); expect(fields.user_version).toBe(1);
   await harness.close();

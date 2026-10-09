@@ -4,7 +4,8 @@ import { z } from 'zod';
 z.config({ jitless: true });
 
 export const CHECK_ORDER = ['app-launch', 'database', 'cas-storage', 'engine-llm', 'engine-ocr', 'engine-tts', 'ui-responsive', 'egress-zero', 'fuses', 'codesign'] as const;
-export const CheckIdSchema = z.enum(CHECK_ORDER);
+// Forward-compatible names remain bounded; known checks keep their canonical order.
+export const CheckIdSchema = z.string().regex(/^[a-z][a-z0-9-]{0,127}$/);
 export const CheckResultSchema = z.strictObject({
   checkId: CheckIdSchema,
   status: z.enum(['pass', 'fail', 'not-run']),
@@ -19,10 +20,12 @@ export const SmokeReportSchema = z.strictObject({
   overall: z.enum(['pass', 'fail']), checks: z.array(CheckResultSchema).nonempty(),
 }).superRefine((report, ctx) => {
   let previous = -1;
+  const seen = new Set<string>();
   for (const check of report.checks) {
-    const index = CHECK_ORDER.indexOf(check.checkId);
-    if (index <= previous) ctx.addIssue({ code: 'custom', message: 'Checks must be unique and in CHECK_ORDER order', path: ['checks'] });
-    previous = index;
+    const index = (CHECK_ORDER as readonly string[]).indexOf(check.checkId);
+    if (seen.has(check.checkId) || (index >= 0 && index <= previous)) ctx.addIssue({ code: 'custom', message: 'Checks must be unique and known checks in CHECK_ORDER order', path: ['checks'] });
+    seen.add(check.checkId);
+    if (index >= 0) previous = index;
   }
 });
 export type CheckResult = z.infer<typeof CheckResultSchema>;

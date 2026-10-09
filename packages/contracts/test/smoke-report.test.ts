@@ -14,4 +14,10 @@ describe('SmokeReport contract', () => {
   it('rejects fractional durations', () => { expect(SmokeReportSchema.safeParse({ ...report, checks: [{ ...check, durationMs: 1.5 }] }).success).toBe(false); });
   it('rejects a truncated output hash', () => { expect(SmokeReportSchema.safeParse({ ...report, checks: [{ ...check, outputSha256: 'a'.repeat(63) }] }).success).toBe(false); });
   it('rejects undeclared fields', () => { expect(SmokeReportSchema.safeParse({ ...report, unexpected: true }).success).toBe(false); });
+  it('accepts bounded future ids without changing known-check order', () => { expect(SmokeReportSchema.safeParse({ ...report, checks: [check, { ...check, checkId: 'future-check' }, { ...check, checkId: 'database' }] }).success).toBe(true); });
+  it('rejects duplicate unknown ids and markup ids', () => {
+    const future = { ...check, checkId: 'future-check' };
+    expect(SmokeReportSchema.safeParse({ ...report, checks: [future, future] }).success).toBe(false);
+    expect(SmokeReportSchema.safeParse({ ...report, checks: [{ ...check, checkId: '<script>' }] }).success).toBe(false);
+  });
 });

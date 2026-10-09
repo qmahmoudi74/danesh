@@ -4,7 +4,8 @@ import { RpcRequestSchema, rpcMethods, type RpcErrorCode } from '@danesh/contrac
 import { SystemCheck } from './system-check.ts';
 import { parentPort, type UtilityPort } from '@danesh/contracts/utility-port.ts';
 import { openLibraryDb, type Db } from '@danesh/storage/db.ts';
-import { testRpcMethods } from '@danesh/contracts/test-rpc.ts';
+import { testRpcMethods, CheckRunFixtureSchema } from '@danesh/contracts/test-rpc.ts';
+import type { z } from 'zod';
 import { HostToCoreSchema, EchoInputSchema } from '@danesh/contracts/host-protocol.ts';
 
 const parent = parentPort();
@@ -55,6 +56,7 @@ async function engineEcho(): Promise<{ hostPid: number; corePid: number }> {
 let init: Init | undefined;
 let db: Db | undefined;
 const systemCheck = new SystemCheck();
+let checkFixture: z.infer<typeof CheckRunFixtureSchema> | undefined;
 
 function attachRenderer(port: UtilityPort): void {
   const handle = async (data: unknown): Promise<void> => {
@@ -74,11 +76,13 @@ function attachRenderer(port: UtilityPort): void {
     try {
       let output: unknown;
       if (__TEST_HOOKS__ && method === 'test.engineEcho') output = await engineEcho();
+      else if (__TEST_HOOKS__ && method === 'test.checkRun') { checkFixture = CheckRunFixtureSchema.parse(parsed.data); output = { ok: true }; }
       else if (method === 'system.ping') output = { ...parsed.data as { n: number }, corePid: process.pid };
       else if (method === 'systemCheck.run') {
-        const runId = randomUUID(); output = { runId };
+        const runId = randomUUID(); const fixture = __TEST_HOOKS__ ? checkFixture : undefined; checkFixture = undefined;
+        output = { runId, checkIds: systemCheck.checkIds(fixture) };
         const facts = init, database = db;
-        setImmediate(() => systemCheck.run(runId, port, facts, database));
+        setImmediate(() => { void systemCheck.run(runId, port, facts, database, fixture).catch(() => console.error('System check failed')); });
       } else if (method === 'systemCheck.get') output = systemCheck.get((parsed.data as { runId: string }).runId);
       else if (method === 'systemCheck.export') { const { runId, token } = parsed.data as { runId: string; token: string }; output = await systemCheck.export(runId, token); }
       else return reject('UNKNOWN_METHOD');
