@@ -4,7 +4,7 @@ import { rpcMethods } from '@danesh/contracts/rpc.ts';
 import { utf8ByteLength } from '@danesh/contracts/envelope.ts';
 import { createJsonlLogger, type JsonlLogger } from '@danesh/logging/jsonl.ts';
 import { join } from 'node:path';
-import { createRpcServer, type RpcHandler } from './rpc-server.ts';
+import { createDiagRejectedHandler, createRpcServer, type RpcHandler } from './rpc-server.ts';
 import { SystemCheck } from './system-check.ts';
 import { parentPort, type UtilityPort } from '@danesh/contracts/utility-port.ts';
 import { openLibraryDb, type Db } from '@danesh/storage/db.ts';
@@ -84,12 +84,7 @@ const handlers: Record<string, RpcHandler> = {
   },
   'systemCheck.get': (input: { runId: string }) => systemCheck.get(input.runId),
   'systemCheck.export': (input: { runId: string; token: string }) => systemCheck.export(input.runId, input.token),
-  'diag.rejected': (input: { schema: string; errorClass: string; byteLength: number }) => {
-    // Only contract names or fixed labels are recorded, never an arbitrary caller-chosen string.
-    const schema = Object.hasOwn(methods, input.schema) || ['envelope', 'unknown-method'].includes(input.schema) ? input.schema : 'unknown-method';
-    logger.log('rpc.rejected', { schema, sender: 'preload', errorClass: input.errorClass, byteLength: input.byteLength }, 'warn');
-    return {};
-  },
+  'diag.rejected': createDiagRejectedHandler(methods, logger),
   ...(__TEST_HOOKS__ ? {
     'test.engineEcho': () => engineEcho(),
     'test.checkRun': (input: z.infer<typeof CheckRunFixtureSchema>) => { checkFixture = input; return { ok: true }; },

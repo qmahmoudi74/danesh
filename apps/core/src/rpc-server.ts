@@ -54,3 +54,12 @@ export function createRpcServer(options: RpcServerOptions) {
     },
   };
 }
+
+/** Logs a preload-side rejection. Only contract names or fixed labels are recorded, never a caller-chosen string. */
+export function createDiagRejectedHandler(methods: Record<string, RpcMethod>, logger: Pick<JsonlLogger, 'log'>): RpcHandler {
+  return (input: { schema: string; errorClass: string; byteLength: number }) => {
+    const schema = Object.hasOwn(methods, input.schema) || ['envelope', 'unknown-method'].includes(input.schema) ? input.schema : 'unknown-method';
+    logger.log('rpc.rejected', { schema, sender: 'preload', errorClass: input.errorClass, byteLength: input.byteLength }, 'warn');
+    return {};
+  };
+}

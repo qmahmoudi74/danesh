@@ -5,6 +5,7 @@ import { shellEventPayloads, type WindowAction } from '@danesh/contracts/shell.t
 import type { ThemePreference } from '@danesh/contracts/preferences.ts';
 import { isTrustedShellOrigin } from './policy/shell-origin.ts';
 import { dispatchShellRequest, ShellFailure } from './policy/shell-dispatch.ts';
+import type { JsonlLogger } from '@danesh/logging/jsonl.ts';
 export { isTrustedShellOrigin } from './policy/shell-origin.ts';
 
 export function sendShellEvent(window: BrowserWindow, topic: string, payload: unknown): void {
@@ -22,7 +23,7 @@ export type ShellServices = {
   showAppMenu: (x: number, y: number) => void;
 };
 
-export function registerShellIpc(window: BrowserWindow, services: ShellServices, devUrl?: string): void {
+export function registerShellIpc(window: BrowserWindow, services: ShellServices, logger: Pick<JsonlLogger, 'log'>, devUrl?: string): void {
   let choosing = false;
   const chooseExportPath = async () => {
     if (choosing) throw new ShellFailure('UNAVAILABLE');
@@ -48,6 +49,6 @@ export function registerShellIpc(window: BrowserWindow, services: ShellServices,
   };
   ipcMain.handle('danesh:shell', (event, value: unknown) => {
     const trusted = event.sender === window.webContents && event.senderFrame === window.webContents.mainFrame && isTrustedShellOrigin(event.senderFrame.url, app.isPackaged ? undefined : devUrl);
-    return dispatchShellRequest(trusted, value, handlers);
+    return dispatchShellRequest(trusted, value, handlers, (rejection) => logger.log('rpc.rejected', { schema: rejection.schema, sender: 'renderer-shell', errorClass: rejection.errorClass, byteLength: rejection.byteLength, code: rejection.code }, 'warn'));
   });
 }
