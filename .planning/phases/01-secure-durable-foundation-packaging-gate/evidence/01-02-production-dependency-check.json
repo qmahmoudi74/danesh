@@ -1,0 +1,7 @@
+{
+  "command": "pnpm --dir apps/desktop list --prod --depth Infinity --json",
+  "exitCode": 0,
+  "distinctReachablePackages": 163,
+  "restrictedExceptionPackages": [],
+  "packagedArtifactInspection": "NOT RUN: no Danesh packaged artifact exists; packaging belongs to Plan 01-08"
+}

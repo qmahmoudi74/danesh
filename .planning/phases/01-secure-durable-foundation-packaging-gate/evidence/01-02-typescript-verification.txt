@@ -1,0 +1,51 @@
+TypeScript compiler API verification (temporary file; no application/config implementation)
+TypeScript version: 6.0.3
+Options: strict, noEmit, skipLibCheck=false, ES2022, NodeNext, types=[node]
+Source:
+import Database from 'better-sqlite3';
+import { createElement, type ReactElement } from 'react';
+import { z } from 'zod';
+import type { BrowserWindow } from 'electron';
+import type { InferenceSession } from 'onnxruntime-node';
+import type { LlamaOptions } from 'node-llama-cpp';
+const db = new Database(':memory:');
+const row = db.prepare<[number], { value: string }>('SELECT value FROM probe WHERE id = ?').get(1);
+const transaction = db.transaction((value: string) => db.prepare('INSERT INTO probe(value) VALUES (?)').run(value));
+const serialized: Buffer = db.serialize();
+const options: LlamaOptions = { gpu: false, build: 'never', skipDownload: true };
+const element: ReactElement = createElement('div', { lang: 'fa', dir: 'rtl' }, 'type verification');
+const schema = z.strictObject({ value: z.string() });
+const parsed: { value: string } = schema.parse({ value: 'ok' });
+function acceptsNativeAndElectronTypes(session: InferenceSession, window: BrowserWindow): void { void session.inputNames; void window.webContents; }
+void row; void transaction; void serialized; void options; void element; void parsed; void acceptsNativeAndElectronTypes;
+db.close();
+Diagnostics: 2
+[96mnode_modules/node-llama-cpp/dist/bindings/getLlama.d.ts[0m:[93m322[0m:[93m234[0m - [91merror[0m[90m TS2339: [0mProperty 'tempDir' does not exist on type 'LlamaOptions'.
+
+[7m322[0m export declare function getLlamaForOptions({ gpu, logLevel, logger, build, cmakeOptions, existingPrebuiltBinaryMustMatchBuildOptions, usePrebuiltBinaries, progressLogs, skipDownload, maxThreads, vramPadding, ramPadding, debug, numa, tempDir, dryRun, experimental: experimentalOptions }: LlamaOptions, { updateLastBuildInfoOnCompile, skipLlamaInit, pipeBinaryTestErrorLogs }?: {
+[7m   [0m [91m                                                                                                                                                                                                                                         ~~~~~~~[0m
+[96mnode_modules/node-llama-cpp/dist/gguf/readGgufFileInfo.d.ts[0m:[93m1[0m:[93m19[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'async-retry'. 'D:/workspace/AI/danesh/node_modules/async-retry/lib/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/async-retry` if it exists or add a new declaration (.d.ts) file containing `declare module 'async-retry';`
+
+[7m1[0m import retry from "async-retry";
+[7m [0m [91m                  ~~~~~~~~~~~~~[0m
+
+Isolation check excluding node-llama-cpp import only (no dependency/config modification).
+Source:
+import Database from 'better-sqlite3';
+import { createElement, type ReactElement } from 'react';
+import { z } from 'zod';
+import type { BrowserWindow } from 'electron';
+import type { InferenceSession } from 'onnxruntime-node';
+const db = new Database(':memory:');
+const row = db.prepare<[number], { value: string }>('SELECT value FROM probe WHERE id = ?').get(1);
+const transaction = db.transaction((value: string) => db.prepare('INSERT INTO probe(value) VALUES (?)').run(value));
+const serialized: Buffer = db.serialize();
+const element: ReactElement = createElement('div', { lang: 'fa', dir: 'rtl' }, 'type verification');
+const schema = z.strictObject({ value: z.string() });
+const parsed: { value: string } = schema.parse({ value: 'ok' });
+function acceptsNativeAndElectronTypes(session: InferenceSession, window: BrowserWindow): void { void session.inputNames; void window.webContents; }
+void row; void transaction; void serialized; void element; void parsed; void acceptsNativeAndElectronTypes;
+db.close();
+
+Diagnostics: 0

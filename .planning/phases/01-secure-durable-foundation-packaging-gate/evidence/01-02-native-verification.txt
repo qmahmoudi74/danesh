@@ -1,0 +1,14 @@
+Host Node native-module verification
+Script: const assert=require('assert/strict');const fs=require('fs');const Database=require('better-sqlite3');assert(fs.existsSync('node_modules/better-sqlite3/prebuilds/win32-x64.node'));const db=new Database(':memory:');db.exec('CREATE TABLE probe (id INTEGER PRIMARY KEY, value TEXT NOT NULL) STRICT');db.prepare('INSERT INTO probe(value) VALUES (?)').run('native verification');assert.equal(db.prepare('SELECT value FROM probe WHERE id = ?').get(1).value,'native verification');const rollback=db.transaction(()=>{db.prepare('INSERT INTO probe(value) VALUES (?)').run('rollback');throw Error('rollback');});assert.throws(()=>rollback(),/rollback/);assert.equal(db.prepare('SELECT count(*) AS n FROM probe').get().n,1);db.close();console.log('SQLITE-NATIVE-OK',process.versions.node,process.versions.modules);const ort=require('onnxruntime-node');assert.equal(typeof ort.InferenceSession.create,'function');console.log('ONNX-NATIVE-IMPORT-OK');const ocr=require('tesseract.js');assert.equal(typeof ocr.createWorker,'function');console.log('OCR-PACKAGE-IMPORT-OK: no worker or language data requested');(async()=>{const {getLlama}=await import('node-llama-cpp');const llama=await getLlama({gpu:false,build:'never',skipDownload:true});console.log('LLAMA-CPU-NATIVE-OK',llama.gpu);await llama.dispose();console.log('NATIVE-IMPORT-CHECKS-OK: no model loads, native builds or extra engine downloads');})().catch(e=>{console.error(e);process.exitCode=1});
+Exit code: 0
+SQLITE-NATIVE-OK 24.21.0 137
+ONNX-NATIVE-IMPORT-OK
+OCR-PACKAGE-IMPORT-OK: no worker or language data requested
+LLAMA-CPU-NATIVE-OK false
+NATIVE-IMPORT-CHECKS-OK: no model loads, native builds or extra engine downloads
+
+Electron-as-Node native compatibility check; ELECTRON_RUN_AS_NODE scoped to this subprocess.
+Script: const Database=require('better-sqlite3');const assert=require('assert/strict');const db=new Database(':memory:');assert.equal(db.prepare('SELECT 1 AS n').get().n,1);db.close();const ort=require('onnxruntime-node');assert.equal(typeof ort.InferenceSession.create,'function');const nativeModules=Object.keys(require.cache).filter(p=>p.endsWith('.node'));assert(nativeModules.some(p=>p.includes('better-sqlite3')));assert(nativeModules.some(p=>p.includes('onnxruntime')));console.log(JSON.stringify({node:process.versions.node,electron:process.versions.electron,abi:process.versions.modules,nativeModules}));console.log('ELECTRON-SQLITE-ONNX-NATIVE-OK');
+Exit code: 0
+{"node":"24.21.0","electron":"44.7.0","abi":"149","nativeModules":["D:\\workspace\\AI\\danesh\\node_modules\\better-sqlite3\\prebuilds\\win32-x64.node","D:\\workspace\\AI\\danesh\\node_modules\\onnxruntime-node\\bin\\napi-v6\\win32\\x64\\onnxruntime_binding.node"]}
+ELECTRON-SQLITE-ONNX-NATIVE-OK

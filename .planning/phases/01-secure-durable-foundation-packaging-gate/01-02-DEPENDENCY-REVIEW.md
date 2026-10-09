@@ -1,6 +1,6 @@
 # Plan 01-02 dependency approval checkpoint
 
-Status: approved by the user for the reviewed exact pins, pnpm 12.9.1, frozen installation, esbuild scripts and the expected official Electron binary download. Plan 01-02 verification is in progress. Its required local task commits are authorized after their respective checks pass. The original pre-install evidence below is retained as historical evidence.
+Status: installation approved and required installation checks passed; Plan 01-02 close-out is blocked. The conditional published-license-text check for truncate-utf8-bytes is unverified, and an additional strict TypeScript probe found two upstream node-llama-cpp declaration errors. Required local task commits are authorized after their respective checks pass. Original pre-install evidence below is retained as historical evidence.
 
 ## Explicit approval and scoped exceptions
 
@@ -177,4 +177,20 @@ See [resolution transcript](evidence/01-02-lockfile-resolution.txt) and [pre-ins
 3. Approve these exact direct pins, reviewed lockfile and lifecycle policy, considering missing provenance and deprecated tooling. This authorizes package tarballs, esbuild lifecycle scripts and the expected Electron 44.7.0 binary download for the bundled-Node query. It excludes other lifecycle scripts, browsers, models, probes, pushes and publication.
 4. Separately authorize the required Plan 01-02 local task commits; the current grant covers Plan 01-01 only.
 
-The user's reply resolves the checkpoint and authorizes the required local task commits. Only the truncate-utf8-bytes published-license confirmation remains a condition to verify after installation. Automatic chaining remains disabled; execution stops after Plan 01-02.
+The user's reply authorizes installation and the required local task commits. The truncate-utf8-bytes published-license confirmation remains unverified after installation. Automatic chaining remains disabled; execution stops within Plan 01-02.
+
+## Actual post-approval results
+
+- Frozen installation succeeded; all 31 installed direct versions match the reviewed pins. pnpm added 635 packages on Windows. The 737-record reviewed lockfile is byte-identical, with SHA-256 `3fca83b35d0995ceb52a9b3b1c10caf6c62aa0627737d9012674c84d9923e157`.
+- Only the two esbuild postinstall scripts ran. All other identified lifecycle scripts remain explicitly false; pnpm reports no pending builds. The official Electron binary was obtained by its approved first-run download using the package's checksum data. No native compilation, extra engine download, model/probe fetch or browser installation ran.
+- The first exact Task 3 command exited 1 because Electron's first-run download banner was included in the captured version string. The unchanged command was rerun with the binary cached and exited 0: `electron-node=24.21.0`, `INSTALL-OK`.
+- Electron is 44.7.0, its bundled Node is 24.21.0 (ABI 149), host Node is 24.21.0 (ABI 137), TypeScript is 6.0.3 and pnpm is 12.9.1. SQLite's Windows x64 prebuild exists, and SQLite plus ONNX native loading passed in both host Node and Electron-as-Node. The LLM CPU prebuilt binding loaded with `build: never` and `skipDownload: true`; OCR package import passed without starting a worker or requesting language data.
+- A temporary strict TypeScript probe with `skipLibCheck: false` found two upstream declaration errors in node-llama-cpp 3.22.1: `getLlamaForOptions` destructures an undeclared `tempDir` property, and `readGgufFileInfo.d.ts` imports async-retry without declarations. An isolation probe excluding only node-llama-cpp passed with zero diagnostics for SQLite, Electron, ONNX, React and Zod types. No package patch, new type dependency or compiler configuration was introduced to conceal the failures. Project-wide typecheck is not run because its source/configuration belongs to later plans.
+- Task 4's exact command exited 0: `LICENSE-ADR-OK`.
+- Production graph inspection found 163 distinct reachable package/version entries and none of the named exception packages. Actual Danesh packaged artifacts do not exist, so archive/resource exclusion remains unverified until the authorized packaging plan. No later plan was executed to manufacture packaging evidence.
+- Fifty-six published license/notice/attribution files were retained verbatim, plus the fixed-tag SPDX CC-BY-3.0 text, with hashes and sources in `third_party/PLAN-01-02-LICENSE-EVIDENCE.json`. This is retained evidence, not Plan 01-05's complete release notice inventory.
+- truncate-utf8-bytes 1.0.2 contains no LICENSE/COPYING/NOTICE text; its immutable upstream source revision also contains none. The published WTFPL declaration, README and AUTHORS are preserved. A generic license text has not been substituted as package evidence. Its conditional exception is not fully verified.
+
+Evidence: [installation commands and outcomes](evidence/01-02-install-verification.txt), [native module checks](evidence/01-02-native-verification.txt), [toolchain versions](evidence/01-02-toolchain-versions.txt), [strict TypeScript diagnostics](evidence/01-02-typescript-verification.txt), [production graph result](evidence/01-02-production-dependency-check.json), [truncate publisher/source evidence](evidence/01-02-truncate-license-provenance.json).
+
+Plan 01-02 remains incomplete. A noncanonical draft execution summary will record this stop; GSD completion counts must not advance until the conditional license issue and TypeScript compatibility disposition are resolved explicitly. The permissive-only default and all non-commercial/GPL/AGPL/LGPL exclusions remain intact.

@@ -1,0 +1,171 @@
+Task 1 re-verification before authorized task commit and installation
+Command: bash -c 'set -e; node -e "const r=require(\"./package.json\"),d=require(\"./apps/desktop/package.json\");const all={...r.devDependencies,...d.dependencies,...d.devDependencies};const bad=Object.entries(all).filter(([k,v])=>!/^\d+\.\d+\.\d+$/.test(v));if(bad.length){console.error(\"UNPINNED\",bad);process.exit(1)}if(r.license!==\"MIT\"||d.license!==\"MIT\"){console.error(\"LICENSE-FIELD\");process.exit(1)}for(const s of [\"ci:local\",\"test:e2e\",\"smoke:packaged\",\"licenses:scan\",\"check:report\"])if(!r.scripts[s]){console.error(\"NO-SCRIPT\",s);process.exit(1)}if(\"sherpa-onnx-node\" in all){process.exit(1)}console.log(\"PINS-OK\",Object.keys(all).length)"; test -f pnpm-lock.yaml; test ! -e node_modules/.modules.yaml; echo LOCKFILE-ONLY-OK'
+Exit code: 0
+PINS-OK 31
+LOCKFILE-ONLY-OK
+Reviewed lockfile SHA-256: 3fca83b35d0995ceb52a9b3b1c10caf6c62aa0627737d9012674c84d9923e157
+
+Task 3 exact automated command after explicit approval
+Command: bash -c 'set -e; NODE_LLAMA_CPP_SKIP_DOWNLOAD=true ONNXRUNTIME_NODE_INSTALL=skip pnpm install --frozen-lockfile; V=$(ELECTRON_RUN_AS_NODE=1 pnpm exec electron -p process.versions.node); echo "electron-node=$V"; test "$V" = "24.21.0"; pnpm exec tsc -v | grep -q "Version 6.0.3"; node -p "require(\"electron/package.json\").version" | grep -qx "44.7.0"; git diff --exit-code -- pnpm-lock.yaml; echo INSTALL-OK'
+Child environment: native engine downloads skipped, browsers skipped, no Electron mirror override, ELECTRON_RUN_AS_NODE limited to the single inline query.
+Scope: all 2 workspace projects
+✓ Lockfile passes supply-chain policies (verified 35m ago)
+Lockfile is up to date, resolution step is skipped
+Downloading node-llama-cpp@3.22.1: 0.00 B/35.73 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 0.00 B/138.51 MB
+Downloading @node-llama-cpp/win-x64@3.22.1: 0.00 B/10.74 MB
+Downloading @node-llama-cpp/win-x64-vulkan@3.22.1: 0.00 B/24.06 MB
+Progress: resolved 611, reused 247, downloaded 84, added 0
+Downloading electron-winstaller@5.4.0: 0.00 B/9.14 MB
+Downloading @node-llama-cpp/win-x64-cuda-ext@3.22.1: 0.00 B/175.39 MB
+Downloading tesseract.js-core@7.0.0: 0.00 B/16.93 MB
+Downloading better-sqlite3@13.0.3: 0.00 B/11.40 MB
+Downloading @node-llama-cpp/win-x64-vulkan@3.22.1: 1.00 MB/24.06 MB
+Downloading onnxruntime-node@1.30.0: 0.00 B/113.50 MB
+[WARN] Tarball download average speed 6 KiB/s (size 9 KiB) is below 50 KiB/s: https://registry.npmjs.org/react-refresh/-/react-refresh-0.18.0.tgz (GET)
+[WARN] Tarball download average speed 2 KiB/s (size 3 KiB) is below 50 KiB/s: https://registry.npmjs.org/matcher/-/matcher-4.0.0.tgz (GET)
+Downloading node-llama-cpp@3.22.1: 597.45 kB/35.73 MB
+[WARN] Tarball download average speed 2 KiB/s (size 4 KiB) is below 50 KiB/s: https://registry.npmjs.org/@types/http-cache-semantics/-/http-cache-semantics-4.2.0.tgz (GET)
+[WARN] Tarball download average speed 2 KiB/s (size 4 KiB) is below 50 KiB/s: https://registry.npmjs.org/spdx-expression-parse/-/spdx-expression-parse-3.0.1.tgz (GET)
+[WARN] Tarball download average speed 8 KiB/s (size 13 KiB) is below 50 KiB/s: https://registry.npmjs.org/code-block-writer/-/code-block-writer-13.0.3.tgz (GET)
+[WARN] Tarball download average speed 5 KiB/s (size 11 KiB) is below 50 KiB/s: https://registry.npmjs.org/tmp/-/tmp-0.2.7.tgz (GET)
+[WARN] Tarball download average speed 3 KiB/s (size 7 KiB) is below 50 KiB/s: https://registry.npmjs.org/aws4/-/aws4-1.13.2.tgz (GET)
+[WARN] Tarball download average speed 10 KiB/s (size 22 KiB) is below 50 KiB/s: https://registry.npmjs.org/@electron/get/-/get-3.1.0.tgz (GET)
+[WARN] Tarball download average speed 8 KiB/s (size 24 KiB) is below 50 KiB/s: https://registry.npmjs.org/@electron/asar/-/asar-3.4.1.tgz (GET)
+[WARN] Tarball download average speed 10 KiB/s (size 16 KiB) is below 50 KiB/s: https://registry.npmjs.org/node-api-headers/-/node-api-headers-1.9.0.tgz (GET)
+[WARN] Tarball download average speed 13 KiB/s (size 16 KiB) is below 50 KiB/s: https://registry.npmjs.org/@electron/fuses/-/fuses-1.8.0.tgz (GET)
+[WARN] Tarball download average speed 9 KiB/s (size 10 KiB) is below 50 KiB/s: https://registry.npmjs.org/ora/-/ora-9.4.1.tgz (GET)
+[WARN] Tarball download average speed 10 KiB/s (size 32 KiB) is below 50 KiB/s: https://registry.npmjs.org/resolve/-/resolve-1.22.13.tgz (GET)
+[WARN] Tarball download average speed 15 KiB/s (size 20 KiB) is below 50 KiB/s: https://registry.npmjs.org/@electron/universal/-/universal-2.0.3.tgz (GET)
+[WARN] Tarball download average speed 19 KiB/s (size 58 KiB) is below 50 KiB/s: https://registry.npmjs.org/hookified/-/hookified-2.2.0.tgz (GET)
+[WARN] Tarball download average speed 18 KiB/s (size 32 KiB) is below 50 KiB/s: https://registry.npmjs.org/@cucumber/ci-environment/-/ci-environment-13.0.0.tgz (GET)
+[WARN] Tarball download average speed 6 KiB/s (size 19 KiB) is below 50 KiB/s: https://registry.npmjs.org/@electron/get/-/get-5.1.0.tgz (GET)
+[WARN] Tarball download average speed 9 KiB/s (size 32 KiB) is below 50 KiB/s: https://registry.npmjs.org/reflect-metadata/-/reflect-metadata-0.2.2.tgz (GET)
+[WARN] Tarball download average speed 9 KiB/s (size 23 KiB) is below 50 KiB/s: https://registry.npmjs.org/@peculiar/webcrypto/-/webcrypto-1.7.1.tgz (GET)
+[WARN] Tarball download average speed 13 KiB/s (size 41 KiB) is below 50 KiB/s: https://registry.npmjs.org/tsconfig-paths/-/tsconfig-paths-4.2.0.tgz (GET)
+[WARN] Tarball download average speed 12 KiB/s (size 38 KiB) is below 50 KiB/s: https://registry.npmjs.org/dmg-builder/-/dmg-builder-26.17.0.tgz (GET)
+[WARN] Tarball download average speed 20 KiB/s (size 66 KiB) is below 50 KiB/s: https://registry.npmjs.org/got/-/got-11.8.6.tgz (GET)
+[WARN] Tarball download average speed 21 KiB/s (size 66 KiB) is below 50 KiB/s: https://registry.npmjs.org/regexp-tree/-/regexp-tree-0.1.27.tgz (GET)
+[WARN] Tarball download average speed 14 KiB/s (size 38 KiB) is below 50 KiB/s: https://registry.npmjs.org/ignore/-/ignore-7.0.11.tgz (GET)
+[WARN] Tarball download average speed 15 KiB/s (size 53 KiB) is below 50 KiB/s: https://registry.npmjs.org/tsconfig-paths-webpack-plugin/-/tsconfig-paths-webpack-plugin-4.2.0.tgz (GET)
+[WARN] Tarball download average speed 34 KiB/s (size 61 KiB) is below 50 KiB/s: https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-15.1.1.tgz (GET)
+[WARN] Tarball download average speed 38 KiB/s (size 142 KiB) is below 50 KiB/s: https://registry.npmjs.org/plist/-/plist-3.1.0.tgz (GET)
+[WARN] Tarball download average speed 37 KiB/s (size 151 KiB) is below 50 KiB/s: https://registry.npmjs.org/@noble/hashes/-/hashes-1.8.0.tgz (GET)
+[WARN] Tarball download average speed 22 KiB/s (size 51 KiB) is below 50 KiB/s: https://registry.npmjs.org/commander/-/commander-15.0.0.tgz (GET)
+Progress: resolved 611, reused 247, downloaded 248, added 0
+[WARN] Tarball download average speed 44 KiB/s (size 49 KiB) is below 50 KiB/s: https://registry.npmjs.org/cacheable/-/cacheable-2.5.0.tgz (GET)
+[WARN] Tarball download average speed 25 KiB/s (size 27 KiB) is below 50 KiB/s: https://registry.npmjs.org/semver/-/semver-7.7.4.tgz (GET)
+Downloading better-sqlite3@13.0.3: 1.18 MB/11.40 MB
+Downloading better-sqlite3@13.0.3: 1.49 MB/11.40 MB
+Downloading node-llama-cpp@3.22.1: 3.75 MB/35.73 MB
+Downloading @node-llama-cpp/win-x64-cuda-ext@3.22.1: 1.80 MB/175.39 MB
+Progress: resolved 611, reused 247, downloaded 306, added 0
+Downloading better-sqlite3@13.0.3: 3.67 MB/11.40 MB
+Downloading tesseract.js-core@7.0.0: 7.15 MB/16.93 MB
+Downloading better-sqlite3@13.0.3: 5.57 MB/11.40 MB
+Downloading node-llama-cpp@3.22.1: 9.89 MB/35.73 MB
+Downloading @node-llama-cpp/win-x64-cuda-ext@3.22.1: 4.59 MB/175.39 MB
+Downloading node-llama-cpp@3.22.1: 13.52 MB/35.73 MB
+Downloading node-llama-cpp@3.22.1: 15.78 MB/35.73 MB
+Downloading tesseract.js-core@7.0.0: 16.93 MB/16.93 MB, done
+Downloading node-llama-cpp@3.22.1: 21.70 MB/35.73 MB
+Downloading node-llama-cpp@3.22.1: 25.71 MB/35.73 MB
+Downloading @node-llama-cpp/win-x64-cuda-ext@3.22.1: 12.60 MB/175.39 MB
+Downloading node-llama-cpp@3.22.1: 34.37 MB/35.73 MB
+Downloading @node-llama-cpp/win-x64@3.22.1: 3.70 MB/10.74 MB
+Downloading @node-llama-cpp/win-x64@3.22.1: 4.90 MB/10.74 MB
+Downloading @node-llama-cpp/win-x64@3.22.1: 6.36 MB/10.74 MB
+Downloading @node-llama-cpp/win-x64@3.22.1: 8.27 MB/10.74 MB
+Downloading @node-llama-cpp/win-x64@3.22.1: 10.60 MB/10.74 MB
+Downloading @node-llama-cpp/win-x64-cuda-ext@3.22.1: 41.58 MB/175.39 MB
+Downloading @node-llama-cpp/win-x64-cuda-ext@3.22.1: 50.06 MB/175.39 MB
+Downloading @node-llama-cpp/win-x64-cuda-ext@3.22.1: 60.63 MB/175.39 MB
+Downloading @node-llama-cpp/win-x64-cuda-ext@3.22.1: 72.07 MB/175.39 MB
+Downloading @node-llama-cpp/win-x64-cuda-ext@3.22.1: 87.40 MB/175.39 MB
+Downloading @node-llama-cpp/win-x64-cuda-ext@3.22.1: 101.38 MB/175.39 MB
+Downloading @node-llama-cpp/win-x64-cuda-ext@3.22.1: 118.20 MB/175.39 MB
+Downloading @node-llama-cpp/win-x64-cuda-ext@3.22.1: 136.66 MB/175.39 MB
+Downloading @node-llama-cpp/win-x64-cuda-ext@3.22.1: 158.34 MB/175.39 MB
+[WARN] Tarball download average speed 0 KiB/s (size 24 KiB) is below 50 KiB/s: https://registry.npmjs.org/espree/-/espree-11.2.0.tgz (GET)
+Downloading onnxruntime-node@1.30.0: 113.50 MB/113.50 MB, done
+[WARN] Tarball download average speed 37 KiB/s (size 1332 KiB) is below 50 KiB/s: https://registry.npmjs.org/app-builder-lib/-/app-builder-lib-26.17.0.tgz (GET)
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 433.61 kB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 909.28 kB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 1.64 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 2.67 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 3.87 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 4.98 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 6.41 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 8.24 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 10.53 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 13.40 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 17.08 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 21.81 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 27.53 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 30.28 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 36.17 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 43.11 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 51.02 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 60.75 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 72.55 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 85.44 MB/138.51 MB
+[WARN] GET https://registry.npmjs.org/electron-winstaller/-/electron-winstaller-5.4.0.tgz error (Failed to fetch https://registry.npmjs.org/electron-winstaller/-/electron-winstaller-5.4.0.tgz: error decoding response body: request or response body error: operation timed out) — 1
+Will retry in 10s. 1 retries left.
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 109.31 MB/138.51 MB
+Downloading @node-llama-cpp/win-x64-cuda@3.22.1: 129.92 MB/138.51 MB
+Downloading electron-winstaller@5.4.0: 433.00 B/9.14 MB
+Downloading electron-winstaller@5.4.0: 1.53 MB/9.14 MB
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: D:\.pnpm-store\v11
+  Virtual store is at:             node_modules/.pnpm
+Progress: resolved 611, reused 247, downloaded 364, added 234
+Progress: resolved 611, reused 247, downloaded 364, added 433
+Progress: resolved 611, reused 247, downloaded 364, added 531
+Progress: resolved 611, reused 247, downloaded 364, added 622
+Packages: +635
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 611, reused 247, downloaded 364, added 635, done
+.../electron-vite/node_modules/esbuild postinstall$ node install.js
+node_modules/esbuild postinstall$ node install.js
+node_modules/esbuild postinstall: Done
+.../electron-vite/node_modules/esbuild postinstall: Done
+
+devDependencies:
++ @amiceli/vitest-cucumber 8.0.0
++ @playwright/test 1.64.0
++ @types/better-sqlite3 9.6.0
++ @types/node 24.19.1
++ @types/react 19.3.0
++ @types/react-dom 19.3.0
++ dependency-cruiser 18.5.0
++ eslint 10.12.0
++ playwright-bdd 9.2.1
++ spdx-expression-parse 5.0.0
++ spdx-satisfies 6.0.0
++ typescript 6.0.3
++ typescript-eslint 8.71.1
++ vitest 5.0.3
+
+Done in 1m 31.7s using pnpm v12.9.1
+electron-node=Downloading Electron binary...
+24.21.0
+
+Task 3 exit code: 1
+Lockfile SHA-256 after command: 3fca83b35d0995ceb52a9b3b1c10caf6c62aa0627737d9012674c84d9923e157
+
+Task 3 retry: first-run Electron download banner contaminated the captured version; cached binary now available. No dependency/config change.
+Command: bash -c 'set -e; NODE_LLAMA_CPP_SKIP_DOWNLOAD=true ONNXRUNTIME_NODE_INSTALL=skip pnpm install --frozen-lockfile; V=$(ELECTRON_RUN_AS_NODE=1 pnpm exec electron -p process.versions.node); echo "electron-node=$V"; test "$V" = "24.21.0"; pnpm exec tsc -v | grep -q "Version 6.0.3"; node -p "require(\"electron/package.json\").version" | grep -qx "44.7.0"; git diff --exit-code -- pnpm-lock.yaml; echo INSTALL-OK'
+Scope: all 2 workspace projects
+✓ Lockfile passes supply-chain policies (verified 37m ago)
+Lockfile is up to date, resolution step is skipped
+Done in 77ms using pnpm v12.9.1
+electron-node=24.21.0
+INSTALL-OK
+
+Task 3 retry exit code: 0
+Lockfile SHA-256 after command: 3fca83b35d0995ceb52a9b3b1c10caf6c62aa0627737d9012674c84d9923e157
+
+Task 4 exact automated verification
+Command: bash -c 'set -e; head -n 3 LICENSE | grep -qx "MIT License"; grep -qx "Copyright (c) 2026 Danesh contributors" LICENSE; grep -q "WITHOUT WARRANTY OF ANY KIND" LICENSE; test "$(node -p "require(\"./package.json\").license")" = MIT; test "$(node -p "require(\"./apps/desktop/package.json\").license")" = MIT; f=docs/adr/0004-project-license.md; grep -q "^status: accepted" "$f"; grep -q "^kind: license" "$f"; grep -q "^date: 2026-10-09" "$f"; grep -q "Project license: MIT" "$f"; grep -q "NOTICE" "$f"; grep -q "OFL-1.1" "$f"; grep -q "D-COMMERCIAL" "$f"; echo LICENSE-ADR-OK'
+Exit code: 0
+LICENSE-ADR-OK

@@ -1,0 +1,3989 @@
+[
+  {
+    "name": "danesh-desktop",
+    "version": "0.1.0",
+    "path": "D:\\workspace\\AI\\danesh\\apps\\desktop",
+    "private": true,
+    "dependencies": {
+      "better-sqlite3": {
+        "from": "better-sqlite3",
+        "version": "13.0.3",
+        "resolved": "https://registry.npmjs.org/better-sqlite3/-/better-sqlite3-13.0.3.tgz",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\better-sqlite3@13.0.3\\node_modules\\better-sqlite3",
+        "dependencies": {
+          "node-addon-api": {
+            "from": "node-addon-api",
+            "version": "8.9.2",
+            "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.9.2.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\node-addon-api@8.9.2\\node_modules\\node-addon-api"
+          }
+        }
+      },
+      "node-llama-cpp": {
+        "from": "node-llama-cpp",
+        "version": "3.22.1",
+        "resolved": "https://registry.npmjs.org/node-llama-cpp/-/node-llama-cpp-3.22.1.tgz",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\node-llama-cpp@3.22.1_supports-color@7.2.0_typescript@6.0.3\\node_modules\\node-llama-cpp",
+        "dependencies": {
+          "@huggingface/jinja": {
+            "from": "@huggingface/jinja",
+            "version": "0.5.10",
+            "resolved": "https://registry.npmjs.org/@huggingface/jinja/-/jinja-0.5.10.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@huggingface+jinja@0.5.10\\node_modules\\@huggingface/jinja"
+          },
+          "@node-llama-cpp/linux-arm64": {
+            "from": "@node-llama-cpp/linux-arm64",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/linux-arm64/-/linux-arm64-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+linux-arm64@3.22.1\\node_modules\\@node-llama-cpp/linux-arm64"
+          },
+          "@node-llama-cpp/linux-armv7l": {
+            "from": "@node-llama-cpp/linux-armv7l",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/linux-armv7l/-/linux-armv7l-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+linux-armv7l@3.22.1\\node_modules\\@node-llama-cpp/linux-armv7l"
+          },
+          "@node-llama-cpp/linux-riscv64": {
+            "from": "@node-llama-cpp/linux-riscv64",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/linux-riscv64/-/linux-riscv64-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+linux-riscv64@3.22.1\\node_modules\\@node-llama-cpp/linux-riscv64"
+          },
+          "@node-llama-cpp/linux-x64": {
+            "from": "@node-llama-cpp/linux-x64",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/linux-x64/-/linux-x64-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+linux-x64@3.22.1\\node_modules\\@node-llama-cpp/linux-x64"
+          },
+          "@node-llama-cpp/linux-x64-cuda": {
+            "from": "@node-llama-cpp/linux-x64-cuda",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/linux-x64-cuda/-/linux-x64-cuda-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+linux-x64-cuda@3.22.1\\node_modules\\@node-llama-cpp/linux-x64-cuda"
+          },
+          "@node-llama-cpp/linux-x64-cuda-ext": {
+            "from": "@node-llama-cpp/linux-x64-cuda-ext",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/linux-x64-cuda-ext/-/linux-x64-cuda-ext-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+linux-x64-cuda-ext@3.22.1\\node_modules\\@node-llama-cpp/linux-x64-cuda-ext"
+          },
+          "@node-llama-cpp/linux-x64-vulkan": {
+            "from": "@node-llama-cpp/linux-x64-vulkan",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/linux-x64-vulkan/-/linux-x64-vulkan-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+linux-x64-vulkan@3.22.1\\node_modules\\@node-llama-cpp/linux-x64-vulkan"
+          },
+          "@node-llama-cpp/mac-arm64-metal": {
+            "from": "@node-llama-cpp/mac-arm64-metal",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/mac-arm64-metal/-/mac-arm64-metal-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+mac-arm64-metal@3.22.1\\node_modules\\@node-llama-cpp/mac-arm64-metal"
+          },
+          "@node-llama-cpp/mac-x64": {
+            "from": "@node-llama-cpp/mac-x64",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/mac-x64/-/mac-x64-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+mac-x64@3.22.1\\node_modules\\@node-llama-cpp/mac-x64"
+          },
+          "@node-llama-cpp/win-arm64": {
+            "from": "@node-llama-cpp/win-arm64",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/win-arm64/-/win-arm64-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+win-arm64@3.22.1\\node_modules\\@node-llama-cpp/win-arm64"
+          },
+          "@node-llama-cpp/win-x64": {
+            "from": "@node-llama-cpp/win-x64",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/win-x64/-/win-x64-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+win-x64@3.22.1\\node_modules\\@node-llama-cpp/win-x64"
+          },
+          "@node-llama-cpp/win-x64-cuda": {
+            "from": "@node-llama-cpp/win-x64-cuda",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/win-x64-cuda/-/win-x64-cuda-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+win-x64-cuda@3.22.1\\node_modules\\@node-llama-cpp/win-x64-cuda"
+          },
+          "@node-llama-cpp/win-x64-cuda-ext": {
+            "from": "@node-llama-cpp/win-x64-cuda-ext",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/win-x64-cuda-ext/-/win-x64-cuda-ext-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+win-x64-cuda-ext@3.22.1\\node_modules\\@node-llama-cpp/win-x64-cuda-ext"
+          },
+          "@node-llama-cpp/win-x64-vulkan": {
+            "from": "@node-llama-cpp/win-x64-vulkan",
+            "version": "3.22.1",
+            "resolved": "https://registry.npmjs.org/@node-llama-cpp/win-x64-vulkan/-/win-x64-vulkan-3.22.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@node-llama-cpp+win-x64-vulkan@3.22.1\\node_modules\\@node-llama-cpp/win-x64-vulkan"
+          },
+          "async-retry": {
+            "from": "async-retry",
+            "version": "1.3.3",
+            "resolved": "https://registry.npmjs.org/async-retry/-/async-retry-1.3.3.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\async-retry@1.3.3\\node_modules\\async-retry",
+            "dependencies": {
+              "retry": {
+                "from": "retry",
+                "version": "0.13.1",
+                "resolved": "https://registry.npmjs.org/retry/-/retry-0.13.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\retry@0.13.1\\node_modules\\retry"
+              }
+            }
+          },
+          "bytes": {
+            "from": "bytes",
+            "version": "3.1.2",
+            "resolved": "https://registry.npmjs.org/bytes/-/bytes-3.1.2.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\bytes@3.1.2\\node_modules\\bytes"
+          },
+          "chalk": {
+            "from": "chalk",
+            "version": "5.6.2",
+            "resolved": "https://registry.npmjs.org/chalk/-/chalk-5.6.2.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\chalk@5.6.2\\node_modules\\chalk"
+          },
+          "chmodrp": {
+            "from": "chmodrp",
+            "version": "1.0.2",
+            "resolved": "https://registry.npmjs.org/chmodrp/-/chmodrp-1.0.2.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\chmodrp@1.0.2\\node_modules\\chmodrp"
+          },
+          "cmake-js": {
+            "from": "cmake-js",
+            "version": "8.0.0",
+            "resolved": "https://registry.npmjs.org/cmake-js/-/cmake-js-8.0.0.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\cmake-js@8.0.0_supports-color@7.2.0\\node_modules\\cmake-js",
+            "dependencies": {
+              "debug": {
+                "from": "debug",
+                "version": "4.4.3",
+                "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\debug@4.4.3_supports-color@7.2.0\\node_modules\\debug",
+                "dependencies": {
+                  "ms": {
+                    "from": "ms",
+                    "version": "2.1.3",
+                    "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\ms@2.1.3\\node_modules\\ms"
+                  },
+                  "supports-color": {
+                    "from": "supports-color",
+                    "version": "7.2.0",
+                    "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-7.2.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\supports-color@7.2.0\\node_modules\\supports-color",
+                    "dependencies": {
+                      "has-flag": {
+                        "from": "has-flag",
+                        "version": "4.0.0",
+                        "resolved": "https://registry.npmjs.org/has-flag/-/has-flag-4.0.0.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\has-flag@4.0.0\\node_modules\\has-flag"
+                      }
+                    }
+                  }
+                }
+              },
+              "fs-extra": {
+                "from": "fs-extra",
+                "version": "11.4.1",
+                "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-11.4.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\fs-extra@11.4.1\\node_modules\\fs-extra",
+                "dependencies": {
+                  "graceful-fs": {
+                    "from": "graceful-fs",
+                    "version": "4.2.11",
+                    "resolved": "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\graceful-fs@4.2.11\\node_modules\\graceful-fs"
+                  },
+                  "jsonfile": {
+                    "from": "jsonfile",
+                    "version": "6.2.1",
+                    "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.2.1.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\jsonfile@6.2.1\\node_modules\\jsonfile",
+                    "dependencies": {
+                      "graceful-fs": {
+                        "from": "graceful-fs",
+                        "version": "4.2.11",
+                        "resolved": "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\graceful-fs@4.2.11\\node_modules\\graceful-fs"
+                      },
+                      "universalify": {
+                        "from": "universalify",
+                        "version": "2.0.1",
+                        "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\universalify@2.0.1\\node_modules\\universalify"
+                      }
+                    }
+                  },
+                  "universalify": {
+                    "from": "universalify",
+                    "version": "2.0.1",
+                    "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\universalify@2.0.1\\node_modules\\universalify"
+                  }
+                }
+              },
+              "node-api-headers": {
+                "from": "node-api-headers",
+                "version": "1.9.0",
+                "resolved": "https://registry.npmjs.org/node-api-headers/-/node-api-headers-1.9.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\node-api-headers@1.9.0\\node_modules\\node-api-headers"
+              },
+              "rc": {
+                "from": "rc",
+                "version": "1.2.8",
+                "resolved": "https://registry.npmjs.org/rc/-/rc-1.2.8.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\rc@1.2.8\\node_modules\\rc",
+                "dependencies": {
+                  "deep-extend": {
+                    "from": "deep-extend",
+                    "version": "0.6.0",
+                    "resolved": "https://registry.npmjs.org/deep-extend/-/deep-extend-0.6.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\deep-extend@0.6.0\\node_modules\\deep-extend"
+                  },
+                  "ini": {
+                    "from": "ini",
+                    "version": "1.3.8",
+                    "resolved": "https://registry.npmjs.org/ini/-/ini-1.3.8.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\ini@1.3.8\\node_modules\\ini"
+                  },
+                  "minimist": {
+                    "from": "minimist",
+                    "version": "1.2.8",
+                    "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\minimist@1.2.8\\node_modules\\minimist"
+                  },
+                  "strip-json-comments": {
+                    "from": "strip-json-comments",
+                    "version": "2.0.1",
+                    "resolved": "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-2.0.1.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\strip-json-comments@2.0.1\\node_modules\\strip-json-comments"
+                  }
+                }
+              },
+              "semver": {
+                "from": "semver",
+                "version": "7.8.5",
+                "resolved": "https://registry.npmjs.org/semver/-/semver-7.8.5.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\semver@7.8.5\\node_modules\\semver"
+              },
+              "tar": {
+                "from": "tar",
+                "version": "7.5.22",
+                "resolved": "https://registry.npmjs.org/tar/-/tar-7.5.22.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\tar@7.5.22\\node_modules\\tar",
+                "dependencies": {
+                  "@isaacs/fs-minipass": {
+                    "from": "@isaacs/fs-minipass",
+                    "version": "4.0.1",
+                    "resolved": "https://registry.npmjs.org/@isaacs/fs-minipass/-/fs-minipass-4.0.1.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@isaacs+fs-minipass@4.0.1\\node_modules\\@isaacs/fs-minipass",
+                    "dependencies": {
+                      "minipass": {
+                        "from": "minipass",
+                        "version": "7.1.3",
+                        "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.1.3.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\minipass@7.1.3\\node_modules\\minipass"
+                      }
+                    }
+                  },
+                  "chownr": {
+                    "from": "chownr",
+                    "version": "3.0.0",
+                    "resolved": "https://registry.npmjs.org/chownr/-/chownr-3.0.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\chownr@3.0.0\\node_modules\\chownr"
+                  },
+                  "minipass": {
+                    "from": "minipass",
+                    "version": "7.1.3",
+                    "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.1.3.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\minipass@7.1.3\\node_modules\\minipass"
+                  },
+                  "minizlib": {
+                    "from": "minizlib",
+                    "version": "3.1.0",
+                    "resolved": "https://registry.npmjs.org/minizlib/-/minizlib-3.1.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\minizlib@3.1.0\\node_modules\\minizlib",
+                    "dependencies": {
+                      "minipass": {
+                        "from": "minipass",
+                        "version": "7.1.3",
+                        "resolved": "https://registry.npmjs.org/minipass/-/minipass-7.1.3.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\minipass@7.1.3\\node_modules\\minipass"
+                      }
+                    }
+                  },
+                  "yallist": {
+                    "from": "yallist",
+                    "version": "5.0.0",
+                    "resolved": "https://registry.npmjs.org/yallist/-/yallist-5.0.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\yallist@5.0.0\\node_modules\\yallist"
+                  }
+                }
+              },
+              "url-join": {
+                "from": "url-join",
+                "version": "4.0.1",
+                "resolved": "https://registry.npmjs.org/url-join/-/url-join-4.0.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\url-join@4.0.1\\node_modules\\url-join"
+              },
+              "which": {
+                "from": "which",
+                "version": "6.0.1",
+                "resolved": "https://registry.npmjs.org/which/-/which-6.0.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\which@6.0.1\\node_modules\\which",
+                "dependencies": {
+                  "isexe": {
+                    "from": "isexe",
+                    "version": "4.0.0",
+                    "resolved": "https://registry.npmjs.org/isexe/-/isexe-4.0.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\isexe@4.0.0\\node_modules\\isexe"
+                  }
+                }
+              },
+              "yargs": {
+                "from": "yargs",
+                "version": "17.7.3",
+                "resolved": "https://registry.npmjs.org/yargs/-/yargs-17.7.3.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\yargs@17.7.3\\node_modules\\yargs",
+                "dependencies": {
+                  "cliui": {
+                    "from": "cliui",
+                    "version": "8.0.1",
+                    "resolved": "https://registry.npmjs.org/cliui/-/cliui-8.0.1.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\cliui@8.0.1\\node_modules\\cliui",
+                    "dependencies": {
+                      "string-width": {
+                        "from": "string-width",
+                        "version": "4.2.3",
+                        "resolved": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\string-width@4.2.3\\node_modules\\string-width",
+                        "dependencies": {
+                          "emoji-regex": {
+                            "from": "emoji-regex",
+                            "version": "8.0.0",
+                            "resolved": "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz",
+                            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\emoji-regex@8.0.0\\node_modules\\emoji-regex"
+                          },
+                          "is-fullwidth-code-point": {
+                            "from": "is-fullwidth-code-point",
+                            "version": "3.0.0",
+                            "resolved": "https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz",
+                            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\is-fullwidth-code-point@3.0.0\\node_modules\\is-fullwidth-code-point"
+                          },
+                          "strip-ansi": {
+                            "from": "strip-ansi",
+                            "version": "6.0.1",
+                            "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz",
+                            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\strip-ansi@6.0.1\\node_modules\\strip-ansi",
+                            "dependencies": {
+                              "ansi-regex": {
+                                "from": "ansi-regex",
+                                "version": "5.0.1",
+                                "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz",
+                                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\ansi-regex@5.0.1\\node_modules\\ansi-regex"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "strip-ansi": {
+                        "from": "strip-ansi",
+                        "version": "6.0.1",
+                        "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\strip-ansi@6.0.1\\node_modules\\strip-ansi",
+                        "deduped": true,
+                        "dedupedDependenciesCount": 1
+                      },
+                      "wrap-ansi": {
+                        "from": "wrap-ansi",
+                        "version": "7.0.0",
+                        "resolved": "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\wrap-ansi@7.0.0\\node_modules\\wrap-ansi",
+                        "dependencies": {
+                          "ansi-styles": {
+                            "from": "ansi-styles",
+                            "version": "4.3.0",
+                            "resolved": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-4.3.0.tgz",
+                            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\ansi-styles@4.3.0\\node_modules\\ansi-styles",
+                            "dependencies": {
+                              "color-convert": {
+                                "from": "color-convert",
+                                "version": "2.0.1",
+                                "resolved": "https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz",
+                                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\color-convert@2.0.1\\node_modules\\color-convert",
+                                "dependencies": {
+                                  "color-name": {
+                                    "from": "color-name",
+                                    "version": "1.1.4",
+                                    "resolved": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz",
+                                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\color-name@1.1.4\\node_modules\\color-name"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "string-width": {
+                            "from": "string-width",
+                            "version": "4.2.3",
+                            "resolved": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
+                            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\string-width@4.2.3\\node_modules\\string-width",
+                            "deduped": true,
+                            "dedupedDependenciesCount": 4
+                          },
+                          "strip-ansi": {
+                            "from": "strip-ansi",
+                            "version": "6.0.1",
+                            "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz",
+                            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\strip-ansi@6.0.1\\node_modules\\strip-ansi",
+                            "deduped": true,
+                            "dedupedDependenciesCount": 1
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "escalade": {
+                    "from": "escalade",
+                    "version": "3.2.0",
+                    "resolved": "https://registry.npmjs.org/escalade/-/escalade-3.2.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\escalade@3.2.0\\node_modules\\escalade"
+                  },
+                  "get-caller-file": {
+                    "from": "get-caller-file",
+                    "version": "2.0.5",
+                    "resolved": "https://registry.npmjs.org/get-caller-file/-/get-caller-file-2.0.5.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\get-caller-file@2.0.5\\node_modules\\get-caller-file"
+                  },
+                  "require-directory": {
+                    "from": "require-directory",
+                    "version": "2.1.1",
+                    "resolved": "https://registry.npmjs.org/require-directory/-/require-directory-2.1.1.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\require-directory@2.1.1\\node_modules\\require-directory"
+                  },
+                  "string-width": {
+                    "from": "string-width",
+                    "version": "4.2.3",
+                    "resolved": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\string-width@4.2.3\\node_modules\\string-width",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 4
+                  },
+                  "y18n": {
+                    "from": "y18n",
+                    "version": "5.0.8",
+                    "resolved": "https://registry.npmjs.org/y18n/-/y18n-5.0.8.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\y18n@5.0.8\\node_modules\\y18n"
+                  },
+                  "yargs-parser": {
+                    "from": "yargs-parser",
+                    "version": "21.1.1",
+                    "resolved": "https://registry.npmjs.org/yargs-parser/-/yargs-parser-21.1.1.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\yargs-parser@21.1.1\\node_modules\\yargs-parser"
+                  }
+                }
+              }
+            }
+          },
+          "cross-spawn": {
+            "from": "cross-spawn",
+            "version": "7.0.6",
+            "resolved": "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.6.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\cross-spawn@7.0.6\\node_modules\\cross-spawn",
+            "dependencies": {
+              "path-key": {
+                "from": "path-key",
+                "version": "3.1.1",
+                "resolved": "https://registry.npmjs.org/path-key/-/path-key-3.1.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\path-key@3.1.1\\node_modules\\path-key"
+              },
+              "shebang-command": {
+                "from": "shebang-command",
+                "version": "2.0.0",
+                "resolved": "https://registry.npmjs.org/shebang-command/-/shebang-command-2.0.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\shebang-command@2.0.0\\node_modules\\shebang-command",
+                "dependencies": {
+                  "shebang-regex": {
+                    "from": "shebang-regex",
+                    "version": "3.0.0",
+                    "resolved": "https://registry.npmjs.org/shebang-regex/-/shebang-regex-3.0.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\shebang-regex@3.0.0\\node_modules\\shebang-regex"
+                  }
+                }
+              },
+              "which": {
+                "from": "which",
+                "version": "2.0.2",
+                "resolved": "https://registry.npmjs.org/which/-/which-2.0.2.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\which@2.0.2\\node_modules\\which",
+                "dependencies": {
+                  "isexe": {
+                    "from": "isexe",
+                    "version": "2.0.0",
+                    "resolved": "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\isexe@2.0.0\\node_modules\\isexe"
+                  }
+                }
+              }
+            }
+          },
+          "env-var": {
+            "from": "env-var",
+            "version": "7.5.0",
+            "resolved": "https://registry.npmjs.org/env-var/-/env-var-7.5.0.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\env-var@7.5.0\\node_modules\\env-var"
+          },
+          "filenamify": {
+            "from": "filenamify",
+            "version": "6.0.0",
+            "resolved": "https://registry.npmjs.org/filenamify/-/filenamify-6.0.0.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\filenamify@6.0.0\\node_modules\\filenamify",
+            "dependencies": {
+              "filename-reserved-regex": {
+                "from": "filename-reserved-regex",
+                "version": "3.0.0",
+                "resolved": "https://registry.npmjs.org/filename-reserved-regex/-/filename-reserved-regex-3.0.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\filename-reserved-regex@3.0.0\\node_modules\\filename-reserved-regex"
+              }
+            }
+          },
+          "fs-extra": {
+            "from": "fs-extra",
+            "version": "11.4.1",
+            "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-11.4.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\fs-extra@11.4.1\\node_modules\\fs-extra",
+            "deduped": true,
+            "dedupedDependenciesCount": 5
+          },
+          "ignore": {
+            "from": "ignore",
+            "version": "7.0.12",
+            "resolved": "https://registry.npmjs.org/ignore/-/ignore-7.0.12.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\ignore@7.0.12\\node_modules\\ignore"
+          },
+          "ipull": {
+            "from": "ipull",
+            "version": "3.9.5",
+            "resolved": "https://registry.npmjs.org/ipull/-/ipull-3.9.5.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\ipull@3.9.5\\node_modules\\ipull",
+            "dependencies": {
+              "@reflink/reflink": {
+                "from": "@reflink/reflink",
+                "version": "0.1.19",
+                "resolved": "https://registry.npmjs.org/@reflink/reflink/-/reflink-0.1.19.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@reflink+reflink@0.1.19\\node_modules\\@reflink/reflink",
+                "dependencies": {
+                  "@reflink/reflink-darwin-arm64": {
+                    "from": "@reflink/reflink-darwin-arm64",
+                    "version": "0.1.19",
+                    "resolved": "https://registry.npmjs.org/@reflink/reflink-darwin-arm64/-/reflink-darwin-arm64-0.1.19.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@reflink+reflink-darwin-arm64@0.1.19\\node_modules\\@reflink/reflink-darwin-arm64"
+                  },
+                  "@reflink/reflink-darwin-x64": {
+                    "from": "@reflink/reflink-darwin-x64",
+                    "version": "0.1.19",
+                    "resolved": "https://registry.npmjs.org/@reflink/reflink-darwin-x64/-/reflink-darwin-x64-0.1.19.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@reflink+reflink-darwin-x64@0.1.19\\node_modules\\@reflink/reflink-darwin-x64"
+                  },
+                  "@reflink/reflink-linux-arm64-gnu": {
+                    "from": "@reflink/reflink-linux-arm64-gnu",
+                    "version": "0.1.19",
+                    "resolved": "https://registry.npmjs.org/@reflink/reflink-linux-arm64-gnu/-/reflink-linux-arm64-gnu-0.1.19.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@reflink+reflink-linux-arm64-gnu@0.1.19\\node_modules\\@reflink/reflink-linux-arm64-gnu"
+                  },
+                  "@reflink/reflink-linux-arm64-musl": {
+                    "from": "@reflink/reflink-linux-arm64-musl",
+                    "version": "0.1.19",
+                    "resolved": "https://registry.npmjs.org/@reflink/reflink-linux-arm64-musl/-/reflink-linux-arm64-musl-0.1.19.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@reflink+reflink-linux-arm64-musl@0.1.19\\node_modules\\@reflink/reflink-linux-arm64-musl"
+                  },
+                  "@reflink/reflink-linux-x64-gnu": {
+                    "from": "@reflink/reflink-linux-x64-gnu",
+                    "version": "0.1.19",
+                    "resolved": "https://registry.npmjs.org/@reflink/reflink-linux-x64-gnu/-/reflink-linux-x64-gnu-0.1.19.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@reflink+reflink-linux-x64-gnu@0.1.19\\node_modules\\@reflink/reflink-linux-x64-gnu"
+                  },
+                  "@reflink/reflink-linux-x64-musl": {
+                    "from": "@reflink/reflink-linux-x64-musl",
+                    "version": "0.1.19",
+                    "resolved": "https://registry.npmjs.org/@reflink/reflink-linux-x64-musl/-/reflink-linux-x64-musl-0.1.19.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@reflink+reflink-linux-x64-musl@0.1.19\\node_modules\\@reflink/reflink-linux-x64-musl"
+                  },
+                  "@reflink/reflink-win32-arm64-msvc": {
+                    "from": "@reflink/reflink-win32-arm64-msvc",
+                    "version": "0.1.19",
+                    "resolved": "https://registry.npmjs.org/@reflink/reflink-win32-arm64-msvc/-/reflink-win32-arm64-msvc-0.1.19.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@reflink+reflink-win32-arm64-msvc@0.1.19\\node_modules\\@reflink/reflink-win32-arm64-msvc"
+                  },
+                  "@reflink/reflink-win32-x64-msvc": {
+                    "from": "@reflink/reflink-win32-x64-msvc",
+                    "version": "0.1.19",
+                    "resolved": "https://registry.npmjs.org/@reflink/reflink-win32-x64-msvc/-/reflink-win32-x64-msvc-0.1.19.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@reflink+reflink-win32-x64-msvc@0.1.19\\node_modules\\@reflink/reflink-win32-x64-msvc"
+                  }
+                }
+              },
+              "@tinyhttp/content-disposition": {
+                "from": "@tinyhttp/content-disposition",
+                "version": "2.2.4",
+                "resolved": "https://registry.npmjs.org/@tinyhttp/content-disposition/-/content-disposition-2.2.4.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@tinyhttp+content-disposition@2.2.4\\node_modules\\@tinyhttp/content-disposition"
+              },
+              "async-retry": {
+                "from": "async-retry",
+                "version": "1.3.3",
+                "resolved": "https://registry.npmjs.org/async-retry/-/async-retry-1.3.3.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\async-retry@1.3.3\\node_modules\\async-retry",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              },
+              "chalk": {
+                "from": "chalk",
+                "version": "5.6.2",
+                "resolved": "https://registry.npmjs.org/chalk/-/chalk-5.6.2.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\chalk@5.6.2\\node_modules\\chalk"
+              },
+              "ci-info": {
+                "from": "ci-info",
+                "version": "4.4.0",
+                "resolved": "https://registry.npmjs.org/ci-info/-/ci-info-4.4.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\ci-info@4.4.0\\node_modules\\ci-info"
+              },
+              "cli-spinners": {
+                "from": "cli-spinners",
+                "version": "2.9.2",
+                "resolved": "https://registry.npmjs.org/cli-spinners/-/cli-spinners-2.9.2.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\cli-spinners@2.9.2\\node_modules\\cli-spinners"
+              },
+              "commander": {
+                "from": "commander",
+                "version": "10.0.1",
+                "resolved": "https://registry.npmjs.org/commander/-/commander-10.0.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\commander@10.0.1\\node_modules\\commander"
+              },
+              "eventemitter3": {
+                "from": "eventemitter3",
+                "version": "5.0.4",
+                "resolved": "https://registry.npmjs.org/eventemitter3/-/eventemitter3-5.0.4.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\eventemitter3@5.0.4\\node_modules\\eventemitter3"
+              },
+              "filenamify": {
+                "from": "filenamify",
+                "version": "6.0.0",
+                "resolved": "https://registry.npmjs.org/filenamify/-/filenamify-6.0.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\filenamify@6.0.0\\node_modules\\filenamify",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              },
+              "fs-extra": {
+                "from": "fs-extra",
+                "version": "11.4.1",
+                "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-11.4.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\fs-extra@11.4.1\\node_modules\\fs-extra",
+                "deduped": true,
+                "dedupedDependenciesCount": 5
+              },
+              "is-unicode-supported": {
+                "from": "is-unicode-supported",
+                "version": "2.1.0",
+                "resolved": "https://registry.npmjs.org/is-unicode-supported/-/is-unicode-supported-2.1.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\is-unicode-supported@2.1.0\\node_modules\\is-unicode-supported"
+              },
+              "lifecycle-utils": {
+                "from": "lifecycle-utils",
+                "version": "2.1.0",
+                "resolved": "https://registry.npmjs.org/lifecycle-utils/-/lifecycle-utils-2.1.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\lifecycle-utils@2.1.0\\node_modules\\lifecycle-utils"
+              },
+              "lodash.debounce": {
+                "from": "lodash.debounce",
+                "version": "4.0.8",
+                "resolved": "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\lodash.debounce@4.0.8\\node_modules\\lodash.debounce"
+              },
+              "lowdb": {
+                "from": "lowdb",
+                "version": "7.0.1",
+                "resolved": "https://registry.npmjs.org/lowdb/-/lowdb-7.0.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\lowdb@7.0.1\\node_modules\\lowdb",
+                "dependencies": {
+                  "steno": {
+                    "from": "steno",
+                    "version": "4.0.2",
+                    "resolved": "https://registry.npmjs.org/steno/-/steno-4.0.2.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\steno@4.0.2\\node_modules\\steno"
+                  }
+                }
+              },
+              "pretty-bytes": {
+                "from": "pretty-bytes",
+                "version": "6.1.1",
+                "resolved": "https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-6.1.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\pretty-bytes@6.1.1\\node_modules\\pretty-bytes"
+              },
+              "pretty-ms": {
+                "from": "pretty-ms",
+                "version": "8.0.0",
+                "resolved": "https://registry.npmjs.org/pretty-ms/-/pretty-ms-8.0.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\pretty-ms@8.0.0\\node_modules\\pretty-ms",
+                "dependencies": {
+                  "parse-ms": {
+                    "from": "parse-ms",
+                    "version": "3.0.0",
+                    "resolved": "https://registry.npmjs.org/parse-ms/-/parse-ms-3.0.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\parse-ms@3.0.0\\node_modules\\parse-ms"
+                  }
+                }
+              },
+              "sleep-promise": {
+                "from": "sleep-promise",
+                "version": "9.1.0",
+                "resolved": "https://registry.npmjs.org/sleep-promise/-/sleep-promise-9.1.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\sleep-promise@9.1.0\\node_modules\\sleep-promise"
+              },
+              "slice-ansi": {
+                "from": "slice-ansi",
+                "version": "7.1.2",
+                "resolved": "https://registry.npmjs.org/slice-ansi/-/slice-ansi-7.1.2.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\slice-ansi@7.1.2\\node_modules\\slice-ansi",
+                "dependencies": {
+                  "ansi-styles": {
+                    "from": "ansi-styles",
+                    "version": "6.2.3",
+                    "resolved": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-6.2.3.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\ansi-styles@6.2.3\\node_modules\\ansi-styles"
+                  },
+                  "is-fullwidth-code-point": {
+                    "from": "is-fullwidth-code-point",
+                    "version": "5.1.0",
+                    "resolved": "https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-5.1.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\is-fullwidth-code-point@5.1.0\\node_modules\\is-fullwidth-code-point",
+                    "dependencies": {
+                      "get-east-asian-width": {
+                        "from": "get-east-asian-width",
+                        "version": "1.7.0",
+                        "resolved": "https://registry.npmjs.org/get-east-asian-width/-/get-east-asian-width-1.7.0.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\get-east-asian-width@1.7.0\\node_modules\\get-east-asian-width"
+                      }
+                    }
+                  }
+                }
+              },
+              "stdout-update": {
+                "from": "stdout-update",
+                "version": "4.0.1",
+                "resolved": "https://registry.npmjs.org/stdout-update/-/stdout-update-4.0.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\stdout-update@4.0.1\\node_modules\\stdout-update",
+                "dependencies": {
+                  "ansi-escapes": {
+                    "from": "ansi-escapes",
+                    "version": "6.2.1",
+                    "resolved": "https://registry.npmjs.org/ansi-escapes/-/ansi-escapes-6.2.1.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\ansi-escapes@6.2.1\\node_modules\\ansi-escapes"
+                  },
+                  "ansi-styles": {
+                    "from": "ansi-styles",
+                    "version": "6.2.3",
+                    "resolved": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-6.2.3.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\ansi-styles@6.2.3\\node_modules\\ansi-styles"
+                  },
+                  "string-width": {
+                    "from": "string-width",
+                    "version": "7.2.0",
+                    "resolved": "https://registry.npmjs.org/string-width/-/string-width-7.2.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\string-width@7.2.0\\node_modules\\string-width",
+                    "dependencies": {
+                      "emoji-regex": {
+                        "from": "emoji-regex",
+                        "version": "10.6.0",
+                        "resolved": "https://registry.npmjs.org/emoji-regex/-/emoji-regex-10.6.0.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\emoji-regex@10.6.0\\node_modules\\emoji-regex"
+                      },
+                      "get-east-asian-width": {
+                        "from": "get-east-asian-width",
+                        "version": "1.7.0",
+                        "resolved": "https://registry.npmjs.org/get-east-asian-width/-/get-east-asian-width-1.7.0.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\get-east-asian-width@1.7.0\\node_modules\\get-east-asian-width"
+                      },
+                      "strip-ansi": {
+                        "from": "strip-ansi",
+                        "version": "7.2.0",
+                        "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-7.2.0.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\strip-ansi@7.2.0\\node_modules\\strip-ansi",
+                        "dependencies": {
+                          "ansi-regex": {
+                            "from": "ansi-regex",
+                            "version": "6.4.0",
+                            "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-6.4.0.tgz",
+                            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\ansi-regex@6.4.0\\node_modules\\ansi-regex"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "strip-ansi": {
+                    "from": "strip-ansi",
+                    "version": "7.2.0",
+                    "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-7.2.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\strip-ansi@7.2.0\\node_modules\\strip-ansi",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 1
+                  }
+                }
+              },
+              "strip-ansi": {
+                "from": "strip-ansi",
+                "version": "7.2.0",
+                "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-7.2.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\strip-ansi@7.2.0\\node_modules\\strip-ansi",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              }
+            }
+          },
+          "is-unicode-supported": {
+            "from": "is-unicode-supported",
+            "version": "2.1.0",
+            "resolved": "https://registry.npmjs.org/is-unicode-supported/-/is-unicode-supported-2.1.0.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\is-unicode-supported@2.1.0\\node_modules\\is-unicode-supported"
+          },
+          "lifecycle-utils": {
+            "from": "lifecycle-utils",
+            "version": "4.5.2",
+            "resolved": "https://registry.npmjs.org/lifecycle-utils/-/lifecycle-utils-4.5.2.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\lifecycle-utils@4.5.2\\node_modules\\lifecycle-utils"
+          },
+          "log-symbols": {
+            "from": "log-symbols",
+            "version": "7.0.1",
+            "resolved": "https://registry.npmjs.org/log-symbols/-/log-symbols-7.0.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\log-symbols@7.0.1\\node_modules\\log-symbols",
+            "dependencies": {
+              "is-unicode-supported": {
+                "from": "is-unicode-supported",
+                "version": "2.1.0",
+                "resolved": "https://registry.npmjs.org/is-unicode-supported/-/is-unicode-supported-2.1.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\is-unicode-supported@2.1.0\\node_modules\\is-unicode-supported"
+              },
+              "yoctocolors": {
+                "from": "yoctocolors",
+                "version": "2.2.0",
+                "resolved": "https://registry.npmjs.org/yoctocolors/-/yoctocolors-2.2.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\yoctocolors@2.2.0\\node_modules\\yoctocolors"
+              }
+            }
+          },
+          "nanoid": {
+            "from": "nanoid",
+            "version": "5.1.16",
+            "resolved": "https://registry.npmjs.org/nanoid/-/nanoid-5.1.16.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\nanoid@5.1.16\\node_modules\\nanoid"
+          },
+          "node-addon-api": {
+            "from": "node-addon-api",
+            "version": "8.9.2",
+            "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-8.9.2.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\node-addon-api@8.9.2\\node_modules\\node-addon-api"
+          },
+          "ora": {
+            "from": "ora",
+            "version": "9.4.1",
+            "resolved": "https://registry.npmjs.org/ora/-/ora-9.4.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\ora@9.4.1\\node_modules\\ora",
+            "dependencies": {
+              "chalk": {
+                "from": "chalk",
+                "version": "5.6.2",
+                "resolved": "https://registry.npmjs.org/chalk/-/chalk-5.6.2.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\chalk@5.6.2\\node_modules\\chalk"
+              },
+              "cli-cursor": {
+                "from": "cli-cursor",
+                "version": "5.0.0",
+                "resolved": "https://registry.npmjs.org/cli-cursor/-/cli-cursor-5.0.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\cli-cursor@5.0.0\\node_modules\\cli-cursor",
+                "dependencies": {
+                  "restore-cursor": {
+                    "from": "restore-cursor",
+                    "version": "5.1.0",
+                    "resolved": "https://registry.npmjs.org/restore-cursor/-/restore-cursor-5.1.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\restore-cursor@5.1.0\\node_modules\\restore-cursor",
+                    "dependencies": {
+                      "onetime": {
+                        "from": "onetime",
+                        "version": "7.0.0",
+                        "resolved": "https://registry.npmjs.org/onetime/-/onetime-7.0.0.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\onetime@7.0.0\\node_modules\\onetime",
+                        "dependencies": {
+                          "mimic-function": {
+                            "from": "mimic-function",
+                            "version": "5.0.1",
+                            "resolved": "https://registry.npmjs.org/mimic-function/-/mimic-function-5.0.1.tgz",
+                            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\mimic-function@5.0.1\\node_modules\\mimic-function"
+                          }
+                        }
+                      },
+                      "signal-exit": {
+                        "from": "signal-exit",
+                        "version": "4.1.0",
+                        "resolved": "https://registry.npmjs.org/signal-exit/-/signal-exit-4.1.0.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\signal-exit@4.1.0\\node_modules\\signal-exit"
+                      }
+                    }
+                  }
+                }
+              },
+              "cli-spinners": {
+                "from": "cli-spinners",
+                "version": "3.4.0",
+                "resolved": "https://registry.npmjs.org/cli-spinners/-/cli-spinners-3.4.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\cli-spinners@3.4.0\\node_modules\\cli-spinners"
+              },
+              "is-interactive": {
+                "from": "is-interactive",
+                "version": "2.0.0",
+                "resolved": "https://registry.npmjs.org/is-interactive/-/is-interactive-2.0.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\is-interactive@2.0.0\\node_modules\\is-interactive"
+              },
+              "is-unicode-supported": {
+                "from": "is-unicode-supported",
+                "version": "2.1.0",
+                "resolved": "https://registry.npmjs.org/is-unicode-supported/-/is-unicode-supported-2.1.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\is-unicode-supported@2.1.0\\node_modules\\is-unicode-supported"
+              },
+              "log-symbols": {
+                "from": "log-symbols",
+                "version": "7.0.1",
+                "resolved": "https://registry.npmjs.org/log-symbols/-/log-symbols-7.0.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\log-symbols@7.0.1\\node_modules\\log-symbols",
+                "deduped": true,
+                "dedupedDependenciesCount": 2
+              },
+              "stdin-discarder": {
+                "from": "stdin-discarder",
+                "version": "0.3.2",
+                "resolved": "https://registry.npmjs.org/stdin-discarder/-/stdin-discarder-0.3.2.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\stdin-discarder@0.3.2\\node_modules\\stdin-discarder"
+              },
+              "string-width": {
+                "from": "string-width",
+                "version": "8.3.0",
+                "resolved": "https://registry.npmjs.org/string-width/-/string-width-8.3.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\string-width@8.3.0\\node_modules\\string-width",
+                "dependencies": {
+                  "get-east-asian-width": {
+                    "from": "get-east-asian-width",
+                    "version": "1.7.0",
+                    "resolved": "https://registry.npmjs.org/get-east-asian-width/-/get-east-asian-width-1.7.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\get-east-asian-width@1.7.0\\node_modules\\get-east-asian-width"
+                  },
+                  "strip-ansi": {
+                    "from": "strip-ansi",
+                    "version": "7.2.0",
+                    "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-7.2.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\strip-ansi@7.2.0\\node_modules\\strip-ansi",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 1
+                  }
+                }
+              }
+            }
+          },
+          "pretty-ms": {
+            "from": "pretty-ms",
+            "version": "9.3.1",
+            "resolved": "https://registry.npmjs.org/pretty-ms/-/pretty-ms-9.3.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\pretty-ms@9.3.1\\node_modules\\pretty-ms",
+            "dependencies": {
+              "parse-ms": {
+                "from": "parse-ms",
+                "version": "4.0.0",
+                "resolved": "https://registry.npmjs.org/parse-ms/-/parse-ms-4.0.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\parse-ms@4.0.0\\node_modules\\parse-ms"
+              }
+            }
+          },
+          "proper-lockfile": {
+            "from": "proper-lockfile",
+            "version": "4.1.2",
+            "resolved": "https://registry.npmjs.org/proper-lockfile/-/proper-lockfile-4.1.2.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\proper-lockfile@4.1.2\\node_modules\\proper-lockfile",
+            "dependencies": {
+              "graceful-fs": {
+                "from": "graceful-fs",
+                "version": "4.2.11",
+                "resolved": "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\graceful-fs@4.2.11\\node_modules\\graceful-fs"
+              },
+              "retry": {
+                "from": "retry",
+                "version": "0.12.0",
+                "resolved": "https://registry.npmjs.org/retry/-/retry-0.12.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\retry@0.12.0\\node_modules\\retry"
+              },
+              "signal-exit": {
+                "from": "signal-exit",
+                "version": "3.0.7",
+                "resolved": "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.7.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\signal-exit@3.0.7\\node_modules\\signal-exit"
+              }
+            }
+          },
+          "semver": {
+            "from": "semver",
+            "version": "7.8.5",
+            "resolved": "https://registry.npmjs.org/semver/-/semver-7.8.5.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\semver@7.8.5\\node_modules\\semver"
+          },
+          "simple-git": {
+            "from": "simple-git",
+            "version": "3.36.0",
+            "resolved": "https://registry.npmjs.org/simple-git/-/simple-git-3.36.0.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\simple-git@3.36.0_supports-color@7.2.0\\node_modules\\simple-git",
+            "dependencies": {
+              "@kwsites/file-exists": {
+                "from": "@kwsites/file-exists",
+                "version": "1.1.1",
+                "resolved": "https://registry.npmjs.org/@kwsites/file-exists/-/file-exists-1.1.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@kwsites+file-exists@1.1.1_supports-color@7.2.0\\node_modules\\@kwsites/file-exists",
+                "dependencies": {
+                  "debug": {
+                    "from": "debug",
+                    "version": "4.4.3",
+                    "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\debug@4.4.3_supports-color@7.2.0\\node_modules\\debug",
+                    "deduped": true,
+                    "dedupedDependenciesCount": 3
+                  }
+                }
+              },
+              "@kwsites/promise-deferred": {
+                "from": "@kwsites/promise-deferred",
+                "version": "1.1.1",
+                "resolved": "https://registry.npmjs.org/@kwsites/promise-deferred/-/promise-deferred-1.1.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@kwsites+promise-deferred@1.1.1\\node_modules\\@kwsites/promise-deferred"
+              },
+              "@simple-git/args-pathspec": {
+                "from": "@simple-git/args-pathspec",
+                "version": "1.0.4",
+                "resolved": "https://registry.npmjs.org/@simple-git/args-pathspec/-/args-pathspec-1.0.4.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@simple-git+args-pathspec@1.0.4\\node_modules\\@simple-git/args-pathspec"
+              },
+              "@simple-git/argv-parser": {
+                "from": "@simple-git/argv-parser",
+                "version": "1.1.1",
+                "resolved": "https://registry.npmjs.org/@simple-git/argv-parser/-/argv-parser-1.1.1.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@simple-git+argv-parser@1.1.1\\node_modules\\@simple-git/argv-parser",
+                "dependencies": {
+                  "@simple-git/args-pathspec": {
+                    "from": "@simple-git/args-pathspec",
+                    "version": "1.0.4",
+                    "resolved": "https://registry.npmjs.org/@simple-git/args-pathspec/-/args-pathspec-1.0.4.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\@simple-git+args-pathspec@1.0.4\\node_modules\\@simple-git/args-pathspec"
+                  }
+                }
+              },
+              "debug": {
+                "from": "debug",
+                "version": "4.4.3",
+                "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\debug@4.4.3_supports-color@7.2.0\\node_modules\\debug",
+                "deduped": true,
+                "dedupedDependenciesCount": 3
+              }
+            }
+          },
+          "slice-ansi": {
+            "from": "slice-ansi",
+            "version": "8.0.0",
+            "resolved": "https://registry.npmjs.org/slice-ansi/-/slice-ansi-8.0.0.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\slice-ansi@8.0.0\\node_modules\\slice-ansi",
+            "dependencies": {
+              "ansi-styles": {
+                "from": "ansi-styles",
+                "version": "6.2.3",
+                "resolved": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-6.2.3.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\ansi-styles@6.2.3\\node_modules\\ansi-styles"
+              },
+              "is-fullwidth-code-point": {
+                "from": "is-fullwidth-code-point",
+                "version": "5.1.0",
+                "resolved": "https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-5.1.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\is-fullwidth-code-point@5.1.0\\node_modules\\is-fullwidth-code-point",
+                "deduped": true,
+                "dedupedDependenciesCount": 1
+              }
+            }
+          },
+          "stdout-update": {
+            "from": "stdout-update",
+            "version": "4.0.1",
+            "resolved": "https://registry.npmjs.org/stdout-update/-/stdout-update-4.0.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\stdout-update@4.0.1\\node_modules\\stdout-update",
+            "deduped": true,
+            "dedupedDependenciesCount": 8
+          },
+          "strip-ansi": {
+            "from": "strip-ansi",
+            "version": "7.2.0",
+            "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-7.2.0.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\strip-ansi@7.2.0\\node_modules\\strip-ansi",
+            "deduped": true,
+            "dedupedDependenciesCount": 1
+          },
+          "validate-npm-package-name": {
+            "from": "validate-npm-package-name",
+            "version": "7.0.2",
+            "resolved": "https://registry.npmjs.org/validate-npm-package-name/-/validate-npm-package-name-7.0.2.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\validate-npm-package-name@7.0.2\\node_modules\\validate-npm-package-name"
+          },
+          "which": {
+            "from": "which",
+            "version": "6.0.1",
+            "resolved": "https://registry.npmjs.org/which/-/which-6.0.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\which@6.0.1\\node_modules\\which",
+            "deduped": true,
+            "dedupedDependenciesCount": 1
+          },
+          "yargs": {
+            "from": "yargs",
+            "version": "17.7.3",
+            "resolved": "https://registry.npmjs.org/yargs/-/yargs-17.7.3.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\yargs@17.7.3\\node_modules\\yargs",
+            "deduped": true,
+            "dedupedDependenciesCount": 19
+          }
+        }
+      },
+      "onnxruntime-node": {
+        "from": "onnxruntime-node",
+        "version": "1.30.0",
+        "resolved": "https://registry.npmjs.org/onnxruntime-node/-/onnxruntime-node-1.30.0.tgz",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\onnxruntime-node@1.30.0\\node_modules\\onnxruntime-node",
+        "dependencies": {
+          "adm-zip": {
+            "from": "adm-zip",
+            "version": "0.6.1",
+            "resolved": "https://registry.npmjs.org/adm-zip/-/adm-zip-0.6.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\adm-zip@0.6.1\\node_modules\\adm-zip"
+          },
+          "global-agent": {
+            "from": "global-agent",
+            "version": "4.1.3",
+            "resolved": "https://registry.npmjs.org/global-agent/-/global-agent-4.1.3.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\global-agent@4.1.3\\node_modules\\global-agent",
+            "dependencies": {
+              "globalthis": {
+                "from": "globalthis",
+                "version": "1.0.4",
+                "resolved": "https://registry.npmjs.org/globalthis/-/globalthis-1.0.4.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\globalthis@1.0.4\\node_modules\\globalthis",
+                "dependencies": {
+                  "define-properties": {
+                    "from": "define-properties",
+                    "version": "1.2.1",
+                    "resolved": "https://registry.npmjs.org/define-properties/-/define-properties-1.2.1.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\define-properties@1.2.1\\node_modules\\define-properties",
+                    "dependencies": {
+                      "define-data-property": {
+                        "from": "define-data-property",
+                        "version": "1.1.4",
+                        "resolved": "https://registry.npmjs.org/define-data-property/-/define-data-property-1.1.4.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\define-data-property@1.1.4\\node_modules\\define-data-property",
+                        "dependencies": {
+                          "es-define-property": {
+                            "from": "es-define-property",
+                            "version": "1.0.1",
+                            "resolved": "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz",
+                            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\es-define-property@1.0.1\\node_modules\\es-define-property"
+                          },
+                          "es-errors": {
+                            "from": "es-errors",
+                            "version": "1.3.0",
+                            "resolved": "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz",
+                            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\es-errors@1.3.0\\node_modules\\es-errors"
+                          },
+                          "gopd": {
+                            "from": "gopd",
+                            "version": "1.2.0",
+                            "resolved": "https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz",
+                            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\gopd@1.2.0\\node_modules\\gopd"
+                          }
+                        }
+                      },
+                      "has-property-descriptors": {
+                        "from": "has-property-descriptors",
+                        "version": "1.0.2",
+                        "resolved": "https://registry.npmjs.org/has-property-descriptors/-/has-property-descriptors-1.0.2.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\has-property-descriptors@1.0.2\\node_modules\\has-property-descriptors",
+                        "dependencies": {
+                          "es-define-property": {
+                            "from": "es-define-property",
+                            "version": "1.0.1",
+                            "resolved": "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz",
+                            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\es-define-property@1.0.1\\node_modules\\es-define-property"
+                          }
+                        }
+                      },
+                      "object-keys": {
+                        "from": "object-keys",
+                        "version": "1.1.1",
+                        "resolved": "https://registry.npmjs.org/object-keys/-/object-keys-1.1.1.tgz",
+                        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\object-keys@1.1.1\\node_modules\\object-keys"
+                      }
+                    }
+                  },
+                  "gopd": {
+                    "from": "gopd",
+                    "version": "1.2.0",
+                    "resolved": "https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\gopd@1.2.0\\node_modules\\gopd"
+                  }
+                }
+              },
+              "matcher": {
+                "from": "matcher",
+                "version": "4.0.0",
+                "resolved": "https://registry.npmjs.org/matcher/-/matcher-4.0.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\matcher@4.0.0\\node_modules\\matcher",
+                "dependencies": {
+                  "escape-string-regexp": {
+                    "from": "escape-string-regexp",
+                    "version": "4.0.0",
+                    "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\escape-string-regexp@4.0.0\\node_modules\\escape-string-regexp"
+                  }
+                }
+              },
+              "semver": {
+                "from": "semver",
+                "version": "7.8.5",
+                "resolved": "https://registry.npmjs.org/semver/-/semver-7.8.5.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\semver@7.8.5\\node_modules\\semver"
+              },
+              "serialize-error": {
+                "from": "serialize-error",
+                "version": "8.1.0",
+                "resolved": "https://registry.npmjs.org/serialize-error/-/serialize-error-8.1.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\serialize-error@8.1.0\\node_modules\\serialize-error",
+                "dependencies": {
+                  "type-fest": {
+                    "from": "type-fest",
+                    "version": "0.20.2",
+                    "resolved": "https://registry.npmjs.org/type-fest/-/type-fest-0.20.2.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\type-fest@0.20.2\\node_modules\\type-fest"
+                  }
+                }
+              }
+            }
+          },
+          "onnxruntime-common": {
+            "from": "onnxruntime-common",
+            "version": "1.30.0",
+            "resolved": "https://registry.npmjs.org/onnxruntime-common/-/onnxruntime-common-1.30.0.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\onnxruntime-common@1.30.0\\node_modules\\onnxruntime-common"
+          }
+        }
+      },
+      "tesseract.js": {
+        "from": "tesseract.js",
+        "version": "7.0.0",
+        "resolved": "https://registry.npmjs.org/tesseract.js/-/tesseract.js-7.0.0.tgz",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\tesseract.js@7.0.0\\node_modules\\tesseract.js",
+        "dependencies": {
+          "bmp-js": {
+            "from": "bmp-js",
+            "version": "0.1.0",
+            "resolved": "https://registry.npmjs.org/bmp-js/-/bmp-js-0.1.0.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\bmp-js@0.1.0\\node_modules\\bmp-js"
+          },
+          "idb-keyval": {
+            "from": "idb-keyval",
+            "version": "6.3.0",
+            "resolved": "https://registry.npmjs.org/idb-keyval/-/idb-keyval-6.3.0.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\idb-keyval@6.3.0\\node_modules\\idb-keyval"
+          },
+          "is-url": {
+            "from": "is-url",
+            "version": "1.2.4",
+            "resolved": "https://registry.npmjs.org/is-url/-/is-url-1.2.4.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\is-url@1.2.4\\node_modules\\is-url"
+          },
+          "node-fetch": {
+            "from": "node-fetch",
+            "version": "2.7.0",
+            "resolved": "https://registry.npmjs.org/node-fetch/-/node-fetch-2.7.0.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\node-fetch@2.7.0\\node_modules\\node-fetch",
+            "dependencies": {
+              "whatwg-url": {
+                "from": "whatwg-url",
+                "version": "5.0.0",
+                "resolved": "https://registry.npmjs.org/whatwg-url/-/whatwg-url-5.0.0.tgz",
+                "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\whatwg-url@5.0.0\\node_modules\\whatwg-url",
+                "dependencies": {
+                  "tr46": {
+                    "from": "tr46",
+                    "version": "0.0.3",
+                    "resolved": "https://registry.npmjs.org/tr46/-/tr46-0.0.3.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\tr46@0.0.3\\node_modules\\tr46"
+                  },
+                  "webidl-conversions": {
+                    "from": "webidl-conversions",
+                    "version": "3.0.1",
+                    "resolved": "https://registry.npmjs.org/webidl-conversions/-/webidl-conversions-3.0.1.tgz",
+                    "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\webidl-conversions@3.0.1\\node_modules\\webidl-conversions"
+                  }
+                }
+              }
+            }
+          },
+          "opencollective-postinstall": {
+            "from": "opencollective-postinstall",
+            "version": "2.0.3",
+            "resolved": "https://registry.npmjs.org/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\opencollective-postinstall@2.0.3\\node_modules\\opencollective-postinstall"
+          },
+          "regenerator-runtime": {
+            "from": "regenerator-runtime",
+            "version": "0.13.11",
+            "resolved": "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\regenerator-runtime@0.13.11\\node_modules\\regenerator-runtime"
+          },
+          "tesseract.js-core": {
+            "from": "tesseract.js-core",
+            "version": "7.0.0",
+            "resolved": "https://registry.npmjs.org/tesseract.js-core/-/tesseract.js-core-7.0.0.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\tesseract.js-core@7.0.0\\node_modules\\tesseract.js-core"
+          },
+          "wasm-feature-detect": {
+            "from": "wasm-feature-detect",
+            "version": "1.9.0",
+            "resolved": "https://registry.npmjs.org/wasm-feature-detect/-/wasm-feature-detect-1.9.0.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\wasm-feature-detect@1.9.0\\node_modules\\wasm-feature-detect"
+          },
+          "zlibjs": {
+            "from": "zlibjs",
+            "version": "0.3.1",
+            "resolved": "https://registry.npmjs.org/zlibjs/-/zlibjs-0.3.1.tgz",
+            "path": "D:\\workspace\\AI\\danesh\\node_modules\\.pnpm\\zlibjs@0.3.1\\node_modules\\zlibjs"
+          }
+        }
+      }
+    },
+    "unsavedDependencies": {
+      "@amiceli/vitest-cucumber": {
+        "from": "@amiceli/vitest-cucumber",
+        "version": "8.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@amiceli/vitest-cucumber"
+      },
+      "@babel/code-frame": {
+        "from": "@babel/code-frame",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/code-frame"
+      },
+      "@babel/compat-data": {
+        "from": "@babel/compat-data",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/compat-data"
+      },
+      "@babel/core": {
+        "from": "@babel/core",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/core"
+      },
+      "@babel/generator": {
+        "from": "@babel/generator",
+        "version": "7.29.8",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/generator"
+      },
+      "@babel/helper-compilation-targets": {
+        "from": "@babel/helper-compilation-targets",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/helper-compilation-targets"
+      },
+      "@babel/helper-globals": {
+        "from": "@babel/helper-globals",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/helper-globals"
+      },
+      "@babel/helper-module-imports": {
+        "from": "@babel/helper-module-imports",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/helper-module-imports"
+      },
+      "@babel/helper-module-transforms": {
+        "from": "@babel/helper-module-transforms",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/helper-module-transforms"
+      },
+      "@babel/helper-plugin-utils": {
+        "from": "@babel/helper-plugin-utils",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/helper-plugin-utils"
+      },
+      "@babel/helper-string-parser": {
+        "from": "@babel/helper-string-parser",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/helper-string-parser"
+      },
+      "@babel/helper-validator-identifier": {
+        "from": "@babel/helper-validator-identifier",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/helper-validator-identifier"
+      },
+      "@babel/helper-validator-option": {
+        "from": "@babel/helper-validator-option",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/helper-validator-option"
+      },
+      "@babel/helpers": {
+        "from": "@babel/helpers",
+        "version": "7.29.10",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/helpers"
+      },
+      "@babel/parser": {
+        "from": "@babel/parser",
+        "version": "7.29.9",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/parser"
+      },
+      "@babel/plugin-transform-arrow-functions": {
+        "from": "@babel/plugin-transform-arrow-functions",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/plugin-transform-arrow-functions"
+      },
+      "@babel/plugin-transform-react-jsx-self": {
+        "from": "@babel/plugin-transform-react-jsx-self",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/plugin-transform-react-jsx-self"
+      },
+      "@babel/plugin-transform-react-jsx-source": {
+        "from": "@babel/plugin-transform-react-jsx-source",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/plugin-transform-react-jsx-source"
+      },
+      "@babel/template": {
+        "from": "@babel/template",
+        "version": "7.29.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/template"
+      },
+      "@babel/traverse": {
+        "from": "@babel/traverse",
+        "version": "7.29.10",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/traverse"
+      },
+      "@babel/types": {
+        "from": "@babel/types",
+        "version": "7.29.8",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@babel/types"
+      },
+      "@cacheable/memory": {
+        "from": "@cacheable/memory",
+        "version": "2.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@cacheable/memory"
+      },
+      "@cacheable/utils": {
+        "from": "@cacheable/utils",
+        "version": "2.5.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@cacheable/utils"
+      },
+      "@colors/colors": {
+        "from": "@colors/colors",
+        "version": "1.5.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@colors/colors"
+      },
+      "@cucumber/ci-environment": {
+        "from": "@cucumber/ci-environment",
+        "version": "13.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@cucumber/ci-environment"
+      },
+      "@cucumber/cucumber-expressions": {
+        "from": "@cucumber/cucumber-expressions",
+        "version": "19.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@cucumber/cucumber-expressions"
+      },
+      "@cucumber/gherkin": {
+        "from": "@cucumber/gherkin",
+        "version": "39.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@cucumber/gherkin"
+      },
+      "@cucumber/gherkin-utils": {
+        "from": "@cucumber/gherkin-utils",
+        "version": "11.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@cucumber/gherkin-utils"
+      },
+      "@cucumber/html-formatter": {
+        "from": "@cucumber/html-formatter",
+        "version": "23.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@cucumber/html-formatter"
+      },
+      "@cucumber/junit-xml-formatter": {
+        "from": "@cucumber/junit-xml-formatter",
+        "version": "0.13.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@cucumber/junit-xml-formatter"
+      },
+      "@cucumber/messages": {
+        "from": "@cucumber/messages",
+        "version": "32.3.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@cucumber/messages"
+      },
+      "@cucumber/query": {
+        "from": "@cucumber/query",
+        "version": "15.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@cucumber/query"
+      },
+      "@cucumber/tag-expressions": {
+        "from": "@cucumber/tag-expressions",
+        "version": "9.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@cucumber/tag-expressions"
+      },
+      "@electron-internal/extract-zip": {
+        "from": "@electron-internal/extract-zip",
+        "version": "1.0.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@electron-internal/extract-zip"
+      },
+      "@electron/asar": {
+        "from": "@electron/asar",
+        "version": "3.4.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@electron/asar"
+      },
+      "@electron/get": {
+        "from": "@electron/get",
+        "version": "5.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@electron/get"
+      },
+      "@electron/notarize": {
+        "from": "@electron/notarize",
+        "version": "2.5.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@electron/notarize"
+      },
+      "@electron/osx-sign": {
+        "from": "@electron/osx-sign",
+        "version": "1.3.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@electron/osx-sign"
+      },
+      "@electron/rebuild": {
+        "from": "@electron/rebuild",
+        "version": "4.2.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@electron/rebuild"
+      },
+      "@electron/universal": {
+        "from": "@electron/universal",
+        "version": "2.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@electron/universal"
+      },
+      "@electron/windows-sign": {
+        "from": "@electron/windows-sign",
+        "version": "1.2.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@electron/windows-sign"
+      },
+      "@esbuild/win32-x64": {
+        "from": "@esbuild/win32-x64",
+        "version": "0.28.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@esbuild/win32-x64"
+      },
+      "@eslint-community/eslint-utils": {
+        "from": "@eslint-community/eslint-utils",
+        "version": "4.10.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@eslint-community/eslint-utils"
+      },
+      "@eslint-community/regexpp": {
+        "from": "@eslint-community/regexpp",
+        "version": "4.12.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@eslint-community/regexpp"
+      },
+      "@eslint/config-array": {
+        "from": "@eslint/config-array",
+        "version": "0.23.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@eslint/config-array"
+      },
+      "@eslint/config-helpers": {
+        "from": "@eslint/config-helpers",
+        "version": "0.7.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@eslint/config-helpers"
+      },
+      "@eslint/core": {
+        "from": "@eslint/core",
+        "version": "1.2.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@eslint/core"
+      },
+      "@eslint/object-schema": {
+        "from": "@eslint/object-schema",
+        "version": "3.0.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@eslint/object-schema"
+      },
+      "@eslint/plugin-kit": {
+        "from": "@eslint/plugin-kit",
+        "version": "0.7.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@eslint/plugin-kit"
+      },
+      "@huggingface/jinja": {
+        "from": "@huggingface/jinja",
+        "version": "0.5.10",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@huggingface/jinja"
+      },
+      "@humanfs/core": {
+        "from": "@humanfs/core",
+        "version": "0.19.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@humanfs/core"
+      },
+      "@humanfs/node": {
+        "from": "@humanfs/node",
+        "version": "0.16.8",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@humanfs/node"
+      },
+      "@humanfs/types": {
+        "from": "@humanfs/types",
+        "version": "0.15.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@humanfs/types"
+      },
+      "@humanwhocodes/module-importer": {
+        "from": "@humanwhocodes/module-importer",
+        "version": "1.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@humanwhocodes/module-importer"
+      },
+      "@humanwhocodes/retry": {
+        "from": "@humanwhocodes/retry",
+        "version": "0.4.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@humanwhocodes/retry"
+      },
+      "@internationalized/date": {
+        "from": "@internationalized/date",
+        "version": "3.12.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@internationalized/date"
+      },
+      "@internationalized/number": {
+        "from": "@internationalized/number",
+        "version": "3.6.9",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@internationalized/number"
+      },
+      "@internationalized/string": {
+        "from": "@internationalized/string",
+        "version": "3.2.10",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@internationalized/string"
+      },
+      "@isaacs/fs-minipass": {
+        "from": "@isaacs/fs-minipass",
+        "version": "4.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@isaacs/fs-minipass"
+      },
+      "@jridgewell/gen-mapping": {
+        "from": "@jridgewell/gen-mapping",
+        "version": "0.3.13",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@jridgewell/gen-mapping"
+      },
+      "@jridgewell/remapping": {
+        "from": "@jridgewell/remapping",
+        "version": "2.3.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@jridgewell/remapping"
+      },
+      "@jridgewell/resolve-uri": {
+        "from": "@jridgewell/resolve-uri",
+        "version": "3.1.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@jridgewell/resolve-uri"
+      },
+      "@jridgewell/sourcemap-codec": {
+        "from": "@jridgewell/sourcemap-codec",
+        "version": "1.6.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@jridgewell/sourcemap-codec"
+      },
+      "@jridgewell/trace-mapping": {
+        "from": "@jridgewell/trace-mapping",
+        "version": "0.3.31",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@jridgewell/trace-mapping"
+      },
+      "@keyv/bigmap": {
+        "from": "@keyv/bigmap",
+        "version": "1.3.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@keyv/bigmap"
+      },
+      "@keyv/serialize": {
+        "from": "@keyv/serialize",
+        "version": "1.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@keyv/serialize"
+      },
+      "@kwsites/file-exists": {
+        "from": "@kwsites/file-exists",
+        "version": "1.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@kwsites/file-exists"
+      },
+      "@kwsites/promise-deferred": {
+        "from": "@kwsites/promise-deferred",
+        "version": "1.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@kwsites/promise-deferred"
+      },
+      "@malept/cross-spawn-promise": {
+        "from": "@malept/cross-spawn-promise",
+        "version": "2.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@malept/cross-spawn-promise"
+      },
+      "@malept/flatpak-bundler": {
+        "from": "@malept/flatpak-bundler",
+        "version": "0.4.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@malept/flatpak-bundler"
+      },
+      "@noble/hashes": {
+        "from": "@noble/hashes",
+        "version": "1.8.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@noble/hashes"
+      },
+      "@node-llama-cpp/win-arm64": {
+        "from": "@node-llama-cpp/win-arm64",
+        "version": "3.22.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@node-llama-cpp/win-arm64"
+      },
+      "@node-llama-cpp/win-x64": {
+        "from": "@node-llama-cpp/win-x64",
+        "version": "3.22.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@node-llama-cpp/win-x64"
+      },
+      "@node-llama-cpp/win-x64-cuda": {
+        "from": "@node-llama-cpp/win-x64-cuda",
+        "version": "3.22.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@node-llama-cpp/win-x64-cuda"
+      },
+      "@node-llama-cpp/win-x64-cuda-ext": {
+        "from": "@node-llama-cpp/win-x64-cuda-ext",
+        "version": "3.22.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@node-llama-cpp/win-x64-cuda-ext"
+      },
+      "@node-llama-cpp/win-x64-vulkan": {
+        "from": "@node-llama-cpp/win-x64-vulkan",
+        "version": "3.22.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@node-llama-cpp/win-x64-vulkan"
+      },
+      "@peculiar/asn1-schema": {
+        "from": "@peculiar/asn1-schema",
+        "version": "2.10.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@peculiar/asn1-schema"
+      },
+      "@peculiar/json-schema": {
+        "from": "@peculiar/json-schema",
+        "version": "1.1.12",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@peculiar/json-schema"
+      },
+      "@peculiar/utils": {
+        "from": "@peculiar/utils",
+        "version": "2.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@peculiar/utils"
+      },
+      "@peculiar/webcrypto": {
+        "from": "@peculiar/webcrypto",
+        "version": "1.7.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@peculiar/webcrypto"
+      },
+      "@playwright/test": {
+        "from": "@playwright/test",
+        "version": "1.64.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@playwright/test"
+      },
+      "@react-types/shared": {
+        "from": "@react-types/shared",
+        "version": "3.37.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@react-types/shared"
+      },
+      "@reflink/reflink": {
+        "from": "@reflink/reflink",
+        "version": "0.1.19",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@reflink/reflink"
+      },
+      "@reflink/reflink-win32-x64-msvc": {
+        "from": "@reflink/reflink-win32-x64-msvc",
+        "version": "0.1.19",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@reflink/reflink-win32-x64-msvc"
+      },
+      "@rolldown/pluginutils": {
+        "from": "@rolldown/pluginutils",
+        "version": "1.0.0-rc.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@rolldown/pluginutils"
+      },
+      "@rollup/rollup-win32-x64-gnu": {
+        "from": "@rollup/rollup-win32-x64-gnu",
+        "version": "4.64.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@rollup/rollup-win32-x64-gnu"
+      },
+      "@rollup/rollup-win32-x64-msvc": {
+        "from": "@rollup/rollup-win32-x64-msvc",
+        "version": "4.64.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@rollup/rollup-win32-x64-msvc"
+      },
+      "@simple-git/args-pathspec": {
+        "from": "@simple-git/args-pathspec",
+        "version": "1.0.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@simple-git/args-pathspec"
+      },
+      "@simple-git/argv-parser": {
+        "from": "@simple-git/argv-parser",
+        "version": "1.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@simple-git/argv-parser"
+      },
+      "@sindresorhus/is": {
+        "from": "@sindresorhus/is",
+        "version": "4.6.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@sindresorhus/is"
+      },
+      "@swc/helpers": {
+        "from": "@swc/helpers",
+        "version": "0.5.23",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@swc/helpers"
+      },
+      "@szmarczak/http-timer": {
+        "from": "@szmarczak/http-timer",
+        "version": "4.0.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@szmarczak/http-timer"
+      },
+      "@tailwindcss/node": {
+        "from": "@tailwindcss/node",
+        "version": "4.3.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@tailwindcss/node"
+      },
+      "@tailwindcss/oxide": {
+        "from": "@tailwindcss/oxide",
+        "version": "4.3.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@tailwindcss/oxide"
+      },
+      "@tailwindcss/oxide-win32-x64-msvc": {
+        "from": "@tailwindcss/oxide-win32-x64-msvc",
+        "version": "4.3.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@tailwindcss/oxide-win32-x64-msvc"
+      },
+      "@teppeis/multimaps": {
+        "from": "@teppeis/multimaps",
+        "version": "3.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@teppeis/multimaps"
+      },
+      "@tinyhttp/content-disposition": {
+        "from": "@tinyhttp/content-disposition",
+        "version": "2.2.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@tinyhttp/content-disposition"
+      },
+      "@ts-morph/common": {
+        "from": "@ts-morph/common",
+        "version": "0.29.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@ts-morph/common"
+      },
+      "@types/babel__core": {
+        "from": "@types/babel__core",
+        "version": "7.20.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/babel__core"
+      },
+      "@types/babel__generator": {
+        "from": "@types/babel__generator",
+        "version": "7.27.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/babel__generator"
+      },
+      "@types/babel__template": {
+        "from": "@types/babel__template",
+        "version": "7.4.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/babel__template"
+      },
+      "@types/babel__traverse": {
+        "from": "@types/babel__traverse",
+        "version": "7.28.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/babel__traverse"
+      },
+      "@types/better-sqlite3": {
+        "from": "@types/better-sqlite3",
+        "version": "9.6.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/better-sqlite3"
+      },
+      "@types/cacheable-request": {
+        "from": "@types/cacheable-request",
+        "version": "6.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/cacheable-request"
+      },
+      "@types/chai": {
+        "from": "@types/chai",
+        "version": "5.2.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/chai"
+      },
+      "@types/debug": {
+        "from": "@types/debug",
+        "version": "4.1.13",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/debug"
+      },
+      "@types/deep-eql": {
+        "from": "@types/deep-eql",
+        "version": "4.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/deep-eql"
+      },
+      "@types/esrecurse": {
+        "from": "@types/esrecurse",
+        "version": "4.3.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/esrecurse"
+      },
+      "@types/estree": {
+        "from": "@types/estree",
+        "version": "1.0.9",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/estree"
+      },
+      "@types/fs-extra": {
+        "from": "@types/fs-extra",
+        "version": "9.0.13",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/fs-extra"
+      },
+      "@types/http-cache-semantics": {
+        "from": "@types/http-cache-semantics",
+        "version": "4.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/http-cache-semantics"
+      },
+      "@types/json-schema": {
+        "from": "@types/json-schema",
+        "version": "7.0.15",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/json-schema"
+      },
+      "@types/keyv": {
+        "from": "@types/keyv",
+        "version": "3.1.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/keyv"
+      },
+      "@types/ms": {
+        "from": "@types/ms",
+        "version": "2.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/ms"
+      },
+      "@types/node": {
+        "from": "@types/node",
+        "version": "24.19.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/node"
+      },
+      "@types/react": {
+        "from": "@types/react",
+        "version": "19.3.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/react"
+      },
+      "@types/react-dom": {
+        "from": "@types/react-dom",
+        "version": "19.3.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/react-dom"
+      },
+      "@types/responselike": {
+        "from": "@types/responselike",
+        "version": "1.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@types/responselike"
+      },
+      "@typescript-eslint/eslint-plugin": {
+        "from": "@typescript-eslint/eslint-plugin",
+        "version": "8.71.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@typescript-eslint/eslint-plugin"
+      },
+      "@typescript-eslint/parser": {
+        "from": "@typescript-eslint/parser",
+        "version": "8.71.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@typescript-eslint/parser"
+      },
+      "@typescript-eslint/project-service": {
+        "from": "@typescript-eslint/project-service",
+        "version": "8.71.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@typescript-eslint/project-service"
+      },
+      "@typescript-eslint/scope-manager": {
+        "from": "@typescript-eslint/scope-manager",
+        "version": "8.71.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@typescript-eslint/scope-manager"
+      },
+      "@typescript-eslint/tsconfig-utils": {
+        "from": "@typescript-eslint/tsconfig-utils",
+        "version": "8.71.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@typescript-eslint/tsconfig-utils"
+      },
+      "@typescript-eslint/type-utils": {
+        "from": "@typescript-eslint/type-utils",
+        "version": "8.71.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@typescript-eslint/type-utils"
+      },
+      "@typescript-eslint/types": {
+        "from": "@typescript-eslint/types",
+        "version": "8.71.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@typescript-eslint/types"
+      },
+      "@typescript-eslint/typescript-estree": {
+        "from": "@typescript-eslint/typescript-estree",
+        "version": "8.71.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@typescript-eslint/typescript-estree"
+      },
+      "@typescript-eslint/utils": {
+        "from": "@typescript-eslint/utils",
+        "version": "8.71.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@typescript-eslint/utils"
+      },
+      "@typescript-eslint/visitor-keys": {
+        "from": "@typescript-eslint/visitor-keys",
+        "version": "8.71.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@typescript-eslint/visitor-keys"
+      },
+      "@vitest/mocker": {
+        "from": "@vitest/mocker",
+        "version": "5.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@vitest/mocker"
+      },
+      "@vitest/spy": {
+        "from": "@vitest/spy",
+        "version": "5.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@vitest/spy"
+      },
+      "@xmldom/xmldom": {
+        "from": "@xmldom/xmldom",
+        "version": "0.8.15",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\@xmldom/xmldom"
+      },
+      "abbrev": {
+        "from": "abbrev",
+        "version": "4.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\abbrev"
+      },
+      "acorn": {
+        "from": "acorn",
+        "version": "8.18.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\acorn"
+      },
+      "acorn-jsx": {
+        "from": "acorn-jsx",
+        "version": "5.3.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\acorn-jsx"
+      },
+      "acorn-jsx-walk": {
+        "from": "acorn-jsx-walk",
+        "version": "2.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\acorn-jsx-walk"
+      },
+      "acorn-loose": {
+        "from": "acorn-loose",
+        "version": "8.5.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\acorn-loose"
+      },
+      "acorn-walk": {
+        "from": "acorn-walk",
+        "version": "8.3.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\acorn-walk"
+      },
+      "adm-zip": {
+        "from": "adm-zip",
+        "version": "0.6.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\adm-zip"
+      },
+      "agent-base": {
+        "from": "agent-base",
+        "version": "7.1.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\agent-base"
+      },
+      "ajv": {
+        "from": "ajv",
+        "version": "6.15.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\ajv"
+      },
+      "ansi-escapes": {
+        "from": "ansi-escapes",
+        "version": "6.2.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\ansi-escapes"
+      },
+      "ansi-regex": {
+        "from": "ansi-regex",
+        "version": "5.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\ansi-regex"
+      },
+      "ansi-styles": {
+        "from": "ansi-styles",
+        "version": "6.2.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\ansi-styles"
+      },
+      "app-builder-lib": {
+        "from": "app-builder-lib",
+        "version": "26.17.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\app-builder-lib"
+      },
+      "argparse": {
+        "from": "argparse",
+        "version": "2.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\argparse"
+      },
+      "aria-hidden": {
+        "from": "aria-hidden",
+        "version": "1.2.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\aria-hidden"
+      },
+      "array-find-index": {
+        "from": "array-find-index",
+        "version": "1.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\array-find-index"
+      },
+      "asn1js": {
+        "from": "asn1js",
+        "version": "3.0.10",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\asn1js"
+      },
+      "assertion-error": {
+        "from": "assertion-error",
+        "version": "2.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\assertion-error"
+      },
+      "async": {
+        "from": "async",
+        "version": "3.2.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\async"
+      },
+      "async-exit-hook": {
+        "from": "async-exit-hook",
+        "version": "2.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\async-exit-hook"
+      },
+      "async-retry": {
+        "from": "async-retry",
+        "version": "1.3.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\async-retry"
+      },
+      "asynckit": {
+        "from": "asynckit",
+        "version": "0.4.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\asynckit"
+      },
+      "at-least-node": {
+        "from": "at-least-node",
+        "version": "1.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\at-least-node"
+      },
+      "aws4": {
+        "from": "aws4",
+        "version": "1.13.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\aws4"
+      },
+      "balanced-match": {
+        "from": "balanced-match",
+        "version": "1.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\balanced-match"
+      },
+      "base64-js": {
+        "from": "base64-js",
+        "version": "1.5.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\base64-js"
+      },
+      "baseline-browser-mapping": {
+        "from": "baseline-browser-mapping",
+        "version": "2.11.27",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\baseline-browser-mapping"
+      },
+      "bluebird": {
+        "from": "bluebird",
+        "version": "3.7.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\bluebird"
+      },
+      "bmp-js": {
+        "from": "bmp-js",
+        "version": "0.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\bmp-js"
+      },
+      "boolean": {
+        "from": "boolean",
+        "version": "3.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\boolean"
+      },
+      "brace-expansion": {
+        "from": "brace-expansion",
+        "version": "2.1.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\brace-expansion"
+      },
+      "browserslist": {
+        "from": "browserslist",
+        "version": "4.29.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\browserslist"
+      },
+      "buffer-from": {
+        "from": "buffer-from",
+        "version": "1.1.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\buffer-from"
+      },
+      "builder-util": {
+        "from": "builder-util",
+        "version": "26.16.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\builder-util"
+      },
+      "builder-util-runtime": {
+        "from": "builder-util-runtime",
+        "version": "9.7.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\builder-util-runtime"
+      },
+      "bytes": {
+        "from": "bytes",
+        "version": "3.1.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\bytes"
+      },
+      "bytestreamjs": {
+        "from": "bytestreamjs",
+        "version": "2.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\bytestreamjs"
+      },
+      "cac": {
+        "from": "cac",
+        "version": "6.7.14",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\cac"
+      },
+      "cacheable": {
+        "from": "cacheable",
+        "version": "2.5.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\cacheable"
+      },
+      "cacheable-lookup": {
+        "from": "cacheable-lookup",
+        "version": "5.0.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\cacheable-lookup"
+      },
+      "cacheable-request": {
+        "from": "cacheable-request",
+        "version": "7.0.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\cacheable-request"
+      },
+      "call-bind-apply-helpers": {
+        "from": "call-bind-apply-helpers",
+        "version": "1.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\call-bind-apply-helpers"
+      },
+      "callsites": {
+        "from": "callsites",
+        "version": "4.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\callsites"
+      },
+      "caniuse-lite": {
+        "from": "caniuse-lite",
+        "version": "1.0.30001815",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\caniuse-lite"
+      },
+      "chai": {
+        "from": "chai",
+        "version": "6.3.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\chai"
+      },
+      "chalk": {
+        "from": "chalk",
+        "version": "4.1.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\chalk"
+      },
+      "chmodrp": {
+        "from": "chmodrp",
+        "version": "1.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\chmodrp"
+      },
+      "chownr": {
+        "from": "chownr",
+        "version": "3.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\chownr"
+      },
+      "chromium-pickle-js": {
+        "from": "chromium-pickle-js",
+        "version": "0.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\chromium-pickle-js"
+      },
+      "ci-info": {
+        "from": "ci-info",
+        "version": "4.4.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\ci-info"
+      },
+      "class-transformer": {
+        "from": "class-transformer",
+        "version": "0.5.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\class-transformer"
+      },
+      "cli-cursor": {
+        "from": "cli-cursor",
+        "version": "5.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\cli-cursor"
+      },
+      "cli-spinners": {
+        "from": "cli-spinners",
+        "version": "2.9.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\cli-spinners"
+      },
+      "cli-table3": {
+        "from": "cli-table3",
+        "version": "0.6.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\cli-table3"
+      },
+      "client-only": {
+        "from": "client-only",
+        "version": "0.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\client-only"
+      },
+      "cliui": {
+        "from": "cliui",
+        "version": "8.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\cliui"
+      },
+      "clone-response": {
+        "from": "clone-response",
+        "version": "1.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\clone-response"
+      },
+      "clsx": {
+        "from": "clsx",
+        "version": "2.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\clsx"
+      },
+      "cmake-js": {
+        "from": "cmake-js",
+        "version": "8.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\cmake-js"
+      },
+      "code-block-writer": {
+        "from": "code-block-writer",
+        "version": "13.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\code-block-writer"
+      },
+      "color-convert": {
+        "from": "color-convert",
+        "version": "2.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\color-convert"
+      },
+      "color-name": {
+        "from": "color-name",
+        "version": "1.1.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\color-name"
+      },
+      "combined-stream": {
+        "from": "combined-stream",
+        "version": "1.0.8",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\combined-stream"
+      },
+      "commander": {
+        "from": "commander",
+        "version": "15.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\commander"
+      },
+      "compare-version": {
+        "from": "compare-version",
+        "version": "0.1.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\compare-version"
+      },
+      "concat-map": {
+        "from": "concat-map",
+        "version": "0.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\concat-map"
+      },
+      "convert-source-map": {
+        "from": "convert-source-map",
+        "version": "2.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\convert-source-map"
+      },
+      "core-util-is": {
+        "from": "core-util-is",
+        "version": "1.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\core-util-is"
+      },
+      "cross-dirname": {
+        "from": "cross-dirname",
+        "version": "0.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\cross-dirname"
+      },
+      "cross-spawn": {
+        "from": "cross-spawn",
+        "version": "7.0.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\cross-spawn"
+      },
+      "csstype": {
+        "from": "csstype",
+        "version": "3.2.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\csstype"
+      },
+      "danesh-desktop": {
+        "from": "danesh-desktop",
+        "version": "link:",
+        "path": "D:\\workspace\\AI\\danesh\\apps\\desktop"
+      },
+      "debug": {
+        "from": "debug",
+        "version": "4.4.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\debug"
+      },
+      "decompress-response": {
+        "from": "decompress-response",
+        "version": "6.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\decompress-response"
+      },
+      "deep-extend": {
+        "from": "deep-extend",
+        "version": "0.6.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\deep-extend"
+      },
+      "deep-is": {
+        "from": "deep-is",
+        "version": "0.1.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\deep-is"
+      },
+      "defer-to-connect": {
+        "from": "defer-to-connect",
+        "version": "2.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\defer-to-connect"
+      },
+      "define-data-property": {
+        "from": "define-data-property",
+        "version": "1.1.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\define-data-property"
+      },
+      "define-properties": {
+        "from": "define-properties",
+        "version": "1.2.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\define-properties"
+      },
+      "delayed-stream": {
+        "from": "delayed-stream",
+        "version": "1.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\delayed-stream"
+      },
+      "dependency-cruiser": {
+        "from": "dependency-cruiser",
+        "version": "18.5.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\dependency-cruiser"
+      },
+      "detect-libc": {
+        "from": "detect-libc",
+        "version": "2.1.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\detect-libc"
+      },
+      "detect-node": {
+        "from": "detect-node",
+        "version": "2.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\detect-node"
+      },
+      "dir-compare": {
+        "from": "dir-compare",
+        "version": "4.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\dir-compare"
+      },
+      "dmg-builder": {
+        "from": "dmg-builder",
+        "version": "26.17.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\dmg-builder"
+      },
+      "dotenv": {
+        "from": "dotenv",
+        "version": "16.6.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\dotenv"
+      },
+      "dotenv-expand": {
+        "from": "dotenv-expand",
+        "version": "11.0.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\dotenv-expand"
+      },
+      "dunder-proto": {
+        "from": "dunder-proto",
+        "version": "1.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\dunder-proto"
+      },
+      "duplexer2": {
+        "from": "duplexer2",
+        "version": "0.1.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\duplexer2"
+      },
+      "ejs": {
+        "from": "ejs",
+        "version": "3.1.10",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\ejs"
+      },
+      "electron-builder-squirrel-windows": {
+        "from": "electron-builder-squirrel-windows",
+        "version": "26.17.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\electron-builder-squirrel-windows"
+      },
+      "electron-publish": {
+        "from": "electron-publish",
+        "version": "26.16.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\electron-publish"
+      },
+      "electron-to-chromium": {
+        "from": "electron-to-chromium",
+        "version": "1.5.451",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\electron-to-chromium"
+      },
+      "electron-winstaller": {
+        "from": "electron-winstaller",
+        "version": "5.4.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\electron-winstaller"
+      },
+      "emoji-regex": {
+        "from": "emoji-regex",
+        "version": "8.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\emoji-regex"
+      },
+      "end-of-stream": {
+        "from": "end-of-stream",
+        "version": "1.4.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\end-of-stream"
+      },
+      "enhanced-resolve": {
+        "from": "enhanced-resolve",
+        "version": "5.26.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\enhanced-resolve"
+      },
+      "env-paths": {
+        "from": "env-paths",
+        "version": "2.2.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\env-paths"
+      },
+      "env-var": {
+        "from": "env-var",
+        "version": "7.5.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\env-var"
+      },
+      "err-code": {
+        "from": "err-code",
+        "version": "2.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\err-code"
+      },
+      "es-define-property": {
+        "from": "es-define-property",
+        "version": "1.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\es-define-property"
+      },
+      "es-errors": {
+        "from": "es-errors",
+        "version": "1.3.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\es-errors"
+      },
+      "es-module-lexer": {
+        "from": "es-module-lexer",
+        "version": "2.3.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\es-module-lexer"
+      },
+      "es-object-atoms": {
+        "from": "es-object-atoms",
+        "version": "1.1.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\es-object-atoms"
+      },
+      "es-set-tostringtag": {
+        "from": "es-set-tostringtag",
+        "version": "2.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\es-set-tostringtag"
+      },
+      "es6-error": {
+        "from": "es6-error",
+        "version": "4.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\es6-error"
+      },
+      "esbuild": {
+        "from": "esbuild",
+        "version": "0.28.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\esbuild"
+      },
+      "escalade": {
+        "from": "escalade",
+        "version": "3.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\escalade"
+      },
+      "escape-string-regexp": {
+        "from": "escape-string-regexp",
+        "version": "4.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\escape-string-regexp"
+      },
+      "eslint": {
+        "from": "eslint",
+        "version": "10.12.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\eslint"
+      },
+      "eslint-scope": {
+        "from": "eslint-scope",
+        "version": "9.1.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\eslint-scope"
+      },
+      "eslint-visitor-keys": {
+        "from": "eslint-visitor-keys",
+        "version": "5.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\eslint-visitor-keys"
+      },
+      "espree": {
+        "from": "espree",
+        "version": "11.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\espree"
+      },
+      "esquery": {
+        "from": "esquery",
+        "version": "1.7.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\esquery"
+      },
+      "esrecurse": {
+        "from": "esrecurse",
+        "version": "4.3.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\esrecurse"
+      },
+      "estraverse": {
+        "from": "estraverse",
+        "version": "5.3.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\estraverse"
+      },
+      "estree-walker": {
+        "from": "estree-walker",
+        "version": "3.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\estree-walker"
+      },
+      "esutils": {
+        "from": "esutils",
+        "version": "2.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\esutils"
+      },
+      "eventemitter3": {
+        "from": "eventemitter3",
+        "version": "5.0.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\eventemitter3"
+      },
+      "expect-type": {
+        "from": "expect-type",
+        "version": "1.4.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\expect-type"
+      },
+      "exponential-backoff": {
+        "from": "exponential-backoff",
+        "version": "3.1.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\exponential-backoff"
+      },
+      "fast-deep-equal": {
+        "from": "fast-deep-equal",
+        "version": "3.1.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\fast-deep-equal"
+      },
+      "fast-json-stable-stringify": {
+        "from": "fast-json-stable-stringify",
+        "version": "2.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\fast-json-stable-stringify"
+      },
+      "fast-levenshtein": {
+        "from": "fast-levenshtein",
+        "version": "2.0.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\fast-levenshtein"
+      },
+      "fast-uri": {
+        "from": "fast-uri",
+        "version": "3.1.8",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\fast-uri"
+      },
+      "fdir": {
+        "from": "fdir",
+        "version": "6.5.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\fdir"
+      },
+      "file-entry-cache": {
+        "from": "file-entry-cache",
+        "version": "11.1.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\file-entry-cache"
+      },
+      "filelist": {
+        "from": "filelist",
+        "version": "1.0.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\filelist"
+      },
+      "filename-reserved-regex": {
+        "from": "filename-reserved-regex",
+        "version": "3.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\filename-reserved-regex"
+      },
+      "filenamify": {
+        "from": "filenamify",
+        "version": "6.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\filenamify"
+      },
+      "find-up": {
+        "from": "find-up",
+        "version": "5.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\find-up"
+      },
+      "flat-cache": {
+        "from": "flat-cache",
+        "version": "6.1.23",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\flat-cache"
+      },
+      "flatted": {
+        "from": "flatted",
+        "version": "3.4.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\flatted"
+      },
+      "form-data": {
+        "from": "form-data",
+        "version": "4.0.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\form-data"
+      },
+      "fs-extra": {
+        "from": "fs-extra",
+        "version": "10.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\fs-extra"
+      },
+      "fs.realpath": {
+        "from": "fs.realpath",
+        "version": "1.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\fs.realpath"
+      },
+      "function-bind": {
+        "from": "function-bind",
+        "version": "1.1.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\function-bind"
+      },
+      "gensync": {
+        "from": "gensync",
+        "version": "1.0.0-beta.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\gensync"
+      },
+      "get-caller-file": {
+        "from": "get-caller-file",
+        "version": "2.0.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\get-caller-file"
+      },
+      "get-east-asian-width": {
+        "from": "get-east-asian-width",
+        "version": "1.7.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\get-east-asian-width"
+      },
+      "get-intrinsic": {
+        "from": "get-intrinsic",
+        "version": "1.3.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\get-intrinsic"
+      },
+      "get-proto": {
+        "from": "get-proto",
+        "version": "1.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\get-proto"
+      },
+      "get-stream": {
+        "from": "get-stream",
+        "version": "5.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\get-stream"
+      },
+      "glob": {
+        "from": "glob",
+        "version": "7.2.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\glob"
+      },
+      "glob-parent": {
+        "from": "glob-parent",
+        "version": "6.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\glob-parent"
+      },
+      "global-agent": {
+        "from": "global-agent",
+        "version": "3.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\global-agent"
+      },
+      "global-directory": {
+        "from": "global-directory",
+        "version": "4.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\global-directory"
+      },
+      "globalthis": {
+        "from": "globalthis",
+        "version": "1.0.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\globalthis"
+      },
+      "gopd": {
+        "from": "gopd",
+        "version": "1.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\gopd"
+      },
+      "got": {
+        "from": "got",
+        "version": "11.8.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\got"
+      },
+      "graceful-fs": {
+        "from": "graceful-fs",
+        "version": "4.2.11",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\graceful-fs"
+      },
+      "has-flag": {
+        "from": "has-flag",
+        "version": "4.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\has-flag"
+      },
+      "has-property-descriptors": {
+        "from": "has-property-descriptors",
+        "version": "1.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\has-property-descriptors"
+      },
+      "has-symbols": {
+        "from": "has-symbols",
+        "version": "1.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\has-symbols"
+      },
+      "has-tostringtag": {
+        "from": "has-tostringtag",
+        "version": "1.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\has-tostringtag"
+      },
+      "hashery": {
+        "from": "hashery",
+        "version": "1.5.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\hashery"
+      },
+      "hasown": {
+        "from": "hasown",
+        "version": "2.0.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\hasown"
+      },
+      "hookified": {
+        "from": "hookified",
+        "version": "1.15.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\hookified"
+      },
+      "hosted-git-info": {
+        "from": "hosted-git-info",
+        "version": "4.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\hosted-git-info"
+      },
+      "http-cache-semantics": {
+        "from": "http-cache-semantics",
+        "version": "4.3.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\http-cache-semantics"
+      },
+      "http-proxy-agent": {
+        "from": "http-proxy-agent",
+        "version": "7.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\http-proxy-agent"
+      },
+      "http2-wrapper": {
+        "from": "http2-wrapper",
+        "version": "1.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\http2-wrapper"
+      },
+      "https-proxy-agent": {
+        "from": "https-proxy-agent",
+        "version": "7.0.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\https-proxy-agent"
+      },
+      "idb-keyval": {
+        "from": "idb-keyval",
+        "version": "6.3.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\idb-keyval"
+      },
+      "ignore": {
+        "from": "ignore",
+        "version": "7.0.12",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\ignore"
+      },
+      "imurmurhash": {
+        "from": "imurmurhash",
+        "version": "0.1.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\imurmurhash"
+      },
+      "inflight": {
+        "from": "inflight",
+        "version": "1.0.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\inflight"
+      },
+      "inherits": {
+        "from": "inherits",
+        "version": "2.0.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\inherits"
+      },
+      "ini": {
+        "from": "ini",
+        "version": "4.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\ini"
+      },
+      "interpret": {
+        "from": "interpret",
+        "version": "3.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\interpret"
+      },
+      "ipull": {
+        "from": "ipull",
+        "version": "3.9.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\ipull"
+      },
+      "is-core-module": {
+        "from": "is-core-module",
+        "version": "2.17.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\is-core-module"
+      },
+      "is-extglob": {
+        "from": "is-extglob",
+        "version": "2.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\is-extglob"
+      },
+      "is-fullwidth-code-point": {
+        "from": "is-fullwidth-code-point",
+        "version": "5.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\is-fullwidth-code-point"
+      },
+      "is-glob": {
+        "from": "is-glob",
+        "version": "4.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\is-glob"
+      },
+      "is-installed-globally": {
+        "from": "is-installed-globally",
+        "version": "1.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\is-installed-globally"
+      },
+      "is-interactive": {
+        "from": "is-interactive",
+        "version": "2.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\is-interactive"
+      },
+      "is-path-inside": {
+        "from": "is-path-inside",
+        "version": "4.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\is-path-inside"
+      },
+      "is-unicode-supported": {
+        "from": "is-unicode-supported",
+        "version": "2.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\is-unicode-supported"
+      },
+      "is-url": {
+        "from": "is-url",
+        "version": "1.2.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\is-url"
+      },
+      "isarray": {
+        "from": "isarray",
+        "version": "1.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\isarray"
+      },
+      "isbinaryfile": {
+        "from": "isbinaryfile",
+        "version": "4.0.10",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\isbinaryfile"
+      },
+      "isexe": {
+        "from": "isexe",
+        "version": "2.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\isexe"
+      },
+      "jake": {
+        "from": "jake",
+        "version": "10.9.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\jake"
+      },
+      "jiti": {
+        "from": "jiti",
+        "version": "2.7.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\jiti"
+      },
+      "js-tokens": {
+        "from": "js-tokens",
+        "version": "4.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\js-tokens"
+      },
+      "js-yaml": {
+        "from": "js-yaml",
+        "version": "4.3.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\js-yaml"
+      },
+      "jsesc": {
+        "from": "jsesc",
+        "version": "3.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\jsesc"
+      },
+      "json-buffer": {
+        "from": "json-buffer",
+        "version": "3.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\json-buffer"
+      },
+      "json-schema-traverse": {
+        "from": "json-schema-traverse",
+        "version": "0.4.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\json-schema-traverse"
+      },
+      "json-stable-stringify-without-jsonify": {
+        "from": "json-stable-stringify-without-jsonify",
+        "version": "1.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\json-stable-stringify-without-jsonify"
+      },
+      "json-stringify-safe": {
+        "from": "json-stringify-safe",
+        "version": "5.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\json-stringify-safe"
+      },
+      "json5": {
+        "from": "json5",
+        "version": "2.2.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\json5"
+      },
+      "jsonfile": {
+        "from": "jsonfile",
+        "version": "6.2.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\jsonfile"
+      },
+      "keyv": {
+        "from": "keyv",
+        "version": "5.6.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\keyv"
+      },
+      "kleur": {
+        "from": "kleur",
+        "version": "3.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\kleur"
+      },
+      "lazy-val": {
+        "from": "lazy-val",
+        "version": "1.0.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\lazy-val"
+      },
+      "levn": {
+        "from": "levn",
+        "version": "0.4.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\levn"
+      },
+      "lifecycle-utils": {
+        "from": "lifecycle-utils",
+        "version": "2.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\lifecycle-utils"
+      },
+      "lightningcss": {
+        "from": "lightningcss",
+        "version": "1.32.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\lightningcss"
+      },
+      "lightningcss-win32-x64-msvc": {
+        "from": "lightningcss-win32-x64-msvc",
+        "version": "1.32.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\lightningcss-win32-x64-msvc"
+      },
+      "locate-path": {
+        "from": "locate-path",
+        "version": "6.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\locate-path"
+      },
+      "lodash": {
+        "from": "lodash",
+        "version": "4.18.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\lodash"
+      },
+      "lodash.debounce": {
+        "from": "lodash.debounce",
+        "version": "4.0.8",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\lodash.debounce"
+      },
+      "lodash.sortby": {
+        "from": "lodash.sortby",
+        "version": "4.7.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\lodash.sortby"
+      },
+      "log-symbols": {
+        "from": "log-symbols",
+        "version": "7.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\log-symbols"
+      },
+      "lowdb": {
+        "from": "lowdb",
+        "version": "7.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\lowdb"
+      },
+      "lowercase-keys": {
+        "from": "lowercase-keys",
+        "version": "2.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\lowercase-keys"
+      },
+      "lru-cache": {
+        "from": "lru-cache",
+        "version": "5.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\lru-cache"
+      },
+      "luxon": {
+        "from": "luxon",
+        "version": "3.7.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\luxon"
+      },
+      "magic-string": {
+        "from": "magic-string",
+        "version": "1.4.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\magic-string"
+      },
+      "matcher": {
+        "from": "matcher",
+        "version": "3.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\matcher"
+      },
+      "math-intrinsics": {
+        "from": "math-intrinsics",
+        "version": "1.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\math-intrinsics"
+      },
+      "mime": {
+        "from": "mime",
+        "version": "2.6.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\mime"
+      },
+      "mime-db": {
+        "from": "mime-db",
+        "version": "1.54.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\mime-db"
+      },
+      "mime-types": {
+        "from": "mime-types",
+        "version": "3.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\mime-types"
+      },
+      "mimic-function": {
+        "from": "mimic-function",
+        "version": "5.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\mimic-function"
+      },
+      "mimic-response": {
+        "from": "mimic-response",
+        "version": "1.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\mimic-response"
+      },
+      "minimatch": {
+        "from": "minimatch",
+        "version": "10.2.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\minimatch"
+      },
+      "minimist": {
+        "from": "minimist",
+        "version": "1.2.8",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\minimist"
+      },
+      "minipass": {
+        "from": "minipass",
+        "version": "7.1.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\minipass"
+      },
+      "minizlib": {
+        "from": "minizlib",
+        "version": "3.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\minizlib"
+      },
+      "mkdirp": {
+        "from": "mkdirp",
+        "version": "0.5.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\mkdirp"
+      },
+      "ms": {
+        "from": "ms",
+        "version": "2.1.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\ms"
+      },
+      "nanoid": {
+        "from": "nanoid",
+        "version": "3.3.20",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\nanoid"
+      },
+      "natural-compare": {
+        "from": "natural-compare",
+        "version": "1.4.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\natural-compare"
+      },
+      "node-abi": {
+        "from": "node-abi",
+        "version": "4.37.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\node-abi"
+      },
+      "node-addon-api": {
+        "from": "node-addon-api",
+        "version": "8.9.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\node-addon-api"
+      },
+      "node-api-headers": {
+        "from": "node-api-headers",
+        "version": "1.9.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\node-api-headers"
+      },
+      "node-api-version": {
+        "from": "node-api-version",
+        "version": "0.2.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\node-api-version"
+      },
+      "node-fetch": {
+        "from": "node-fetch",
+        "version": "2.7.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\node-fetch"
+      },
+      "node-gyp": {
+        "from": "node-gyp",
+        "version": "12.4.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\node-gyp"
+      },
+      "node-int64": {
+        "from": "node-int64",
+        "version": "0.4.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\node-int64"
+      },
+      "node-releases": {
+        "from": "node-releases",
+        "version": "2.0.58",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\node-releases"
+      },
+      "nopt": {
+        "from": "nopt",
+        "version": "9.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\nopt"
+      },
+      "normalize-url": {
+        "from": "normalize-url",
+        "version": "6.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\normalize-url"
+      },
+      "object-keys": {
+        "from": "object-keys",
+        "version": "1.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\object-keys"
+      },
+      "obug": {
+        "from": "obug",
+        "version": "2.2.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\obug"
+      },
+      "once": {
+        "from": "once",
+        "version": "1.4.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\once"
+      },
+      "onetime": {
+        "from": "onetime",
+        "version": "7.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\onetime"
+      },
+      "onnxruntime-common": {
+        "from": "onnxruntime-common",
+        "version": "1.30.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\onnxruntime-common"
+      },
+      "opencollective-postinstall": {
+        "from": "opencollective-postinstall",
+        "version": "2.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\opencollective-postinstall"
+      },
+      "optionator": {
+        "from": "optionator",
+        "version": "0.9.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\optionator"
+      },
+      "ora": {
+        "from": "ora",
+        "version": "9.4.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\ora"
+      },
+      "p-cancelable": {
+        "from": "p-cancelable",
+        "version": "2.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\p-cancelable"
+      },
+      "p-limit": {
+        "from": "p-limit",
+        "version": "3.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\p-limit"
+      },
+      "p-locate": {
+        "from": "p-locate",
+        "version": "5.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\p-locate"
+      },
+      "parse-ms": {
+        "from": "parse-ms",
+        "version": "3.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\parse-ms"
+      },
+      "parsecurrency": {
+        "from": "parsecurrency",
+        "version": "1.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\parsecurrency"
+      },
+      "path-browserify": {
+        "from": "path-browserify",
+        "version": "1.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\path-browserify"
+      },
+      "path-exists": {
+        "from": "path-exists",
+        "version": "4.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\path-exists"
+      },
+      "path-is-absolute": {
+        "from": "path-is-absolute",
+        "version": "1.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\path-is-absolute"
+      },
+      "path-key": {
+        "from": "path-key",
+        "version": "3.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\path-key"
+      },
+      "path-parse": {
+        "from": "path-parse",
+        "version": "1.0.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\path-parse"
+      },
+      "pe-library": {
+        "from": "pe-library",
+        "version": "0.4.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\pe-library"
+      },
+      "picocolors": {
+        "from": "picocolors",
+        "version": "1.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\picocolors"
+      },
+      "picomatch": {
+        "from": "picomatch",
+        "version": "4.0.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\picomatch"
+      },
+      "pkijs": {
+        "from": "pkijs",
+        "version": "3.4.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\pkijs"
+      },
+      "playwright": {
+        "from": "playwright",
+        "version": "1.64.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\playwright"
+      },
+      "playwright-bdd": {
+        "from": "playwright-bdd",
+        "version": "9.2.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\playwright-bdd"
+      },
+      "playwright-core": {
+        "from": "playwright-core",
+        "version": "1.64.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\playwright-core"
+      },
+      "plist": {
+        "from": "plist",
+        "version": "3.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\plist"
+      },
+      "postcss": {
+        "from": "postcss",
+        "version": "8.5.29",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\postcss"
+      },
+      "postject": {
+        "from": "postject",
+        "version": "1.0.0-alpha.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\postject"
+      },
+      "prelude-ls": {
+        "from": "prelude-ls",
+        "version": "1.2.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\prelude-ls"
+      },
+      "pretty-bytes": {
+        "from": "pretty-bytes",
+        "version": "6.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\pretty-bytes"
+      },
+      "pretty-ms": {
+        "from": "pretty-ms",
+        "version": "8.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\pretty-ms"
+      },
+      "proc-log": {
+        "from": "proc-log",
+        "version": "6.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\proc-log"
+      },
+      "process-nextick-args": {
+        "from": "process-nextick-args",
+        "version": "2.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\process-nextick-args"
+      },
+      "progress": {
+        "from": "progress",
+        "version": "2.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\progress"
+      },
+      "promise-retry": {
+        "from": "promise-retry",
+        "version": "2.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\promise-retry"
+      },
+      "prompts": {
+        "from": "prompts",
+        "version": "2.4.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\prompts"
+      },
+      "proper-lockfile": {
+        "from": "proper-lockfile",
+        "version": "4.1.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\proper-lockfile"
+      },
+      "pump": {
+        "from": "pump",
+        "version": "3.0.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\pump"
+      },
+      "punycode": {
+        "from": "punycode",
+        "version": "2.3.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\punycode"
+      },
+      "pvtsutils": {
+        "from": "pvtsutils",
+        "version": "1.3.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\pvtsutils"
+      },
+      "pvutils": {
+        "from": "pvutils",
+        "version": "1.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\pvutils"
+      },
+      "qified": {
+        "from": "qified",
+        "version": "0.10.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\qified"
+      },
+      "quick-lru": {
+        "from": "quick-lru",
+        "version": "5.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\quick-lru"
+      },
+      "rc": {
+        "from": "rc",
+        "version": "1.2.8",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\rc"
+      },
+      "react-aria": {
+        "from": "react-aria",
+        "version": "3.53.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\react-aria"
+      },
+      "react-refresh": {
+        "from": "react-refresh",
+        "version": "0.18.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\react-refresh"
+      },
+      "react-stately": {
+        "from": "react-stately",
+        "version": "3.51.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\react-stately"
+      },
+      "read-binary-file-arch": {
+        "from": "read-binary-file-arch",
+        "version": "1.0.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\read-binary-file-arch"
+      },
+      "readable-stream": {
+        "from": "readable-stream",
+        "version": "2.3.8",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\readable-stream"
+      },
+      "rechoir": {
+        "from": "rechoir",
+        "version": "0.8.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\rechoir"
+      },
+      "reflect-metadata": {
+        "from": "reflect-metadata",
+        "version": "0.2.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\reflect-metadata"
+      },
+      "regenerator-runtime": {
+        "from": "regenerator-runtime",
+        "version": "0.13.11",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\regenerator-runtime"
+      },
+      "regexp-match-indices": {
+        "from": "regexp-match-indices",
+        "version": "1.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\regexp-match-indices"
+      },
+      "regexp-tree": {
+        "from": "regexp-tree",
+        "version": "0.1.27",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\regexp-tree"
+      },
+      "require-directory": {
+        "from": "require-directory",
+        "version": "2.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\require-directory"
+      },
+      "require-from-string": {
+        "from": "require-from-string",
+        "version": "2.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\require-from-string"
+      },
+      "resedit": {
+        "from": "resedit",
+        "version": "1.7.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\resedit"
+      },
+      "resolve": {
+        "from": "resolve",
+        "version": "1.22.13",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\resolve"
+      },
+      "resolve-alpn": {
+        "from": "resolve-alpn",
+        "version": "1.2.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\resolve-alpn"
+      },
+      "responselike": {
+        "from": "responselike",
+        "version": "2.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\responselike"
+      },
+      "restore-cursor": {
+        "from": "restore-cursor",
+        "version": "5.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\restore-cursor"
+      },
+      "retry": {
+        "from": "retry",
+        "version": "0.12.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\retry"
+      },
+      "rimraf": {
+        "from": "rimraf",
+        "version": "2.6.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\rimraf"
+      },
+      "roarr": {
+        "from": "roarr",
+        "version": "2.15.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\roarr"
+      },
+      "rollup": {
+        "from": "rollup",
+        "version": "4.64.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\rollup"
+      },
+      "safe-buffer": {
+        "from": "safe-buffer",
+        "version": "5.1.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\safe-buffer"
+      },
+      "safe-regex": {
+        "from": "safe-regex",
+        "version": "2.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\safe-regex"
+      },
+      "sanitize-filename": {
+        "from": "sanitize-filename",
+        "version": "1.6.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\sanitize-filename"
+      },
+      "sax": {
+        "from": "sax",
+        "version": "1.6.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\sax"
+      },
+      "scheduler": {
+        "from": "scheduler",
+        "version": "0.28.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\scheduler"
+      },
+      "semver": {
+        "from": "semver",
+        "version": "7.8.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\semver"
+      },
+      "semver-compare": {
+        "from": "semver-compare",
+        "version": "1.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\semver-compare"
+      },
+      "serialize-error": {
+        "from": "serialize-error",
+        "version": "7.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\serialize-error"
+      },
+      "shebang-command": {
+        "from": "shebang-command",
+        "version": "2.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\shebang-command"
+      },
+      "shebang-regex": {
+        "from": "shebang-regex",
+        "version": "3.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\shebang-regex"
+      },
+      "signal-exit": {
+        "from": "signal-exit",
+        "version": "3.0.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\signal-exit"
+      },
+      "simple-git": {
+        "from": "simple-git",
+        "version": "3.36.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\simple-git"
+      },
+      "simple-update-notifier": {
+        "from": "simple-update-notifier",
+        "version": "2.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\simple-update-notifier"
+      },
+      "sisteransi": {
+        "from": "sisteransi",
+        "version": "1.0.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\sisteransi"
+      },
+      "sleep-promise": {
+        "from": "sleep-promise",
+        "version": "9.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\sleep-promise"
+      },
+      "slice-ansi": {
+        "from": "slice-ansi",
+        "version": "7.1.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\slice-ansi"
+      },
+      "source-map": {
+        "from": "source-map",
+        "version": "0.6.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\source-map"
+      },
+      "source-map-js": {
+        "from": "source-map-js",
+        "version": "1.2.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\source-map-js"
+      },
+      "source-map-support": {
+        "from": "source-map-support",
+        "version": "0.5.21",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\source-map-support"
+      },
+      "spdx-compare": {
+        "from": "spdx-compare",
+        "version": "1.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\spdx-compare"
+      },
+      "spdx-exceptions": {
+        "from": "spdx-exceptions",
+        "version": "2.5.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\spdx-exceptions"
+      },
+      "spdx-expression-parse": {
+        "from": "spdx-expression-parse",
+        "version": "5.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\spdx-expression-parse"
+      },
+      "spdx-license-ids": {
+        "from": "spdx-license-ids",
+        "version": "3.0.24",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\spdx-license-ids"
+      },
+      "spdx-ranges": {
+        "from": "spdx-ranges",
+        "version": "2.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\spdx-ranges"
+      },
+      "spdx-satisfies": {
+        "from": "spdx-satisfies",
+        "version": "6.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\spdx-satisfies"
+      },
+      "sprintf-js": {
+        "from": "sprintf-js",
+        "version": "1.1.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\sprintf-js"
+      },
+      "stat-mode": {
+        "from": "stat-mode",
+        "version": "1.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\stat-mode"
+      },
+      "std-env": {
+        "from": "std-env",
+        "version": "4.3.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\std-env"
+      },
+      "stdin-discarder": {
+        "from": "stdin-discarder",
+        "version": "0.3.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\stdin-discarder"
+      },
+      "stdout-update": {
+        "from": "stdout-update",
+        "version": "4.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\stdout-update"
+      },
+      "steno": {
+        "from": "steno",
+        "version": "4.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\steno"
+      },
+      "string-width": {
+        "from": "string-width",
+        "version": "4.2.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\string-width"
+      },
+      "string_decoder": {
+        "from": "string_decoder",
+        "version": "1.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\string_decoder"
+      },
+      "strip-ansi": {
+        "from": "strip-ansi",
+        "version": "7.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\strip-ansi"
+      },
+      "strip-bom": {
+        "from": "strip-bom",
+        "version": "3.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\strip-bom"
+      },
+      "strip-json-comments": {
+        "from": "strip-json-comments",
+        "version": "2.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\strip-json-comments"
+      },
+      "sumchecker": {
+        "from": "sumchecker",
+        "version": "3.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\sumchecker"
+      },
+      "supports-color": {
+        "from": "supports-color",
+        "version": "7.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\supports-color"
+      },
+      "supports-preserve-symlinks-flag": {
+        "from": "supports-preserve-symlinks-flag",
+        "version": "1.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\supports-preserve-symlinks-flag"
+      },
+      "tapable": {
+        "from": "tapable",
+        "version": "2.3.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\tapable"
+      },
+      "tar": {
+        "from": "tar",
+        "version": "7.5.22",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\tar"
+      },
+      "temp": {
+        "from": "temp",
+        "version": "0.9.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\temp"
+      },
+      "temp-file": {
+        "from": "temp-file",
+        "version": "3.4.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\temp-file"
+      },
+      "tesseract.js-core": {
+        "from": "tesseract.js-core",
+        "version": "7.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\tesseract.js-core"
+      },
+      "tiny-async-pool": {
+        "from": "tiny-async-pool",
+        "version": "1.3.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\tiny-async-pool"
+      },
+      "tinybench": {
+        "from": "tinybench",
+        "version": "6.2.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\tinybench"
+      },
+      "tinyexec": {
+        "from": "tinyexec",
+        "version": "1.3.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\tinyexec"
+      },
+      "tinyglobby": {
+        "from": "tinyglobby",
+        "version": "0.2.17",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\tinyglobby"
+      },
+      "tmp": {
+        "from": "tmp",
+        "version": "0.2.7",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\tmp"
+      },
+      "tmp-promise": {
+        "from": "tmp-promise",
+        "version": "3.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\tmp-promise"
+      },
+      "tr46": {
+        "from": "tr46",
+        "version": "0.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\tr46"
+      },
+      "truncate-utf8-bytes": {
+        "from": "truncate-utf8-bytes",
+        "version": "1.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\truncate-utf8-bytes"
+      },
+      "ts-api-utils": {
+        "from": "ts-api-utils",
+        "version": "2.5.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\ts-api-utils"
+      },
+      "ts-morph": {
+        "from": "ts-morph",
+        "version": "28.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\ts-morph"
+      },
+      "tsconfig-paths": {
+        "from": "tsconfig-paths",
+        "version": "4.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\tsconfig-paths"
+      },
+      "tsconfig-paths-webpack-plugin": {
+        "from": "tsconfig-paths-webpack-plugin",
+        "version": "4.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\tsconfig-paths-webpack-plugin"
+      },
+      "tslib": {
+        "from": "tslib",
+        "version": "2.8.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\tslib"
+      },
+      "type-check": {
+        "from": "type-check",
+        "version": "0.4.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\type-check"
+      },
+      "type-fest": {
+        "from": "type-fest",
+        "version": "0.13.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\type-fest"
+      },
+      "typescript": {
+        "from": "typescript",
+        "version": "6.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\typescript"
+      },
+      "typescript-eslint": {
+        "from": "typescript-eslint",
+        "version": "8.71.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\typescript-eslint"
+      },
+      "undici": {
+        "from": "undici",
+        "version": "7.30.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\undici"
+      },
+      "undici-types": {
+        "from": "undici-types",
+        "version": "7.24.6",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\undici-types"
+      },
+      "universalify": {
+        "from": "universalify",
+        "version": "2.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\universalify"
+      },
+      "unzipper": {
+        "from": "unzipper",
+        "version": "0.12.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\unzipper"
+      },
+      "update-browserslist-db": {
+        "from": "update-browserslist-db",
+        "version": "1.3.4",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\update-browserslist-db"
+      },
+      "uri-js": {
+        "from": "uri-js",
+        "version": "4.4.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\uri-js"
+      },
+      "url-join": {
+        "from": "url-join",
+        "version": "4.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\url-join"
+      },
+      "use-sync-external-store": {
+        "from": "use-sync-external-store",
+        "version": "1.7.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\use-sync-external-store"
+      },
+      "utf8-byte-length": {
+        "from": "utf8-byte-length",
+        "version": "1.0.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\utf8-byte-length"
+      },
+      "util-deprecate": {
+        "from": "util-deprecate",
+        "version": "1.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\util-deprecate"
+      },
+      "validate-npm-package-name": {
+        "from": "validate-npm-package-name",
+        "version": "7.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\validate-npm-package-name"
+      },
+      "vitest": {
+        "from": "vitest",
+        "version": "5.0.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\vitest"
+      },
+      "wasm-feature-detect": {
+        "from": "wasm-feature-detect",
+        "version": "1.9.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\wasm-feature-detect"
+      },
+      "watskeburt": {
+        "from": "watskeburt",
+        "version": "6.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\watskeburt"
+      },
+      "webcrypto-core": {
+        "from": "webcrypto-core",
+        "version": "1.9.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\webcrypto-core"
+      },
+      "webidl-conversions": {
+        "from": "webidl-conversions",
+        "version": "3.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\webidl-conversions"
+      },
+      "whatwg-url": {
+        "from": "whatwg-url",
+        "version": "5.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\whatwg-url"
+      },
+      "which": {
+        "from": "which",
+        "version": "6.0.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\which"
+      },
+      "why-is-node-running": {
+        "from": "why-is-node-running",
+        "version": "3.2.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\why-is-node-running"
+      },
+      "word-wrap": {
+        "from": "word-wrap",
+        "version": "1.2.5",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\word-wrap"
+      },
+      "wrap-ansi": {
+        "from": "wrap-ansi",
+        "version": "7.0.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\wrap-ansi"
+      },
+      "wrappy": {
+        "from": "wrappy",
+        "version": "1.0.2",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\wrappy"
+      },
+      "xmlbuilder": {
+        "from": "xmlbuilder",
+        "version": "15.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\xmlbuilder"
+      },
+      "y18n": {
+        "from": "y18n",
+        "version": "5.0.8",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\y18n"
+      },
+      "yallist": {
+        "from": "yallist",
+        "version": "3.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\yallist"
+      },
+      "yargs": {
+        "from": "yargs",
+        "version": "17.7.3",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\yargs"
+      },
+      "yargs-parser": {
+        "from": "yargs-parser",
+        "version": "21.1.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\yargs-parser"
+      },
+      "yocto-queue": {
+        "from": "yocto-queue",
+        "version": "0.1.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\yocto-queue"
+      },
+      "yoctocolors": {
+        "from": "yoctocolors",
+        "version": "2.2.0",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\yoctocolors"
+      },
+      "zlibjs": {
+        "from": "zlibjs",
+        "version": "0.3.1",
+        "path": "D:\\workspace\\AI\\danesh\\node_modules\\zlibjs"
+      }
+    }
+  }
+]
