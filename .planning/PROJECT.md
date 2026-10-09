@@ -219,6 +219,7 @@ All Active requirements are hypotheses until shipped and validated. Grouped by t
 | Test-first: BDD/ATDD acceptance scenarios per capability; TDD for deterministic cores; independent AI quality evals | Quality must be demonstrated with evidence, not asserted | — Pending |
 | Fine-grained phase slicing (8–12 phases), parallel plan execution | Broad v1 scope with 11 suggested phases in the brief | — Pending |
 | MIT license for Danesh's original source code (D-LICENSE, decided by the user 2026-10-09) | A permissive license for the public repo. Third-party components keep their own licenses, and GPL, AGPL and LGPL engines (MuPDF, espeak-ng) are excluded from distributed builds. | ✓ Decided |
+| Premium custom desktop shell and design system from Phase 1 (user direction 2026-10-10, Plan 01-17) | Danesh must feel calm, precise and crafted rather than like a stock Electron window. Frameless window with its own title bar (native traffic lights kept on macOS), System/Light/Dark themes applied by Main before first paint, semantic tokens in `apps/renderer/src/styles/tokens.css`, motion tokens with reduced-motion support. Every later screen follows 01-UI-SPEC.md "Amendment A". | ✓ Decided |
 
 ## Evolution
 

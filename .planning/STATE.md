@@ -3,15 +3,15 @@ gsd_state_version: "1.0"
 current_phase: 1
 current_phase_name: Secure, Durable Foundation & Packaging Gate
 status: ready
-stopped_at: Completed 01-05 and 01-06; stopped before 01-07 at user boundary
-last_updated: "2026-10-09T21:20:56.830Z"
-last_activity: 2026-10-10 (Plans 01-05 and 01-06 completed; stopped before 01-07)
+stopped_at: Completed 01-17 (user-directed shell/theme/design amendment); next 01-07
+last_updated: "2026-10-09T22:08:51.352Z"
+last_activity: 2026-10-10 (Plan 01-17 completed; 01-06 deadline follow-up committed)
 state_head: 7d0f9abfe90caa8428abf6973e8297045f3073d8
 progress:
   total_phases: 12
   completed_phases: 0
-  total_plans: 15
-  completed_plans: 5
+  total_plans: 16
+  completed_plans: 6
   percent: 0
 ---
 
@@ -27,9 +27,9 @@ See: .planning/PROJECT.md (updated 2026-10-09)
 ## Current Position
 
 Phase: 1 (Secure, Durable Foundation & Packaging Gate) — IN PROGRESS
-Plan: 5 of 15 completed in current phase; next plan 01-07
-Status: Plans 01-05 and 01-06 complete; stopped before Plan 01-07 at user boundary
-Last activity: 2026-10-10 (Plans 01-05 and 01-06 completed; stopped before 01-07)
+Plan: 6 of 16 completed in current phase; next plan 01-07
+Status: Plans 01-05, 01-06 and 01-17 complete; 01-07 is next
+Last activity: 2026-10-10 (Plan 01-17 custom shell/themes/design system completed)
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -47,7 +47,7 @@ Progress: [░░░░░░░░░░] 0%
 | - | - | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 01-01, 01-02, 01-03, 01-05, 01-06 (completed; durations not measured)
+- Last 5 plans: 01-02, 01-03, 01-05, 01-06, 01-17 (completed; durations not measured)
 - Trend: -
 
 *Updated after each plan completion*
@@ -66,6 +66,8 @@ Recent decisions affecting current work:
 - [Roadmap]: Open product decisions (D-*) gate specific phases. Execution stops and raises them, never decides them silently.
 - [Phase 1]: D-LICENSE resolved by the user: MIT for Danesh's original source code. Third-party dependencies, engines, models and voices keep their own licenses. GPL, AGPL and LGPL engines are excluded from distributed builds. — User decision on 2026-10-09. It unblocks REL-08 and ADR 0004 in Phase 1.
 - [Phase 1]: Phase 1 planning is ready for implementation (15 plans, 13 waves). The final plan-checker pass reported 3 blockers and 1 warning; they were corrected directly in 01-15 and 01-16 and verified only by deterministic checks (structure, 41 verify commands, cross-plan consistency, decision coverage 24/24, git diff --check). The AI plan checker was NOT re-run, so the corrections are not formally rechecked. Automatic chaining and workflow.auto_advance are disabled. — User approved finalizing planning on 2026-10-09 with this limitation recorded; execution needs separate explicit authorization.
+
+- [Phase 1]: User direction 2026-10-10 added Plan 01-17 (premium custom shell, System/Light/Dark themes, design system, motion). Design contract = 01-UI-SPEC.md Amendment A; executed before 01-07. macOS shell behavior is implemented but not yet run on macOS.
 
 ### Pending Todos
 
@@ -90,5 +92,5 @@ Items acknowledged and deferred at milestone close, most recent first:
 ## Session Continuity
 
 Last session: 2026-10-09T21:20:56.806Z
-Stopped at: Completed 01-05 and 01-06; stopped before 01-07 at user boundary
+Stopped at: Completed 01-17; next 01-07
 Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-07-PLAN.md

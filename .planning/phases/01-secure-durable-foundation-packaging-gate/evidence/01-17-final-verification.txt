@@ -106,3 +106,7 @@ COMMAND: env -u ELECTRON_RUN_AS_NODE pnpm test:e2e (all scenarios, fresh test bu
   42 skipped
   24 passed (56.7s)
 EXIT: 0
+
+COMMAND: pnpm build && env -u ELECTRON_RUN_AS_NODE DANESH_E2E_SKIP_BUILD=1 DANESH_E2E_GREP="@plan-01-17|Home states|Native menu" pnpm test:e2e (production bundle)
+  10 passed; production main/preload bundles contain no test.* hooks or readiness-delay flag
+EXIT: 0

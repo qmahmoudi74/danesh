@@ -1,0 +1,186 @@
+{
+  "recordedAt": "2026-10-09T22:03:16.006Z",
+  "platform": "win32",
+  "results": [
+    {
+      "name": "light-home-1040",
+      "overflowX": false,
+      "viewport": [
+        1040,
+        720
+      ],
+      "csp": []
+    },
+    {
+      "name": "light-system-1040",
+      "overflowX": false,
+      "viewport": [
+        1040,
+        720
+      ],
+      "csp": []
+    },
+    {
+      "name": "light-settings-1040",
+      "overflowX": false,
+      "viewport": [
+        1040,
+        720
+      ],
+      "csp": []
+    },
+    {
+      "name": "light-home-720",
+      "overflowX": false,
+      "viewport": [
+        720,
+        521
+      ],
+      "csp": []
+    },
+    {
+      "name": "light-system-720",
+      "overflowX": false,
+      "viewport": [
+        720,
+        521
+      ],
+      "csp": []
+    },
+    {
+      "name": "light-settings-zoom200",
+      "overflowX": false,
+      "viewport": [
+        520,
+        360
+      ],
+      "csp": []
+    },
+    {
+      "name": "light-system-zoom200",
+      "overflowX": false,
+      "viewport": [
+        520,
+        360
+      ],
+      "csp": []
+    },
+    {
+      "name": "light-rail-tooltip",
+      "overflowX": false,
+      "viewport": [
+        1040,
+        720
+      ],
+      "csp": []
+    },
+    {
+      "name": "light-rail-focus",
+      "overflowX": false,
+      "viewport": [
+        1040,
+        720
+      ],
+      "csp": []
+    },
+    {
+      "name": "light-inactive",
+      "overflowX": false,
+      "viewport": [
+        1040,
+        720
+      ],
+      "csp": []
+    },
+    {
+      "name": "dark-home-1040",
+      "overflowX": false,
+      "viewport": [
+        1040,
+        720
+      ],
+      "csp": []
+    },
+    {
+      "name": "dark-system-1040",
+      "overflowX": false,
+      "viewport": [
+        1040,
+        720
+      ],
+      "csp": []
+    },
+    {
+      "name": "dark-settings-1040",
+      "overflowX": false,
+      "viewport": [
+        1040,
+        720
+      ],
+      "csp": []
+    },
+    {
+      "name": "dark-home-720",
+      "overflowX": false,
+      "viewport": [
+        720,
+        521
+      ],
+      "csp": []
+    },
+    {
+      "name": "dark-system-720",
+      "overflowX": false,
+      "viewport": [
+        720,
+        521
+      ],
+      "csp": []
+    },
+    {
+      "name": "dark-settings-zoom200",
+      "overflowX": false,
+      "viewport": [
+        520,
+        360
+      ],
+      "csp": []
+    },
+    {
+      "name": "dark-system-zoom200",
+      "overflowX": false,
+      "viewport": [
+        520,
+        360
+      ],
+      "csp": []
+    },
+    {
+      "name": "dark-rail-tooltip",
+      "overflowX": false,
+      "viewport": [
+        1040,
+        720
+      ],
+      "csp": []
+    },
+    {
+      "name": "dark-rail-focus",
+      "overflowX": false,
+      "viewport": [
+        1040,
+        720
+      ],
+      "csp": []
+    },
+    {
+      "name": "dark-inactive",
+      "overflowX": false,
+      "viewport": [
+        1040,
+        720
+      ],
+      "csp": []
+    }
+  ]
+}
