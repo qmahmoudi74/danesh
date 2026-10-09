@@ -3,10 +3,10 @@ gsd_state_version: "1.0"
 current_phase: 1
 current_phase_name: Secure, Durable Foundation & Packaging Gate
 status: executing
-stopped_at: Completed 01-01-PLAN.md; preparing 01-02 dependency review
-last_updated: "2026-10-09T18:57:16.328Z"
-last_activity: "2026-10-09 (Plan 01-01 completed; Plan 01-02 dependency review next)"
-state_head: 6759c8d76184f929545225548657d077a29907e6
+stopped_at: Plan 01-02 installed; close-out blocked on published license text and upstream TypeScript declarations
+last_updated: "2026-10-09T19:47:15.176Z"
+last_activity: 2026-10-09 (Plan 01-02 installation verified; close-out blocked)
+state_head: 5e5b2aeff08da1dbb28601960013a9d2a542b478
 progress:
   total_phases: 12
   completed_phases: 0
@@ -28,8 +28,8 @@ See: .planning/PROJECT.md (updated 2026-10-09)
 
 Phase: 1 (Secure, Durable Foundation & Packaging Gate) — IN PROGRESS
 Plan: 1 of 15 completed in current phase; next plan 01-02
-Status: Executing; dependency installation requires human approval
-Last activity: 2026-10-09 (Plan 01-01 completed; Plan 01-02 dependency review next)
+Status: Blocked in Plan 01-02; published license text and strict declaration compatibility need disposition
+Last activity: 2026-10-09 (Plan 01-02 installation verified; close-out blocked)
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -73,6 +73,8 @@ None yet.
 
 ### Blockers/Concerns
 
+- [Plan 01-02]: truncate-utf8-bytes 1.0.2 supplies no published license text; the user's conditional WTFPL exception remains unverified.
+- [Plan 01-02]: Additional strict TypeScript checking found node-llama-cpp 3.22.1 declaration errors (tempDir absent from LlamaOptions; async-retry declarations missing). No dependency/configuration change was made.
 - ~~[Phase 1]: D-LICENSE needs a product decision~~ RESOLVED 2026-10-09: MIT for original source (user decision).
 - [Phase 1]: S-PACKAGE has to prove native bindings plus a tiny GGUF, OCR and TTS in utilityProcess on clean, packaged Windows and macOS builds. Failure would force an architecture change.
 - [Phase 4]: D-COMMERCIAL and D-DISTRIB (model licenses, hosting mirrors, offline bundles) need decisions before the registry and downloads ship.
@@ -89,6 +91,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-10-09T18:57:16.306Z
-Stopped at: Completed 01-01-PLAN.md; preparing 01-02 dependency review
-Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-02-PLAN.md
+Last session: 2026-10-09T19:47:15.149Z
+Stopped at: Plan 01-02 installed; close-out blocked on published license text and upstream TypeScript declarations
+Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-02-SUMMARY.draft.md
