@@ -1,0 +1,63 @@
+Plan 01-01 static verification
+Date: 2026-10-09 (Asia/Tehran)
+Runtime behavior: NOT RUN; bindings and runners belong to later plans.
+Git task commits and features-first history: PENDING USER APPROVAL.
+
+Task 1 command: bash -c 'set -e; ls features/core/*.feature >/dev/null; for f in features/core/*.feature; do grep -q "^Feature:" "$f"; grep -q "@core" "$f"; grep -q "@req-" "$f"; grep -q "^# covers:" "$f"; for k in happy invalid edge recovery cancellation persistence; do grep -Eq "@kind-$k|# n/a kind-$k:" "$f" || { echo "MISSING kind-$k in $f"; exit 1; }; done; done; echo CORE-FEATURES-OK'
+CORE-FEATURES-OK
+Exit code: 0
+Task 2 command: bash -c 'set -e; for f in features/ui/*.feature; do grep -q "^Feature:" "$f"; grep -q "@ui" "$f"; grep -q "@req-" "$f"; grep -q "^# covers:" "$f"; for k in happy invalid edge recovery cancellation persistence; do grep -Eq "@kind-$k|# n/a kind-$k:" "$f" || { echo "MISSING kind-$k in $f"; exit 1; }; done; done; grep -q "تلاش دوبارهٔ بررسی" features/ui/system-check.feature; grep -q "تلاش دوبارهٔ کار نمونه" features/ui/sample-job.feature; echo UI-FEATURES-OK'
+UI-FEATURES-OK
+Exit code: 0
+Task 3 command: bash -c 'set -e; for f in docs/adr/0001-process-topology-and-ipc.md docs/adr/0002-database-driver.md docs/adr/0003-packaging-fuses-and-signing.md; do grep -q "^status: proposed" "$f"; grep -q "^## Spike Evidence" "$f"; grep -q "^### Pass policy" "$f"; grep -q "^kind: " "$f"; done; grep -q "^## Security" docs/adr/0000-template.md; grep -q "^### Platforms actually run" docs/adr/0000-template.md; grep -q "250" docs/adr/0003-packaging-fuses-and-signing.md; echo ADR-DRAFTS-OK'
+ADR-DRAFTS-OK
+Exit code: 0
+PASS exactly six core features, six UI features and four ADRs
+PASS feature conventions: features/core/ipc-validation.feature
+PASS feature conventions: features/core/storage-migrations.feature
+PASS feature conventions: features/core/content-addressed-store.feature
+PASS feature conventions: features/core/durable-jobs.feature
+PASS feature conventions: features/core/engine-supervision.feature
+PASS feature conventions: features/core/egress-policy.feature
+PASS feature conventions: features/ui/app-shell.feature
+PASS feature conventions: features/ui/system-check.feature
+PASS feature conventions: features/ui/startup-states.feature
+PASS feature conventions: features/ui/sample-job.feature
+PASS feature conventions: features/ui/engine-crash.feature
+PASS feature conventions: features/ui/zero-egress.feature
+PASS ADR conventions: docs/adr/0000-template.md
+PASS ADR conventions: docs/adr/0001-process-topology-and-ipc.md
+PASS ADR conventions: docs/adr/0002-database-driver.md
+PASS ADR conventions: docs/adr/0003-packaging-fuses-and-signing.md
+PASS packaging policy carries every locked threshold and fuse name
+PASS no runtime, bindings, manifests or license ADR created
+PASS automatic advance and chaining remain disabled
+PASS branch, HEAD and existing tracked work are preserved
+Feature totals: 12 files, 99 scenarios/outlines, 16 outlines, 65 example rows.
+Persian copy checks: 90 quoted strings checked against UI-SPEC with numeric substitution and the plan's two retry-label overrides.
+Static audit failures: 0
+Gherkin structural audit is not a Cucumber parser or runtime test; no dependencies were installed.
+
+Final checks after summary and OCR fixture clarification:
+Task 1: exit 0; CORE-FEATURES-OK
+Task 2: exit 0; UI-FEATURES-OK
+Task 3: exit 0; ADR-DRAFTS-OK
+grep -B1 -E "^\s*Scenario" features/core/*.feature features/ui/*.feature: exit 0; 99 scenarios each have a preceding plan tag.
+grep -c "@plan-01-" features/ui/app-shell.feature: exit 0; 9.
+git diff --no-index --check /dev/null <file>: all 18 new files produce no whitespace diagnostics; exit 1 denotes new-file differences. Independent LF/trailing-whitespace checks pass.
+git diff --check: exit 0.
+GSD query init.execute-phase 1: exit 0; 01-01 remains incomplete; 15/15 plans remain incomplete.
+Workflow finding: the canonical SUMMARY filename was counted as completion despite blocked status. Renamed to SUMMARY.draft.md; no GSD tooling or completion state was changed.
+Git status: 18 untracked additions; zero tracked modifications or staged files.
+OCR containment scenario explicitly uses other-check fixtures; production fuse behavior remains separately specified.
+
+Authorized Plan 01-01 finalization verification:
+Task 1 verification: exit 0; CORE-FEATURES-OK
+Task 1 commit: f44c966031094aee0d0b98d22b5015ae0695b6cb; exactly 6 authorized task paths.
+Task 2 verification: exit 0; UI-FEATURES-OK
+Task 2 commit: dc247494fb1a04d1ccb6a128972db2adb6109d48; exactly 6 authorized task paths.
+Task 3 verification: exit 0; ADR-DRAFTS-OK
+Task 3 commit: e6c81fcc9b73fdf0fef0072d26e18fa1a7f2a489; exactly 4 authorized task paths.
+PASS core commit precedes UI commit, which precedes ADR policy commit; every task tree has zero apps/ or packages/ files.
+No feature bindings or governed spike results exist; ordering proof is for acceptance/policy files before future implementation.
+GSD query init.execute-phase 1: canonical summaries=[01-01-SUMMARY.md], plan_count=15, incomplete_count=14, incomplete_plans excludes 01-01 and includes 01-02. No runtime verification implied.
