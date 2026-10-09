@@ -15,6 +15,8 @@
     "dev": "pnpm --dir apps/desktop run dev",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p apps/renderer/tsconfig.json --noEmit",
     "lint": "eslint .",
+    "check:format": "biome check",
+    "format": "biome check --write",
     "depcruise": "depcruise apps packages tools --config .dependency-cruiser.cjs",
     "test": "vitest run",
     "test:e2e": "node tools/run-e2e.ts",
@@ -29,19 +31,20 @@
     "ci:local": "node tools/ci-local.ts"
   },
   "devDependencies": {
-    "typescript": "6.0.3",
+    "@amiceli/vitest-cucumber": "8.0.0",
+    "@biomejs/biome": "2.5.15",
+    "@playwright/test": "1.64.0",
+    "@types/better-sqlite3": "9.6.0",
     "@types/node": "24.19.1",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "@types/better-sqlite3": "9.6.0",
-    "vitest": "5.0.3",
-    "@amiceli/vitest-cucumber": "8.0.0",
-    "@playwright/test": "1.64.0",
-    "playwright-bdd": "9.2.1",
-    "eslint": "10.12.0",
-    "typescript-eslint": "8.71.1",
     "dependency-cruiser": "18.5.0",
+    "eslint": "10.12.0",
+    "playwright-bdd": "9.2.1",
     "spdx-expression-parse": "5.0.0",
-    "spdx-satisfies": "6.0.0"
+    "spdx-satisfies": "6.0.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.1",
+    "vitest": "5.0.3"
   }
 }

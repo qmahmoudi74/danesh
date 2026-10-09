@@ -13,7 +13,7 @@ describe('CI workflow static check', () => {
   it('fails on a reordered step', () => {
     const swapped = workflow.replace('      - name: lint\n        run: pnpm lint\n      - name: typecheck\n        run: pnpm typecheck', '      - name: typecheck\n        run: pnpm typecheck\n      - name: lint\n        run: pnpm lint');
     expect(swapped).not.toBe(workflow);
-    expect(checkWorkflow(swapped).some((finding) => finding.includes('step 2'))).toBe(true);
+    expect(checkWorkflow(swapped).some((finding) => finding.includes('step 3'))).toBe(true);
   });
   it('fails when an operating system is missing', () => {
     expect(checkWorkflow(workflow.replace('[windows-latest, macos-latest]', '[windows-latest]'))).toContain('missing required setting: macos-latest');

@@ -4,6 +4,7 @@ export type CiStep = { id: string; run: string; env?: Record<string, string>; os
 
 export const CI_STEPS: CiStep[] = [
   { id: 'install', run: 'pnpm install --frozen-lockfile' },
+  { id: 'format', run: 'pnpm check:format' },
   { id: 'lint', run: 'pnpm lint' },
   { id: 'typecheck', run: 'pnpm typecheck' },
   { id: 'depcruise', run: 'pnpm depcruise' },

@@ -29,6 +29,6 @@ describe('license gate', () => {
     expect(generated).toContain('fixture@1.0.0 (Apache-2.0)\nCopyright fixture\r\nNOTICE text'); expect(generated).toContain('FULL OFL TEXT');
     expect(noticesCurrent(generated, undefined)).toBe(false); expect(noticesCurrent(generated, generated + 'edit')).toBe(false); expect(noticesCurrent(generated, generated)).toBe(true);
   });
-  it('reads both package sections in the real frozen lockfile', () => { expect(parseLockedPackages(readFileSync('pnpm-lock.yaml', 'utf8'))).toHaveLength(737); });
+  it('reads both package sections in the real frozen lockfile', () => { expect(parseLockedPackages(readFileSync('pnpm-lock.yaml', 'utf8'))).toHaveLength(746); });
   it('refuses an incomplete lockfile inventory', () => { expect(() => parseLockedPackages("lockfileVersion: '9.0'\npackages:\n  fixture@1.0.0:\n    resolution: {}\n")).toThrow(); });
 });

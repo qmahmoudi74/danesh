@@ -35,6 +35,8 @@ jobs:
           key: probes-${{ hashFiles('tools/probes.lock.json') }}
       - name: install
         run: pnpm install --frozen-lockfile
+      - name: format
+        run: pnpm check:format
       - name: lint
         run: pnpm lint
       - name: typecheck
