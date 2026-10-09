@@ -1,0 +1,132 @@
+Actual Plan 01-06 post-commit verification 2026-10-09T21:18:43.019Z
+
+COMMAND: pnpm licenses:scan && pnpm check:adr && node tools/check-features-first.ts --allow-unbound
+ENV: {}
+WARNING needs-review: Electron FFmpeg: Research A6 assumption; verify binary contents/terms, notices, source and relinking before release
+WARNING needs-review: DirectML.dll: Verify actual DLL redistribution terms and embedded notices before release
+WARNING needs-review: stories15M-q4_0.gguf: Research A5 upstream inherited grant needs verification before obtaining or shipping
+WARNING needs-review: fa_IR-mana-medium.onnx and .onnx.json: Preserve model MIT notice; record CC0 dataset provenance; verify artifacts before shipping
+WARNING needs-review: eng.traineddata: Preserve Apache license; verify artifact before shipping
+license-scan: scanned=739 lockfile=737 failures=0 notices=ok
+check-adr: failures=0
+INFO features/core/content-addressed-store.feature: not yet implemented packages/storage/src/cas.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/domain/src/jobs/fsm.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/domain/src/jobs/recovery.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/storage/src/jobs-repo.ts
+INFO features/core/durable-jobs.feature: not yet implemented apps/core/src/sample-job.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/policy.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/broker.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/guard.ts
+INFO features/core/engine-supervision.feature: not yet implemented packages/domain/src/supervision/backoff.ts
+INFO features/core/engine-supervision.feature: not yet implemented packages/domain/src/supervision/policy.ts
+INFO features/core/engine-supervision.feature: not yet implemented apps/main/src/supervisor.ts
+INFO features/core/ipc-validation.feature: not yet implemented apps/core/src/rpc-server.ts
+INFO features/core/ipc-validation.feature: not yet implemented packages/logging/src/jsonl.ts
+INFO features/core/storage-migrations.feature: not yet implemented packages/storage/src/migrate.ts
+INFO features/core/storage-migrations.feature: not yet implemented packages/storage/src/backup.ts
+INFO features/ui/app-shell.feature: not yet implemented apps/main/src/window.ts
+INFO features/ui/engine-crash.feature: not yet implemented apps/main/src/supervisor.ts
+INFO features/ui/engine-crash.feature: not yet implemented apps/core/src/engine-client.ts
+INFO features/ui/sample-job.feature: not yet implemented apps/renderer/src/sample-job/SampleJobCard.tsx
+INFO features/ui/sample-job.feature: not yet implemented apps/core/src/sample-job.ts
+INFO features/ui/startup-states.feature: not yet implemented apps/core/src/boot.ts
+INFO features/ui/zero-egress.feature: not yet implemented apps/main/src/egress-l1.ts
+INFO features/ui/zero-egress.feature: not yet implemented packages/egress/src/guard.ts
+INFO features/ui/zero-egress.feature: not yet implemented apps/core/src/checks/egress-zero.check.ts
+check-features-first: failures=0
+$ node tools/license-scan.ts
+$ node tools/check-adr.ts
+
+EXIT: 0
+
+COMMAND: pnpm build
+ENV: {}
+vite v7.3.7 building ssr environment for production...
+transforming...
+✓ 118 modules transformed.
+rendering chunks...
+out/main/chunks/utility-port-D7xZV9pN.js     0.18 kB
+out/main/engine-sample.js                    1.14 kB
+out/main/chunks/rpc-B_0DHeQ_.js              4.57 kB
+out/main/index.js                           11.96 kB
+out/main/core.js                            12.33 kB
+out/main/chunks/host-protocol-CKpTolVP.js  188.28 kB
+✓ built in 410ms
+vite v7.3.7 building ssr environment for production...
+transforming...
+✓ 101 modules transformed.
+rendering chunks...
+out/preload/index.cjs  195.30 kB
+✓ built in 224ms
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 1454 modules transformed.
+rendering chunks...
+../desktop/out/renderer/index.html                                               0.46 kB
+../desktop/out/renderer/assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2   21.86 kB
+../desktop/out/renderer/assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2       34.52 kB
+../desktop/out/renderer/assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2      46.31 kB
+../desktop/out/renderer/assets/index-Bb1MnnhY.css                               14.75 kB
+../desktop/out/renderer/assets/index-vwOAFMRE.js                               975.55 kB
+✓ built in 1.41s
+$ pnpm --dir apps/desktop run build
+$ electron-vite build
+
+EXIT: 0
+
+Production source inspection: {"files":7,"hits":[]}
+
+COMMAND: env -u ELECTRON_RUN_AS_NODE pnpm test:e2e
+ENV: {"DANESH_E2E_SKIP_BUILD":"1","DANESH_E2E_GREP":"System check reaches|The page has no|database probe row survives|Home states|Native menu navigation|waits for an explicit first run|environment block preserves|Exported JSON matches|unwritable export target|Cancelling the save dialog"}
+
+Running 10 tests using 1 worker
+
+  ok  1 apps\desktop\.features-gen\app-shell.feature.spec.js:10:3 › An honest Persian-first shell behind a closed preload API › System check reaches the database through Core @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-happy (693ms)
+  ok  2 apps\desktop\.features-gen\app-shell.feature.spec.js:17:3 › An honest Persian-first shell behind a closed preload API › The page has no Node access or raw IPC surface @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-invalid (440ms)
+  ok  3 apps\desktop\.features-gen\app-shell.feature.spec.js:31:3 › An honest Persian-first shell behind a closed preload API › The database probe row survives a relaunch @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-persistence (1.2s)
+  ok  4 apps\desktop\.features-gen\app-shell.feature.spec.js:39:3 › An honest Persian-first shell behind a closed preload API › Home states the foundation scope in Persian @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-06 @kind-happy (395ms)
+  ok  5 apps\desktop\.features-gen\app-shell.feature.spec.js:49:3 › An honest Persian-first shell behind a closed preload API › Native menu navigation focuses the heading and unknown routes return Home @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-06 @kind-edge (367ms)
+  ok  6 apps\desktop\.features-gen\system-check.feature.spec.js:10:3 › Local System check with visible results and JSON export › System check waits for an explicit first run @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-happy (544ms)
+  ok  7 apps\desktop\.features-gen\system-check.feature.spec.js:39:3 › Local System check with visible results and JSON export › The environment block preserves a Persian path with an apostrophe @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-edge (656ms)
+  ok  8 apps\desktop\.features-gen\system-check.feature.spec.js:47:3 › Local System check with visible results and JSON export › Exported JSON matches the displayed report @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-persistence (1.6s)
+  ok  9 apps\desktop\.features-gen\system-check.feature.spec.js:58:3 › Local System check with visible results and JSON export › An unwritable export target reports an actionable error @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-invalid (766ms)
+  ok 10 apps\desktop\.features-gen\system-check.feature.spec.js:66:3 › Local System check with visible results and JSON export › Cancelling the save dialog is silent @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-cancellation (591ms)
+
+  10 passed (7.9s)
+$ node tools/run-e2e.ts
+(node:28096) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Debugger ending on ws://127.0.0.1:63843/ea882bc8-e249-4b86-9a58-f44af3852c4b
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63847/17b45313-2566-4bda-8964-5edf3532f8e0
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63853/97256029-9a2a-4f0c-b9a3-55a076ce3978
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63857/4b011c30-e8f6-4d91-8990-29bb5f904c4c
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63861/25e2eae8-6357-41be-a3fd-1b2953d03788
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63865/c97c4e27-25ae-40fb-b056-7ad542b25892
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63870/e2862156-f2a1-4318-996c-c7eacc327194
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63874/57fb51e5-7892-4adc-bbe5-381f18f3db0d
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63878/eba38f5a-336e-4535-8e66-5c51b44dab57
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63883/3ee93529-1747-486a-ae02-e8f881612d89
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63888/cf6cab60-765d-4394-8e1b-83a8400ffb16
+For help, see: https://nodejs.org/learn/getting-started/debugging
+
+EXIT: 0
+
+COMMAND: git diff --quiet e672dc2 -- package.json apps/desktop/package.json pnpm-lock.yaml pnpm-workspace.yaml
+ENV: {}
+
+EXIT: 0
+
+COMMAND: git diff --check
+ENV: {}
+
+EXIT: 0

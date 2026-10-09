@@ -1,0 +1,186 @@
+Actual Plan 01-06 final verification 2026-10-09T21:16:35.402Z
+
+COMMAND: pnpm vitest run --project renderer
+
+ RUN  v5.0.3 D:/workspace/AI/danesh
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  00:46:36
+   Duration  183ms (transform 54%, import 25%, tests 15%, worker 6%)
+
+
+EXIT: 0
+
+COMMAND: pnpm typecheck && pnpm lint && pnpm depcruise && pnpm test
+
+✔ no dependency violations found (72 modules, 165 dependencies cruised)
+
+
+ RUN  v5.0.3 D:/workspace/AI/danesh
+
+
+ Test Files  10 passed (10)
+      Tests  100 passed (100)
+   Start at  00:46:45
+   Duration  2.75s (tests 88%, transform 6%, import 5%)
+
+$ tsc -p tsconfig.json --noEmit && tsc -p apps/renderer/tsconfig.json --noEmit
+$ eslint .
+$ depcruise apps packages tools --config .dependency-cruiser.cjs
+$ vitest run
+
+EXIT: 0
+
+COMMAND: pnpm licenses:scan && pnpm check:adr && node tools/check-features-first.ts --allow-unbound
+WARNING needs-review: Electron FFmpeg: Research A6 assumption; verify binary contents/terms, notices, source and relinking before release
+WARNING needs-review: DirectML.dll: Verify actual DLL redistribution terms and embedded notices before release
+WARNING needs-review: stories15M-q4_0.gguf: Research A5 upstream inherited grant needs verification before obtaining or shipping
+WARNING needs-review: fa_IR-mana-medium.onnx and .onnx.json: Preserve model MIT notice; record CC0 dataset provenance; verify artifacts before shipping
+WARNING needs-review: eng.traineddata: Preserve Apache license; verify artifact before shipping
+license-scan: scanned=739 lockfile=737 failures=0 notices=ok
+check-adr: failures=0
+INFO features/core/content-addressed-store.feature: not yet implemented packages/storage/src/cas.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/domain/src/jobs/fsm.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/domain/src/jobs/recovery.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/storage/src/jobs-repo.ts
+INFO features/core/durable-jobs.feature: not yet implemented apps/core/src/sample-job.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/policy.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/broker.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/guard.ts
+INFO features/core/engine-supervision.feature: not yet implemented packages/domain/src/supervision/backoff.ts
+INFO features/core/engine-supervision.feature: not yet implemented packages/domain/src/supervision/policy.ts
+INFO features/core/engine-supervision.feature: not yet implemented apps/main/src/supervisor.ts
+INFO features/core/ipc-validation.feature: not yet implemented apps/core/src/rpc-server.ts
+INFO features/core/ipc-validation.feature: not yet implemented packages/logging/src/jsonl.ts
+INFO features/core/storage-migrations.feature: not yet implemented packages/storage/src/migrate.ts
+INFO features/core/storage-migrations.feature: not yet implemented packages/storage/src/backup.ts
+INFO features/ui/app-shell.feature: not yet implemented apps/main/src/window.ts
+INFO features/ui/engine-crash.feature: not yet implemented apps/main/src/supervisor.ts
+INFO features/ui/engine-crash.feature: not yet implemented apps/core/src/engine-client.ts
+INFO features/ui/sample-job.feature: not yet implemented apps/renderer/src/sample-job/SampleJobCard.tsx
+INFO features/ui/sample-job.feature: not yet implemented apps/core/src/sample-job.ts
+INFO features/ui/startup-states.feature: not yet implemented apps/core/src/boot.ts
+INFO features/ui/zero-egress.feature: not yet implemented apps/main/src/egress-l1.ts
+INFO features/ui/zero-egress.feature: not yet implemented packages/egress/src/guard.ts
+INFO features/ui/zero-egress.feature: not yet implemented apps/core/src/checks/egress-zero.check.ts
+check-features-first: failures=1
+$ node tools/license-scan.ts
+$ node tools/check-adr.ts
+FAIL features/ui/startup-states.feature: feature must be committed strictly before apps/renderer/src/screens/Home.tsx
+
+EXIT: 1
+
+COMMAND: env -u ELECTRON_RUN_AS_NODE DANESH_E2E_GREP=@plan-01-06 pnpm test:e2e
+vite v7.3.7 building ssr environment for test...
+transforming...
+✓ 118 modules transformed.
+rendering chunks...
+out/main/chunks/utility-port-D7xZV9pN.js     0.18 kB
+out/main/engine-sample.js                    1.14 kB
+out/main/chunks/rpc-B_0DHeQ_.js              4.57 kB
+out/main/index.js                           12.25 kB
+out/main/core.js                            13.42 kB
+out/main/chunks/host-protocol-CKpTolVP.js  188.28 kB
+✓ built in 443ms
+vite v7.3.7 building ssr environment for test...
+transforming...
+✓ 101 modules transformed.
+rendering chunks...
+out/preload/index.cjs  195.77 kB
+✓ built in 241ms
+vite v7.3.7 building client environment for test...
+transforming...
+✓ 1454 modules transformed.
+rendering chunks...
+../desktop/out/renderer/index.html                                               0.46 kB
+../desktop/out/renderer/assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2   21.86 kB
+../desktop/out/renderer/assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2       34.52 kB
+../desktop/out/renderer/assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2      46.31 kB
+../desktop/out/renderer/assets/index-Bb1MnnhY.css                               14.75 kB
+../desktop/out/renderer/assets/index-vwOAFMRE.js                               975.55 kB
+✓ built in 1.44s
+
+Running 12 tests using 1 worker
+
+  ok  1 apps\desktop\.features-gen\app-shell.feature.spec.js:39:3 › An honest Persian-first shell behind a closed preload API › Home states the foundation scope in Persian @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-06 @kind-happy (432ms)
+  ok  2 apps\desktop\.features-gen\app-shell.feature.spec.js:49:3 › An honest Persian-first shell behind a closed preload API › Native menu navigation focuses the heading and unknown routes return Home @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-06 @kind-edge (409ms)
+  ok  3 apps\desktop\.features-gen\startup-states.feature.spec.js:89:3 › Startup preserves data and exposes honest recovery states › Slow preparation keeps System check available @ui @req-PLAT-06 @req-PLAT-07 @req-PLAT-04 @plan-01-06 @kind-edge (8.7s)
+  ok  4 apps\desktop\.features-gen\system-check.feature.spec.js:10:3 › Local System check with visible results and JSON export › System check waits for an explicit first run @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-happy (774ms)
+  ok  5 apps\desktop\.features-gen\system-check.feature.spec.js:19:3 › Local System check with visible results and JSON export › Running updates each row and announces the actual summary @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-happy (2.5s)
+  ok  6 apps\desktop\.features-gen\system-check.feature.spec.js:31:3 › Local System check with visible results and JSON export › A slow run gives a hint without allowing duplicate execution @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-edge (12.1s)
+  ok  7 apps\desktop\.features-gen\system-check.feature.spec.js:39:3 › Local System check with visible results and JSON export › The environment block preserves a Persian path with an apostrophe @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-edge (860ms)
+  ok  8 apps\desktop\.features-gen\system-check.feature.spec.js:47:3 › Local System check with visible results and JSON export › Exported JSON matches the displayed report @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-persistence (1.8s)
+  ok  9 apps\desktop\.features-gen\system-check.feature.spec.js:58:3 › Local System check with visible results and JSON export › An unwritable export target reports an actionable error @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-invalid (766ms)
+  ok 10 apps\desktop\.features-gen\system-check.feature.spec.js:66:3 › Local System check with visible results and JSON export › Cancelling the save dialog is silent @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-cancellation (870ms)
+  ok 11 apps\desktop\.features-gen\system-check.feature.spec.js:74:3 › Local System check with visible results and JSON export › An unreachable Core offers a named retry that recovers the run @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-recovery (13.0s)
+  ok 12 apps\desktop\.features-gen\system-check.feature.spec.js:84:3 › Local System check with visible results and JSON export › Partial reports retain their rows and render unknown ids honestly @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-edge (1.7s)
+
+  12 passed (44.7s)
+$ node tools/run-e2e.ts
+$ pnpm --dir apps/desktop run build:test
+$ electron-vite build --mode test
+(node:28812) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Debugger ending on ws://127.0.0.1:52147/4ebf8113-b2f6-4d40-a633-baad36a90180
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:52151/ebdd6ca8-252e-4534-82a1-bb8668054b2e
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:52156/0feb17e5-7974-42c8-95f8-2dbf98104bb4
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:56411/b244cd05-bc99-4869-a5e5-acdbebab979f
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:56415/a56d5f39-26b2-46a3-aa39-48c11f073daf
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:56420/d8e15bd6-4652-4075-bf20-ba829e504d87
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:56426/d828a777-38ae-4edb-919f-427cc1c293f0
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:56430/aafc5a1b-d027-4f6b-a6ff-d9ea95d04f26
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:56435/5f95a5e4-7dc4-4ae3-b137-6e0295d12e71
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:56439/d25cf34a-a6a6-4f9e-839f-d8c557eb0b03
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:56443/ec5740b2-40a1-4ca3-9136-72fd71f0bcaf
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58866/2126016b-f86f-4fb7-b4cd-821d9a07099a
+For help, see: https://nodejs.org/learn/getting-started/debugging
+
+EXIT: 0
+
+COMMAND: env -u ELECTRON_RUN_AS_NODE DANESH_E2E_GREP=@plan-01-03 DANESH_E2E_SKIP_BUILD=1 pnpm test:e2e
+
+Running 4 tests using 1 worker
+
+  ok 1 apps\desktop\.features-gen\app-shell.feature.spec.js:10:3 › An honest Persian-first shell behind a closed preload API › System check reaches the database through Core @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-happy (950ms)
+  ok 2 apps\desktop\.features-gen\app-shell.feature.spec.js:17:3 › An honest Persian-first shell behind a closed preload API › The page has no Node access or raw IPC surface @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-invalid (426ms)
+  ok 3 apps\desktop\.features-gen\app-shell.feature.spec.js:25:3 › An honest Persian-first shell behind a closed preload API › Core and the sample host run in separate processes @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-edge (548ms)
+  ok 4 apps\desktop\.features-gen\app-shell.feature.spec.js:31:3 › An honest Persian-first shell behind a closed preload API › The database probe row survives a relaunch @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-persistence (1.7s)
+
+  4 passed (4.4s)
+$ node tools/run-e2e.ts
+(node:27384) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Debugger ending on ws://127.0.0.1:58871/a560c020-e4c6-4699-b4e1-41ba16b254c0
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58875/5e723711-7aaf-4454-b348-9a2150be8967
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58879/d9850b80-a231-47c4-89f0-f81eba31a643
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58883/9244b0af-154c-420c-9280-572e1cf9b815
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58887/3dcb5431-0e2f-430d-8400-cd125cee9179
+For help, see: https://nodejs.org/learn/getting-started/debugging
+
+EXIT: 0
+
+COMMAND: node .planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-06-visual-check.mjs
+[{"screenshot":"01-06-home-720.png","title":"دانش","direction":"rtl","font":"\"Vazirmatn Variable\", Tahoma, \"Segoe UI\", system-ui, sans-serif","width":706,"scrollWidth":706,"csp":[]},{"screenshot":"01-06-home-720-200.png","title":"دانش","direction":"rtl","font":"\"Vazirmatn Variable\", Tahoma, \"Segoe UI\", system-ui, sans-serif","width":345,"scrollWidth":345,"csp":[]},{"screenshot":"01-06-system-partial-720.png","title":"بررسی سامانه — دانش","direction":"rtl","font":"\"Vazirmatn Variable\", Tahoma, \"Segoe UI\", system-ui, sans-serif","width":691,"scrollWidth":691,"csp":[]},{"technicalMaxBlockSize":"320px","blockSize":320,"focusable":0,"role":"region","arrowRotate":"180deg","expandedChevronTransform":"matrix(-1, 0, 0, -1, 0, 0)"},{"screenshot":"01-06-system-partial-720-200.png","title":"بررسی سامانه — دانش","direction":"rtl","font":"\"Vazirmatn Variable\", Tahoma, \"Segoe UI\", system-ui, sans-serif","width":345,"scrollWidth":345,"csp":[]},{"screenshot":"01-06-system-detail-720-200.png","title":"بررسی سامانه — دانش","direction":"rtl","font":"\"Vazirmatn Variable\", Tahoma, \"Segoe UI\", system-ui, sans-serif","width":345,"scrollWidth":345,"csp":[]},{"forcedColorOutline":"rgb(55, 0, 110)","reducedMotion":true},{"menu":[{"label":"پرونده","items":[{"label":"خروج","role":"quit","accelerator":null,"enabled":true}]},{"label":"ویرایش","items":[{"label":"رونوشت","role":"copy","accelerator":"CommandOrControl+C","enabled":true},{"label":"انتخاب همه","role":"selectall","accelerator":"CommandOrControl+A","enabled":true}]},{"label":"نمایش","items":[{"label":"صفحهٔ اصلی","role":null,"accelerator":"CmdOrCtrl+1","enabled":true},{"label":"بررسی سامانه","role":null,"accelerator":"CmdOrCtrl+2","enabled":true},{"label":"","role":null,"accelerator":null,"enabled":true},{"label":"بزرگ‌نمایی","role":"zoomin","accelerator":"CommandOrControl+Plus","enabled":true},{"label":"کوچک‌نمایی","role":"zoomout","accelerator":"CommandOrControl+-","enabled":true},{"label":"اندازهٔ واقعی","role":"resetzoom","accelerator":"CommandOrControl+0","enabled":true}]}]}]
+
+EXIT: 0
+
+COMMAND: git diff --check
+
+EXIT: 0

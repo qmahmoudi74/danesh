@@ -1,0 +1,137 @@
+{
+  "platform": "win32",
+  "capturedAt": "2026-10-09T21:17:46.272Z",
+  "note": "Test-build visual fixtures; long display path is a CSS stress fixture, not actual native userData. Human visual/UAT and macOS checks remain pending.",
+  "evidence": [
+    {
+      "screenshot": "01-06-home-720.png",
+      "title": "دانش",
+      "direction": "rtl",
+      "font": "\"Vazirmatn Variable\", Tahoma, \"Segoe UI\", system-ui, sans-serif",
+      "width": 706,
+      "scrollWidth": 706,
+      "csp": []
+    },
+    {
+      "screenshot": "01-06-home-720-200.png",
+      "title": "دانش",
+      "direction": "rtl",
+      "font": "\"Vazirmatn Variable\", Tahoma, \"Segoe UI\", system-ui, sans-serif",
+      "width": 345,
+      "scrollWidth": 345,
+      "csp": []
+    },
+    {
+      "screenshot": "01-06-system-partial-720.png",
+      "title": "بررسی سامانه — دانش",
+      "direction": "rtl",
+      "font": "\"Vazirmatn Variable\", Tahoma, \"Segoe UI\", system-ui, sans-serif",
+      "width": 691,
+      "scrollWidth": 691,
+      "csp": []
+    },
+    {
+      "technicalMaxBlockSize": "320px",
+      "blockSize": 320,
+      "focusable": 0,
+      "role": "region",
+      "arrowRotate": "180deg",
+      "expandedChevronTransform": "matrix(-1, 0, 0, -1, 0, 0)"
+    },
+    {
+      "screenshot": "01-06-system-partial-720-200.png",
+      "title": "بررسی سامانه — دانش",
+      "direction": "rtl",
+      "font": "\"Vazirmatn Variable\", Tahoma, \"Segoe UI\", system-ui, sans-serif",
+      "width": 345,
+      "scrollWidth": 345,
+      "csp": []
+    },
+    {
+      "screenshot": "01-06-system-detail-720-200.png",
+      "title": "بررسی سامانه — دانش",
+      "direction": "rtl",
+      "font": "\"Vazirmatn Variable\", Tahoma, \"Segoe UI\", system-ui, sans-serif",
+      "width": 345,
+      "scrollWidth": 345,
+      "csp": []
+    },
+    {
+      "forcedColorOutline": "rgb(55, 0, 110)",
+      "reducedMotion": true
+    },
+    {
+      "menu": [
+        {
+          "label": "پرونده",
+          "items": [
+            {
+              "label": "خروج",
+              "role": "quit",
+              "accelerator": null,
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "label": "ویرایش",
+          "items": [
+            {
+              "label": "رونوشت",
+              "role": "copy",
+              "accelerator": "CommandOrControl+C",
+              "enabled": true
+            },
+            {
+              "label": "انتخاب همه",
+              "role": "selectall",
+              "accelerator": "CommandOrControl+A",
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "label": "نمایش",
+          "items": [
+            {
+              "label": "صفحهٔ اصلی",
+              "role": null,
+              "accelerator": "CmdOrCtrl+1",
+              "enabled": true
+            },
+            {
+              "label": "بررسی سامانه",
+              "role": null,
+              "accelerator": "CmdOrCtrl+2",
+              "enabled": true
+            },
+            {
+              "label": "",
+              "role": null,
+              "accelerator": null,
+              "enabled": true
+            },
+            {
+              "label": "بزرگ‌نمایی",
+              "role": "zoomin",
+              "accelerator": "CommandOrControl+Plus",
+              "enabled": true
+            },
+            {
+              "label": "کوچک‌نمایی",
+              "role": "zoomout",
+              "accelerator": "CommandOrControl+-",
+              "enabled": true
+            },
+            {
+              "label": "اندازهٔ واقعی",
+              "role": "resetzoom",
+              "accelerator": "CommandOrControl+0",
+              "enabled": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
