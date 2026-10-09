@@ -172,7 +172,7 @@ Requirements for the initial release. Each maps to exactly one roadmap phase.
 - [ ] **EVAL-03**: Reference-based AI quality evals exist for content completeness, source fidelity, omission and extra content, Persian term consistency, concept merge and prerequisite precision, citation accuracy, and quiz answer quality.
 - [ ] **EVAL-04**: A listening-evaluation protocol, run by native listeners, is applied to every shipped voice.
 - [ ] **EVAL-05**: Each engine choice (PDF parser, OCR, layout, inference runtime, embedding model, translation model, TTS) is recorded in an ADR. Each ADR is backed by a spike on real Windows/macOS platforms covering accuracy, Persian quality, packaging, security and license.
-- [ ] **EVAL-06**: Every user-visible capability has BDD/ATDD acceptance scenarios defined before implementation, covering the happy path, invalid inputs, edge cases, recovery, cancellation and persistence.
+- [x] **EVAL-06**: Every user-visible capability has BDD/ATDD acceptance scenarios defined before implementation, covering the happy path, invalid inputs, edge cases, recovery, cancellation and persistence.
 - [ ] **EVAL-07**: Verification reports list verified, partially verified and blocked requirements with evidence paths. No pass rate or benchmark is invented.
 - [ ] **EVAL-08**: Prompt-injection fixtures embedded in PDFs and web text cannot trigger tool calls or alter grounding labels.
 
@@ -398,7 +398,7 @@ Which phases cover which requirements. Filled in during roadmap creation.
 | EVAL-03 | Phase 12 | Pending |
 | EVAL-04 | Phase 10 | Pending |
 | EVAL-05 | Phase 1 | Pending |
-| EVAL-06 | Phase 1 | Pending |
+| EVAL-06 | Phase 1 | Complete |
 | EVAL-07 | Phase 1 | Pending |
 | EVAL-08 | Phase 11 | Pending |
 | REL-01 | Phase 1 | Pending |
