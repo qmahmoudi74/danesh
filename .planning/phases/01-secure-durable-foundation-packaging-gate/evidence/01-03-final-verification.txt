@@ -1,0 +1,269 @@
+Actual verification started 2026-10-09T20:19:27.678Z
+
+COMMAND: pnpm typecheck && pnpm lint && pnpm depcruise && pnpm vitest run --project contracts --project main
+
+✔ no dependency violations found (40 modules, 63 dependencies cruised)
+
+
+ RUN  v5.0.3 D:/workspace/AI/danesh
+
+
+ Test Files  2 passed (2)
+      Tests  18 passed (18)
+   Start at  23:49:35
+   Duration  220ms (import 48%, transform 41%, tests 6%, worker 4%)
+
+$ tsc -p tsconfig.json --noEmit && tsc -p apps/renderer/tsconfig.json --noEmit
+$ eslint .
+$ depcruise apps packages tools --config .dependency-cruiser.cjs
+
+EXIT: 0
+
+COMMAND: env -u ELECTRON_RUN_AS_NODE DANESH_E2E_GREP=@plan-01-03 pnpm test:e2e
+vite v7.3.7 building ssr environment for test...
+transforming...
+✓ 112 modules transformed.
+rendering chunks...
+out/main/chunks/utility-port-D7xZV9pN.js     0.18 kB
+out/main/chunks/control-QV9nMoo-.js          0.82 kB
+out/main/engine-sample.js                    1.14 kB
+out/main/index.js                            6.77 kB
+out/main/core.js                            11.90 kB
+out/main/chunks/host-protocol-WyOjoEhv.js  188.26 kB
+✓ built in 505ms
+vite v7.3.7 building ssr environment for test...
+transforming...
+✓ 99 modules transformed.
+rendering chunks...
+out/preload/index.cjs  192.81 kB
+✓ built in 319ms
+vite v7.3.7 building client environment for test...
+transforming...
+✓ 124 modules transformed.
+rendering chunks...
+../desktop/out/renderer/index.html                                               0.46 kB
+../desktop/out/renderer/assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2   21.86 kB
+../desktop/out/renderer/assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2       34.52 kB
+../desktop/out/renderer/assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2      46.31 kB
+../desktop/out/renderer/assets/index-DW5yH51R.css                                7.80 kB
+../desktop/out/renderer/assets/index-BljrVk-v.js                               831.17 kB
+✓ built in 846ms
+
+Running 4 tests using 1 worker
+
+  ok 1 apps\desktop\.features-gen\app-shell.feature.spec.js:10:3 › An honest Persian-first shell behind a closed preload API › System check reaches the database through Core @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-happy (1.3s)
+  ok 2 apps\desktop\.features-gen\app-shell.feature.spec.js:17:3 › An honest Persian-first shell behind a closed preload API › The page has no Node access or raw IPC surface @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-invalid (978ms)
+  ok 3 apps\desktop\.features-gen\app-shell.feature.spec.js:25:3 › An honest Persian-first shell behind a closed preload API › Core and the sample host run in separate processes @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-edge (1.0s)
+  ok 4 apps\desktop\.features-gen\app-shell.feature.spec.js:31:3 › An honest Persian-first shell behind a closed preload API › The database probe row survives a relaunch @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-persistence (2.2s)
+
+  4 passed (6.3s)
+$ node tools/run-e2e.ts
+$ pnpm --dir apps/desktop run build:test
+$ electron-vite build --mode test
+(node:14016) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Debugger ending on ws://127.0.0.1:63043/380fa528-75cc-482f-bbb2-59ab3a2dfbf8
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63049/3e86c34b-8538-4c82-95a3-cfcb797b44e5
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63053/4d76f67f-dbf0-46d2-a175-1fda00e2cc5d
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63057/135bb94e-009b-488e-bb66-3d6808aad9b8
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63061/d0a2241b-e9e7-4ca8-a91b-16bb6138d119
+For help, see: https://nodejs.org/learn/getting-started/debugging
+
+EXIT: 0
+
+COMMAND: pnpm build
+vite v7.3.7 building ssr environment for production...
+transforming...
+✓ 112 modules transformed.
+rendering chunks...
+out/main/chunks/utility-port-D7xZV9pN.js     0.18 kB
+out/main/chunks/control-QV9nMoo-.js          0.82 kB
+out/main/engine-sample.js                    1.14 kB
+out/main/index.js                            6.77 kB
+out/main/core.js                            11.79 kB
+out/main/chunks/host-protocol-WyOjoEhv.js  188.26 kB
+✓ built in 682ms
+vite v7.3.7 building ssr environment for production...
+transforming...
+✓ 99 modules transformed.
+rendering chunks...
+out/preload/index.cjs  192.76 kB
+✓ built in 312ms
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 124 modules transformed.
+rendering chunks...
+../desktop/out/renderer/index.html                                               0.46 kB
+../desktop/out/renderer/assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2   21.86 kB
+../desktop/out/renderer/assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2       34.52 kB
+../desktop/out/renderer/assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2      46.31 kB
+../desktop/out/renderer/assets/index-DW5yH51R.css                                7.80 kB
+../desktop/out/renderer/assets/index-BljrVk-v.js                               831.17 kB
+✓ built in 832ms
+$ pnpm --dir apps/desktop run build
+$ electron-vite build
+
+EXIT: 0
+
+COMMAND (production build runtime): env -u ELECTRON_RUN_AS_NODE DANESH_E2E_SKIP_BUILD=1 DANESH_E2E_GREP="System check reaches the database|The page has no Node|The database probe row" pnpm test:e2e
+
+Running 3 tests using 1 worker
+
+  ok 1 apps\desktop\.features-gen\app-shell.feature.spec.js:10:3 › An honest Persian-first shell behind a closed preload API › System check reaches the database through Core @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-happy (1.0s)
+  ok 2 apps\desktop\.features-gen\app-shell.feature.spec.js:17:3 › An honest Persian-first shell behind a closed preload API › The page has no Node access or raw IPC surface @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-invalid (729ms)
+  ok 3 apps\desktop\.features-gen\app-shell.feature.spec.js:31:3 › An honest Persian-first shell behind a closed preload API › The database probe row survives a relaunch @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-persistence (2.1s)
+
+  3 passed (4.6s)
+$ node tools/run-e2e.ts
+(node:34052) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Debugger ending on ws://127.0.0.1:63069/3e30ac38-aef8-4baf-80e9-97dda24da6de
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63073/b667e747-ca27-42f7-b7f7-ff7d2fdc5faf
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63078/2e32bae9-c70d-445a-846e-8d4b8c750e74
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:63082/70d3549c-b3d5-4fad-998c-3d026c6f970b
+For help, see: https://nodejs.org/learn/getting-started/debugging
+
+EXIT: 0
+
+FINAL SOURCE RECHECK 2026-10-09T20:21:12.580Z (after test-only schema guard)
+
+COMMAND: pnpm typecheck && pnpm lint && pnpm depcruise && pnpm vitest run --project contracts --project main
+
+✔ no dependency violations found (40 modules, 63 dependencies cruised)
+
+
+ RUN  v5.0.3 D:/workspace/AI/danesh
+
+
+ Test Files  2 passed (2)
+      Tests  18 passed (18)
+   Start at  23:51:22
+   Duration  310ms (import 46%, transform 43%, tests 7%, worker 4%)
+
+$ tsc -p tsconfig.json --noEmit && tsc -p apps/renderer/tsconfig.json --noEmit
+$ eslint .
+$ depcruise apps packages tools --config .dependency-cruiser.cjs
+
+EXIT: 0
+
+COMMAND: env -u ELECTRON_RUN_AS_NODE DANESH_E2E_GREP=@plan-01-03 pnpm test:e2e
+vite v7.3.7 building ssr environment for test...
+transforming...
+✓ 112 modules transformed.
+rendering chunks...
+out/main/chunks/utility-port-D7xZV9pN.js     0.18 kB
+out/main/chunks/control-QV9nMoo-.js          0.82 kB
+out/main/engine-sample.js                    1.14 kB
+out/main/index.js                            6.77 kB
+out/main/core.js                            11.95 kB
+out/main/chunks/host-protocol-WyOjoEhv.js  188.26 kB
+✓ built in 753ms
+vite v7.3.7 building ssr environment for test...
+transforming...
+✓ 99 modules transformed.
+rendering chunks...
+out/preload/index.cjs  192.87 kB
+✓ built in 454ms
+vite v7.3.7 building client environment for test...
+transforming...
+✓ 124 modules transformed.
+rendering chunks...
+../desktop/out/renderer/index.html                                               0.46 kB
+../desktop/out/renderer/assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2   21.86 kB
+../desktop/out/renderer/assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2       34.52 kB
+../desktop/out/renderer/assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2      46.31 kB
+../desktop/out/renderer/assets/index-DW5yH51R.css                                7.80 kB
+../desktop/out/renderer/assets/index-BljrVk-v.js                               831.17 kB
+✓ built in 1.13s
+
+Running 4 tests using 1 worker
+
+  ok 1 apps\desktop\.features-gen\app-shell.feature.spec.js:10:3 › An honest Persian-first shell behind a closed preload API › System check reaches the database through Core @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-happy (1.0s)
+  ok 2 apps\desktop\.features-gen\app-shell.feature.spec.js:17:3 › An honest Persian-first shell behind a closed preload API › The page has no Node access or raw IPC surface @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-invalid (770ms)
+  ok 3 apps\desktop\.features-gen\app-shell.feature.spec.js:25:3 › An honest Persian-first shell behind a closed preload API › Core and the sample host run in separate processes @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-edge (886ms)
+  ok 4 apps\desktop\.features-gen\app-shell.feature.spec.js:31:3 › An honest Persian-first shell behind a closed preload API › The database probe row survives a relaunch @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-persistence (1.9s)
+
+  4 passed (5.5s)
+$ node tools/run-e2e.ts
+$ pnpm --dir apps/desktop run build:test
+$ electron-vite build --mode test
+(node:30748) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Debugger ending on ws://127.0.0.1:53576/e7f80554-975f-41b0-bf92-98283b86587f
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:55507/e4af6a29-82fe-4e29-8f5d-f28a80bf94eb
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:55511/c7970d07-1a6f-47d7-a98d-ad02ff447082
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:55515/f6d91735-76e9-403a-9f90-a44086dd93a7
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:55520/ac313871-39aa-4be5-a33b-e37e6ad48f24
+For help, see: https://nodejs.org/learn/getting-started/debugging
+
+EXIT: 0
+
+COMMAND: pnpm build
+vite v7.3.7 building ssr environment for production...
+transforming...
+✓ 112 modules transformed.
+rendering chunks...
+out/main/chunks/utility-port-D7xZV9pN.js     0.18 kB
+out/main/chunks/control-QV9nMoo-.js          0.82 kB
+out/main/engine-sample.js                    1.14 kB
+out/main/index.js                            6.77 kB
+out/main/core.js                            11.73 kB
+out/main/chunks/host-protocol-WyOjoEhv.js  188.26 kB
+✓ built in 784ms
+vite v7.3.7 building ssr environment for production...
+transforming...
+✓ 99 modules transformed.
+rendering chunks...
+out/preload/index.cjs  192.70 kB
+✓ built in 477ms
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 124 modules transformed.
+rendering chunks...
+../desktop/out/renderer/index.html                                               0.46 kB
+../desktop/out/renderer/assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2   21.86 kB
+../desktop/out/renderer/assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2       34.52 kB
+../desktop/out/renderer/assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2      46.31 kB
+../desktop/out/renderer/assets/index-DW5yH51R.css                                7.80 kB
+../desktop/out/renderer/assets/index-BljrVk-v.js                               831.17 kB
+✓ built in 1.23s
+$ pnpm --dir apps/desktop run build
+$ electron-vite build
+
+EXIT: 0
+
+Built Core/preload inspection: test.engineEcho literal absent; no packaged-artifact claim.
+
+FINAL PRODUCTION RUNTIME: pnpm test:e2e (skip build; grep three non-test-hook scenarios; ELECTRON_RUN_AS_NODE removed)
+
+Running 3 tests using 1 worker
+
+  ok 1 apps\desktop\.features-gen\app-shell.feature.spec.js:10:3 › An honest Persian-first shell behind a closed preload API › System check reaches the database through Core @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-happy (1.3s)
+  ok 2 apps\desktop\.features-gen\app-shell.feature.spec.js:17:3 › An honest Persian-first shell behind a closed preload API › The page has no Node access or raw IPC surface @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-invalid (758ms)
+  ok 3 apps\desktop\.features-gen\app-shell.feature.spec.js:31:3 › An honest Persian-first shell behind a closed preload API › The database probe row survives a relaunch @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-persistence (2.0s)
+
+  3 passed (4.8s)
+$ node tools/run-e2e.ts
+(node:38376) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Debugger ending on ws://127.0.0.1:62527/659a1bd0-47ca-43d0-b433-a8b7ab0efcfb
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:62531/c5081eaf-0afc-48c4-ba4c-d70f5c910761
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:62535/27dd69cd-d2d4-4df8-a554-b01da6db1ae9
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:62539/40de78bf-1dfc-4f74-b01d-ad1fe95fc329
+For help, see: https://nodejs.org/learn/getting-started/debugging
+
+EXIT: 0
