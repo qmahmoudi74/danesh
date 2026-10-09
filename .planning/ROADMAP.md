@@ -40,7 +40,23 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Killing an engine process mid-task, or forcing it out of memory, never takes down the app: the task is marked retriable and the engine restarts with backoff. A sample job resumes after an app restart or a kill -9 without redoing completed work or losing committed output.
   4. User data lives in a versioned database with forward-only migrations. The app snapshots data before migrating, a failed migration leaves prior data intact and restorable, and a database written by a newer version is refused. Large artifacts are written atomically into a content-addressed store.
   5. Danesh's own license is recorded in an ADR. The ADR-with-spike template, the acceptance-scenarios-before-implementation practice and the evidence-path verification report (verified, partially verified, blocked) are all in use for this phase's own work.
-**Plans**: TBD
+**Plans**: 14 plans (planned set; follow-up items for the zero-egress proof, Tier B runs and ADR results are listed in the planning return)
+
+Plans:
+- [ ] 01-01-PLAN.md — Acceptance scenarios (12 Gherkin files), ADR template and ADR 0001-0003 pass policies, written before any implementation
+- [ ] 01-02-PLAN.md — Exact-pinned manifests (license MIT), consolidated package-legitimacy checkpoint, frozen install
+- [ ] 01-03-PLAN.md — Walking skeleton tracer: Persian window → preload → Core → SQLite → engine host; lint/type/boundary/test harness
+- [ ] 01-04-PLAN.md — D-LICENSE recorded: MIT LICENSE, manifests MIT, ADR 0004 accepted
+- [ ] 01-05-PLAN.md — Repository gates: license scan (permissive-only, non-commercial rejected, notices) and ADR/features-first/report checkers
+- [ ] 01-06-PLAN.md — Persian-first Home and System check UI, report export, native menu
+- [ ] 01-07-PLAN.md — Hardened window, strict validated IPC, local logging, single instance, Windows library location, Chromium egress block
+- [ ] 01-08-PLAN.md — Packaged production build with fuses, headless smoke mode, packaged smoke runner, test build
+- [ ] 01-09-PLAN.md — LLM, OCR and TTS packaging probes in isolated hosts; UI responsiveness check
+- [ ] 01-10-PLAN.md — CI on Windows and macOS, local CI parity, Tier B runbooks, first GitHub run (user push)
+- [ ] 01-11-PLAN.md — Forward-only migrations, verified backups, newer-schema refusal, read-only recovery
+- [ ] 01-12-PLAN.md — Content-addressed blob store with atomic writes
+- [ ] 01-13-PLAN.md — Durable job kernel and sample durable job with crash-safe resume
+- [ ] 01-14-PLAN.md — Engine and Core supervision: crash/OOM containment with backoff
 
 ### Phase 2: PDF Import & Faithful Canonical Model
 **Goal:** As a learner, I want to import my PDFs, including large, encrypted or damaged ones, through a resumable pipeline that reconstructs them faithfully with stable block identity and honest coverage, so that everything Danesh later teaches rests on content I can trust.
