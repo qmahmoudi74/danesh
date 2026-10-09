@@ -3,12 +3,12 @@ import { MAX_PREFERENCES_BYTES, parseUiPreferences } from '../src/preferences.ts
 import { shellEventPayloads, shellMethods } from '../src/shell.ts';
 
 describe('UI preferences parsing', () => {
-  it('defaults to the System theme without window bounds for missing, corrupt or hostile files', () => {
-    for (const text of [undefined, '', '{', 'null', '[]', '"dark"', '{"__proto__":{"theme":"dark"}}', 'x'.repeat(MAX_PREFERENCES_BYTES + 1)]) expect(parseUiPreferences(text)).toEqual({ version: 1, theme: 'system' });
+  it('defaults to no saved theme (System) and no window bounds for missing, corrupt or hostile files', () => {
+    for (const text of [undefined, '', '{', 'null', '[]', '"dark"', '{"__proto__":{"theme":"dark"}}', 'x'.repeat(MAX_PREFERENCES_BYTES + 1)]) expect(parseUiPreferences(text)).toEqual({ version: 1 });
   });
   it('keeps every still-valid field and drops invalid ones independently', () => {
     expect(parseUiPreferences('{"version":1,"theme":"dark","window":"broken"}')).toEqual({ version: 1, theme: 'dark' });
-    expect(parseUiPreferences('{"version":9,"theme":"neon","window":{"x":10,"y":20,"width":900,"height":640,"maximized":true}}')).toEqual({ version: 1, theme: 'system', window: { x: 10, y: 20, width: 900, height: 640, maximized: true } });
+    expect(parseUiPreferences('{"version":9,"theme":"neon","window":{"x":10,"y":20,"width":900,"height":640,"maximized":true}}')).toEqual({ version: 1, window: { x: 10, y: 20, width: 900, height: 640, maximized: true } });
   });
   it('rejects fractional, out-of-range and over-specified bounds', () => {
     for (const window of [{ x: 0.5, y: 0, width: 900, height: 640, maximized: false }, { x: 0, y: 0, width: 50, height: 640, maximized: false }, { x: 0, y: 0, width: 900, height: 640, maximized: false, extra: 1 }, { x: 1e9, y: 0, width: 900, height: 640, maximized: false }]) {

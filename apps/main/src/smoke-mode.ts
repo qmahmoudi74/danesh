@@ -20,13 +20,22 @@ export function parseSmokeArgs(argv: string[], forbiddenRoots: string[]): SmokeA
   if (!argv.includes('--smoke-test')) return null;
   const raw = argv.find((arg) => arg.startsWith('--smoke-out='))?.slice('--smoke-out='.length);
   if (!raw) return { error: 'missing --smoke-out=<absolute path to a .json file>' };
-  if (!isAbsolute(raw) || extname(raw).toLowerCase() !== '.json') return { error: '--smoke-out must be an absolute path ending in .json' };
+  if (!isAbsolute(raw) || extname(raw).toLowerCase() !== '.json')
+    return { error: '--smoke-out must be an absolute path ending in .json' };
   const outPath = resolve(raw);
   const parent = dirname(outPath);
   try {
-    if (!existsSync(parent) || !lstatSync(parent).isDirectory()) return { error: '--smoke-out parent directory does not exist' };
-    if (lstatSync(parent).isSymbolicLink() || (existsSync(outPath) && lstatSync(outPath).isSymbolicLink())) return { error: '--smoke-out must not be a symbolic link' };
-  } catch { return { error: '--smoke-out is not accessible' }; }
-  if (forbiddenRoots.some((root) => root && inside(root, outPath))) return { error: '--smoke-out must be outside the application directory' };
+    if (!existsSync(parent) || !lstatSync(parent).isDirectory())
+      return { error: '--smoke-out parent directory does not exist' };
+    if (
+      lstatSync(parent).isSymbolicLink() ||
+      (existsSync(outPath) && lstatSync(outPath).isSymbolicLink())
+    )
+      return { error: '--smoke-out must not be a symbolic link' };
+  } catch {
+    return { error: '--smoke-out is not accessible' };
+  }
+  if (forbiddenRoots.some((root) => root && inside(root, outPath)))
+    return { error: '--smoke-out must be outside the application directory' };
   return { outPath };
 }

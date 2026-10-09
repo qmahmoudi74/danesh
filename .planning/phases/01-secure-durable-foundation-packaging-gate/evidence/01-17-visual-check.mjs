@@ -6,7 +6,10 @@ import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve, dirname, basename } from 'node:path';
 
-const out = import.meta.dirname;
+// DANESH_SHOT_DIR / DANESH_SHOT_PREFIX let later runs write elsewhere without overwriting earlier evidence.
+const out = process.env.DANESH_SHOT_DIR ?? import.meta.dirname;
+const prefix = process.env.DANESH_SHOT_PREFIX ?? '01-17-';
+await (await import('node:fs/promises')).mkdir(out, { recursive: true });
 const filter = process.argv[2] ?? '';
 const root = await mkdtemp(join(tmpdir(), 'danesh-visual-'));
 const env = { ...process.env }; delete env.ELECTRON_RUN_AS_NODE;
@@ -27,7 +30,7 @@ try {
     await page.waitForTimeout(250);
     const metrics = await page.evaluate(() => ({ overflowX: document.documentElement.scrollWidth > innerWidth || [...document.querySelectorAll('.content, .title-bar, .sidebar')].some((el) => el.scrollWidth > el.clientWidth + 1), viewport: [innerWidth, innerHeight], csp: window.__cspViolations ?? [] }));
     const buffer = await capture();
-    await writeFile(join(out, `01-17-${name}.png`), buffer);
+    await writeFile(join(out, `${prefix}${name}.png`), buffer);
     results.push({ name, ...metrics });
   };
   for (const theme of ['light', 'dark']) {
@@ -66,9 +69,9 @@ try {
     await page.evaluate(() => document.documentElement.toggleAttribute('data-window-inactive', true));
     await shot(`${theme}-inactive`);
     await page.evaluate(() => document.documentElement.toggleAttribute('data-window-inactive', false));
-    if (await close.count()) { await close.hover(); await page.waitForTimeout(700); if (!filter || `${theme}-close-hover`.includes(filter)) { await writeFile(join(out, `01-17-${theme}-close-hover.png`), await page.screenshot({ clip: { x: 0, y: 0, width: 360, height: 120 } })); } }
+    if (await close.count()) { await close.hover(); await page.waitForTimeout(700); if (!filter || `${theme}-close-hover`.includes(filter)) { await writeFile(join(out, `${prefix}${theme}-close-hover.png`), await page.screenshot({ clip: { x: 0, y: 0, width: 360, height: 120 } })); } }
   }
-  await writeFile(join(out, '01-17-visual-results.json'), JSON.stringify({ recordedAt: new Date().toISOString(), platform: process.platform, results }, null, 2) + '\n');
+  await writeFile(join(out, `${prefix}visual-results.json`), JSON.stringify({ recordedAt: new Date().toISOString(), platform: process.platform, results }, null, 2) + '\n');
   console.log(JSON.stringify(results));
 } finally {
   await app.close();

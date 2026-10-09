@@ -8,10 +8,12 @@ const coordinate = z.number().int().min(-100_000).max(100_000);
 const extent = z.number().int().min(100).max(20_000);
 export const WindowBoundsSchema = z.strictObject({ x: coordinate, y: coordinate, width: extent, height: extent, maximized: z.boolean() });
 export type WindowBounds = z.infer<typeof WindowBoundsSchema>;
-export const UiPreferencesSchema = z.strictObject({ version: z.literal(1), theme: ThemePreferenceSchema, window: WindowBoundsSchema.optional() });
+// theme is absent until the user chooses one: a fresh install follows the operating system and writes no preference.
+export const UiPreferencesSchema = z.strictObject({ version: z.literal(1), theme: ThemePreferenceSchema.optional(), window: WindowBoundsSchema.optional() });
 export type UiPreferences = z.infer<typeof UiPreferencesSchema>;
 export const MAX_PREFERENCES_BYTES = 4096;
-export const defaultUiPreferences = (): UiPreferences => ({ version: 1, theme: 'system' });
+export const defaultUiPreferences = (): UiPreferences => ({ version: 1 });
+export const effectiveTheme = (preferences: UiPreferences): ThemePreference => preferences.theme ?? 'system';
 
 /** Never throws: a corrupt, oversized or partly invalid file keeps whatever fields are still valid. */
 export function parseUiPreferences(text: string | undefined): UiPreferences {
@@ -23,5 +25,5 @@ export function parseUiPreferences(text: string | undefined): UiPreferences {
   const record = value as Record<string, unknown>;
   const theme = ThemePreferenceSchema.safeParse(record.theme);
   const window = WindowBoundsSchema.safeParse(record.window);
-  return { version: 1, theme: theme.success ? theme.data : fallback.theme, ...(window.success ? { window: window.data } : {}) };
+  return { version: 1, ...(theme.success ? { theme: theme.data } : {}), ...(window.success ? { window: window.data } : {}) };
 }

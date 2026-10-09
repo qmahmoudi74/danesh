@@ -1,21 +1,29 @@
+import { type Route, RouteSchema, shellEventPayloads } from '@danesh/contracts/shell.ts';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { RouteSchema, shellEventPayloads, type Route } from '@danesh/contracts/shell.ts';
-import { Home } from './screens/Home.tsx';
-import { SystemCheck } from './screens/SystemCheck.tsx';
-import { Settings } from './screens/Settings.tsx';
 import { TitleBar } from './components/Chrome.tsx';
 import { Sidebar } from './components/Sidebar.tsx';
-import { useWindowState } from './lib/theme.ts';
-import { installSmokeRunner } from './lib/smoke.ts';
 import { installResponsivenessProbe } from './lib/heartbeat.ts';
+import { installSmokeRunner } from './lib/smoke.ts';
+import { useWindowState } from './lib/theme.ts';
+import { Home } from './screens/Home.tsx';
+import { Settings } from './screens/Settings.tsx';
+import { SystemCheck } from './screens/SystemCheck.tsx';
 
 const screens: Record<Route, { name: string; title: string; render: () => React.ReactNode }> = {
   '#/': { name: 'خانه', title: 'دانش', render: () => <Home /> },
-  '#/system-check': { name: 'بررسی سامانه', title: 'بررسی سامانه — دانش', render: () => <SystemCheck /> },
+  '#/system-check': {
+    name: 'بررسی سامانه',
+    title: 'بررسی سامانه — دانش',
+    render: () => <SystemCheck />,
+  },
   '#/settings': { name: 'تنظیمات', title: 'تنظیمات — دانش', render: () => <Settings /> },
 };
-const toRoute = (hash: string): Route => { const parsed = RouteSchema.safeParse(hash); return parsed.success ? parsed.data : '#/'; };
-const focusHeading = () => document.querySelector<HTMLHeadingElement>('main h1')?.focus({ preventScroll: true });
+const toRoute = (hash: string): Route => {
+  const parsed = RouteSchema.safeParse(hash);
+  return parsed.success ? parsed.data : '#/';
+};
+const focusHeading = () =>
+  document.querySelector<HTMLHeadingElement>('main h1')?.focus({ preventScroll: true });
 
 export function Router() {
   const [hash, setHash] = useState(location.hash);
@@ -33,14 +41,19 @@ export function Router() {
       const parsed = shellEventPayloads['shell.navigate']!.safeParse(payload);
       if (!parsed.success) return;
       const target = (parsed.data as { route: Route }).route;
-      if (location.hash === target || (target === '#/' && toRoute(location.hash) === '#/')) focusHeading();
+      if (location.hash === target || (target === '#/' && toRoute(location.hash) === '#/'))
+        focusHeading();
       else location.hash = target.slice(1);
     });
-    return () => { window.removeEventListener('hashchange', changed); unsubscribe(); };
+    return () => {
+      window.removeEventListener('hashchange', changed);
+      unsubscribe();
+    };
   }, []);
   useLayoutEffect(() => {
     const scroller = content.current;
-    if (scroller && shown.current !== route) scroller.scrollTop = scrollPositions.current.get(route) ?? 0;
+    if (scroller && shown.current !== route)
+      scroller.scrollTop = scrollPositions.current.get(route) ?? 0;
     shown.current = route;
     document.title = screens[route].title;
     focusHeading();
@@ -50,11 +63,21 @@ export function Router() {
     root.toggleAttribute('data-window-inactive', windowState ? !windowState.focused : false);
     root.toggleAttribute('data-fullscreen', windowState?.fullscreen ?? false);
   }, [windowState]);
-  return <div className="frame">
-    <TitleBar screen={screens[route].name} state={windowState} />
-    <div className="workspace">
-      <Sidebar route={route} />
-      <div className="content" ref={content} onScroll={(event) => scrollPositions.current.set(shown.current, event.currentTarget.scrollTop)}>{screens[route].render()}</div>
+  return (
+    <div className="frame">
+      <TitleBar screen={screens[route].name} state={windowState} />
+      <div className="workspace">
+        <Sidebar route={route} />
+        <div
+          className="content"
+          ref={content}
+          onScroll={(event) =>
+            scrollPositions.current.set(shown.current, event.currentTarget.scrollTop)
+          }
+        >
+          {screens[route].render()}
+        </div>
+      </div>
     </div>
-  </div>;
+  );
 }

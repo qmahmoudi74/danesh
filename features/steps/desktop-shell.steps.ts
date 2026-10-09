@@ -24,15 +24,22 @@ Then('the window has no OS title bar and the Danesh title bar shows «دانش»
   expect(await bar.evaluate((element) => getComputedStyle(element).getPropertyValue('-webkit-app-region') || getComputedStyle(element).getPropertyValue('app-region'))).toBe('drag');
   for (const button of await bar.getByRole('button').all()) expect(await button.evaluate((element) => getComputedStyle(element).getPropertyValue('-webkit-app-region') || getComputedStyle(element).getPropertyValue('app-region'))).toBe('no-drag');
 });
-Then("the platform's window controls are placed at inline-end", async ({ harness }) => {
+Then("the platform's window controls are placed at the physical right", async ({ harness }) => {
   const page = harness.page!;
   const brand = await page.locator('.title-brand').boundingBox();
-  if (isMac) { const lights = await page.locator('.traffic-lights').boundingBox(); expect(lights!.x).toBeLessThan(brand!.x); await expect(page.locator('.caption-button')).toHaveCount(0); return; }
+  if (isMac) {
+    // Native traffic lights keep the left edge; no custom controls are drawn.
+    const lights = await page.locator('.traffic-lights').boundingBox();
+    expect(lights!.x).toBeLessThan(brand!.x);
+    await expect(page.locator('.caption-button')).toHaveCount(0);
+    return;
+  }
   const [minimize, maximize, close] = await Promise.all(['کوچک کردن', 'بزرگ کردن', 'بستن'].map((name) => page.getByRole('button', { name, exact: true }).boundingBox()));
-  // RTL: inline-end is the physical left, with close at the outer edge, mirroring Windows' RTL caption order.
-  expect(close!.x).toBeLessThan(maximize!.x); expect(maximize!.x).toBeLessThan(minimize!.x); expect(minimize!.x).toBeLessThan(brand!.x);
-  expect(close!.x).toBeLessThanOrEqual(1);
-  for (const box of [minimize, maximize, close]) { expect(Math.round(box!.width)).toBe(46); expect(Math.round(box!.height)).toBeGreaterThanOrEqual(39); }
+  // Controls sit at the physical right in the usual order, with close at the outer edge.
+  expect(brand!.x).toBeLessThan(minimize!.x); expect(minimize!.x).toBeLessThan(maximize!.x); expect(maximize!.x).toBeLessThan(close!.x);
+  const viewport = await page.evaluate(() => innerWidth);
+  expect(close!.x + close!.width).toBeGreaterThanOrEqual(viewport - 1);
+  for (const box of [minimize, maximize, close]) { expect(Math.round(box!.width)).toBe(46); expect(Math.round(box!.height)).toBeGreaterThanOrEqual(31); }
 });
 const press = async (harness: { page: Page | undefined }, name: RegExp, action: string) => {
   if (isMac) { await harness.page!.evaluate((value) => window.danesh.call('shell.window', { action: value }), action); return; }

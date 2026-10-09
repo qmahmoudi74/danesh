@@ -27,3 +27,23 @@ export function openLibraryDb(libraryRoot: string, appVersion = '0.1.0'): Db {
     return db;
   } catch (error) { db.close(); throw error; }
 }
+
+/** Writes one System-check probe row and reads it back: proof the library is open, writable and persistent. */
+export function recordSystemCheckProbe(db: Db): {
+  readBack: boolean;
+  count: number;
+  journalMode: string;
+  userVersion: number;
+} {
+  const written = db.prepare('INSERT INTO system_check_probe(at) VALUES (?)').run(Date.now());
+  const row = db
+    .prepare<[number | bigint], { at: number }>('SELECT at FROM system_check_probe WHERE id = ?')
+    .get(written.lastInsertRowid);
+  const total = db.prepare<[], { count: number }>('SELECT count(*) AS count FROM system_check_probe').get();
+  return {
+    readBack: row !== undefined,
+    count: total?.count ?? 0,
+    journalMode: String(db.pragma('journal_mode', { simple: true })),
+    userVersion: Number(db.pragma('user_version', { simple: true })),
+  };
+}

@@ -4,5 +4,7 @@ export function isTrustedShellOrigin(address: string, devUrl?: string): boolean 
     if (url.username || url.password) return false;
     if (url.protocol === 'app:' && url.hostname === 'danesh' && !url.port) return true;
     return !!devUrl && url.origin === new URL(devUrl).origin;
-  } catch { return false; }
+  } catch {
+    return false;
+  }
 }

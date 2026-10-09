@@ -533,9 +533,9 @@ spinner", "Disclosure open/close has no animation" and "Home has one tab stop".
 | Rule | Contract |
 |------|----------|
 | Frame | `titleBarStyle: 'hidden'` on every platform (Electron-supported frameless API). No OS title bar. Native resize borders, snap, shadow and rounded corners are kept. Window minimum stays 720x520. |
-| Title bar | 40px tall, full width, `--color-chrome` background, 1px `--color-border-subtle` bottom divider. Inline-start: brand mark (20px) + «دانش» (Label) + thin separator + current screen name (caption, truncates with ellipsis). The rest is a drag region (`-webkit-app-region: drag`, `user-select: none`). Every control inside is `no-drag`. |
-| Window controls (Windows/Linux) | Custom minimize, maximize/restore, close: each 46x40, glyph 10px with 1px stroke drawn on the pixel grid, neutral `--color-hover` on hover, `--color-pressed` on press; close hovers to `--color-danger-chrome` with `--color-on-danger-chrome`. Labels «کوچک کردن», «بزرگ کردن» / «بازگرداندن», «بستن» as accessible names and tooltips. Glyphs dim to `--color-text-muted` when the window is inactive. Excluded from the Tab order (as native caption buttons are); keyboard users keep native Alt+F4 and Win+Up/Down. |
-| Placement | Controls sit at **inline-end**. In this RTL UI that is the physical left, which is where Windows places caption buttons for an RTL-mirrored window and where macOS draws its traffic lights. If the UI direction ever becomes LTR, the controls move to the right automatically. |
+| Title bar | 32px tall (compact), full width, `--color-chrome`, 1px `--color-border-subtle` bottom divider. The bar is laid out left-to-right regardless of UI direction: brand mark + «دانش» + separator + screen name at the left, drag region in the middle, window controls at the **physical right**. Every control is `no-drag`. |
+| Window controls (Windows/Linux) | Minimize, maximize/restore, close: 46x32, 10px square-cap glyphs, icon only (no text; the accessible name and tooltip carry the label). Hover uses `--color-hover`, press `--color-pressed`, close hovers to `--color-danger-chrome`; focus ring visible; dimmed when the window is inactive; excluded from Tab order like native caption buttons. |
+| Placement | Windows/Linux: controls at the physical right (user direction 2026-10-10, superseding the earlier inline-end rule). macOS: native traffic lights at the physical left via `trafficLightPosition` (12,10), with a 72px spacer that fullscreen removes. |
 | macOS | Native traffic lights are kept (fullscreen, tiling and accessibility stay native) via `trafficLightPosition`, vertically centered in the 40px bar. The title bar reserves 80px at the physical left for them; fullscreen removes the reservation. No custom controls are drawn on macOS. |
 | Native behavior | Double-click on the drag region maximizes/restores (Windows) or follows the user's macOS preference; this is handled natively by the drag region. Right-click on the drag region (Windows) opens the native system menu. |
 | Menu (Windows/Linux) | Frameless windows have no menu bar, so the title bar shows a «منو» icon button that pops up the **native** application menu beneath it. Menu accelerators remain registered. macOS keeps the global menu bar. |
@@ -544,7 +544,7 @@ spinner", "Disclosure open/close has no animation" and "Home has one tab stop".
 
 ### A.2 Themes
 
-Preference: `system` («هماهنگ با سیستم», default) | `light` («روشن») | `dark` («تیره»). Main stores it and sets
+Preference (nothing is saved until the user chooses; a fresh install is System and writes no theme): `system` («هماهنگ با سیستم», default) | `light` («روشن») | `dark` («تیره»). Main stores it and sets
 `nativeTheme.themeSource` before creating the window; the window background color is the effective theme's
 `--color-surface` (what shows while resizing). CSS selects tokens with `@media (prefers-color-scheme: dark)`, which Electron drives from
 `themeSource`, so the first frame is correct with no script. `color-scheme: light dark` makes native widgets match.
@@ -584,7 +584,7 @@ the contrast pairs above for both themes. Forced-colors mode keeps the existing 
   the collapse toggle «جمع کردن نوار کناری» / «باز کردن نوار کناری». Collapsed items show a tooltip with their label.
   Below 880px window width the sidebar is always a rail. Only real destinations may appear in it.
 - Content column: unchanged 720px max inline size, centered in the content region, padding 48/32.
-- Radii: 4px (badges, chunk cells), 8px (buttons, rows, banners, nav items, tooltips), 12px (cards, radio cards,
+- Radii: **none**. The design language is square (user direction 2026-10-10): `--radius: 0` is the only radius token. Hierarchy comes from type, spacing, 1px borders and surface contrast. No shadows (overlays use a border), no gradients.
   popovers). No other radii and no pill shapes.
 - Elevation: level 0 surface; level 1 raised (fill only, no shadow); level 2 overlay (`--color-overlay` + 1px
   `--color-border-subtle` + `--shadow-overlay`). Shadows only on overlays. No gradients.

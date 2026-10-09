@@ -9,11 +9,16 @@ export function startHeartbeat(intervalMs = 50): () => number[] {
     if (samples.length < 4000) samples.push(Math.max(0, Math.round(now - last - intervalMs)));
     last = now;
   }, intervalMs);
-  return () => { clearInterval(timer); return samples; };
+  return () => {
+    clearInterval(timer);
+    return samples;
+  };
 }
 
 const MIN_WINDOW_MS = 6000;
 const INTERVAL_MS = 50;
+// Run ids already measured; only the most recent are kept so a long session cannot grow this without bound.
+const MAX_REMEMBERED_RUNS = 20;
 const measured = new Set<string>();
 
 /**
@@ -22,7 +27,10 @@ const measured = new Set<string>();
  * least 6 s have passed; the samples go to Core for the ui-responsive check (ADR 0003 PK5).
  */
 export function installResponsivenessProbe(): () => void {
-  const runs = new Map<string, { engines: Set<string>; stop?: () => number[]; startedAt?: number; done?: boolean }>();
+  const runs = new Map<
+    string,
+    { engines: Set<string>; stop?: () => number[]; startedAt?: number; done?: boolean }
+  >();
   const finish = (runId: string) => {
     const run = runs.get(runId);
     if (!run?.stop || run.done) return;
@@ -31,18 +39,37 @@ export function installResponsivenessProbe(): () => void {
     setTimeout(() => {
       const samplesMs = run.stop!();
       runs.delete(runId);
-      void window.danesh.call('systemCheck.reportResponsiveness', { runId, intervalMs: INTERVAL_MS, samplesMs }).catch(() => undefined);
+      void window.danesh
+        .call('systemCheck.reportResponsiveness', { runId, intervalMs: INTERVAL_MS, samplesMs })
+        .catch(() => undefined);
     }, wait);
   };
   return window.danesh.on('systemCheck.progress', (payload) => {
     const event = eventPayloads['systemCheck.progress']!.safeParse(payload);
     if (!event.success) return;
-    const { runId, checkId, status } = event.data as { runId: string; checkId: string; status: string };
-    if (!checkId.startsWith('engine-') || measured.has(runId) && !runs.has(runId)) return;
+    const { runId, checkId, status } = event.data as {
+      runId: string;
+      checkId: string;
+      status: string;
+    };
+    if (!checkId.startsWith('engine-') || (measured.has(runId) && !runs.has(runId))) return;
     let run = runs.get(runId);
-    if (!run) { run = { engines: new Set() }; runs.set(runId, run); }
-    if (status === 'pending') { run.engines.add(checkId); return; }
-    if (status === 'running' && !run.stop) { measured.add(runId); run.startedAt = performance.now(); run.stop = startHeartbeat(INTERVAL_MS); return; }
+    if (!run) {
+      run = { engines: new Set() };
+      runs.set(runId, run);
+    }
+    if (status === 'pending') {
+      run.engines.add(checkId);
+      return;
+    }
+    if (status === 'running' && !run.stop) {
+      measured.add(runId);
+      if (measured.size > MAX_REMEMBERED_RUNS)
+        measured.delete(measured.values().next().value as string);
+      run.startedAt = performance.now();
+      run.stop = startHeartbeat(INTERVAL_MS);
+      return;
+    }
     if (status === 'pass' || status === 'fail' || status === 'not-run') {
       run.engines.delete(checkId);
       if (!run.engines.size) finish(runId);

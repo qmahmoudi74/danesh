@@ -12,7 +12,7 @@ Feature: A custom, themed desktop shell that keeps native window behavior
   Scenario: Custom title bar controls act on the real window
     Given Danesh is launched with that library folder
     Then the window has no OS title bar and the Danesh title bar shows «دانش» and the current screen name
-    And the platform's window controls are placed at inline-end
+    And the platform's window controls are placed at the physical right
     When I press the maximize control
     Then the window is maximized and the control reads «بازگرداندن»
     When I press the maximize control
