@@ -43,8 +43,8 @@ Feature: An honest Persian-first shell behind a closed preload API
     Then the document has lang "fa" and dir "rtl"
     And the heading and window title are «دانش»
     And the banner title is «نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست»
-    And the only Home action is «بررسی سامانه»
-    And there is no import, reader, curriculum, search or settings control
+    And the only action in the Home content is «بررسی سامانه»
+    And the Home content has no import, reader, curriculum or search control
     And no disabled study-feature placeholder is shown
 
   @plan-01-06 @kind-edge

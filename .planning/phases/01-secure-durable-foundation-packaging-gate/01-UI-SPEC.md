@@ -21,6 +21,8 @@ created: "2026-10-09"
 
 Everything else (reader, curriculum, import, model manager, settings, themes) is out of scope and appears only under `## Future Extension Points`.
 
+> **Amended 2026-10-10 by user direction (Plan 01-17).** The custom window shell, System/Light/Dark themes, a theme-only Settings screen, a collapsible sidebar of real destinations and a motion language are now in Phase 1. See `## Amendment A` at the end; where it conflicts with an earlier section, Amendment A wins. All other rules (honest scope, RTL/bidi, copy, status vocabulary, accessibility) stay in force.
+
 ---
 
 ## Design System
@@ -516,3 +518,119 @@ Not designed here; named so Phase 1 tokens and components stay compatible.
 - The native-menu accelerators under a Persian keyboard layout remain a Tier B finding (UI Considerations UC-23 and UC-26).
 
 **Approval:** approved 2026-10-09 by gsd-ui-checker (status APPROVED: 0 BLOCK, 2 FLAG).
+
+---
+
+## Amendment A — Desktop shell, themes and design system (2026-10-10, user-directed, Plan 01-17)
+
+Danesh must feel like a calm, precise, premium desktop product: not a stock Electron window, not an OS clone, not an
+admin dashboard, not a component-library demo. This amendment is the design contract every later screen follows.
+It supersedes: "No sidebar, no top bar", "Light theme only" (A-03), `color-scheme: light`, "the only animation is the
+spinner", "Disclosure open/close has no animation" and "Home has one tab stop".
+
+### A.1 Window shell
+
+| Rule | Contract |
+|------|----------|
+| Frame | `titleBarStyle: 'hidden'` on every platform (Electron-supported frameless API). No OS title bar. Native resize borders, snap, shadow and rounded corners are kept. Window minimum stays 720x520. |
+| Title bar | 40px tall, full width, `--color-chrome` background, 1px `--color-border-subtle` bottom divider. Inline-start: brand mark (20px) + «دانش» (Label) + thin separator + current screen name (caption, truncates with ellipsis). The rest is a drag region (`-webkit-app-region: drag`, `user-select: none`). Every control inside is `no-drag`. |
+| Window controls (Windows/Linux) | Custom minimize, maximize/restore, close: each 46x40, glyph 10px with 1px stroke drawn on the pixel grid, neutral `--color-hover` on hover, `--color-pressed` on press; close hovers to `--color-danger-chrome` with `--color-on-danger-chrome`. Labels «کوچک کردن», «بزرگ کردن» / «بازگرداندن», «بستن» as accessible names and tooltips. Glyphs dim to `--color-text-muted` when the window is inactive. Excluded from the Tab order (as native caption buttons are); keyboard users keep native Alt+F4 and Win+Up/Down. |
+| Placement | Controls sit at **inline-end**. In this RTL UI that is the physical left, which is where Windows places caption buttons for an RTL-mirrored window and where macOS draws its traffic lights. If the UI direction ever becomes LTR, the controls move to the right automatically. |
+| macOS | Native traffic lights are kept (fullscreen, tiling and accessibility stay native) via `trafficLightPosition`, vertically centered in the 40px bar. The title bar reserves 80px at the physical left for them; fullscreen removes the reservation. No custom controls are drawn on macOS. |
+| Native behavior | Double-click on the drag region maximizes/restores (Windows) or follows the user's macOS preference; this is handled natively by the drag region. Right-click on the drag region (Windows) opens the native system menu. |
+| Menu (Windows/Linux) | Frameless windows have no menu bar, so the title bar shows a «منو» icon button that pops up the **native** application menu beneath it. Menu accelerators remain registered. macOS keeps the global menu bar. |
+| Window state | Normal bounds and maximized state persist in `ui-preferences.json`. On start-up, saved bounds are used only when at least a 160x40 strip of the title bar would be visible on a connected display's work area; otherwise the window is centered at 1040x720 (clamped to the work area) on the primary display. |
+| Security | Only three window actions exist (`minimize`, `toggleMaximize`, `close`), sent through the existing validated `danesh:shell` channel. No generic BrowserWindow access, no new preload keys. |
+
+### A.2 Themes
+
+Preference: `system` («هماهنگ با سیستم», default) | `light` («روشن») | `dark` («تیره»). Main stores it and sets
+`nativeTheme.themeSource` before creating the window; the window background color is the effective theme's
+`--color-chrome`. CSS selects tokens with `@media (prefers-color-scheme: dark)`, which Electron drives from
+`themeSource`, so the first frame is correct with no script. `color-scheme: light dark` makes native widgets match.
+Changing the theme cross-fades the whole window in 240ms with the View Transitions API (instant under reduced motion).
+Both themes are designed independently on a warm-paper neutral family; dark is not an inversion.
+
+| Token | Light | Dark | Role |
+|-------|-------|------|------|
+| `--color-surface` | `#FAF8F4` | `#1C1B19` | Content canvas |
+| `--color-surface-raised` | `#F0ECE4` | `#262421` | Cards, banners' neutral base, technical panels |
+| `--color-chrome` | `#F2EFE9` | `#161513` | Title bar and sidebar |
+| `--color-overlay` | `#FFFFFF` | `#2C2A27` | Tooltips, popovers (with `--shadow-overlay`) |
+| `--color-hover` / `--color-pressed` | `#E9E5DC` / `#E1DBD0` | `#2B2926` / `#34312D` | Neutral interaction fills |
+| `--color-selected` | `#E5E0D5` | `#312E2A` | Current sidebar item, selected radio card |
+| `--color-text` / `--color-text-muted` | `#1C1A17` / `#5C564D` | `#EDE9E2` / `#A8A196` | Text (≥11:1) / secondary text (≥5.2:1 on every surface) |
+| `--color-accent` / `--color-accent-hover` / `--color-on-accent` | `#1B5E8C` / `#144A70` / `#FFFFFF` | `#7FB2DC` / `#9AC4E6` / `#0D1B26` | Primary button, in-flight indicators |
+| `--color-link` | `#1B5E8C` | `#8EBDE3` | Inline links, current-item indicator |
+| `--color-border-control` / `--color-border-subtle` | `#8A8378` / `#DDD7CB` | `#7A7368` / `#36332E` | Control borders (≥3:1) / dividers |
+| `--color-focus` | `#0B3D63` | `#A9D1F2` | Focus ring (≥9:1) |
+| `--color-pass` on `--color-pass-tint` | `#1C6B38` / `#E1F0E4` | `#7CCB98` / `#1D3326` | ≥5.5:1 |
+| `--color-fail` on `--color-fail-tint` | `#A8281F` / `#FAE3E0` | `#F2968C` / `#3D2220` | ≥5.7:1 |
+| `--color-warn` on `--color-warn-tint` | `#7A4F00` / `#FAEDCC` | `#E5B865` / `#3A2E16` | ≥6.1:1 |
+| `--color-info-tint` | `#E0ECF5` | `#1E2E3B` | Accent on info tint ≥5.7:1 |
+| `--color-scrollbar` / `--color-scrollbar-hover` | `#C4BDB1` / `#8F877B` | `#4E4A43` / `#79736A` | Restrained thumb, discoverable on hover |
+| `--color-danger-chrome` / `--color-on-danger-chrome` | `#C42B1C` / `#FFFFFF` | `#C42B1C` / `#FFFFFF` | Close-button hover only |
+
+Rules: every renderer color is a token (a test rejects color literals outside `styles/tokens.css`); a test recomputes
+the contrast pairs above for both themes. Forced-colors mode keeps the existing system-color mappings.
+
+### A.3 Layout, elevation and shape
+
+- Frame: title bar (40px) above a two-column grid: sidebar at inline-start, content at inline-end. Only the content
+  region scrolls (`overflow-y: auto`, `scrollbar-gutter: stable`); the title bar and sidebar never move.
+- Sidebar: 232px expanded, 64px rail collapsed; `--color-chrome`, 1px inline-end divider. Items are links (40px tall,
+  radius 8px, 20px icon + Label text); the current item has `--color-selected` fill, `--color-link` icon and a 2px
+  inline-start indicator, plus `aria-current="page"`. Order: «خانه», «بررسی سامانه»; «تنظیمات» pinned to the bottom with
+  the collapse toggle «جمع کردن نوار کناری» / «باز کردن نوار کناری». Collapsed items show a tooltip with their label.
+  Below 880px window width the sidebar is always a rail. Only real destinations may appear in it.
+- Content column: unchanged 720px max inline size, centered in the content region, padding 48/32.
+- Radii: 4px (badges, chunk cells), 8px (buttons, rows, banners, nav items, tooltips), 12px (cards, radio cards,
+  popovers). No other radii and no pill shapes.
+- Elevation: level 0 surface; level 1 raised (fill only, no shadow); level 2 overlay (`--color-overlay` + 1px
+  `--color-border-subtle` + `--shadow-overlay`). Shadows only on overlays. No gradients.
+- Spacing scale unchanged (4/8/16/24/32/48). Typography scale unchanged (14/16/20/28; weights 400/600).
+
+### A.4 Settings («تنظیمات», `#/settings`)
+
+`h1` «تنظیمات» → section «ظاهر» → radio group «پوسته» with three 12px-radius cards (miniature light / dark / split
+preview drawn with tokens, plus the label). Arrow keys move between options (RTL-aware); selection applies
+immediately and is announced by the radio semantics. The native menu «نمایش» › «پوسته» shows the same three choices
+as radio items and stays in sync through the `shell.theme` event. Nothing else appears in Settings in Phase 1.
+
+### A.5 Scrolling
+
+- Themed scrollbars (`::-webkit-scrollbar`): 12px track, transparent; thumb `--color-scrollbar` inset by a 3px
+  transparent border, `--color-scrollbar-hover` on hover. No arrow buttons. In RTL the vertical scrollbar is on the
+  physical left, as Chromium places it for RTL content.
+- Nested regions (technical panels) use `overscroll-behavior: contain`; they remain focusable `role="region"`.
+- Scroll position is kept per route for the session and restored when returning; route focus uses `preventScroll`.
+- Native wheel/trackpad behavior is never hijacked (no smooth-scroll libraries, no JS wheel handlers).
+
+### A.6 Motion
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `--duration-instant` | 80ms | Press feedback |
+| `--duration-fast` | 120ms | Hover fills, tooltip enter/exit, control color changes |
+| `--duration-base` | 180ms | Route content entrance (opacity 0→1 with a 4px block-axis rise), disclosure content fade, radio selection |
+| `--duration-slow` | 240ms | Sidebar collapse/expand, theme cross-fade |
+| `--ease-standard` | `cubic-bezier(0.2, 0, 0, 1)` | State changes |
+| `--ease-enter` / `--ease-exit` | `cubic-bezier(0, 0, 0, 1)` / `cubic-bezier(0.3, 0, 1, 1)` | Entrances / exits |
+
+Only `opacity`, `transform`, colors and the sidebar's inline size animate. No springs, no bounces, no delays before
+content appears. Press feedback is `scale(0.98)`. Under `prefers-reduced-motion: reduce` every duration token is 0ms,
+the spinner is static and the theme change is instant.
+
+### A.7 Components (states every new component must define)
+
+Rest, hover (`data-hovered`), pressed (`data-pressed`), focus-visible (2px `--color-focus` outline, 2px offset),
+selected/current where meaningful, disabled (muted text + visible reason), pending/loading (spinner + Persian
+in-progress label) and error. Buttons: primary (accent fill, one per screen), secondary (surface fill + control
+border), quiet (no border, hover fill; chrome and sidebar only), icon (40x40 in chrome, 44x44 in content, always with
+an accessible name and tooltip). Tooltips: RAC `Tooltip`, overlay surface, caption text, 500ms open delay.
+
+### A.8 Verification
+
+Light and dark screenshots of each screen at 1040x720, 720x520 and 200% zoom are inspected before UI work is marked
+complete; E2E covers controls, theme persistence, System following the OS, malformed requests, corrupted preferences,
+off-screen bounds, sidebar and reduced motion. macOS behavior is reported as unverified until run on macOS.
