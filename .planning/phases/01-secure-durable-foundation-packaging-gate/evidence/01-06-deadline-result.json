@@ -1,0 +1,12 @@
+{
+  "recordedAt": "2026-10-09T21:31:52.788Z",
+  "note": "Actual test-build IPC with a 3-second Main port-transfer delay and 13-second Core stall; deadline covers both connection and response waits.",
+  "result": {
+    "code": "UNAVAILABLE",
+    "elapsedMs": 10015
+  },
+  "recovered": {
+    "n": 42,
+    "corePid": 19324
+  }
+}

@@ -1,0 +1,169 @@
+Actual shared-deadline recheck 2026-10-09T21:22:58.997Z
+
+COMMAND: pnpm typecheck && pnpm lint
+$ tsc -p tsconfig.json --noEmit && tsc -p apps/renderer/tsconfig.json --noEmit
+$ eslint .
+
+EXIT: 0
+
+COMMAND: env -u ELECTRON_RUN_AS_NODE DANESH_E2E_GREP=@plan-01-06 pnpm test:e2e
+vite v7.3.7 building ssr environment for test...
+transforming...
+✓ 118 modules transformed.
+rendering chunks...
+out/main/chunks/utility-port-D7xZV9pN.js     0.18 kB
+out/main/engine-sample.js                    1.14 kB
+out/main/chunks/rpc-B_0DHeQ_.js              4.57 kB
+out/main/index.js                           12.25 kB
+out/main/core.js                            13.42 kB
+out/main/chunks/host-protocol-CKpTolVP.js  188.28 kB
+✓ built in 400ms
+vite v7.3.7 building ssr environment for test...
+transforming...
+✓ 101 modules transformed.
+rendering chunks...
+out/preload/index.cjs  195.93 kB
+✓ built in 214ms
+vite v7.3.7 building client environment for test...
+transforming...
+✓ 1454 modules transformed.
+rendering chunks...
+../desktop/out/renderer/index.html                                               0.46 kB
+../desktop/out/renderer/assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2   21.86 kB
+../desktop/out/renderer/assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2       34.52 kB
+../desktop/out/renderer/assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2      46.31 kB
+../desktop/out/renderer/assets/index-Bb1MnnhY.css                               14.75 kB
+../desktop/out/renderer/assets/index-vwOAFMRE.js                               975.55 kB
+✓ built in 1.37s
+
+Running 12 tests using 1 worker
+
+  ok  1 apps\desktop\.features-gen\app-shell.feature.spec.js:39:3 › An honest Persian-first shell behind a closed preload API › Home states the foundation scope in Persian @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-06 @kind-happy (416ms)
+  ok  2 apps\desktop\.features-gen\app-shell.feature.spec.js:49:3 › An honest Persian-first shell behind a closed preload API › Native menu navigation focuses the heading and unknown routes return Home @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-06 @kind-edge (366ms)
+  ok  3 apps\desktop\.features-gen\startup-states.feature.spec.js:89:3 › Startup preserves data and exposes honest recovery states › Slow preparation keeps System check available @ui @req-PLAT-06 @req-PLAT-07 @req-PLAT-04 @plan-01-06 @kind-edge (8.7s)
+  ok  4 apps\desktop\.features-gen\system-check.feature.spec.js:10:3 › Local System check with visible results and JSON export › System check waits for an explicit first run @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-happy (702ms)
+  ok  5 apps\desktop\.features-gen\system-check.feature.spec.js:19:3 › Local System check with visible results and JSON export › Running updates each row and announces the actual summary @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-happy (2.3s)
+  ok  6 apps\desktop\.features-gen\system-check.feature.spec.js:31:3 › Local System check with visible results and JSON export › A slow run gives a hint without allowing duplicate execution @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-edge (12.1s)
+  ok  7 apps\desktop\.features-gen\system-check.feature.spec.js:39:3 › Local System check with visible results and JSON export › The environment block preserves a Persian path with an apostrophe @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-edge (838ms)
+  x   8 apps\desktop\.features-gen\system-check.feature.spec.js:47:3 › Local System check with visible results and JSON export › Exported JSON matches the displayed report @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-persistence (6.6s)
+  ok  9 apps\desktop\.features-gen\system-check.feature.spec.js:58:3 › Local System check with visible results and JSON export › An unwritable export target reports an actionable error @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-invalid (715ms)
+  ok 10 apps\desktop\.features-gen\system-check.feature.spec.js:66:3 › Local System check with visible results and JSON export › Cancelling the save dialog is silent @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-cancellation (683ms)
+  ok 11 apps\desktop\.features-gen\system-check.feature.spec.js:74:3 › Local System check with visible results and JSON export › An unreachable Core offers a named retry that recovers the run @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-recovery (12.7s)
+  ok 12 apps\desktop\.features-gen\system-check.feature.spec.js:84:3 › Local System check with visible results and JSON export › Partial reports retain their rows and render unknown ids honestly @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-edge (1.5s)
+
+
+  1) apps\desktop\.features-gen\system-check.feature.spec.js:47:3 › Local System check with visible results and JSON export › Exported JSON matches the displayed report @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-persistence › And «گزارش ذخیره شد.» is announced and focus returns to «ذخیرهٔ گزارش» 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByRole('button', { name: 'ذخیرهٔ گزارش', exact: true })
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" getByRole('button', { name: 'ذخیرهٔ گزارش', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'ذخیرهٔ گزارش', exact: true })
+        14 × locator resolved to <button data-rac="" tabindex="0" type="button" class="button" id="react-aria78207723-_r_4_" data-react-aria-pressable="true">ذخیرهٔ گزارش</button>
+           - unexpected value "inactive"
+
+
+       at ..\..\..\features\steps\system-check.steps.ts:39
+
+      37 | });
+      38 | Then('«گزارش ذخیره شد.» is announced and focus returns to «ذخیرهٔ گزارش»', async ({ harness }) => {
+    > 39 |   await expect(harness.page!.getByRole('status')).toContainText('گزارش ذخیره شد.'); await expect(harness.page!.getByRole('button', { name: 'ذخیرهٔ گزارش', exact: true })).toBeFocused();
+         |                                                                                                                                                                            ^
+      40 | });
+      41 | Then('the status region announces «ذخیرهٔ گزارش انجام نشد. مسیر دیگری را امتحان کنید یا فضای خالی دیسک را بررسی کنید.»', async ({ harness }) => {
+      42 |   await expect(harness.page!.getByRole('status')).toContainText('ذخیرهٔ گزارش انجام نشد. مسیر دیگری را امتحان کنید یا فضای خالی دیسک را بررسی کنید.');
+        at Object.<anonymous> (D:\workspace\AI\danesh\features\steps\system-check.steps.ts:39:172)
+        at D:\workspace\AI\danesh\apps\desktop\.features-gen\system-check.feature.spec.js:55:5
+
+    Error Context: test-results\system-check.feature-Local-11194-atches-the-displayed-report\error-context.md
+
+  1 failed
+    apps\desktop\.features-gen\system-check.feature.spec.js:47:3 › Local System check with visible results and JSON export › Exported JSON matches the displayed report @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-persistence 
+  11 passed (48.7s)
+$ node tools/run-e2e.ts
+$ pnpm --dir apps/desktop run build:test
+$ electron-vite build --mode test
+(node:5340) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Debugger ending on ws://127.0.0.1:58779/72d9158b-40a9-40ed-875c-1bd0fcd8be31
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58783/627176ef-df0b-4903-9d7e-ed0a4b3a23b9
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58787/da255a74-c49c-45e7-9024-c5654c0dc31b
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58623/d226f89b-844f-4230-81b3-ced9a16eb116
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58627/b0f1930d-8de9-4bc8-9330-1b91769a0c6a
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58631/31bfa644-35c5-4ec3-9730-6eb7887daf4c
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58637/78a9bb49-465b-448d-869f-6daf6de596d9
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58641/98889bcd-965b-422e-8bb1-53a4f4c864be
+For help, see: https://nodejs.org/learn/getting-started/debugging
+(node:36104) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Debugger ending on ws://127.0.0.1:58646/686fa829-6743-4560-9e32-71bce319e23a
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58650/cd4687f1-c1ef-4507-8ea4-efa3a36087a0
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58654/aced0d2c-3613-479e-bff6-4e173cfabd22
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:58663/3958db25-e77a-4582-bda0-c88120fef734
+For help, see: https://nodejs.org/learn/getting-started/debugging
+[ELIFECYCLE] Command failed with exit code 1.
+
+EXIT: 1
+
+COMMAND: pnpm build
+vite v7.3.7 building ssr environment for production...
+transforming...
+✓ 118 modules transformed.
+rendering chunks...
+out/main/chunks/utility-port-D7xZV9pN.js     0.18 kB
+out/main/engine-sample.js                    1.14 kB
+out/main/chunks/rpc-B_0DHeQ_.js              4.57 kB
+out/main/index.js                           11.96 kB
+out/main/core.js                            12.33 kB
+out/main/chunks/host-protocol-CKpTolVP.js  188.28 kB
+✓ built in 421ms
+vite v7.3.7 building ssr environment for production...
+transforming...
+✓ 101 modules transformed.
+rendering chunks...
+out/preload/index.cjs  195.45 kB
+✓ built in 239ms
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 1454 modules transformed.
+rendering chunks...
+../desktop/out/renderer/index.html                                               0.46 kB
+../desktop/out/renderer/assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2   21.86 kB
+../desktop/out/renderer/assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2       34.52 kB
+../desktop/out/renderer/assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2      46.31 kB
+../desktop/out/renderer/assets/index-Bb1MnnhY.css                               14.75 kB
+../desktop/out/renderer/assets/index-vwOAFMRE.js                               975.55 kB
+✓ built in 1.39s
+$ pnpm --dir apps/desktop run build
+$ electron-vite build
+
+EXIT: 0
+
+---
+Follow-up recheck 2026-10-10 (Claude Code takeover audit)
+
+The single E2E failure above ("Exported JSON matches the displayed report", toBeFocused after the
+export announcement) did not reproduce: the full @plan-01-06 run passed 12/12 against a fresh test
+build, and the scenario then passed 3/3 isolated repeats. Treated as a timing flake; not suppressed.
+
+The deadline-check script originally read error.code, which contextBridge does not carry across
+the isolated world (only Error.message, which preload sets to the RPC code). The script now reads
+error.code ?? error.message. Actual result: {"code":"UNAVAILABLE","elapsedMs":10015}, then
+system.ping recovered with n=42. Before the fix the two sequential 10 s waits allowed ~13 s here.
+
+pnpm typecheck && pnpm lint && pnpm depcruise && pnpm test: exit 0, 100 tests in 10 files.

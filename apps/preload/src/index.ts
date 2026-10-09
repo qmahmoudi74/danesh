@@ -59,11 +59,14 @@ const api: DaneshApi = {
       if (!response.data.ok) throw failure(response.data.error.code);
       const output = contract.output.safeParse(response.data.output); if (!output.success) throw failure('INTERNAL'); return output.data;
     }
+    const deadline = performance.now() + 10000;
     await Promise.race([connection, new Promise<never>((_, reject) => { const timer = setTimeout(() => reject(failure('UNAVAILABLE')), 10000); void connection.then(() => clearTimeout(timer)); })]);
+    const remaining = deadline - performance.now();
+    if (remaining <= 0) throw failure('UNAVAILABLE');
     if (!port || pending.size >= 100) throw failure('UNAVAILABLE');
     const id = nextId++;
     return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => { pending.delete(id); reject(failure('UNAVAILABLE')); }, 10000);
+      const timer = setTimeout(() => { pending.delete(id); reject(failure('UNAVAILABLE')); }, remaining);
       pending.set(id, { method, resolve, reject, timer });
       port?.postMessage({ id, method, input: parsed.data });
     });
