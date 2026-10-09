@@ -147,8 +147,9 @@ export function scan(repoRoot: string, writeNotices = false): { scanned: number;
     if (!existing) packages.set(pkg.id, record);
   }
   for (const file of ['package.json', 'apps/desktop/package.json']) {
-    const own = JSON.parse(readFileSync(join(repoRoot, file), 'utf8')) as PackageLicense;
-    packages.set(`${own.name}@${own.version}`, own);
+    const own = JSON.parse(readFileSync(join(repoRoot, file), 'utf8')) as { name: string; version?: string; license?: string };
+    const pkg = { ...own, version: own.version ?? 'workspace' };
+    packages.set(`${pkg.name}@${pkg.version}`, pkg);
   }
   const all = [...packages.values()];
   failures.push(...checkCoverage(all, locked.map((pkg) => pkg.id)));
