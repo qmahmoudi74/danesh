@@ -25,7 +25,9 @@ See the Plan 01-02 license-applicability-check.json and repository-history evide
 
 Retain verbatim published license, attribution and applicable NOTICE files for the named exceptions and installed Apache-2.0 dependencies. Vazirmatn's OFL-1.1 license text must be retained and shipped. Record package versions, upstream sources, source paths and SHA-256 values alongside retained copies under `third_party/`. Do not claim a metadata license declaration proves the contents of a native binary.
 
-The future Plan 01-05 license scan must incorporate these exact reviewed exceptions with the user's approval record and obligations. Its default allowlist must stay restrictive. An exception is matched to its approved package and version, not just its license identifier. This document records the policy decision; it does not implement or execute Plan 01-05.
+Plan 01-05 implements this policy in `tools/license-policy.json` and `pnpm licenses:scan`. Exceptions match the approved package, version and declared license, with evidence links; the default allowlist stays restrictive. The scan checks all locked platform packages against the retained, integrity-bound metadata and checks installed declarations against that review. It verifies retained notice hashes, generates the notices file, and rejects build-only exceptions reachable through production dependencies. Actual packaged-artifact inspection remains a separate gate.
+
+The approved Plan 01-05 also permits the pinned caniuse-lite 1.0.30001815 CC-BY-4.0 browser-data exception, with published attribution and license retained. The binary manifest explicitly records the plan's pending Electron FFmpeg LGPL review; this is a release blocker requiring separate review, not an npm license exception or authorization to distribute restricted code. GPL/AGPL and non-commercial binary entries always fail.
 
 ## Distribution boundary
 
