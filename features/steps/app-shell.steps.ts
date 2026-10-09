@@ -89,3 +89,30 @@ Then('the database check reads the probe row written by the first run', async ({
     expect(db.prepare('SELECT strict FROM pragma_table_list WHERE name IN (?, ?)').all('schema_migration', 'system_check_probe')).toEqual([{ strict: 1 }, { strict: 1 }]);
   } finally { db.close(); }
 });
+
+Given('Danesh is launched with that library folder and Core is ready', async ({ harness }) => { await harness.launch(); await expect(harness.page!.getByRole('heading', { name: 'نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست', exact: true })).toBeVisible(); });
+Then('the document has lang "fa" and dir "rtl"', async ({ harness }) => { await expect(harness.page!.locator('html')).toHaveAttribute('lang', 'fa'); await expect(harness.page!.locator('html')).toHaveAttribute('dir', 'rtl'); });
+Then('the heading and window title are «دانش»', async ({ harness }) => { await expect(harness.page!.getByRole('heading', { name: 'دانش', exact: true, level: 1 })).toBeVisible(); await expect(harness.page!).toHaveTitle('دانش'); });
+Then('the banner title is «نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست»', async ({ harness }) => { await expect(harness.page!.getByRole('heading', { name: 'نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست', exact: true })).toBeVisible(); });
+Then('the only Home action is «بررسی سامانه»', async ({ harness }) => { await expect(harness.page!.getByRole('button')).toHaveCount(1); await expect(harness.page!.getByRole('button', { name: 'بررسی سامانه', exact: true })).toBeEnabled(); await expect(harness.page!.locator('footer bdi[dir="ltr"]')).toHaveText('0.1.0'); });
+Then('there is no import, reader, curriculum, search or settings control', async ({ harness }) => { expect(await harness.page!.getByRole('button').allTextContents()).toEqual(['بررسی سامانه']); await expect(harness.page!.locator('input, textarea, nav, [role="tablist"]')).toHaveCount(0); });
+Then('no disabled study-feature placeholder is shown', async ({ harness }) => { await expect(harness.page!.locator('button[disabled], [aria-disabled="true"]')).toHaveCount(0); });
+When('I choose «نمایش» then «بررسی سامانه» using CmdOrCtrl+2', async ({ harness }) => {
+  await harness.app!.evaluate(({ Menu, BrowserWindow }) => {
+    const menu = Menu.getApplicationMenu();
+    const item = menu?.items.find((entry) => entry.label === 'نمایش')?.submenu?.items.find((entry) => entry.label === 'بررسی سامانه');
+    if (!item || item.accelerator !== 'CmdOrCtrl+2') throw new Error('Missing menu accelerator');
+    Reflect.apply(item.click, item, [item, BrowserWindow.getAllWindows()[0], { ctrlKey: true, metaKey: false, shiftKey: false, altKey: false, triggeredByAccelerator: true }]);
+  });
+});
+Then(/^the route is "#\/system-check" and its h1 «بررسی سامانه» has focus$/, async ({ harness }) => { await expect(harness.page!).toHaveURL(/#\/system-check$/); await expect(harness.page!.getByRole('heading', { name: 'بررسی سامانه', level: 1, exact: true })).toBeFocused(); });
+Then('the window title is «بررسی سامانه — دانش»', async ({ harness }) => { await expect(harness.page!).toHaveTitle('بررسی سامانه — دانش'); });
+When('an unknown hash route is selected', async ({ harness }) => { await harness.page!.evaluate(() => { location.hash = '/unknown-route'; }); });
+Then('Home is rendered with the heading and window title «دانش»', async ({ harness }) => { await expect(harness.page!.getByRole('heading', { name: 'دانش', exact: true, level: 1 })).toBeFocused(); await expect(harness.page!).toHaveTitle('دانش'); });
+
+Given('the test build delays Core readiness for more than 5 seconds', ({ harness }) => { harness.coreReadyDelayMs = 8000; });
+Then('Home initially shows «در حال آماده‌سازی…» with a running spinner', async ({ harness }) => { await expect(harness.page!.getByRole('heading', { name: 'در حال آماده‌سازی…', exact: true })).toBeVisible(); await expect(harness.page!.locator('.spinner')).toBeVisible(); });
+Then('after 5 seconds it also shows «آماده‌سازی کمی طول کشید؛ لطفاً صبر کنید.»', async ({ harness }) => { await expect(harness.page!.getByText('آماده‌سازی کمی طول کشید؛ لطفاً صبر کنید.', { exact: true })).toBeVisible({ timeout: 6500 }); });
+Then('«بررسی سامانه» stays enabled throughout', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'بررسی سامانه', exact: true })).toBeEnabled(); });
+When('Core reports ready', async ({ harness }) => { await expect(harness.page!.getByRole('heading', { name: 'نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست', exact: true })).toBeVisible({ timeout: 5000 }); });
+Then('the preparation messages clear and the foundation banner appears', async ({ harness }) => { await expect(harness.page!.getByText('در حال آماده‌سازی…', { exact: true })).toHaveCount(0); await expect(harness.page!.getByText('آماده‌سازی کمی طول کشید؛ لطفاً صبر کنید.', { exact: true })).toHaveCount(0); await expect(harness.page!.getByRole('heading', { name: 'نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست', exact: true })).toBeVisible(); });

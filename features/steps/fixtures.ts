@@ -9,6 +9,8 @@ interface Harness {
   app: ElectronApplication | undefined;
   page: Page | undefined;
   firstCount: number;
+  coreReadyDelayMs: number;
+  coreStalledUntil: number;
   echo: { hostPid: number; corePid: number } | undefined;
   launch(): Promise<void>;
   close(): Promise<void>;
@@ -16,7 +18,7 @@ interface Harness {
 const require = createRequire(import.meta.url);
 export const test = base.extend<{ libraryRoot: string; harness: Harness }>({
   libraryRoot: async ({}, use) => {
-    const root = await mkdtemp(join(tmpdir(), 'دانش آزمون '));
+    const root = await mkdtemp(join(tmpdir(), "دانش آزمون '"));
     try { await use(root); }
     finally {
       const target = resolve(root);
@@ -26,12 +28,12 @@ export const test = base.extend<{ libraryRoot: string; harness: Harness }>({
   },
   harness: async ({ libraryRoot }, use) => {
     const harness: Harness = {
-      app: undefined, page: undefined, firstCount: 0, echo: undefined,
+      app: undefined, page: undefined, firstCount: 0, coreReadyDelayMs: 0, coreStalledUntil: 0, echo: undefined,
       async launch() {
         const env: Record<string, string> = Object.fromEntries(Object.entries(process.env).flatMap(([key, value]) => value === undefined ? [] : [[key, value]]));
         delete env.ELECTRON_RUN_AS_NODE;
         const executablePath = env.DANESH_TEST_EXE ?? (require('electron') as string);
-        harness.app = await _electron.launch({ executablePath, args: [...(env.DANESH_TEST_EXE ? [] : [resolve('apps/desktop')]), `--user-data-dir=${libraryRoot}`], env });
+        harness.app = await _electron.launch({ executablePath, args: [...(env.DANESH_TEST_EXE ? [] : [resolve('apps/desktop')]), `--user-data-dir=${libraryRoot}`, ...(harness.coreReadyDelayMs ? [`--test-core-ready-delay=${harness.coreReadyDelayMs}`] : [])], env });
         harness.app.process().stderr?.on('data', (data: Buffer) => process.stderr.write(data));
         harness.page = await harness.app.firstWindow();
         await harness.page.waitForLoadState('domcontentloaded');

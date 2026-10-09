@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { writeFile, rename, unlink } from 'node:fs/promises';
+import { open, rename, unlink } from 'node:fs/promises';
 import { isAbsolute } from 'node:path';
 import { SmokeReportSchema, type SmokeReport, type CheckResult } from '@danesh/contracts/smoke-report.ts';
 import type { Init } from '@danesh/contracts/control.ts';
@@ -29,12 +29,16 @@ export class SystemCheck {
     const report = this.reports.get(runId);
     if (!report) return { ok: false, reason: 'unknown-run' };
     const temporary = `${target.path}.tmp-${process.pid}-${randomUUID()}`;
+    let created = false;
     try {
-      await writeFile(temporary, JSON.stringify(SmokeReportSchema.parse(report), null, 2) + '\n', { encoding: 'utf8', flag: 'wx' });
+      const content = JSON.stringify(SmokeReportSchema.parse(report), null, 2) + '\n';
+      const file = await open(temporary, 'wx'); created = true;
+      try { await file.writeFile(content, 'utf8'); await file.sync(); }
+      finally { await file.close(); }
       await rename(temporary, target.path);
       return { ok: true };
     } catch { return { ok: false, reason: 'write-failed' }; }
-    finally { await unlink(temporary).catch(() => undefined); }
+    finally { if (created) await unlink(temporary).catch(() => undefined); }
   }
   checkIds(fixture?: Fixture): string[] { return (__TEST_HOOKS__ && fixture?.checks ? fixture.checks : checks).map((check) => 'checkId' in check ? check.checkId : check.id); }
   async run(runId: string, port: UtilityPort, facts: Init, database: Db, fixture?: Fixture): Promise<void> {

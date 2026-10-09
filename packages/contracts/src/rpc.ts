@@ -1,8 +1,11 @@
-import { z } from 'zod';
+import { z } from './schema.ts';
 import { CheckIdSchema, SmokeReportSchema } from './smoke-report.ts';
 
 export type RpcMethod = { input: z.ZodType; output: z.ZodType; maxInputBytes: number };
+export const SystemInfoSchema = z.strictObject({ appVersion: z.string(), electronVersion: z.string(), osName: z.string(), osVersion: z.string(), arch: z.string(), locale: z.string(), libraryRoot: z.string() });
+export type SystemInfo = z.infer<typeof SystemInfoSchema>;
 export const rpcMethods: Record<string, RpcMethod> = {
+  'system.info': { input: z.strictObject({}), output: SystemInfoSchema, maxInputBytes: 128 },
   'system.ping': { input: z.strictObject({ n: z.number().int().min(0).max(1_000_000) }), output: z.strictObject({ n: z.number().int(), corePid: z.number().int().positive() }), maxInputBytes: 128 },
   'systemCheck.run': { input: z.strictObject({}), output: z.strictObject({ runId: z.string().uuid(), checkIds: z.array(CheckIdSchema).max(100).optional() }), maxInputBytes: 128 },
   'systemCheck.get': { input: z.strictObject({ runId: z.string().uuid() }), output: SmokeReportSchema, maxInputBytes: 128 },

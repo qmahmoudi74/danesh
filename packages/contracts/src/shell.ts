@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from './schema.ts';
 import type { RpcMethod } from './rpc.ts';
 
 export const ChooseExportOutputSchema = z.strictObject({ token: z.string().uuid().nullable() });

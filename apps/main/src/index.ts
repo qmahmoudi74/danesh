@@ -4,7 +4,9 @@ import { mkdirSync } from 'node:fs';
 import { CoreToMainSchema } from '@danesh/contracts/control.ts';
 import { registerAppScheme, registerAppProtocol } from './protocol.ts';
 import { spawnHost, killHosts } from './hosts.ts';
-import { registerShellIpc } from './shell-ipc.ts';
+import { registerShellIpc, sendShellEvent } from './shell-ipc.ts';
+import { installAppMenu } from './menu.ts';
+import { type, release } from 'node:os';
 
 registerAppScheme();
 const userDataArg = process.argv.find((arg) => arg.startsWith('--user-data-dir='));
@@ -24,8 +26,12 @@ void app.whenReady().then(() => {
   window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
   window.webContents.on('will-navigate', (event, address) => { if (!isAllowed(address)) event.preventDefault(); });
   window.once('ready-to-show', () => window.show());
+  installAppMenu((topic, payload) => sendShellEvent(window, topic, payload));
+  let coreState: 'starting' | 'ready' | 'unreachable' = 'starting';
+  const publishCoreState = () => sendShellEvent(window, 'shell.coreState', { state: coreState });
   core = utilityProcess.fork(join(import.meta.dirname, 'core.js'), [], { serviceName: 'Danesh Core', stdio: ['ignore', 'pipe', 'pipe'] });
   const child = core;
+  child.on('exit', () => { coreState = 'unreachable'; if (!window.isDestroyed()) publishCoreState(); });
   child.stdout?.on('data', (chunk: Buffer) => process.stdout.write(chunk));
   child.stderr?.on('data', (chunk: Buffer) => process.stderr.write(chunk));
   const exportTargets = new Map<string, { resolve: () => void; reject: (error: Error) => void; timer: ReturnType<typeof setTimeout> }>();
@@ -48,16 +54,21 @@ void app.whenReady().then(() => {
   };
   ipcMain.on('danesh:hello', (event) => {
     if (event.sender !== window.webContents || event.senderFrame !== window.webContents.mainFrame || !isAllowed(event.senderFrame.url)) return;
-    hello = true; connect();
+    hello = true; publishCoreState(); connect();
   });
   child.on('message', (message: unknown) => {
     const parsed = CoreToMainSchema.safeParse(message);
     if (!parsed.success) { console.error('Invalid Core control message'); return; }
-    if (parsed.data.type === 'ready') { coreReady = true; connect(); }
+    if (parsed.data.type === 'ready') { coreReady = true; coreState = 'ready'; publishCoreState(); connect(); }
     else if (parsed.data.type === 'export-target-ready') { const target = exportTargets.get(parsed.data.token); if (target) { clearTimeout(target.timer); exportTargets.delete(parsed.data.token); target.resolve(); } }
     else spawnHost(parsed.data.kind, child);
   });
-  child.postMessage({ type: 'init', libraryRoot: app.getPath('userData'), appVersion: app.getVersion(), electronVersion: process.versions.electron, platform: process.platform, arch: process.arch, mainPid: process.pid, exePath: app.getPath('exe') });
+  const initialize = () => child.postMessage({ type: 'init', libraryRoot: app.getPath('userData'), appVersion: app.getVersion(), electronVersion: process.versions.electron, platform: process.platform, arch: process.arch, mainPid: process.pid, exePath: app.getPath('exe'), locale: app.getSystemLocale(), osName: type(), osVersion: release() });
+  if (__TEST_HOOKS__) {
+    const delay = Number(process.argv.find((arg) => arg.startsWith('--test-core-ready-delay='))?.split('=')[1] ?? 0);
+    if (!Number.isInteger(delay) || delay < 0 || delay > 60000) throw new Error('Invalid test readiness delay');
+    if (delay) setTimeout(initialize, delay); else initialize();
+  } else initialize();
   void window.loadURL(devUrl ?? 'app://danesh/index.html').catch((error: unknown) => { console.error(error); app.exit(1); });
 }).catch((error: unknown) => { console.error(error); app.exit(1); });
 app.on('window-all-closed', () => app.quit());

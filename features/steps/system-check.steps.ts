@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { Given, When, Then } from './fixtures.ts';
 import { SmokeReportSchema } from '../../packages/contracts/src/smoke-report.ts';
 import { genericFail, summary } from '../../apps/renderer/src/lib/copy.ts';
+import { SystemInfoSchema } from '../../packages/contracts/src/rpc.ts';
 
 Given('Danesh is launched with that library folder on System check', async ({ harness }) => {
   await harness.launch(); await harness.page!.getByRole('button', { name: 'بررسی سامانه', exact: true }).click();
@@ -59,8 +60,8 @@ Then('«اجرای بررسی» is available and no check has started automatica
 Then('«ذخیرهٔ گزارش» is disabled with visible reason «پس از اجرای بررسی فعال می‌شود.»', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'ذخیرهٔ گزارش', exact: true })).toBeDisabled(); await expect(harness.page!.getByText('پس از اجرای بررسی فعال می‌شود.', { exact: true })).toBeVisible(); });
 
 When('I press «اجرای بررسی»', async ({ harness }) => {
-  await harness.page!.evaluate(async () => {
-    await window.danesh.call('test.checkRun', { delayMs: 400 });
+  if (Date.now() >= harness.coreStalledUntil) await harness.page!.evaluate(() => window.danesh.call('test.checkRun', { delayMs: 400 }));
+  await harness.page!.evaluate(() => {
     const snapshots: { checkId: string; status: string }[][] = [];
     Object.assign(window, { __rowSnapshots: snapshots });
     new MutationObserver(() => snapshots.push([...document.querySelectorAll('[data-check-id]')].map((row) => ({ checkId: row.getAttribute('data-check-id') ?? '', status: row.getAttribute('data-status') ?? '' })))).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['data-status'] });
@@ -114,3 +115,24 @@ Then('every status shows its Persian word alongside its icon', async ({ harness 
     const badge = harness.page!.locator(`[data-check-id="${id}"] .status-badge`); await expect(badge).toContainText(id === 'app-launch' ? 'موفق' : 'ناموفق'); await expect(badge.locator('svg[aria-hidden="true"]')).toBeVisible();
   }
 });
+Given('the library folder also contains an apostrophe', ({ libraryRoot }) => { expect(libraryRoot).toContain("'"); });
+Given('Danesh is launched with that exact library folder', async ({ harness }) => { await harness.launch(); });
+When('I open «اطلاعات محیط اجرا» on System check', async ({ harness }) => {
+  await harness.page!.getByRole('button', { name: 'بررسی سامانه', exact: true }).click(); await harness.page!.getByRole('button', { name: 'اطلاعات محیط اجرا', exact: true }).click();
+});
+Then('the exact library path appears inside an LTR isolate', async ({ harness, libraryRoot }) => { await expect(harness.page!.getByRole('region', { name: 'جزئیات فنی اطلاعات محیط اجرا', exact: true }).locator('bdi[dir="ltr"]').filter({ hasText: libraryRoot })).toHaveText(libraryRoot); });
+Then('app version, Electron version, OS name, OS version, architecture and system locale are shown', async ({ harness }) => {
+  const info = SystemInfoSchema.parse(await harness.page!.evaluate(() => window.danesh.call('system.info', {})));
+  const expected = await harness.app!.evaluate(({ app }) => ({ appVersion: app.getVersion(), electronVersion: process.versions.electron, locale: app.getSystemLocale(), arch: process.arch }));
+  expect(info).toMatchObject(expected); expect(info.osName).toBeTruthy(); expect(info.osVersion).toMatch(/\d/);
+  for (const key of ['appVersion', 'electronVersion', 'osName', 'osVersion', 'arch', 'locale'] as const) await expect(harness.page!.getByRole('region', { name: 'جزئیات فنی اطلاعات محیط اجرا', exact: true })).toContainText(info[key]);
+});
+Given('Core is unreachable', async ({ harness }) => { await harness.page!.evaluate(() => window.danesh.call('system.info', {})); await harness.page!.evaluate(() => window.danesh.call('test.coreStall', { ms: 12000 })); harness.coreStalledUntil = Date.now() + 12000; });
+Then('a run-level alert reads «ارتباط با بخش اصلی برنامه برقرار نشد. دوباره تلاش کنید؛ اگر مشکل ماند، برنامه را ببندید و دوباره باز کنید.»', async ({ harness }) => { await expect(harness.page!.getByRole('alert')).toContainText('ارتباط با بخش اصلی برنامه برقرار نشد. دوباره تلاش کنید؛ اگر مشکل ماند، برنامه را ببندید و دوباره باز کنید.', { timeout: 12000 }); });
+Then('its action is «تلاش دوبارهٔ بررسی»', async ({ harness }) => { await expect(harness.page!.getByRole('alert').getByRole('button', { name: 'تلاش دوبارهٔ بررسی', exact: true })).toBeEnabled(); });
+When('Core becomes reachable and I press «تلاش دوبارهٔ بررسی»', async ({ harness }) => {
+  await new Promise((resolve) => setTimeout(resolve, Math.max(0, harness.coreStalledUntil - Date.now() + 100)));
+  expect(await harness.page!.evaluate(() => window.danesh.call('system.ping', { n: 7 }))).toMatchObject({ n: 7 });
+  await harness.page!.getByRole('button', { name: 'تلاش دوبارهٔ بررسی', exact: true }).click();
+});
+Then('the run completes and the unreachable-Core alert clears', async ({ harness }) => { await expect(harness.page!.getByRole('status')).toContainText('همهٔ بررسی‌ها موفق بود'); await expect(harness.page!.getByRole('alert')).toHaveCount(0); });

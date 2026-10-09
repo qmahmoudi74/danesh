@@ -57,9 +57,11 @@ let init: Init | undefined;
 let db: Db | undefined;
 const systemCheck = new SystemCheck();
 let checkFixture: z.infer<typeof CheckRunFixtureSchema> | undefined;
+let stalledUntil = 0;
 
 function attachRenderer(port: UtilityPort): void {
   const handle = async (data: unknown): Promise<void> => {
+    if (__TEST_HOOKS__ && Date.now() < stalledUntil) return;
     const request = RpcRequestSchema.safeParse(data);
     if (!request.success) return;
     const { id, method, input } = request.data;
@@ -77,6 +79,8 @@ function attachRenderer(port: UtilityPort): void {
       let output: unknown;
       if (__TEST_HOOKS__ && method === 'test.engineEcho') output = await engineEcho();
       else if (__TEST_HOOKS__ && method === 'test.checkRun') { checkFixture = CheckRunFixtureSchema.parse(parsed.data); output = { ok: true }; }
+      else if (__TEST_HOOKS__ && method === 'test.coreStall') { stalledUntil = Date.now() + (parsed.data as { ms: number }).ms; output = { ok: true }; }
+      else if (method === 'system.info') { const { appVersion, electronVersion, osName, osVersion, arch, locale, libraryRoot } = init; output = { appVersion, electronVersion, osName, osVersion, arch, locale, libraryRoot }; }
       else if (method === 'system.ping') output = { ...parsed.data as { n: number }, corePid: process.pid };
       else if (method === 'systemCheck.run') {
         const runId = randomUUID(); const fixture = __TEST_HOOKS__ ? checkFixture : undefined; checkFixture = undefined;

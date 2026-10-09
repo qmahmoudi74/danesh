@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { Button, DisclosureGroup, Heading, Link } from 'react-aria-components';
+import { Button, Disclosure, DisclosurePanel, DisclosureGroup, Heading, Link } from 'react-aria-components';
 import { SmokeReportSchema, type SmokeReport } from '@danesh/contracts/smoke-report.ts';
-import { rpcMethods, eventPayloads } from '@danesh/contracts/rpc.ts';
-import { ChooseExportOutputSchema } from '@danesh/contracts/shell.ts';
-import { AppShell } from '../components/Layout.tsx';
+import { rpcMethods, eventPayloads, SystemInfoSchema, type SystemInfo } from '@danesh/contracts/rpc.ts';
+import { ChooseExportOutputSchema, shellEventPayloads } from '@danesh/contracts/shell.ts';
+import { AppShell, Ltr, TechnicalDetail } from '../components/Layout.tsx';
 import { Banner } from '../components/Status.tsx';
 import { CheckRow, type Row } from '../components/CheckRow.tsx';
 import { Icon } from '../components/Icons.tsx';
@@ -17,6 +17,8 @@ export function SystemCheck() {
   const [slow, setSlow] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
+  const [environment, setEnvironment] = useState<SystemInfo>();
+  const [infoError, setInfoError] = useState(false);
   const runId = useRef<string | undefined>(undefined);
   const runButton = useRef<HTMLButtonElement>(null);
   const exportButton = useRef<HTMLButtonElement>(null);
@@ -25,9 +27,19 @@ export function SystemCheck() {
   const mounted = useRef(true);
   const busy = useRef(false);
   const exporting = useRef(false);
+  const loadEnvironment = async () => {
+    setInfoError(false);
+    try { const info = SystemInfoSchema.parse(await window.danesh.call('system.info', {})); if (mounted.current) setEnvironment(info); }
+    catch { if (mounted.current) setInfoError(true); }
+  };
 
   useEffect(() => {
     mounted.current = true;
+    void loadEnvironment();
+    const coreState = window.danesh.on('shell.coreState', (input) => {
+      const state = shellEventPayloads['shell.coreState']!.safeParse(input);
+      if (state.success && (state.data as { state: string }).state === 'unreachable' && busy.current) { busy.current = false; runId.current = undefined; setRunning(false); setError(true); setMessage(''); }
+    });
     const progress = window.danesh.on('systemCheck.progress', (input) => {
       const event = eventPayloads['systemCheck.progress']!.safeParse(input);
       if (!event.success) return;
@@ -48,7 +60,7 @@ export function SystemCheck() {
         restoreRun.current = true; busy.current = false; setRunning(false);
       }).catch(() => { if (mounted.current) { setError(true); busy.current = false; setRunning(false); } });
     });
-    return () => { mounted.current = false; progress(); finished(); };
+    return () => { mounted.current = false; progress(); finished(); coreState(); };
   }, []);
   useEffect(() => { if (!running && restoreRun.current) { restoreRun.current = false; runButton.current?.focus(); } }, [running]);
   useEffect(() => { if (!saving && restoreExport.current) { restoreExport.current = false; exportButton.current?.focus(); } }, [saving]);
@@ -87,9 +99,10 @@ export function SystemCheck() {
     <Heading level={1} tabIndex={-1} className="heading">بررسی سامانه</Heading>
     <p>این بررسی نشان می‌دهد بخش‌های اصلی برنامه روی همین رایانه درست کار می‌کنند. همهٔ بررسی‌ها محلی است و چیزی به اینترنت فرستاده نمی‌شود.</p>
     <div className="actions"><Button ref={runButton} className="button primary" isPending={running} isDisabled={saving} onPress={() => { void run(); }}>{running ? 'در حال بررسی…' : runId.current ? 'اجرای دوباره' : 'اجرای بررسی'}</Button><Button ref={exportButton} className="button" isDisabled={!report || running} isPending={saving} onPress={() => { void exportReport(); }}>{saving ? 'در حال ذخیره…' : 'ذخیرهٔ گزارش'}</Button></div>
-    <div className="action-help caption"><p>گزارش با قالب JSON ذخیره می‌شود و شامل مسیر پوشه‌های برنامه روی این رایانه است. جایی ارسال نمی‌شود.</p>{!report && <p>پس از اجرای بررسی فعال می‌شود.</p>}</div>
+    <div className="action-help caption"><p>گزارش با قالب <Ltr>JSON</Ltr> ذخیره می‌شود و شامل مسیر پوشه‌های برنامه روی این رایانه است. جایی ارسال نمی‌شود.</p>{!report && <p>پس از اجرای بررسی فعال می‌شود.</p>}</div>
     {error && <Banner variant="error" body={unreachable} alert actions={<Button className="button" onPress={() => { void run(); }}>تلاش دوبارهٔ بررسی</Button>} />}
     <div className="summary" role="status" aria-live="polite" aria-atomic="true">{message && <Banner variant={running ? 'info' : message === exportFailure || failures ? 'error' : 'success'} running={running} title={message} body={running && slow ? 'اولین اجرا ممکن است کمی طول بکشد.' : undefined} />}</div>
     {rows.length ? <DisclosureGroup className="check-list" allowsMultipleExpanded>{rows.map((row) => <CheckRow key={row.checkId} row={row} />)}</DisclosureGroup> : !running && !error ? <section className="empty"><Heading level={2} className="heading">هنوز بررسی انجام نشده</Heading><p>برای دیدن وضعیت بخش‌های اصلی برنامه، بررسی را اجرا کنید.</p></section> : null}
+    <Disclosure className="environment"><Heading level={2} className="label"><Button slot="trigger" className="button details-trigger">اطلاعات محیط اجرا<Icon name="chevron-down" /></Button></Heading><DisclosurePanel>{environment ? <TechnicalDetail name="اطلاعات محیط اجرا" values={{ ...environment }} /> : infoError ? <div className="action-help"><p>اطلاعات محیط در دسترس نیست. دوباره تلاش کنید.</p><Button className="button" onPress={() => { void loadEnvironment(); }}>تلاش دوبارهٔ دریافت اطلاعات</Button></div> : <p className="caption">در حال دریافت اطلاعات…</p>}</DisclosurePanel></Disclosure>
   </AppShell>;
 }

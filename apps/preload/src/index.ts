@@ -9,6 +9,7 @@ let port: MessagePort | undefined;
 let nextId = 1;
 const pending = new Map<number, { method: string; resolve: (output: unknown) => void; reject: (error: Error) => void; timer: ReturnType<typeof setTimeout> }>();
 const subscribers = new Map<string, Set<(payload: unknown) => void>>();
+let latestCoreState: unknown;
 let connected: (() => void) | undefined;
 const connection = new Promise<void>((resolve) => { connected = resolve; });
 function failure(code: RpcErrorCode): Error & { code: RpcErrorCode } { return Object.assign(new Error(code), { code }); }
@@ -42,6 +43,7 @@ ipcRenderer.on('danesh:shell-event', (_event, data: unknown) => {
   const event = RpcEventSchema.safeParse(data); if (!event.success) return;
   const payload = Object.hasOwn(shellEventPayloads, event.data.topic) ? shellEventPayloads[event.data.topic]?.safeParse(event.data.payload) : undefined;
   if (!payload?.success) return;
+  if (event.data.topic === 'shell.coreState') latestCoreState = payload.data;
   for (const callback of subscribers.get(event.data.topic) ?? []) callback(payload.data);
 });
 const api: DaneshApi = {
@@ -57,11 +59,11 @@ const api: DaneshApi = {
       if (!response.data.ok) throw failure(response.data.error.code);
       const output = contract.output.safeParse(response.data.output); if (!output.success) throw failure('INTERNAL'); return output.data;
     }
-    await Promise.race([connection, new Promise<never>((_, reject) => { const timer = setTimeout(() => reject(failure('UNAVAILABLE')), 15000); void connection.then(() => clearTimeout(timer)); })]);
+    await Promise.race([connection, new Promise<never>((_, reject) => { const timer = setTimeout(() => reject(failure('UNAVAILABLE')), 10000); void connection.then(() => clearTimeout(timer)); })]);
     if (!port || pending.size >= 100) throw failure('UNAVAILABLE');
     const id = nextId++;
     return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => { pending.delete(id); reject(failure('UNAVAILABLE')); }, 15000);
+      const timer = setTimeout(() => { pending.delete(id); reject(failure('UNAVAILABLE')); }, 10000);
       pending.set(id, { method, resolve, reject, timer });
       port?.postMessage({ id, method, input: parsed.data });
     });
@@ -71,6 +73,7 @@ const api: DaneshApi = {
     let callbacks = subscribers.get(topic);
     if (!callbacks) { callbacks = new Set(); subscribers.set(topic, callbacks); }
     callbacks.add(callback);
+    if (topic === 'shell.coreState' && latestCoreState) { const value = latestCoreState; queueMicrotask(() => { if (callbacks.has(callback)) callback(value); }); }
     return () => { callbacks.delete(callback); if (!callbacks.size) subscribers.delete(topic); };
   },
 };

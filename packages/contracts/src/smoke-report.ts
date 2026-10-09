@@ -1,7 +1,4 @@
-import { z } from 'zod';
-
-// Configure before constructing schemas: optional JIT probes otherwise violate CSP.
-z.config({ jitless: true });
+import { z } from './schema.ts';
 
 export const CHECK_ORDER = ['app-launch', 'database', 'cas-storage', 'engine-llm', 'engine-ocr', 'engine-tts', 'ui-responsive', 'egress-zero', 'fuses', 'codesign'] as const;
 // Forward-compatible names remain bounded; known checks keep their canonical order.

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from './schema.ts';
 export const HostKindSchema = z.enum(['sample']);
 export const HostPortSchema = z.strictObject({ type: z.literal('host-port'), kind: HostKindSchema });
 export const EchoInputSchema = z.strictObject({ type: z.literal('echo'), value: z.string().max(2000) });
