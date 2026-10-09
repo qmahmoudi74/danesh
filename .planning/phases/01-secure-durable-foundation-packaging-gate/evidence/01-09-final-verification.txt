@@ -1,0 +1,75 @@
+Plan 01-09 final verification 2026-10-09T23:15:46Z on win32-x64, commit d02da81
+
+COMMAND: pnpm probes:fetch
+cached llm-model 19077344 bytes MIT (needs-review: inherited from karpathy/tinyllamas (research A5))
+cached ocr-language 4113088 bytes Apache-2.0 (reviewed)
+cached ocr-sample 23359 bytes Apache-2.0 (reviewed: tesseract.js repository test asset)
+cached tts-voice 63531379 bytes MIT (reviewed: MIT model card; training data Mana-TTS CC0-1.0)
+cached tts-voice-config 7088 bytes MIT (reviewed: same repository and commit as the voice; hash recorded on first download (2026-10-10))
+probes:fetch total=86752258 bytes budget=157286400 ok
+
+COMMAND: pnpm typecheck
+$ tsc -p tsconfig.json --noEmit && tsc -p apps/renderer/tsconfig.json --noEmit
+EXIT: 0
+
+COMMAND: pnpm lint
+$ eslint .
+EXIT: 0
+
+COMMAND: pnpm depcruise
+$ depcruise apps packages tools --config .dependency-cruiser.cjs
+✔ no dependency violations found (131 modules, 384 dependencies cruised)
+EXIT: 0
+
+COMMAND: pnpm test
+      Tests  247 passed (247)
+   Start at  02:45:55
+   Duration  9.60s (tests 89%, transform 6%, import 5%)
+EXIT: 0
+
+COMMAND: pnpm licenses:scan
+WARNING needs-review: eng.traineddata: Preserve Apache license; verify artifact before shipping
+WARNING needs-review: @reflink/reflink native addon (transitive dependency): Confirm which production dependency pulls it in and whether it is needed at runtime
+license-scan: scanned=739 lockfile=737 failures=0 notices=ok
+EXIT: 0
+
+COMMAND: pnpm check:adr
+$ node tools/check-adr.ts
+check-adr: failures=0
+EXIT: 0
+
+COMMAND: pnpm vitest run --project engines (probes from a Persian + space + ZWNJ folder, plain Node 24)
+      Tests  6 passed (6)
+
+COMMAND: env -u ELECTRON_RUN_AS_NODE DANESH_E2E_GREP=@plan-01-09 pnpm test:e2e
+  ok 1 apps\desktop\.features-gen\system-check.feature.spec.js:100:3 › Local System check with visible results and JSON export › Each packaging probe runs in its own host and reports its hash
+  ok 2 apps\desktop\.features-gen\system-check.feature.spec.js:109:3 › Local System check with visible results and JSON export › The interface stays responsive while all probes work
+  ok 3 apps\desktop\.features-gen\system-check.feature.spec.js:117:3 › Local System check with visible results and JSON export › A crashing OCR probe fails only its row
+  3 passed (17.2s)
+
+Sizes: installer 208551951 bytes; win-unpacked 528175766 bytes; resources/probes 86753594 bytes; app.asar 13074250 bytes.
+
+Packaged production evidence (same tree): pnpm package then
+`env -u ELECTRON_RUN_AS_NODE node tools/smoke/run-packaged-smoke.ts --persian-paths --install-nsis` -> verdict=pass
+(evidence/tier-a-local/smoke-win32-x64.json). Items: appRun, persianLibraryPath, fuses, manifest (85 files), asarContents,
+installPathBound (185/260), testHooks, nsis (installed into a Persian folder; the installed app's first run passed in
+9.0 s including all engines; uninstalled) all pass; codesign not applicable on Windows.
+
+Packaged app report (win-unpacked, Persian library path): engine-llm pass 2345 ms (24 tokens; native library loaded from
+resources\app.asar.unpacked\node_modules\@node-llama-cpp\win-x64\bins\win-x64\llama-addon.node), engine-ocr pass 379 ms
+(first word "This", confidence 95), engine-tts pass 2183 ms (6400 samples, model loaded by path from a Persian path; ONNX
+Runtime binding from app.asar.unpacked), ui-responsive pass (119 samples, nearest-rank p95 13 ms, max 13 ms), fuses
+pass; three distinct host pids, each different from Core and Main. Output hashes equal the development runs
+(LLM 76297550..., OCR 76ef157b...).
+
+First-run vs warm (Windows, Defender active): development LLM 672 ms warm; first packaged run after a fresh package
+2919 ms, next 2345 ms; installed copy first run 9.0 s for the whole headless check. OCR 235-386 ms; TTS 1425-2741 ms.
+
+Findings recorded honestly:
+- One `makensis` invocation failed with ERR_ELECTRON_BUILDER_CANNOT_EXECUTE and succeeded unchanged on the next run
+  (transient, likely a file lock or Defender scan of the 200 MB payload). Not suppressed; noted for CI (01-10).
+- The license scan rejected dxcompiler.dll/dxil.dll (DirectX Shader Compiler, shipped by onnxruntime-node for DirectML;
+  dxil.dll is Microsoft-licensed). They are now excluded from packaging; the TTS probe passes on the CPU path without
+  them. @reflink's native addon (transitive) is recorded as needs-review.
+- The plan's human check (type and scroll in the freshly installed app during the engine rows) is deferred to the
+  end-of-phase human UAT; the automated heartbeat is the primary evidence.

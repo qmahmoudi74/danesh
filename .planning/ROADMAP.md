@@ -42,7 +42,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. User data lives in a versioned database with forward-only migrations. The app snapshots data before migrating, a failed migration leaves prior data intact and restorable, and a database written by a newer version is refused. Large artifacts are written atomically into a content-addressed store.
   5. Danesh's own license is recorded in an ADR. The ADR-with-spike template, the acceptance-scenarios-before-implementation practice and the evidence-path verification report (verified, partially verified, blocked) are all in use for this phase's own work.
 
-**Plans**: 8/16 plans executed (01-17 added by user direction 2026-10-10) — planning complete and ready for implementation; the latest plan-checker findings (3 blockers, 1 warning) were corrected directly and verified only by deterministic checks, NOT formally rechecked by the AI plan checker (2026-10-09)
+**Plans**: 9/16 plans executed (01-17 added by user direction 2026-10-10) — planning complete and ready for implementation; the latest plan-checker findings (3 blockers, 1 warning) were corrected directly and verified only by deterministic checks, NOT formally rechecked by the AI plan checker (2026-10-09)
 
 Plans:
 **Wave 1**
@@ -64,7 +64,7 @@ Plans:
 - [x] 01-08-PLAN.md — Packaged production build with fuses, headless smoke mode, packaged smoke runner, test build
 
 **Wave 6** *(blocked on Wave 5 completion)*
-- [ ] 01-09-PLAN.md — LLM, OCR and TTS packaging probes in isolated hosts; UI responsiveness check
+- [x] 01-09-PLAN.md — LLM, OCR and TTS packaging probes in isolated hosts; UI responsiveness check
 
 **Wave 7** *(blocked on Wave 6 completion)*
 - [ ] 01-10-PLAN.md — CI on Windows and macOS, local CI parity, Tier B runbooks, first GitHub run (user push)

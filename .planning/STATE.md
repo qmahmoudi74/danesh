@@ -3,15 +3,15 @@ gsd_state_version: "1.0"
 current_phase: 1
 current_phase_name: Secure, Durable Foundation & Packaging Gate
 status: ready
-stopped_at: Completed 01-08; next 01-09
-last_updated: "2026-10-09T22:50:11.413Z"
-last_activity: 2026-10-10 (Plans 01-17, 01-07 and 01-08 completed)
+stopped_at: Completed 01-09; next 01-10 (ends with a user push gate)
+last_updated: "2026-10-09T23:17:18.799Z"
+last_activity: 2026-10-10 (Plans 01-17, 01-07, 01-08 and 01-09 completed)
 state_head: 7d0f9abfe90caa8428abf6973e8297045f3073d8
 progress:
   total_phases: 12
   completed_phases: 0
   total_plans: 16
-  completed_plans: 8
+  completed_plans: 9
   percent: 0
 ---
 
@@ -27,9 +27,9 @@ See: .planning/PROJECT.md (updated 2026-10-09)
 ## Current Position
 
 Phase: 1 (Secure, Durable Foundation & Packaging Gate) — IN PROGRESS
-Plan: 8 of 16 completed in current phase; next plan 01-09
-Status: Plans 01-05, 01-06, 01-17, 01-07 and 01-08 complete; 01-09 is next
-Last activity: 2026-10-10 (Plan 01-08 packaging and packaged smoke test completed)
+Plan: 9 of 16 completed in current phase; next plan 01-10
+Status: Plans 01-05, 01-06, 01-17, 01-07, 01-08 and 01-09 complete; 01-10 is next
+Last activity: 2026-10-10 (Plan 01-09 packaging probes completed; S-PACKAGE retired on Windows)
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -47,7 +47,7 @@ Progress: [░░░░░░░░░░] 0%
 | - | - | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 01-05, 01-06, 01-17, 01-07, 01-08 (completed; durations not measured)
+- Last 5 plans: 01-06, 01-17, 01-07, 01-08, 01-09 (completed; durations not measured)
 - Trend: -
 
 *Updated after each plan completion*
@@ -76,7 +76,7 @@ None yet.
 ### Blockers/Concerns
 
 - ~~[Phase 1]: D-LICENSE needs a product decision~~ RESOLVED 2026-10-09: MIT for original source (user decision).
-- [Phase 1]: S-PACKAGE has to prove native bindings plus a tiny GGUF, OCR and TTS in utilityProcess on clean, packaged Windows and macOS builds. Failure would force an architecture change.
+- [Phase 1]: S-PACKAGE proven on Windows x64 (01-09: LLM, OCR, TTS in packaged utilityProcesses, installed into a Persian path). macOS still unproven until the 01-10 CI run and Tier B.
 - [Phase 4]: D-COMMERCIAL and D-DISTRIB (model licenses, hosting mirrors, offline bundles) need decisions before the registry and downloads ship.
 - [Phase 10]: Persian TTS naturalness and voice licensing are unproven. S-TTS needs at least 3 native listeners and should start early.
 - [All engine phases]: There is no public Persian quality evidence for any candidate engine or model, so every choice is spike-gated with pass policies written first.
@@ -92,5 +92,5 @@ Items acknowledged and deferred at milestone close, most recent first:
 ## Session Continuity
 
 Last session: 2026-10-09T21:20:56.806Z
-Stopped at: Completed 01-08; next 01-09
-Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-09-PLAN.md
+Stopped at: Completed 01-09; next 01-10
+Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-10-PLAN.md
