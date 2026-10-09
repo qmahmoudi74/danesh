@@ -11,6 +11,8 @@ export const rpcMethods: Record<string, RpcMethod> = {
   'systemCheck.run': { input: z.strictObject({}), output: z.strictObject({ runId: z.string().uuid(), checkIds: z.array(CheckIdSchema).max(100).optional() }), maxInputBytes: 1024 },
   'systemCheck.get': { input: z.strictObject({ runId: z.string().uuid() }), output: SmokeReportSchema, maxInputBytes: 1024 },
   'systemCheck.export': { input: z.strictObject({ runId: z.string().uuid(), token: z.string().uuid() }), output: z.discriminatedUnion('ok', [z.strictObject({ ok: z.literal(true) }), z.strictObject({ ok: z.literal(false), reason: z.enum(['write-failed', 'unknown-token', 'unknown-run']) })]), maxInputBytes: 1024 },
+  // The renderer's heartbeat lateness while the engine group ran (integer ms, at most 4000 samples; ADR 0003 PK5).
+  'systemCheck.reportResponsiveness': { input: z.strictObject({ runId: z.string().uuid(), intervalMs: z.number().int().min(10).max(1000), samplesMs: z.array(z.number().int().min(0).max(60_000)).max(4000) }), output: z.strictObject({}), maxInputBytes: 32_768 },
   // Preload-side rejections are reported here so Core logs them with sender 'preload' (metadata only, D-16).
   'diag.rejected': { input: DiagRejectedSchema, output: z.strictObject({}), maxInputBytes: 256 },
 };

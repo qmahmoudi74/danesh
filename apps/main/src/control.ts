@@ -1,10 +1,12 @@
 import { CoreToMainSchema } from '@danesh/contracts/control.ts';
 import { utf8ByteLength } from '@danesh/contracts/envelope.ts';
 import type { JsonlLogger } from '@danesh/logging/jsonl.ts';
+import type { HostKind } from '@danesh/contracts/host-protocol.ts';
 
 export interface CoreControlHandlers {
   ready: (corePid: number) => void;
-  spawnHost: (kind: 'sample') => void;
+  spawnHost: (kind: HostKind) => void;
+  stopHost: (kind: HostKind) => void;
   exportTargetReady: (token: string) => void;
 }
 
@@ -20,5 +22,6 @@ export function handleCoreControl(message: unknown, handlers: CoreControlHandler
   const control = parsed.data;
   if (control.type === 'ready') handlers.ready(control.corePid);
   else if (control.type === 'export-target-ready') handlers.exportTargetReady(control.token);
+  else if (control.type === 'stop-host') handlers.stopHost(control.kind);
   else handlers.spawnHost(control.kind);
 }

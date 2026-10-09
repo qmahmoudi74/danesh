@@ -7,6 +7,7 @@ import { TitleBar } from './components/Chrome.tsx';
 import { Sidebar } from './components/Sidebar.tsx';
 import { useWindowState } from './lib/theme.ts';
 import { installSmokeRunner } from './lib/smoke.ts';
+import { installResponsivenessProbe } from './lib/heartbeat.ts';
 
 const screens: Record<Route, { name: string; title: string; render: () => React.ReactNode }> = {
   '#/': { name: 'خانه', title: 'دانش', render: () => <Home /> },
@@ -24,6 +25,7 @@ export function Router() {
   const scrollPositions = useRef(new Map<Route, number>());
   const shown = useRef<Route>(route);
   useEffect(() => installSmokeRunner(), []);
+  useEffect(() => installResponsivenessProbe(), []);
   useEffect(() => {
     const changed = () => setHash(location.hash);
     window.addEventListener('hashchange', changed);

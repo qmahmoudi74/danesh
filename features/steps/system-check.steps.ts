@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import { readFile, readdir } from 'node:fs/promises';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Given, When, Then } from './fixtures.ts';
 import { SmokeReportSchema } from '../../packages/contracts/src/smoke-report.ts';
@@ -81,7 +82,10 @@ Then('each reported row moves from «در انتظار» through «در حال �
 });
 Then('rows remain in report order throughout the run', async ({ harness }) => {
   const snapshots = await harness.page!.evaluate(() => (window as Window & { __rowSnapshots?: { checkId: string; status: string }[][] }).__rowSnapshots ?? []);
-  for (const rows of snapshots) if (rows.length) expect(rows.map((row) => row.checkId)).toEqual(['app-launch', 'database']);
+  // Rows appear once in report order and never reorder (the applicable check set grows with later plans).
+  const final = snapshots.at(-1)!.map((row) => row.checkId);
+  expect(final.slice(0, 2)).toEqual(['app-launch', 'database']);
+  for (const rows of snapshots) if (rows.length) expect(rows.map((row) => row.checkId)).toEqual(final);
 });
 When('the run completes', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'اجرای دوباره', exact: true })).toBeEnabled(); });
 Then('zero failed rows yield the summary «همهٔ بررسی‌ها موفق بود»', async ({ harness }) => { await expect(harness.page!.getByRole('status')).toContainText('همهٔ بررسی‌ها موفق بود'); });
@@ -99,7 +103,7 @@ Then('focus stays on the Run control, now labelled «اجرای دوباره»',
 Given('a test check is held running for more than 10 seconds', async ({ harness }) => { await harness.page!.evaluate(() => window.danesh.call('test.checkRun', { delayMs: 11000 })); });
 When('I start the run and wait 10 seconds', async ({ harness }) => { await harness.page!.getByRole('button', { name: 'اجرای بررسی', exact: true }).click(); await expect(harness.page!.getByText('اولین اجرا ممکن است کمی طول بکشد.', { exact: true })).toBeVisible({ timeout: 12000 }); });
 Then('«اولین اجرا ممکن است کمی طول بکشد.» appears', async ({ harness }) => { await expect(harness.page!.getByText('اولین اجرا ممکن است کمی طول بکشد.', { exact: true })).toBeVisible(); });
-Then('Run remains disabled until the run settles', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'در حال بررسی…', exact: true })).toBeDisabled(); await expect(harness.page!.getByRole('button', { name: 'اجرای دوباره', exact: true })).toBeEnabled({ timeout: 5000 }); });
+Then('Run remains disabled until the run settles', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'در حال بررسی…', exact: true })).toBeDisabled(); await expect(harness.page!.getByRole('button', { name: 'اجرای دوباره', exact: true })).toBeEnabled({ timeout: 30_000 }); });
 When('a test report contains pass and fail rows plus an unknown check id', async ({ harness }) => {
   await harness.page!.evaluate(() => window.danesh.call('test.checkRun', { delayMs: 100, checks: [
     { checkId: 'app-launch', status: 'pass', durationMs: 1, detail: 'Fixture pass', fields: {} },
@@ -158,4 +162,109 @@ Then('«قفل‌های امنیتی برنامه» shows «ناموفق»', asy
 });
 Then('its sentence is «تنظیمات امنیتی با نسخهٔ نهایی مطابقت ندارد. این نسخه برای آزمایش ساخته شده است.»', async ({ harness }) => {
   await expect(harness.page!.locator('[data-check-id="fuses"] .check-result')).toHaveText('تنظیمات امنیتی با نسخهٔ نهایی مطابقت ندارد. این نسخه برای آزمایش ساخته شده است.');
+});
+
+// Plan 01-09: packaging probes, responsiveness and single-probe failure isolation.
+const engineIds = ['engine-llm', 'engine-ocr', 'engine-tts'] as const;
+const technical = async (harness: { page: import('@playwright/test').Page | undefined }, checkId: string) => {
+  const row = harness.page!.locator(`[data-check-id="${checkId}"]`);
+  const trigger = row.getByRole('button', { name: 'جزئیات فنی', exact: true });
+  if (await trigger.getAttribute('aria-expanded') !== 'true') await trigger.click();
+  const region = row.getByRole('region');
+  return { text: await region.innerText(), fields: JSON.parse(await region.locator('pre').innerText()) as Record<string, unknown> };
+};
+Given('Danesh is launched with that library folder and all three bundled probe assets are available', async ({ harness }) => {
+  const lock = JSON.parse(readFileSync('tools/probes.lock.json', 'utf8')) as { entries: { target: string }[] };
+  const missing = lock.entries.filter((entry) => !existsSync(join('resources/probes', entry.target))).map((entry) => entry.target);
+  expect(missing, 'run pnpm probes:fetch').toEqual([]);
+  await harness.launch();
+  await harness.page!.getByRole('button', { name: 'بررسی سامانه', exact: true }).click();
+});
+// Regexes: parentheses are optional-text syntax in Cucumber expressions.
+Then(/^«موتور مدل زبانی \(نمونهٔ آزمایشی\)», «موتور تشخیص متن \(نمونهٔ آزمایشی\)» and «موتور گفتار \(نمونهٔ آزمایشی\)» show «موفق»$/, async ({ harness }) => {
+  for (const [id, name] of [['engine-llm', 'موتور مدل زبانی (نمونهٔ آزمایشی)'], ['engine-ocr', 'موتور تشخیص متن (نمونهٔ آزمایشی)'], ['engine-tts', 'موتور گفتار (نمونهٔ آزمایشی)']] as const) {
+    const row = harness.page!.locator(`[data-check-id="${id}"]`);
+    await expect(row.getByRole('heading', { name, exact: true })).toBeVisible();
+    await expect(row.locator('.status-badge')).toHaveText('موفق');
+  }
+});
+Then("each row's technical details contain a distinct host process id and a lowercase 64-hex output SHA-256", async ({ harness }) => {
+  const pids = new Set<number>();
+  for (const id of engineIds) {
+    const { text, fields } = await technical(harness, id);
+    expect(text).toMatch(/outputSha256\s+[0-9a-f]{64}\b/);
+    expect(Number.isInteger(fields.hostPid)).toBe(true);
+    pids.add(fields.hostPid as number);
+  }
+  expect(pids.size).toBe(3);
+});
+Then('the host ids differ from Main, Core and the renderer', async ({ harness }) => {
+  const mainPid = await harness.app!.evaluate(() => process.pid);
+  const rendererPid = await harness.app!.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0]!.webContents.getOSProcessId());
+  for (const id of engineIds) {
+    const { fields } = await technical(harness, id);
+    expect([mainPid, rendererPid, fields.corePid]).not.toContain(fields.hostPid);
+  }
+});
+Then('model names, versions and hashes appear only inside «جزئیات فنی»', async ({ harness }) => {
+  const outside = await harness.page!.locator('main').evaluate((main) => {
+    const copy = main.cloneNode(true) as HTMLElement;
+    copy.querySelectorAll('.technical').forEach((node) => node.remove());
+    return copy.innerText;
+  });
+  expect(outside).not.toMatch(/stories15M|gguf|traineddata|mana|onnx|tesseract|llama|\b[0-9a-f]{64}\b|\d+\.\d+\.\d+/i);
+  for (const id of engineIds) await expect(harness.page!.locator(`[data-check-id="${id}"] h2`)).toContainText('(نمونهٔ آزمایشی)');
+});
+
+When('the LLM, OCR and TTS probes run concurrently', async ({ harness }) => {
+  const page = harness.page!;
+  await page.getByRole('button', { name: 'اجرای بررسی', exact: true }).click();
+  // All three engine rows are running at the same moment.
+  await expect.poll(() => page.locator(engineIds.map((id) => `[data-check-id="${id}"][data-status="running"]`).join(', ')).count(), { intervals: [20] }).toBe(3);
+});
+Then('navigation and keyboard input remain responsive', async ({ harness }) => {
+  const page = harness.page!;
+  const delays: number[] = [];
+  for (let press = 0; press < 5; press++) {
+    const before = await page.evaluate(() => document.activeElement?.outerHTML ?? '');
+    const started = Date.now();
+    await page.keyboard.press('Tab');
+    await expect.poll(() => page.evaluate(() => document.activeElement?.outerHTML ?? '')).not.toBe(before);
+    delays.push(Date.now() - started);
+  }
+  expect(Math.max(...delays)).toBeLessThan(250);
+});
+Then('«پاسخ‌گویی برنامه» shows «موفق»', async ({ harness }) => {
+  const row = harness.page!.locator('[data-check-id="ui-responsive"]');
+  await expect(row.getByRole('heading', { name: 'پاسخ‌گویی برنامه', exact: true })).toBeVisible({ timeout: 30_000 });
+  await expect(row.locator('.status-badge')).toHaveText('موفق');
+});
+Then('its technical details report at least 100 heartbeat samples, p95 lateness at most 50 ms and maximum lateness at most 250 ms', async ({ harness }) => {
+  const { fields } = await technical(harness, 'ui-responsive');
+  expect(fields.method).toBe('nearest-rank');
+  expect(fields.sampleCount as number).toBeGreaterThanOrEqual(100);
+  expect(fields.p95 as number).toBeLessThanOrEqual(50);
+  expect(fields.max as number).toBeLessThanOrEqual(250);
+});
+
+const canned = (checkId: string) => ({ checkId, status: 'pass', durationMs: 1, detail: 'Fixture pass', fields: {} });
+Given('the check-run fixture supplies successful results for the other checks', async ({ harness }) => {
+  await harness.page!.evaluate((checks) => window.danesh.call('test.checkRun', { delayMs: 0, checks, live: ['engine-ocr'] }), ['app-launch', 'database', 'engine-llm', 'engine-tts', 'ui-responsive'].map(canned));
+});
+Given('the OCR probe is forced to crash on every execution in this run', async ({ harness }) => {
+  await harness.page!.evaluate(() => window.danesh.call('test.probeFault', { kind: 'ocr', mode: 'crash' }));
+});
+Then(/^only «موتور تشخیص متن \(نمونهٔ آزمایشی\)» shows «ناموفق»$/, async ({ harness }) => {
+  const failed = harness.page!.locator('[data-check-id][data-status="fail"]');
+  await expect(failed).toHaveCount(1);
+  await expect(failed).toHaveAttribute('data-check-id', 'engine-ocr');
+  const { fields } = await technical(harness, 'engine-ocr');
+  expect(fields.errorClass).toBe('HostExited');
+  expect(fields.hostExitCode).toBe(1);
+});
+Then('every other expected row is still reported', async ({ harness }) => {
+  expect(await harness.page!.locator('[data-check-id]').evaluateAll((rows) => rows.map((row) => row.getAttribute('data-check-id')))).toEqual(['app-launch', 'database', 'engine-llm', 'engine-ocr', 'engine-tts', 'ui-responsive']);
+});
+Then('the summary reads «۱ بررسی ناموفق بود. برای هر مورد، توضیح و راه‌حل زیر آن نوشته شده است.»', async ({ harness }) => {
+  await expect(harness.page!.getByRole('status')).toContainText('۱ بررسی ناموفق بود. برای هر مورد، توضیح و راه‌حل زیر آن نوشته شده است.');
 });

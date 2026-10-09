@@ -1,5 +1,5 @@
 {
-  "scope": "License declarations and release obligations from approved research; this is not packaged-artifact verification. Planned assets have not been downloaded.",
+  "scope": "License declarations and release obligations for shipped native binaries and probe assets. Plan 01-09 compared this list with the packaged Windows x64 tree (app.asar.unpacked and resources/probes, 2026-10-10); probe assets are downloaded at build time and verified by size and SHA-256 (tools/probes.lock.json). Entries marked needs-review must be resolved before any release (Phase 12).",
   "entries": [
     {
       "component": "Electron",
@@ -110,6 +110,28 @@
         "Preserve Apache license; verify artifact before shipping"
       ],
       "status": "needs-review"
+    },
+    {
+      "reviewedOn": "2026-10-10",
+      "component": "@reflink/reflink native addon (transitive dependency)",
+      "license": "MIT",
+      "source": "https://github.com/nicolo-ribaudo/reflink",
+      "shippedIn": "app.asar.unpacked/node_modules/@reflink (found in the packaged tree by Plan 01-09)",
+      "obligations": [
+        "Confirm which production dependency pulls it in and whether it is needed at runtime"
+      ],
+      "status": "needs-review"
+    },
+    {
+      "reviewedOn": "2026-10-10",
+      "component": "testocr.png (OCR probe sample image)",
+      "license": "Apache-2.0",
+      "source": "https://github.com/naptha/tesseract.js/tree/a1ca80d9e31c34512d0ded75ff8821ddcf3f2f91/tests/assets/images",
+      "shippedIn": "resources/probes/ocr",
+      "obligations": [
+        "Packaging probe only (D-23); preserve Apache-2.0 attribution in resources/probes/NOTICE"
+      ],
+      "status": "reviewed"
     }
   ],
   "excluded": [
@@ -117,6 +139,11 @@
       "component": "sherpa-onnx-node",
       "status": "excluded",
       "reason": "espeak-ng GPL code embedded in sherpa-onnx-c-api (R13)"
+    },
+    {
+      "component": "DirectX Shader Compiler (dxcompiler.dll, dxil.dll) from onnxruntime-node",
+      "status": "excluded",
+      "reason": "Not on the approved license list (dxil.dll is Microsoft-licensed); Danesh uses the ONNX Runtime CPU path, so both are filtered out of packaging (Plan 01-09). Revisit with an ADR if DirectML is ever adopted."
     }
   ]
 }

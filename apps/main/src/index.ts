@@ -6,7 +6,7 @@ import { type, release } from 'node:os';
 import type { ThemePreference } from '@danesh/contracts/preferences.ts';
 import { createJsonlLogger } from '@danesh/logging/jsonl.ts';
 import { registerAppScheme, registerAppProtocol } from './protocol.ts';
-import { spawnHost, killHosts } from './hosts.ts';
+import { spawnHost, stopHost, killHosts } from './hosts.ts';
 import { registerShellIpc, sendShellEvent } from './shell-ipc.ts';
 import { installAppMenu } from './menu.ts';
 import { loadPreferences, savePreferences, restoreWindowBounds, measureDrift, boundsToSave } from './preferences.ts';
@@ -147,8 +147,11 @@ function start(libraryRoot: string, smoke: Extract<SmokeArgs, { outPath: string 
       ready: () => { coreReady = true; coreState = 'ready'; publishCoreState(); connect(); },
       exportTargetReady: (token) => { const target = exportTargets.get(token); if (target) { clearTimeout(target.timer); exportTargets.delete(token); target.resolve(); } },
       spawnHost: (kind) => spawnHost(kind, child),
+      stopHost: (kind) => stopHost(kind),
     }, logger));
-    const initialize = () => child.postMessage({ type: 'init', libraryRoot: app.getPath('userData'), appVersion: app.getVersion(), electronVersion: process.versions.electron, platform: process.platform, arch: process.arch, mainPid: process.pid, exePath: app.getPath('exe'), locale: app.getSystemLocale(), osName: type(), osVersion: release(), packaged: app.isPackaged });
+    const initialize = () => child.postMessage({ type: 'init', libraryRoot: app.getPath('userData'), appVersion: app.getVersion(), electronVersion: process.versions.electron, platform: process.platform, arch: process.arch, mainPid: process.pid, exePath: app.getPath('exe'), locale: app.getSystemLocale(), osName: type(), osVersion: release(), packaged: app.isPackaged,
+      // Probe assets: shipped in resources/probes when packaged; the repository copy (pnpm probes:fetch) in development.
+      probesDir: app.isPackaged ? join(process.resourcesPath, 'probes') : join(app.getAppPath(), '..', '..', 'resources', 'probes') });
     if (__TEST_HOOKS__) {
       const delay = Number(process.argv.find((arg) => arg.startsWith('--test-core-ready-delay='))?.split('=')[1] ?? 0);
       if (!Number.isInteger(delay) || delay < 0 || delay > 60000) throw new Error('Invalid test readiness delay');

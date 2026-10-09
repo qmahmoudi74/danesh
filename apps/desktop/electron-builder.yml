@@ -21,9 +21,15 @@ files:
   - "!node_modules/tesseract.js-core/*-lstm.*"
   - "!**/*.{md,map,ts,tsbuildinfo}"
   - "!**/{test,tests,__tests__,docs,example,examples}/**"
-asarUnpack:                            # native binaries only; engine binaries are added by Plan 01-09
+asarUnpack:                            # native binaries and the files they load at runtime only
   - node_modules/better-sqlite3/prebuilds/**
+  - node_modules/@node-llama-cpp/*/bins/**
+  - node_modules/onnxruntime-node/bin/**
+  - node_modules/tesseract.js-core/**
 extraResources:
+  - from: ../../resources/probes        # packaging probes only (D-23); fetched and verified by pnpm probes:fetch
+    to: probes
+    filter: ["**/*", "!**/*.part"]
   - from: ../../LICENSE
     to: licenses/LICENSE
   - from: ../../third_party/THIRD-PARTY-NOTICES.txt
@@ -53,6 +59,7 @@ win:
     - "!node_modules/better-sqlite3/prebuilds/{darwin-arm64,darwin-x64,win32-arm64}.node"
     - "!node_modules/@node-llama-cpp/{mac-*,win-arm64,win-x64-cuda,win-x64-cuda-ext,win-x64-vulkan}/**"
     - "!node_modules/onnxruntime-node/bin/napi-v6/{darwin,win32/arm64}/**"
+    - "!node_modules/onnxruntime-node/bin/napi-v6/win32/x64/{dxcompiler,dxil}.dll"   # excluded: unapproved license; CPU path only
 nsis:
   oneClick: false
   perMachine: false

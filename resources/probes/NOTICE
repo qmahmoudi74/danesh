@@ -1,0 +1,22 @@
+Danesh packaging probes (Plan 01-09, decision D-23)
+
+These assets exist only to prove that native engines load and run inside packaged, isolated utility processes on
+Windows and macOS. They are NOT Danesh's chosen product engines, models or voices, and no quality claim is made for
+them. They are fetched at build time by `pnpm probes:fetch` (tools/probes.lock.json pins each commit, size and SHA-256)
+and are never downloaded by the app. Revisit before Phase 12.
+
+stories15M-q4_0.gguf
+  Source: https://huggingface.co/ggml-org/tiny-llamas/resolve/99dd1a73db5a37100bd4ae633f4cfce6560e1567/stories15M-q4_0.gguf
+  License: MIT, inherited from karpathy/tinyllamas (review pending, research note A5)
+
+eng.traineddata
+  Source: https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/87416418657359cb625c412a48b6e1d6d41c29bd/eng.traineddata
+  License: Apache-2.0 (tesseract-ocr/tessdata_fast)
+
+testocr.png
+  Source: https://raw.githubusercontent.com/naptha/tesseract.js/a1ca80d9e31c34512d0ded75ff8821ddcf3f2f91/tests/assets/images/testocr.png
+  License: Apache-2.0 (naptha/tesseract.js repository test asset)
+
+fa_IR-mana-medium.onnx and fa_IR-mana-medium.onnx.json
+  Source: https://huggingface.co/MahtaFetrat/Mana-Persian-Piper/resolve/ad9dd8518bedf517bd7cbc9f63b8e5c844bf5bc0/
+  License: MIT (model); training data Mana-TTS, CC0-1.0

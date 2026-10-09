@@ -1,0 +1,52 @@
+{
+  "comment": "Packaging probes only (D-23): fetched at build time by `pnpm probes:fetch`, verified by size and SHA-256, never downloaded by the app. Not product engine choices.",
+  "maxTotalBytes": 157286400,
+  "entries": [
+    {
+      "id": "llm-model",
+      "url": "https://huggingface.co/ggml-org/tiny-llamas/resolve/99dd1a73db5a37100bd4ae633f4cfce6560e1567/stories15M-q4_0.gguf",
+      "size": 19077344,
+      "sha256": "6151b1929d7f5aa3385d9ddef3393e55587c0a55de661562322bc51dfda93a04",
+      "license": "MIT",
+      "licenseStatus": "needs-review: inherited from karpathy/tinyllamas (research A5)",
+      "target": "llm/stories15M-q4_0.gguf"
+    },
+    {
+      "id": "ocr-language",
+      "url": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/87416418657359cb625c412a48b6e1d6d41c29bd/eng.traineddata",
+      "size": 4113088,
+      "sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "license": "Apache-2.0",
+      "licenseStatus": "reviewed",
+      "target": "ocr/eng.traineddata"
+    },
+    {
+      "id": "ocr-sample",
+      "url": "https://raw.githubusercontent.com/naptha/tesseract.js/a1ca80d9e31c34512d0ded75ff8821ddcf3f2f91/tests/assets/images/testocr.png",
+      "size": 23359,
+      "sha256": "2e9aaa7784de906cb1bb5be9785557c939fc8ca5a01fbc2d8009cd064b4892c7",
+      "license": "Apache-2.0",
+      "licenseStatus": "reviewed: tesseract.js repository test asset",
+      "target": "ocr/testocr.png",
+      "expectedFirstWord": "This"
+    },
+    {
+      "id": "tts-voice",
+      "url": "https://huggingface.co/MahtaFetrat/Mana-Persian-Piper/resolve/ad9dd8518bedf517bd7cbc9f63b8e5c844bf5bc0/fa_IR-mana-medium.onnx",
+      "size": 63531379,
+      "sha256": "e390c0e74ba71fd97c49ba662ee0c6e1724b462ba2d4561698af4f564840f126",
+      "license": "MIT",
+      "licenseStatus": "reviewed: MIT model card; training data Mana-TTS CC0-1.0",
+      "target": "tts/fa_IR-mana-medium.onnx"
+    },
+    {
+      "id": "tts-voice-config",
+      "url": "https://huggingface.co/MahtaFetrat/Mana-Persian-Piper/resolve/ad9dd8518bedf517bd7cbc9f63b8e5c844bf5bc0/fa_IR-mana-medium.onnx.json",
+      "size": 7088,
+      "sha256": "d102276a05436613a05e1fbad8f125abcf8f56759aaf4fd36adf216653949997",
+      "license": "MIT",
+      "licenseStatus": "reviewed: same repository and commit as the voice; hash recorded on first download (2026-10-10)",
+      "target": "tts/fa_IR-mana-medium.onnx.json"
+    }
+  ]
+}

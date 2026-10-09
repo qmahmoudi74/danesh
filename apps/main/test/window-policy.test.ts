@@ -48,11 +48,11 @@ describe('Core control channel', () => {
   it('dispatches valid control messages and logs invalid ones without their body', () => {
     const calls: unknown[] = [];
     const records: [string, Record<string, unknown>][] = [];
-    const handlers = { ready: (pid: number) => calls.push(['ready', pid]), spawnHost: (kind: string) => calls.push(['spawn', kind]), exportTargetReady: (token: string) => calls.push(['export', token]) };
+    const handlers = { ready: (pid: number) => calls.push(['ready', pid]), spawnHost: (kind: string) => calls.push(['spawn', kind]), stopHost: (kind: string) => calls.push(['stop', kind]), exportTargetReady: (token: string) => calls.push(['export', token]) };
     const logger = { log: (event: string, fields: Record<string, unknown> = {}) => { records.push([event, fields]); } };
     handleCoreControl({ type: 'ready', corePid: 7 }, handlers, logger);
     handleCoreControl({ type: 'spawn-host', kind: 'sample' }, handlers, logger);
-    for (const bad of [{ type: 'spawn-host', kind: 'llm' }, { type: 'ready', corePid: 7, path: 'C:/secret' }, { type: 'quit' }, null]) handleCoreControl(bad, handlers, logger);
+    for (const bad of [{ type: 'spawn-host', kind: 'gpu' }, { type: 'ready', corePid: 7, path: 'C:/secret' }, { type: 'quit' }, null]) handleCoreControl(bad, handlers, logger);
     expect(calls).toEqual([['ready', 7], ['spawn', 'sample']]);
     expect(records).toHaveLength(4);
     for (const [event, fields] of records) { expect(event).toBe('control.rejected'); expect(Object.keys(fields).sort()).toEqual(['byteLength', 'errorClass', 'schema', 'sender']); }

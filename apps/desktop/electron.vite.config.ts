@@ -16,7 +16,10 @@ export default defineConfig(({ mode }) => {
       resolve: { alias }, define,
       plugins: [externalizeDepsPlugin()],
       build: { rollupOptions: {
-        input: { index: resolve(import.meta.dirname, '../main/src/index.ts'), core: resolve(import.meta.dirname, '../core/src/index.ts'), 'engine-sample': resolve(import.meta.dirname, '../../packages/engine-api/src/sample-host.ts') },
+        input: { index: resolve(import.meta.dirname, '../main/src/index.ts'), core: resolve(import.meta.dirname, '../core/src/index.ts'), 'engine-sample': resolve(import.meta.dirname, '../../packages/engine-api/src/sample-host.ts'),
+          'engine-llm': resolve(import.meta.dirname, '../../packages/engines/llm-probe/src/host.ts'),
+          'engine-ocr': resolve(import.meta.dirname, '../../packages/engines/ocr-probe/src/host.ts'),
+          'engine-tts': resolve(import.meta.dirname, '../../packages/engines/tts-probe/src/host.ts') },
         output: { format: 'es' },
         onwarn,
       } },
