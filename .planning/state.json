@@ -6,7 +6,7 @@
     {
       "number": "1",
       "name": "Secure, Durable Foundation & Packaging Gate",
-      "status": "pending"
+      "status": "in_progress"
     },
     {
       "number": "2",
@@ -65,9 +65,9 @@
     }
   ],
   "next": {
-    "command": "/gsd:progress --next",
-    "label": "Advance to the next step",
-    "reason": "Phase 1 of 12 · 0% · executing"
+    "command": "/gsd:verify-work",
+    "label": "Re-verify work",
+    "reason": "Recent verification failed — re-verify or debug"
   },
-  "updated_at": "2026-10-09T18:57:14.525Z"
+  "updated_at": "2026-10-09T20:00:52.674Z"
 }
