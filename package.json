@@ -1,0 +1,47 @@
+{
+  "name": "danesh",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "packageManager": "pnpm@12.9.1",
+  "engines": {
+    "node": ">=24.21.0 <25"
+  },
+  "scripts": {
+    "build": "pnpm --dir apps/desktop run build",
+    "build:test": "pnpm --dir apps/desktop run build:test",
+    "package": "pnpm --dir apps/desktop run package",
+    "package:test": "pnpm --dir apps/desktop run package:test",
+    "dev": "pnpm --dir apps/desktop run dev",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p apps/renderer/tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "depcruise": "depcruise apps packages tools --config .dependency-cruiser.cjs",
+    "test": "vitest run",
+    "test:e2e": "node tools/run-e2e.ts",
+    "smoke:packaged": "node tools/smoke/run-packaged-smoke.ts",
+    "probes:fetch": "node tools/fetch-probes.ts",
+    "licenses:scan": "node tools/license-scan.ts",
+    "check:adr": "node tools/check-adr.ts",
+    "check:features": "node tools/check-features-first.ts",
+    "check:report": "node tools/check-report.ts",
+    "check:ci": "node tools/check-ci.ts",
+    "check:test-hooks": "node tools/assert-no-test-hooks.ts",
+    "ci:local": "node tools/ci-local.ts"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3",
+    "@types/node": "24.19.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/better-sqlite3": "9.6.0",
+    "vitest": "5.0.3",
+    "@amiceli/vitest-cucumber": "8.0.0",
+    "@playwright/test": "1.64.0",
+    "playwright-bdd": "9.2.1",
+    "eslint": "10.12.0",
+    "typescript-eslint": "8.71.1",
+    "dependency-cruiser": "18.5.0",
+    "spdx-expression-parse": "5.0.0",
+    "spdx-satisfies": "6.0.0"
+  }
+}

@@ -1,0 +1,13 @@
+packages:
+  - apps/desktop
+
+nodeLinker: hoisted
+
+allowBuilds:
+  esbuild: true
+  node-llama-cpp: false
+  onnxruntime-node: false
+  electron-winstaller: false
+  tesseract.js: false
+  fsevents: false
+  pnpm: false

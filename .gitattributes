@@ -1,0 +1,9 @@
+* text=auto
+*.sql text eol=lf
+*.feature text eol=lf
+*.md text eol=lf
+*.png binary
+*.gguf binary
+*.onnx binary
+*.traineddata binary
+*.node binary

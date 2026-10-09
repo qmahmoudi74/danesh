@@ -1,0 +1,12 @@
+node_modules/
+apps/desktop/out/
+apps/desktop/dist/
+apps/desktop/dist-test/
+apps/desktop/.features-gen/
+test-results/
+playwright-report/
+resources/probes/*
+!resources/probes/NOTICE
+*.tsbuildinfo
+.DS_Store
+evidence-tmp/
