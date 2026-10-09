@@ -178,3 +178,20 @@ Then('every motion duration token is 0ms and the spinner does not rotate', async
   expect(motion.spinner).toBe('none');
   expect(motion.sidebar.split(',').every((value) => parseFloat(value) === 0)).toBe(true);
 });
+
+const physicalKeys: Record<string, string> = { '2': '2', comma: ',', equals: '=', '0': '0' };
+// sendInputEvent travels Electron's native input path (before-input-event, menu accelerators); Playwright's CDP keyboard bypasses it.
+When(/^I press CmdOrCtrl and the physical (2|comma|equals|0) key$/, async ({ harness }, key: string) => {
+  await harness.app!.evaluate(({ BrowserWindow }, [keyCode, modifier]) => {
+    const contents = BrowserWindow.getAllWindows()[0]!.webContents;
+    contents.focus();
+    for (const type of ['keyDown', 'keyUp'] as const) contents.sendInputEvent({ type, keyCode: keyCode!, modifiers: [modifier as 'control'] });
+  }, [physicalKeys[key]!, isMac ? 'meta' : 'control']);
+});
+Then(/^the route is "#\/settings" and its h1 «تنظیمات» has focus$/, async ({ harness }) => {
+  await expect(harness.page!).toHaveURL(/#\/settings$/);
+  await expect(harness.page!.getByRole('heading', { name: 'تنظیمات', level: 1, exact: true })).toBeFocused();
+});
+const zoomLevel = (harness: { app: ElectronApplication | undefined }) => harness.app!.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0]!.webContents.getZoomLevel());
+Then('the page zoom level is above 0', async ({ harness }) => { await expect.poll(() => zoomLevel(harness)).toBeGreaterThan(0); });
+Then('the page zoom level is 0', async ({ harness }) => { await expect.poll(() => zoomLevel(harness)).toBe(0); });

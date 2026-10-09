@@ -6,8 +6,9 @@ import { platform } from '../lib/theme.ts';
 
 const act = (action: WindowAction) => { void window.danesh.call('shell.window', { action }).catch(() => undefined); };
 
-export function ChromeTooltip({ children }: { children: string }) {
-  return <Tooltip className="tooltip" offset={8}>{children}</Tooltip>;
+/** Title-bar tooltips open below their control; sidebar tooltips open toward the content (inline-end). */
+export function ChromeTooltip({ children, placement = 'bottom' }: { children: string; placement?: 'bottom' | 'end' }) {
+  return <Tooltip className="tooltip" placement={placement} offset={8}>{children}</Tooltip>;
 }
 
 function CaptionButton({ label, glyph, action, close = false }: { label: string; glyph: CaptionGlyph; action: WindowAction; close?: boolean }) {
@@ -22,8 +23,10 @@ function MenuButton() {
   const ref = useRef<HTMLButtonElement>(null);
   const open = () => {
     const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    void window.danesh.call('shell.showAppMenu', { x: Math.max(0, Math.round(rect.left)), y: Math.round(rect.bottom) }).catch(() => undefined);
+    const bar = ref.current?.closest('header')?.getBoundingClientRect();
+    if (!rect || !bar) return;
+    // Opens flush with the title bar's lower edge, aligned to the button.
+    void window.danesh.call('shell.showAppMenu', { x: Math.max(0, Math.round(rect.left)), y: Math.round(bar.bottom) }).catch(() => undefined);
   };
   return <TooltipTrigger delay={500} closeDelay={0}>
     <Button ref={ref} className="chrome-button" aria-label="منو" onPress={open}><Icon name="menu" /></Button>

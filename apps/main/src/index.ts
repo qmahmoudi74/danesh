@@ -9,6 +9,7 @@ import { installAppMenu } from './menu.ts';
 import { loadPreferences, savePreferences, restoreWindowBounds, measureDrift, boundsToSave, MIN_WINDOW } from './preferences.ts';
 import { applyTheme, chromeWindowOptions, performWindowAction, readWindowState, trackWindowState, WINDOW_BACKGROUND } from './window-chrome.ts';
 import type { ThemePreference } from '@danesh/contracts/preferences.ts';
+import { matchShortcut, nextZoomLevel } from './policy/shortcuts.ts';
 import { type, release } from 'node:os';
 
 registerAppScheme();
@@ -50,6 +51,13 @@ void app.whenReady().then(() => {
     installMenu(); sendShellEvent(window, 'shell.theme', theme);
   });
   trackWindowState(window, (state) => sendShellEvent(window, 'shell.windowState', state));
+  window.webContents.on('before-input-event', (event, input) => {
+    const action = matchShortcut(input, process.platform);
+    if (!action) return;
+    event.preventDefault();
+    if ('navigate' in action) sendShellEvent(window, 'shell.navigate', { route: action.navigate });
+    else window.webContents.setZoomLevel(nextZoomLevel(window.webContents.getZoomLevel(), action.zoom));
+  });
   let boundsTimer: ReturnType<typeof setTimeout> | undefined;
   const rememberBounds = () => {
     clearTimeout(boundsTimer); boundsTimer = undefined;

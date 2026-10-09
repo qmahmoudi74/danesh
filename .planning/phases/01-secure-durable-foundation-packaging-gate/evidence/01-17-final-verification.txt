@@ -1,0 +1,108 @@
+Plan 01-17 final verification 2026-10-09T22:06:05Z on win32-x64
+
+COMMAND: pnpm typecheck
+$ tsc -p tsconfig.json --noEmit && tsc -p apps/renderer/tsconfig.json --noEmit
+EXIT: 0
+
+COMMAND: pnpm lint
+$ eslint .
+EXIT: 0
+
+COMMAND: pnpm depcruise
+$ depcruise apps packages tools --config .dependency-cruiser.cjs
+✔ no dependency violations found (86 modules, 218 dependencies cruised)
+EXIT: 0
+
+COMMAND: pnpm test
+$ vitest run
+ RUN  v5.0.3 D:/workspace/AI/danesh
+ Test Files  14 passed (14)
+      Tests  123 passed (123)
+   Start at  01:36:14
+   Duration  4.38s (tests 88%, transform 6%, import 5%)
+EXIT: 0
+
+COMMAND: pnpm licenses:scan
+WARNING needs-review: Electron FFmpeg: Research A6 assumption; verify binary contents/terms, notices, source and relinking before release
+WARNING needs-review: DirectML.dll: Verify actual DLL redistribution terms and embedded notices before release
+WARNING needs-review: stories15M-q4_0.gguf: Research A5 upstream inherited grant needs verification before obtaining or shipping
+WARNING needs-review: fa_IR-mana-medium.onnx and .onnx.json: Preserve model MIT notice; record CC0 dataset provenance; verify artifacts before shipping
+WARNING needs-review: eng.traineddata: Preserve Apache license; verify artifact before shipping
+license-scan: scanned=739 lockfile=737 failures=0 notices=ok
+EXIT: 0
+
+COMMAND: pnpm check:adr
+$ node tools/check-adr.ts
+check-adr: failures=0
+EXIT: 0
+
+COMMAND: env -u ELECTRON_RUN_AS_NODE pnpm test:e2e (all scenarios, fresh test build)
+  ok  1 apps\desktop\.features-gen\app-shell.feature.spec.js:10:3 › An honest Persian-first shell behind a closed preload API › System check reaches the database through Core
+  ok  2 apps\desktop\.features-gen\app-shell.feature.spec.js:17:3 › An honest Persian-first shell behind a closed preload API › The page has no Node access or raw IPC surface
+  ok  3 apps\desktop\.features-gen\app-shell.feature.spec.js:25:3 › An honest Persian-first shell behind a closed preload API › Core and the sample host run in separate processes
+  ok  4 apps\desktop\.features-gen\app-shell.feature.spec.js:31:3 › An honest Persian-first shell behind a closed preload API › The database probe row survives a relaunch
+  ok  5 apps\desktop\.features-gen\app-shell.feature.spec.js:39:3 › An honest Persian-first shell behind a closed preload API › Home states the foundation scope in Persian
+  ok  6 apps\desktop\.features-gen\app-shell.feature.spec.js:49:3 › An honest Persian-first shell behind a closed preload API › Native menu navigation focuses the heading and unknown routes return Home
+  -   7 apps\desktop\.features-gen\app-shell.feature.spec.js:61:10 › An honest Persian-first shell behind a closed preload API › A malformed ping is rejected without logging Persian input
+  -   8 apps\desktop\.features-gen\app-shell.feature.spec.js:74:10 › An honest Persian-first shell behind a closed preload API › Both routes obey CSP and reject external navigation
+  -   9 apps\desktop\.features-gen\app-shell.feature.spec.js:89:10 › An honest Persian-first shell behind a closed preload API › A rejected call leaves the private connection usable
+  ok 10 apps\desktop\.features-gen\desktop-shell.feature.spec.js:10:3 › A custom, themed desktop shell that keeps native window behavior › Custom title bar controls act on the real window
+  ok 11 apps\desktop\.features-gen\desktop-shell.feature.spec.js:25:3 › A custom, themed desktop shell that keeps native window behavior › The theme choice and window size survive a relaunch
+  ok 12 apps\desktop\.features-gen\desktop-shell.feature.spec.js:37:3 › A custom, themed desktop shell that keeps native window behavior › System theme follows the operating system live
+  ok 13 apps\desktop\.features-gen\desktop-shell.feature.spec.js:46:3 › A custom, themed desktop shell that keeps native window behavior › Malformed window and theme requests are rejected before any effect
+  ok 14 apps\desktop\.features-gen\desktop-shell.feature.spec.js:56:3 › A custom, themed desktop shell that keeps native window behavior › Corrupted preferences and off-screen bounds never block start-up
+  ok 15 apps\desktop\.features-gen\desktop-shell.feature.spec.js:65:3 › A custom, themed desktop shell that keeps native window behavior › The sidebar collapses to a named rail and navigates
+  ok 16 apps\desktop\.features-gen\desktop-shell.feature.spec.js:77:3 › A custom, themed desktop shell that keeps native window behavior › Reduced motion removes animation
+  ok 17 apps\desktop\.features-gen\desktop-shell.feature.spec.js:83:3 › A custom, themed desktop shell that keeps native window behavior › Keyboard shortcuts work without a menu bar and on any keyboard layout
+  -  18 apps\desktop\.features-gen\engine-crash.feature.spec.js:13:10 › Engine crashes and Core restarts leave the window usable › A healthy host completes work without a recovery notice
+  -  19 apps\desktop\.features-gen\engine-crash.feature.spec.js:27:12 › Engine crashes and Core restarts leave the window usable › An unexpected host exit restarts only that host › Example #1
+  -  20 apps\desktop\.features-gen\engine-crash.feature.spec.js:42:12 › Engine crashes and Core restarts leave the window usable › An unexpected host exit restarts only that host › Example #2
+  -  21 apps\desktop\.features-gen\engine-crash.feature.spec.js:57:12 › Engine crashes and Core restarts leave the window usable › An unexpected host exit restarts only that host › Example #3
+  -  22 apps\desktop\.features-gen\engine-crash.feature.spec.js:72:12 › Engine crashes and Core restarts leave the window usable › An unexpected host exit restarts only that host › Example #4
+  -  23 apps\desktop\.features-gen\engine-crash.feature.spec.js:87:12 › Engine crashes and Core restarts leave the window usable › An unexpected host exit restarts only that host › Example #5
+  -  24 apps\desktop\.features-gen\engine-crash.feature.spec.js:102:12 › Engine crashes and Core restarts leave the window usable › An unexpected host exit restarts only that host › Example #6
+  -  25 apps\desktop\.features-gen\engine-crash.feature.spec.js:119:10 › Engine crashes and Core restarts leave the window usable › Repeated crashes quarantine one task without discarding other work
+  -  26 apps\desktop\.features-gen\engine-crash.feature.spec.js:132:10 › Engine crashes and Core restarts leave the window usable › Core killed mid-job is respawned and reconnects without window reload
+  -  27 apps\desktop\.features-gen\engine-crash.feature.spec.js:146:10 › Engine crashes and Core restarts leave the window usable › Invalid host messages are rejected and logged without their payload
+  -  28 apps\desktop\.features-gen\engine-crash.feature.spec.js:158:10 › Engine crashes and Core restarts leave the window usable › Closing Danesh stops every child without restarts
+  -  29 apps\desktop\.features-gen\engine-crash.feature.spec.js:171:10 › Engine crashes and Core restarts leave the window usable › Crash and restart evidence remains local across relaunch
+  -  30 apps\desktop\.features-gen\sample-job.feature.spec.js:13:10 › A clearly labelled sample job demonstrates durable progress › The sample job completes twelve chunks with auditable attempts
+  -  31 apps\desktop\.features-gen\sample-job.feature.spec.js:29:10 › A clearly labelled sample job demonstrates durable progress › Killing and relaunching the app resumes without redoing committed chunks
+  -  32 apps\desktop\.features-gen\sample-job.feature.spec.js:45:10 › A clearly labelled sample job demonstrates durable progress › Home exposes background activity only while a job runs
+  -  33 apps\desktop\.features-gen\sample-job.feature.spec.js:59:10 › A clearly labelled sample job demonstrates durable progress › Starting again preserves the previous job record
+  -  34 apps\desktop\.features-gen\sample-job.feature.spec.js:72:10 › A clearly labelled sample job demonstrates durable progress › A persistent chunk failure preserves progress and offers a targeted retry
+  -  35 apps\desktop\.features-gen\sample-job.feature.spec.js:89:10 › A clearly labelled sample job demonstrates durable progress › An engine crash retries only the in-flight chunk
+  -  36 apps\desktop\.features-gen\sample-job.feature.spec.js:103:10 › A clearly labelled sample job demonstrates durable progress › The idle card clearly discloses the sample scope
+  -  37 apps\desktop\.features-gen\sample-job.feature.spec.js:117:12 › A clearly labelled sample job demonstrates durable progress › Chunk counts remain readable and expose non-color state cues › Example #1
+  -  38 apps\desktop\.features-gen\sample-job.feature.spec.js:131:12 › A clearly labelled sample job demonstrates durable progress › Chunk counts remain readable and expose non-color state cues › Example #2
+  -  39 apps\desktop\.features-gen\sample-job.feature.spec.js:145:12 › A clearly labelled sample job demonstrates durable progress › Chunk counts remain readable and expose non-color state cues › Example #3
+  -  40 apps\desktop\.features-gen\startup-states.feature.spec.js:13:10 › Startup preserves data and exposes honest recovery states › Normal startup applies pending migrations before the foundation banner
+  -  41 apps\desktop\.features-gen\startup-states.feature.spec.js:25:10 › Startup preserves data and exposes honest recovery states › A newer database is refused without changing its bytes
+  -  42 apps\desktop\.features-gen\startup-states.feature.spec.js:39:10 › Startup preserves data and exposes honest recovery states › Failed migration opens read-only and preserves prior rows
+  -  43 apps\desktop\.features-gen\startup-states.feature.spec.js:54:10 › Startup preserves data and exposes honest recovery states › An upgrade keeps data and takes no second backup on relaunch
+  -  44 apps\desktop\.features-gen\startup-states.feature.spec.js:67:10 › Startup preserves data and exposes honest recovery states › A second instance focuses the first without opening another Core
+  -  45 apps\desktop\.features-gen\startup-states.feature.spec.js:79:10 › Startup preserves data and exposes honest recovery states › Repeated Core boot failures offer app relaunch
+  ok 46 apps\desktop\.features-gen\startup-states.feature.spec.js:89:3 › Startup preserves data and exposes honest recovery states › Slow preparation keeps System check available
+  ok 47 apps\desktop\.features-gen\system-check.feature.spec.js:10:3 › Local System check with visible results and JSON export › System check waits for an explicit first run
+  ok 48 apps\desktop\.features-gen\system-check.feature.spec.js:19:3 › Local System check with visible results and JSON export › Running updates each row and announces the actual summary
+  ok 49 apps\desktop\.features-gen\system-check.feature.spec.js:31:3 › Local System check with visible results and JSON export › A slow run gives a hint without allowing duplicate execution
+  ok 50 apps\desktop\.features-gen\system-check.feature.spec.js:39:3 › Local System check with visible results and JSON export › The environment block preserves a Persian path with an apostrophe
+  ok 51 apps\desktop\.features-gen\system-check.feature.spec.js:47:3 › Local System check with visible results and JSON export › Exported JSON matches the displayed report
+  ok 52 apps\desktop\.features-gen\system-check.feature.spec.js:58:3 › Local System check with visible results and JSON export › An unwritable export target reports an actionable error
+  ok 53 apps\desktop\.features-gen\system-check.feature.spec.js:66:3 › Local System check with visible results and JSON export › Cancelling the save dialog is silent
+  ok 54 apps\desktop\.features-gen\system-check.feature.spec.js:74:3 › Local System check with visible results and JSON export › An unreachable Core offers a named retry that recovers the run
+  ok 55 apps\desktop\.features-gen\system-check.feature.spec.js:84:3 › Local System check with visible results and JSON export › Partial reports retain their rows and render unknown ids honestly
+  -  56 apps\desktop\.features-gen\system-check.feature.spec.js:96:10 › Local System check with visible results and JSON export › The test build reports its differing security fuses
+  -  57 apps\desktop\.features-gen\system-check.feature.spec.js:108:10 › Local System check with visible results and JSON export › Each packaging probe runs in its own host and reports its hash
+  -  58 apps\desktop\.features-gen\system-check.feature.spec.js:122:10 › Local System check with visible results and JSON export › The interface stays responsive while all probes work
+  -  59 apps\desktop\.features-gen\system-check.feature.spec.js:135:10 › Local System check with visible results and JSON export › A crashing OCR probe fails only its row
+  -  60 apps\desktop\.features-gen\system-check.feature.spec.js:152:12 › Local System check with visible results and JSON export › The full local check lists the OS rows in documented order › Example #1
+  -  61 apps\desktop\.features-gen\system-check.feature.spec.js:166:12 › Local System check with visible results and JSON export › The full local check lists the OS rows in documented order › Example #2
+  -  62 apps\desktop\.features-gen\zero-egress.feature.spec.js:13:10 › A monitored full check makes zero outbound connection attempts › Full System check remains offline with every engine host active
+  -  63 apps\desktop\.features-gen\zero-egress.feature.spec.js:27:10 › A monitored full check makes zero outbound connection attempts › Independent observers detect deliberate test-only connections
+  -  64 apps\desktop\.features-gen\zero-egress.feature.spec.js:41:10 › A monitored full check makes zero outbound connection attempts › Core and engine restarts retain the deny policy
+  -  65 apps\desktop\.features-gen\zero-egress.feature.spec.js:53:10 › A monitored full check makes zero outbound connection attempts › A blocked request log omits its private path and query
+  -  66 apps\desktop\.features-gen\zero-egress.feature.spec.js:66:10 › A monitored full check makes zero outbound connection attempts › Relaunch keeps the allowlist empty and the egress row successful
+  42 skipped
+  24 passed (56.7s)
+EXIT: 0

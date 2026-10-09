@@ -21,9 +21,9 @@ try {
   // Electron's own capture of the composited window: correct at any zoom factor, unlike a CSS-pixel page screenshot.
   const capture = async () => Buffer.from(await app.evaluate(async ({ BrowserWindow }) => (await BrowserWindow.getAllWindows()[0].webContents.capturePage()).toPNG().toString('base64')), 'base64');
   const go = async (hash) => { await page.evaluate((h) => { location.hash = h; }, hash); await page.waitForTimeout(350); };
-  const shot = async (name) => {
+  const shot = async (name, keepPointer = false) => {
     if (filter && !name.includes(filter)) return;
-    await page.mouse.move(600, 400);
+    if (!keepPointer) await page.mouse.move(600, 400);
     await page.waitForTimeout(250);
     const metrics = await page.evaluate(() => ({ overflowX: document.documentElement.scrollWidth > innerWidth || [...document.querySelectorAll('.content, .title-bar, .sidebar')].some((el) => el.scrollWidth > el.clientWidth + 1), viewport: [innerWidth, innerHeight], csp: window.__cspViolations ?? [] }));
     const buffer = await capture();
@@ -50,6 +50,22 @@ try {
     // Hover states on the chrome.
     await go('/');
     const close = page.getByRole('button', { name: 'بستن' });
+    // Collapsed rail with a tooltip, then a keyboard focus ring on a sidebar item.
+    await page.getByRole('button', { name: 'جمع کردن نوار کناری' }).click();
+    await page.waitForTimeout(400);
+    await page.getByRole('navigation').getByRole('link', { name: 'بررسی سامانه' }).hover();
+    await page.waitForTimeout(800);
+    await shot(`${theme}-rail-tooltip`, true);
+    await page.mouse.move(600, 600);
+    await page.getByRole('navigation').getByRole('link', { name: 'خانه' }).focus();
+    await page.keyboard.press('Tab');
+    await page.waitForTimeout(300);
+    await shot(`${theme}-rail-focus`, true);
+    await page.getByRole('button', { name: 'باز کردن نوار کناری' }).click();
+    await page.waitForTimeout(400);
+    await page.evaluate(() => document.documentElement.toggleAttribute('data-window-inactive', true));
+    await shot(`${theme}-inactive`);
+    await page.evaluate(() => document.documentElement.toggleAttribute('data-window-inactive', false));
     if (await close.count()) { await close.hover(); await page.waitForTimeout(700); if (!filter || `${theme}-close-hover`.includes(filter)) { await writeFile(join(out, `01-17-${theme}-close-hover.png`), await page.screenshot({ clip: { x: 0, y: 0, width: 360, height: 120 } })); } }
   }
   await writeFile(join(out, '01-17-visual-results.json'), JSON.stringify({ recordedAt: new Date().toISOString(), platform: process.platform, results }, null, 2) + '\n');

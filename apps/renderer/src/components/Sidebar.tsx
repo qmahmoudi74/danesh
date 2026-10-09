@@ -21,7 +21,7 @@ function NavItem({ destination, current, rail }: { destination: Destination; cur
   const link = <Link className="nav-link" aria-current={current ? 'page' : undefined} onPress={() => { location.hash = destination.route.slice(1); }}>
     <span className="nav-icon"><Icon name={destination.icon} /></span><span className="nav-label">{destination.label}</span>
   </Link>;
-  return rail ? <TooltipTrigger delay={300} closeDelay={0}>{link}<ChromeTooltip>{destination.label}</ChromeTooltip></TooltipTrigger> : link;
+  return rail ? <TooltipTrigger delay={300} closeDelay={0}>{link}<ChromeTooltip placement="end">{destination.label}</ChromeTooltip></TooltipTrigger> : link;
 }
 
 export function Sidebar({ route }: { route: Route }) {
@@ -36,7 +36,7 @@ export function Sidebar({ route }: { route: Route }) {
     <div className="nav-group">{destinations.map((destination) => <NavItem key={destination.route} destination={destination} current={route === destination.route} rail={rail} />)}</div>
     <div className="nav-group nav-footer">
       <NavItem destination={settingsDestination} current={route === settingsDestination.route} rail={rail} />
-      {!narrow && (rail ? <TooltipTrigger delay={300} closeDelay={0}>{toggle}<ChromeTooltip>{toggleLabel}</ChromeTooltip></TooltipTrigger> : toggle)}
+      {!narrow && (rail ? <TooltipTrigger delay={300} closeDelay={0}>{toggle}<ChromeTooltip placement="end">{toggleLabel}</ChromeTooltip></TooltipTrigger> : toggle)}
     </div>
   </nav>;
 }
