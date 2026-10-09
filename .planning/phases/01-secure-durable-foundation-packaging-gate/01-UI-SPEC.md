@@ -1,7 +1,8 @@
 ---
 phase: "01"
 slug: "secure-durable-foundation-packaging-gate"
-status: draft
+status: approved
+reviewed_at: "2026-10-09"
 shadcn_initialized: false
 preset: none
 created: "2026-10-09"
@@ -401,30 +402,53 @@ Selecting a «نمایش» navigation item sends a single typed navigation messa
 
 ## UI Considerations
 
-Applicable state considerations resolved: 14 covered, 3 backstop, 1 unresolved
+> Populated by the ui-phase UI-consideration probe (Step 9.5) and lifted by plan-phase's
+> `## UI Considerations` lift rule via the identical rule as SPEC `## Edge Coverage`. Shape-rooted UI *state*
+> coverage (empty / loading / error / populated / partial / overflow / zero-one-many / long-text).
+> Empty-state and error-state COPY live in `## Copywriting Contract` above — this section covers
+> state coverage and REFERENCES those rows rather than restating the copy (de-dup).
+>
+> Probe run 2026-10-09 (`--auto`): 4 elements; element kinds authored as detected ∪ missed (Home +nav, System check +static-content, Navigation +interactive-control); `autoResolve` floor = backstop, upgraded to explicit where a concrete acceptance criterion exists; never auto-dismissed. Engine report: applicable 28, resolved 28, unresolved 0, unclassified 0.
 
-| Category | Element(s) | Status | Resolution / Reason |
-|----------|------------|--------|---------------------|
-| empty | list-collection (check list) | ✅ covered | Before the first run the list is replaced by the «هنوز بررسی انجام نشده» empty-state copy and Export is disabled with the visible reason «پس از اجرای بررسی فعال می‌شود.» |
-| loading | list-collection (check list) | ✅ covered | During a run every row moves pending → running → pass/fail individually, Run shows «در حال بررسی…», and after 10 s the hint «اولین اجرا ممکن است کمی طول بکشد.» appears |
-| error | list-collection (check list), interactive-control (Run) | ✅ covered | A failed check renders a `fail` row with its plain-Persian cause and next step; an unreachable Core renders the run-level alert with «تلاش دوباره»; no stack trace appears outside `جزئیات فنی` |
-| populated | list-collection (check list) | ✅ covered | A complete report renders 9 rows on Windows (launch, database, storage, three engines, responsiveness, egress, fuses) and 10 on macOS (adds code signature), in report order |
-| partial | list-collection (check list) | ✅ covered | Mixed pass/fail results render per row independently, the summary states the failed count, and the list order is never re-sorted |
-| zero-one-many | list-collection (failure count) | ✅ covered | Zero failures shows «همهٔ بررسی‌ها موفق بود»; one or more shows «{n} بررسی ناموفق بود…» (Persian noun is not pluralized) |
-| overflow | static-content (TechnicalDetail) | ✅ covered | Technical blocks wrap with `overflow-wrap: anywhere`, cap at 320px block size with a focusable scroll region, and never cause horizontal page scroll at 720px width |
-| long-text | static-content (paths, hashes in TechnicalDetail) | 🧪 backstop | Held-out screenshot test: a 300+ character path with Persian letters, a space and an apostrophe stays readable, in logical order, inside an LTR isolate at 720px and at 200% zoom |
-| loading | interactive-control (sample job) | ✅ covered | Running state shows label, progress bar, count text and ChunkStrip; progress ticks are not announced, only start/resume/complete/fail |
-| partial | list-collection (ChunkStrip after restart) | ✅ covered | After kill and relaunch, previously completed cells stay done with attempt count 1, the in-flight cell reruns with attempt count 2, and the resumed Banner states how many chunks were not redone |
-| error | interactive-control (sample job) | ✅ covered | A failed job shows the error Banner, keeps completed cells, and offers «تلاش دوباره» |
-| zero-one-many | list-collection (ChunkStrip) | ✅ covered | Cells wrap at inline-end for N from 1 to 64 with a 4px gap; the sample ships with N = 12; N above 64 is out of contract |
-| error | interactive-control (Export) | ✅ covered | Save failure shows the export-failure sentence in the status region; dialog cancel is silent; the button is disabled with its reason before any run and while saving |
-| error | nav (Home blocking start-up states) | ✅ covered | Newer-version database, read-only recovery and Core-failed-to-start each render one dedicated Banner with exact copy; «بررسی سامانه» stays reachable in all three |
-| long-text | static-content (Home banner and copy) | 🧪 backstop | Held-out visual test at the 720px minimum window width and 200% zoom: no clipped Persian text, no horizontal scroll |
-| empty | static-content (background-activity line) | ✅ covered | The line renders nothing when no sample job is active; there is no empty placeholder |
-| loading | nav (start-up) | 🧪 backstop | Held-out test that the «در حال آماده‌سازی…» state appears when Core readiness is delayed and clears when Core reports ready |
-| overflow | nav (native menu accelerators) | ⚠ unresolved | Not verifiable in this phase: whether `CmdOrCtrl+1/2` fire while a Persian keyboard layout is active on Windows, and how the native menu bar renders Persian labels on each OS. Planner treats as an assumption; record the Tier B result as a finding. Menu mouse access is the fallback |
+Applicable state considerations resolved: 24 covered, 4 backstop, 0 unresolved
 
-<!-- Status vocabulary (locked by probe-core projectTruths): covered / backstop / unresolved. Rows are REPLACED on a probe re-run. -->
+| ID | Category | Element(s) | Status | Resolution / Reason |
+|----|----------|------------|--------|---------------------|
+| UC-01 | loading | UI-HOME: Home screen and start-up states (interactive-control, static-content, nav) | ✅ covered | Before Core reports ready, Home replaces the info banner with «در حال آماده‌سازی…» and the running spinner, adds «آماده‌سازی کمی طول کشید؛ لطفاً صبر کنید.» after 5 s, clears the line when Core reports ready, and keeps «بررسی سامانه» rendered and enabled throughout. |
+| UC-02 | error | UI-HOME: Home screen and start-up states (interactive-control, static-content, nav) | ✅ covered | Each blocking start-up state (newer-version database refused, read-only recovery after a failed migration, Core failed to start) replaces the info banner with its own banner and exact Copywriting Contract copy; only the Core-failed state offers «راه‌اندازی دوباره»; «بررسی سامانه» stays reachable from the button and the menu in every state. |
+| UC-03 | overflow | UI-HOME: Home screen and start-up states (interactive-control, static-content, nav) | 🧪 backstop | Held-out visual test at the 720px minimum window width and at 200% zoom: Home (info banner and each blocking banner) shows no clipped Persian text and no horizontal scroll. |
+| UC-04 | long-text | UI-HOME: Home screen and start-up states (interactive-control, static-content, nav) | ✅ covered | Banner bodies wrap within the 720px column; the footer version renders inside an <Ltr> isolate, and backup paths or migration ids appear only inside جزئیات فنی, never bare inside a Persian sentence. |
+| UC-05 | empty | UI-SYSCHECK: System check screen (list-collection, media, interactive-control, static-content) | ✅ covered | Before the first run the check list area shows «هنوز بررسی انجام نشده» with its body, and Export is disabled with the visible reason «پس از اجرای بررسی فعال می‌شود.». |
+| UC-06 | loading | UI-SYSCHECK: System check screen (list-collection, media, interactive-control, static-content) | ✅ covered | During a run each row moves pending («در انتظار») to running («در حال اجرا») to pass or fail individually; Run reads «در حال بررسی…» and cannot be re-triggered; the hint «اولین اجرا ممکن است کمی طول بکشد.» appears after 10 s; Export reads «در حال ذخیره…» and is disabled while saving. |
+| UC-07 | error | UI-SYSCHECK: System check screen (list-collection, media, interactive-control, static-content) | ✅ covered | A failed check renders a fail row (icon, «ناموفق», plain-Persian cause and next step); an unreachable Core renders the run-level role=alert with a retry action; an export failure shows the export-failure sentence in the status region; no stack trace or raw error text appears outside جزئیات فنی. |
+| UC-08 | populated | UI-SYSCHECK: System check screen (list-collection, media, interactive-control, static-content) | ✅ covered | A complete report renders one CheckRow per reported check in report order (9 rows on Windows, 10 on macOS where code signature is added) and the summary «همهٔ بررسی‌ها موفق بود» when every check passes. |
+| UC-09 | partial | UI-SYSCHECK: System check screen (list-collection, media, interactive-control, static-content) | ✅ covered | Mixed pass and fail results render per row independently, rows are never re-sorted, a check absent from the report is never shown as passed, and an unknown checkId renders its raw Latin id inside <Ltr> with the generic pass/fail sentences. |
+| UC-10 | overflow | UI-SYSCHECK: System check screen (list-collection, media, interactive-control, static-content) | ✅ covered | Technical panels wrap with overflow-wrap:anywhere, cap at 320px block size inside a focusable scroll region (tabindex=0, role=region, Persian aria-label), and nothing on System check scrolls horizontally at 720px width. |
+| UC-11 | zero-one-many | UI-SYSCHECK: System check screen (list-collection, media, interactive-control, static-content) | ✅ covered | Zero failures shows «همهٔ بررسی‌ها موفق بود»; one or more failures shows «{n} بررسی ناموفق بود…» with {n} in Persian digits and the noun not pluralized. |
+| UC-12 | long-text | UI-SYSCHECK: System check screen (list-collection, media, interactive-control, static-content) | 🧪 backstop | Held-out screenshot test: a 300+ character userData path containing Persian letters, a space and an apostrophe stays readable and in logical order inside the LTR isolate of the environment block at 720px and 200% zoom, and a multi-line check result sentence wraps under its badge without overlapping the جزئیات فنی trigger. |
+| UC-13 | empty | UI-SAMPLEJOB: Sample durable job card and chunk strip (list-collection, interactive-control, static-content) | ✅ covered | With no job the card shows its title, the «آزمایشی» tag, the description and «شروع کار نمونه»; no chunk strip is rendered and the Home background-activity line renders nothing. |
+| UC-14 | loading | UI-SAMPLEJOB: Sample durable job card and chunk strip (list-collection, interactive-control, static-content) | ✅ covered | A running job shows «در حال انجام: بخش {k} از {N}», a progress bar whose aria-valuetext is «{k} از {N} بخش انجام شد», and the chunk strip with the running cell outlined and hidden text «بخش {i}: در حال انجام»; only start, resume, complete and fail are announced, never progress ticks. |
+| UC-15 | error | UI-SAMPLEJOB: Sample durable job card and chunk strip (list-collection, interactive-control, static-content) | ✅ covered | A failed job shows the error banner stating progress is preserved, keeps every committed chunk in the done state, never shows a chunk as done unless its task committed, and offers a retry action. |
+| UC-16 | populated | UI-SAMPLEJOB: Sample durable job card and chunk strip (list-collection, interactive-control, static-content) | ✅ covered | A completed job shows the success banner with N in Persian digits, a full strip of done cells (solid pass color, white check mark, hidden text «بخش {i}: انجام شد»), and the secondary «شروع دوبارهٔ کار نمونه», which creates a new job record without erasing the old one. |
+| UC-17 | partial | UI-SAMPLEJOB: Sample durable job card and chunk strip (list-collection, interactive-control, static-content) | ✅ covered | After a kill and relaunch, previously completed chunks keep attempt count 1 in the detail table, the in-flight chunk reruns with attempt count 2, and the resumed banner states how many completed chunks were not redone. |
+| UC-18 | overflow | UI-SAMPLEJOB: Sample durable job card and chunk strip (list-collection, interactive-control, static-content) | ✅ covered | The chunk strip wraps toward inline-end for N from 1 to 64 with a 4px gap, and the chunk detail table sits in a جزئیات فنی panel capped at 320px with a focusable scroll region. |
+| UC-19 | zero-one-many | UI-SAMPLEJOB: Sample durable job card and chunk strip (list-collection, interactive-control, static-content) | ✅ covered | The chunk strip renders correctly at N = 1, the default N = 12 and N = 64; counts in primary text use Persian digits and «بخش» is not pluralized. |
+| UC-20 | long-text | UI-SAMPLEJOB: Sample durable job card and chunk strip (list-collection, interactive-control, static-content) | ✅ covered | Banner sentences wrap inside the card; the job id and ISO-8601 timestamps appear only in the technical table inside LTR isolates. |
+| UC-21 | empty | UI-NAV: Navigation (native menu, back link, routes) (list-collection, nav, static-content, interactive-control) | ✅ covered | The application menu has a fixed item set: production builds contain no DevTools, reload or external-link items and no empty or placeholder menus. |
+| UC-22 | loading | UI-NAV: Navigation (native menu, back link, routes) (list-collection, nav, static-content, interactive-control) | ✅ covered | Route changes between #/ and #/system-check are synchronous; focus moves to the new screen heading (h1) and document.title updates to «دانش» or «بررسی سامانه — دانش». |
+| UC-23 | error | UI-NAV: Navigation (native menu, back link, routes) (list-collection, nav, static-content, interactive-control) | 🧪 backstop | Tier B finding: CmdOrCtrl+1 and CmdOrCtrl+2 fire while a Persian keyboard layout is active on Windows 11 and macOS; if they do not, reaching both routes through the «نمایش» menu by mouse is the recorded fallback. |
+| UC-24 | populated | UI-NAV: Navigation (native menu, back link, routes) (list-collection, nav, static-content, interactive-control) | ✅ covered | The menu shows «ویرایش» (copy, select all) and «نمایش» (Home, System check, zoom in, zoom out, reset zoom) on both OSes, plus the app menu («دربارهٔ دانش», «خروج از دانش») on macOS and «پرونده» with «خروج» on Windows. |
+| UC-25 | partial | UI-NAV: Navigation (native menu, back link, routes) (list-collection, nav, static-content, interactive-control) | ✅ covered | Platform-specific menu items appear only on their OS, and no menu item is shown disabled as a placeholder for a future feature. |
+| UC-26 | overflow | UI-NAV: Navigation (native menu, back link, routes) (list-collection, nav, static-content, interactive-control) | 🧪 backstop | Tier B finding: the native menu bar renders the Persian labels legibly and in logical order on Windows 11 and macOS. |
+| UC-27 | zero-one-many | UI-NAV: Navigation (native menu, back link, routes) (list-collection, nav, static-content, interactive-control) | ✅ covered | Exactly two in-app routes exist (#/ and #/system-check), and any other hash renders Home. |
+| UC-28 | long-text | UI-NAV: Navigation (native menu, back link, routes) (list-collection, nav, static-content, interactive-control) | ✅ covered | Menu labels and the back link «بازگشت» are short and never truncate; the back-link arrow mirrors for RTL while non-directional icons do not. |
+
+<!-- Status vocabulary (locked by probe-core projectTruths):
+     ✅ covered   → a plain truth string lifted into must_haves.truths
+     🧪 backstop  → a flat scalar { statement, verification: backstop }; at verify time, no explicit
+                    evidence → insufficient_spec → human_needed (never a silent pass, #1154)
+     ⚠ unresolved → an explicit planner assumption (surfaced, never silently dropped)
+     Rows are REPLACED (not appended) on a probe re-run — idempotent. -->
 
 ---
 
@@ -479,12 +503,16 @@ Not designed here; named so Phase 1 tokens and components stay compatible.
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
-- [ ] Dimension 7 Inventory Provenance: PASS
+- [x] Dimension 1 Copywriting: FLAG (non-blocking). «تلاش دوباره» is a bare verb with no object, used on three surfaces (Core-unreachable alert, sample-job failed banner, failed-job button). Recommendation: name the object, e.g. «تلاش دوبارهٔ کار نمونه». The planner or executor may apply this while implementing the copy.
+- [x] Dimension 2 Visuals: FLAG (non-blocking). No screen explicitly names its focal point. Implied anchors: Home is the «دانش» Display heading; System check is the summary status region.
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
+- [x] Dimension 7 Inventory Provenance: PASS
 
-**Approval:** pending
+**Checker notes:**
+- D-14 says the read-only recovery state "offers the backup". A-07 narrows this to showing the backup path in technical details, with no restore button. The planner must still make "restorable" (PLAT-07) verifiable through a storage-layer restore test.
+- The native-menu accelerators under a Persian keyboard layout remain a Tier B finding (UI Considerations UC-23 and UC-26).
+
+**Approval:** approved 2026-10-09 by gsd-ui-checker (status APPROVED: 0 BLOCK, 2 FLAG).
