@@ -273,13 +273,148 @@ Which phases cover which requirements. Filled in during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (populated by roadmapper) | | |
+| PLAT-01 | Phase 1 | Pending |
+| PLAT-02 | Phase 1 | Pending |
+| PLAT-03 | Phase 1 | Pending |
+| PLAT-04 | Phase 1 | Pending |
+| PLAT-05 | Phase 1 | Pending |
+| PLAT-06 | Phase 1 | Pending |
+| PLAT-07 | Phase 1 | Pending |
+| PLAT-08 | Phase 1 | Pending |
+| PLAT-09 | Phase 4 | Pending |
+| PLAT-10 | Phase 2 | Pending |
+| PLAT-11 | Phase 1 | Pending |
+| JOB-01 | Phase 2 | Pending |
+| JOB-02 | Phase 2 | Pending |
+| JOB-03 | Phase 1 | Pending |
+| JOB-04 | Phase 2 | Pending |
+| JOB-05 | Phase 4 | Pending |
+| DOC-01 | Phase 2 | Pending |
+| DOC-02 | Phase 2 | Pending |
+| DOC-03 | Phase 2 | Pending |
+| DOC-04 | Phase 2 | Pending |
+| DOC-05 | Phase 2 | Pending |
+| DOC-06 | Phase 5 | Pending |
+| DOC-07 | Phase 2 | Pending |
+| DOC-08 | Phase 2 | Pending |
+| DOC-09 | Phase 2 | Pending |
+| DOC-10 | Phase 5 | Pending |
+| DOC-11 | Phase 2 | Pending |
+| DOC-12 | Phase 5 | Pending |
+| DOC-13 | Phase 5 | Pending |
+| DOC-14 | Phase 5 | Pending |
+| DOC-15 | Phase 3 | Pending |
+| DOC-16 | Phase 2 | Pending |
+| DOC-17 | Phase 2 | Pending |
+| DOC-18 | Phase 2 | Pending |
+| DOC-19 | Phase 12 | Pending |
+| DOC-20 | Phase 5 | Pending |
+| READ-01 | Phase 3 | Pending |
+| READ-02 | Phase 3 | Pending |
+| READ-03 | Phase 5 | Pending |
+| READ-04 | Phase 3 | Pending |
+| READ-05 | Phase 6 | Pending |
+| READ-06 | Phase 3 | Pending |
+| READ-07 | Phase 3 | Pending |
+| READ-08 | Phase 3 | Pending |
+| READ-09 | Phase 3 | Pending |
+| READ-10 | Phase 9 | Pending |
+| READ-11 | Phase 3 | Pending |
+| READ-12 | Phase 3 | Pending |
+| READ-13 | Phase 7 | Pending |
+| KNOW-01 | Phase 6 | Pending |
+| KNOW-02 | Phase 6 | Pending |
+| KNOW-03 | Phase 6 | Pending |
+| KNOW-04 | Phase 6 | Pending |
+| KNOW-05 | Phase 6 | Pending |
+| KNOW-06 | Phase 6 | Pending |
+| KNOW-07 | Phase 6 | Pending |
+| KNOW-08 | Phase 6 | Pending |
+| KNOW-09 | Phase 6 | Pending |
+| LESSON-01 | Phase 8 | Pending |
+| LESSON-02 | Phase 8 | Pending |
+| LESSON-03 | Phase 8 | Pending |
+| LESSON-04 | Phase 8 | Pending |
+| LESSON-05 | Phase 8 | Pending |
+| LESSON-06 | Phase 8 | Pending |
+| LESSON-07 | Phase 8 | Pending |
+| LESSON-08 | Phase 8 | Pending |
+| LESSON-09 | Phase 8 | Pending |
+| LESSON-10 | Phase 8 | Pending |
+| LANG-01 | Phase 7 | Pending |
+| LANG-02 | Phase 7 | Pending |
+| LANG-03 | Phase 7 | Pending |
+| LANG-04 | Phase 7 | Pending |
+| LANG-05 | Phase 7 | Pending |
+| LANG-06 | Phase 7 | Pending |
+| LANG-07 | Phase 7 | Pending |
+| LANG-08 | Phase 7 | Pending |
+| AUDIO-01 | Phase 10 | Pending |
+| AUDIO-02 | Phase 10 | Pending |
+| AUDIO-03 | Phase 10 | Pending |
+| AUDIO-04 | Phase 10 | Pending |
+| AUDIO-05 | Phase 10 | Pending |
+| AUDIO-06 | Phase 10 | Pending |
+| AUDIO-07 | Phase 10 | Pending |
+| AUDIO-08 | Phase 10 | Pending |
+| AUDIO-09 | Phase 10 | Pending |
+| LEARN-01 | Phase 9 | Pending |
+| LEARN-02 | Phase 9 | Pending |
+| LEARN-03 | Phase 9 | Pending |
+| LEARN-04 | Phase 9 | Pending |
+| LEARN-05 | Phase 9 | Pending |
+| LEARN-06 | Phase 9 | Pending |
+| LEARN-07 | Phase 9 | Pending |
+| LEARN-08 | Phase 9 | Pending |
+| LEARN-09 | Phase 9 | Pending |
+| LEARN-10 | Phase 9 | Pending |
+| MODEL-01 | Phase 4 | Pending |
+| MODEL-02 | Phase 4 | Pending |
+| MODEL-03 | Phase 4 | Pending |
+| MODEL-04 | Phase 4 | Pending |
+| MODEL-05 | Phase 4 | Pending |
+| MODEL-06 | Phase 4 | Pending |
+| MODEL-07 | Phase 10 | Pending |
+| MODEL-08 | Phase 4 | Pending |
+| WEB-01 | Phase 11 | Pending |
+| WEB-02 | Phase 11 | Pending |
+| WEB-03 | Phase 11 | Pending |
+| WEB-04 | Phase 11 | Pending |
+| WEB-05 | Phase 11 | Pending |
+| WEB-06 | Phase 11 | Pending |
+| UX-01 | Phase 4 | Pending |
+| UX-02 | Phase 3 | Pending |
+| UX-03 | Phase 3 | Pending |
+| UX-04 | Phase 4 | Pending |
+| UX-05 | Phase 12 | Pending |
+| UX-06 | Phase 11 | Pending |
+| UX-07 | Phase 12 | Pending |
+| UX-08 | Phase 12 | Pending |
+| UX-09 | Phase 11 | Pending |
+| UX-10 | Phase 12 | Pending |
+| UX-11 | Phase 3 | Pending |
+| EVAL-01 | Phase 2 | Pending |
+| EVAL-02 | Phase 2 | Pending |
+| EVAL-03 | Phase 12 | Pending |
+| EVAL-04 | Phase 10 | Pending |
+| EVAL-05 | Phase 1 | Pending |
+| EVAL-06 | Phase 1 | Pending |
+| EVAL-07 | Phase 1 | Pending |
+| EVAL-08 | Phase 11 | Pending |
+| REL-01 | Phase 1 | Pending |
+| REL-02 | Phase 1 | Pending |
+| REL-03 | Phase 12 | Pending |
+| REL-04 | Phase 12 | Pending |
+| REL-05 | Phase 12 | Pending |
+| REL-06 | Phase 12 | Pending |
+| REL-07 | Phase 12 | Pending |
+| REL-08 | Phase 1 | Pending |
 
 **Coverage:**
 - v1 requirements: 136 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 136 ⚠️
+- Mapped to phases: 136
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-10-09*
-*Last updated: 2026-10-09 after initial definition*
+*Last updated: 2026-10-09 after roadmap creation (traceability populated)*
