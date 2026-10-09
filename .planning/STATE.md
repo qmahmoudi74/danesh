@@ -4,7 +4,7 @@ current_phase: 1
 current_phase_name: Secure, Durable Foundation & Packaging Gate
 status: blocked
 stopped_at: 01-10 Tasks 1-2 done (ci:local 13/13 green); blocked at Task 3 human-action gate (user push for first GitHub CI run)
-last_updated: "2026-10-09T23:25:40.553Z"
+last_updated: "2026-10-09T23:46:52.238Z"
 last_activity: 2026-10-10 (Plans 01-17, 01-07, 01-08 and 01-09 completed)
 state_head: 7d0f9abfe90caa8428abf6973e8297045f3073d8
 progress:
@@ -70,6 +70,8 @@ Recent decisions affecting current work:
 - [Phase 1]: User direction 2026-10-10 added Plan 01-17 (premium custom shell, System/Light/Dark themes, design system, motion). Design contract = 01-UI-SPEC.md Amendment A; executed before 01-07. macOS shell behavior is implemented but not yet run on macOS.
 
 - [Phase 1]: 01-10 needs the user to push (branch feat/danesh-phase-01 via PR, or main) so ci.yml runs on windows-latest and macos-latest; REL-01 stays partially verified until a green run on both OSes is linked in evidence/tier-a-ci/.
+
+- [Phase 1]: 2026-10-10 quality intervention (user-directed): Biome adopted (format/imports/general lint on migrated folders; ESLint keeps type-aware and security rules), AGENTS.md + docs/conventions.md, Main split into core-link / window-session / preference store, square UI and right-hand compact title bar, theme preference unsaved until chosen. Drizzle: adopt at Phase 2 first real tables; AI SDKs: no adoption now, Vercel AI SDK spike at Phase 8 (docs/engineering/technology-review.md).
 
 ### Pending Todos
 

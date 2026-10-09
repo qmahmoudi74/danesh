@@ -69,7 +69,7 @@ try {
     await page.evaluate(() => document.documentElement.toggleAttribute('data-window-inactive', true));
     await shot(`${theme}-inactive`);
     await page.evaluate(() => document.documentElement.toggleAttribute('data-window-inactive', false));
-    if (await close.count()) { await close.hover(); await page.waitForTimeout(700); if (!filter || `${theme}-close-hover`.includes(filter)) { await writeFile(join(out, `${prefix}${theme}-close-hover.png`), await page.screenshot({ clip: { x: 0, y: 0, width: 360, height: 120 } })); } }
+    if (await close.count()) { await close.hover(); await page.waitForTimeout(700); if (!filter || `${theme}-close-hover`.includes(filter)) { await writeFile(join(out, `${prefix}${theme}-close-hover.png`), await page.screenshot({ clip: { x: (await page.evaluate(() => innerWidth)) - 360, y: 0, width: 360, height: 120 } })); } }
   }
   await writeFile(join(out, `${prefix}visual-results.json`), JSON.stringify({ recordedAt: new Date().toISOString(), platform: process.platform, results }, null, 2) + '\n');
   console.log(JSON.stringify(results));
