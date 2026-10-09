@@ -37,6 +37,12 @@ A packaged smoke test proves the shell launches on clean machines. It opens the 
 
   REL-08 cannot close, no `LICENSE` file may be committed, and the license ADR cannot be written until the user decides. The prior LICENSE was removed in commit `b2016c7`; do not restore it without confirmation.
   — **Reversibility:** one-way — once code is published under a license on the public repo, that grant cannot be revoked for already-released code. Relicensing later needs consent from every contributor.
+  - **RESOLVED 2026-10-09 (user decision): MIT for Danesh's original source code.**
+    - The D-LICENSE checkpoint is answered; no further prompt is needed.
+    - Phase 1 commits an MIT `LICENSE` file with the copyright line "Danesh contributors", sets `license: "MIT"` in the root and workspace `package.json` files, and writes ADR 0004 "Project license: MIT" (accepted). REL-08 closes in Phase 1.
+    - Third-party dependencies, engines, models and voices keep their own licenses and get accurate notices.
+    - GPL, AGPL and LGPL components are excluded from distributed builds. That rules out MuPDF, espeak-ng (including sherpa-onnx's embedded copy), piper1-gpl and arabic-reshaper unless a separate product decision or commercial license is obtained.
+    - D-02's permissive-only gate stays in force.
 - **D-02:** Until D-LICENSE is decided, every dependency added in Phase 1 must be permissively licensed (MIT, Apache-2.0, BSD, ISC; OFL-1.1 for fonts). No GPL or AGPL package may enter the lockfile, directly or transitively. Check this with a license-scan script that runs in CI.
 - **D-03:** Phase 1 work does not wait on D-LICENSE. Scaffold, kernel, tests and smoke test proceed in parallel. Only closing REL-08 and committing the LICENSE file wait, and the phase cannot be marked complete until both are done.
 - **D-04:** The verified smoke-test targets are the D-PLATFORM default: **Windows 11 x64** and **macOS 13+ on Apple Silicon**. Intel Macs and Windows arm64 are not built or smoke-tested in Phase 1 and are reported as "untested".

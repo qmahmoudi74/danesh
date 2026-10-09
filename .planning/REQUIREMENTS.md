@@ -258,7 +258,7 @@ The brief requires these to be flagged for product review. The default listed is
 
 | ID | Decision | Default assumed | Gates |
 |----|----------|-----------------|-------|
-| D-LICENSE | Danesh's own repository license (the LICENSE file was removed in commit b2016c7) | Permissive-compatible design; copyleft engines (MuPDF AGPL, espeak-ng GPL) only as optional adapters | REL-08; PDF engine and TTS choices |
+| D-LICENSE | Danesh's own repository license (the LICENSE file was removed in commit b2016c7) | **DECIDED 2026-10-09 (user): MIT for Danesh's original source code.** Third-party dependencies, engines, models and voices keep their own licenses. GPL, AGPL and LGPL components (MuPDF, espeak-ng, piper1-gpl, arabic-reshaper) are excluded from distributed builds, and any copyleft engine needs a separate product decision or commercial license. | REL-08; PDF engine and TTS choices |
 | D-COMMERCIAL | Is Danesh commercial, or free/non-commercial? | Commercial-safe licenses only (excludes CC-BY-NC voices/models) | Voice and model selection |
 | D-PLATFORM | Verified platform tier | Windows 11 x64 and macOS 13+ on Apple Silicon verified; Intel Mac and Windows arm64 reported untested | REL-06 |
 | D-QA | Scoped grounded Q&A in the contextual panel | Included in v1 (LESSON-10); no global chat home | LESSON-10 |

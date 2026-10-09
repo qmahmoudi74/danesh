@@ -237,7 +237,7 @@ These decisions are flagged for product review, not decided silently during exec
 
 | Decision | Default assumed | Gates |
 |----------|-----------------|-------|
-| D-LICENSE | Permissive-compatible design; copyleft engines only as optional adapters | Phase 1 (REL-08), Phase 2 (PDF engine), Phase 10 (TTS phonemizer), Phase 12 (REL-04) |
+| D-LICENSE | **DECIDED 2026-10-09: MIT for Danesh's original source code.** GPL, AGPL and LGPL engines (MuPDF, espeak-ng) are excluded from distributed builds. | Phase 1 (REL-08), Phase 2 (PDF engine), Phase 10 (TTS phonemizer), Phase 12 (REL-04) |
 | D-COMMERCIAL | Commercial-safe licenses only | Phase 4 (model registry), Phase 7 (translation model), Phase 10 (voices), Phase 12 (REL-04) |
 | D-PLATFORM | Windows 11 x64 and macOS 13+ Apple Silicon verified; others untested | Phase 1 (smoke-test targets), Phase 12 (REL-06) |
 | D-DISTRIB | Offline bundle import plus documented mirrors | Phase 4 (MODEL-04, MODEL-05), Phase 12 (REL-03 signing) |

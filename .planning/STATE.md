@@ -3,14 +3,14 @@ gsd_state_version: "1.0"
 current_phase: 1
 current_phase_name: Secure, Durable Foundation & Packaging Gate
 status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-10-09T14:47:34.623Z"
+stopped_at: Phase 1 UI-SPEC approved
+last_updated: "2026-10-09T17:42:15.688Z"
 last_activity: "2026-10-09 (roadmap created: 12 phases, 136/136 v1 requirements mapped)"
-state_head: ce0a7f8864fbed6d55335c1edf234ff6d4f22ce8
+state_head: 1222d8d828956f432b7f488b3fdca98ddc17b93a
 progress:
   total_phases: 12
   completed_phases: 0
-  total_plans: 0
+  total_plans: 12
   completed_plans: 0
   percent: 0
 ---
@@ -64,6 +64,7 @@ Recent decisions affecting current work:
 - [Roadmap]: Learning (Phase 9) runs before Audio (Phase 10) to close the core-value loop sooner. S-TTS still runs early in the spike track.
 - [Roadmap]: Engine spikes (S-PACKAGE, S-PDF, S-RUNTIME, S-EMBED, S-OCR, S-LAYOUT, E-LANG, S-TTS) run as a parallel track through /gsd-spike. Each consuming phase is gated on its ADR.
 - [Roadmap]: Open product decisions (D-*) gate specific phases. Execution stops and raises them, never decides them silently.
+- [Phase 1]: D-LICENSE resolved by the user: MIT for Danesh's original source code. Third-party dependencies, engines, models and voices keep their own licenses. GPL, AGPL and LGPL engines are excluded from distributed builds. — User decision on 2026-10-09. It unblocks REL-08 and ADR 0004 in Phase 1.
 
 ### Pending Todos
 
@@ -71,7 +72,7 @@ None yet.
 
 ### Blockers/Concerns
 
-- [Phase 1]: D-LICENSE (Danesh's own license) needs a product decision before REL-08 and any engine ADR.
+- ~~[Phase 1]: D-LICENSE needs a product decision~~ RESOLVED 2026-10-09: MIT for original source (user decision).
 - [Phase 1]: S-PACKAGE has to prove native bindings plus a tiny GGUF, OCR and TTS in utilityProcess on clean, packaged Windows and macOS builds. Failure would force an architecture change.
 - [Phase 4]: D-COMMERCIAL and D-DISTRIB (model licenses, hosting mirrors, offline bundles) need decisions before the registry and downloads ship.
 - [Phase 10]: Persian TTS naturalness and voice licensing are unproven. S-TTS needs at least 3 native listeners and should start early.
@@ -87,6 +88,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-10-09T14:47:34.610Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-CONTEXT.md
+Last session: 2026-10-09T16:20:28.541Z
+Stopped at: Phase 1 UI-SPEC approved
+Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-UI-SPEC.md

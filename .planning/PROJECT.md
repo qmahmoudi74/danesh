@@ -218,6 +218,7 @@ All Active requirements are hypotheses until shipped and validated. Grouped by t
 | Engine choices (PDF parser, OCR, inference runtime, models, voices) deferred to research + ADRs | Avoid hype-driven lock-in; test Persian quality, packaging, licenses on real platforms | — Pending |
 | Test-first: BDD/ATDD acceptance scenarios per capability; TDD for deterministic cores; independent AI quality evals | Quality must be demonstrated with evidence, not asserted | — Pending |
 | Fine-grained phase slicing (8–12 phases), parallel plan execution | Broad v1 scope with 11 suggested phases in the brief | — Pending |
+| MIT license for Danesh's original source code (D-LICENSE, decided by the user 2026-10-09) | A permissive license for the public repo. Third-party components keep their own licenses, and GPL, AGPL and LGPL engines (MuPDF, espeak-ng) are excluded from distributed builds. | ✓ Decided |
 
 ## Evolution
 
