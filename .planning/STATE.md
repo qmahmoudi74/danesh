@@ -2,9 +2,9 @@
 gsd_state_version: "1.0"
 current_phase: 1
 current_phase_name: Secure, Durable Foundation & Packaging Gate
-status: ready
-stopped_at: Completed 01-09; next 01-10 (ends with a user push gate)
-last_updated: "2026-10-09T23:17:18.799Z"
+status: blocked
+stopped_at: 01-10 Tasks 1-2 done (ci:local 13/13 green); blocked at Task 3 human-action gate (user push for first GitHub CI run)
+last_updated: "2026-10-09T23:25:40.553Z"
 last_activity: 2026-10-10 (Plans 01-17, 01-07, 01-08 and 01-09 completed)
 state_head: 7d0f9abfe90caa8428abf6973e8297045f3073d8
 progress:
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-10-09)
 
 Phase: 1 (Secure, Durable Foundation & Packaging Gate) — IN PROGRESS
 Plan: 9 of 16 completed in current phase; next plan 01-10
-Status: Plans 01-05, 01-06, 01-17, 01-07, 01-08 and 01-09 complete; 01-10 is next
+Status: 01-10 Tasks 1-2 complete; waiting at the Task 3 push gate (D-18). 01-11 depends on 01-10.
 Last activity: 2026-10-10 (Plan 01-09 packaging probes completed; S-PACKAGE retired on Windows)
 
 Progress: [░░░░░░░░░░] 0%
@@ -69,6 +69,8 @@ Recent decisions affecting current work:
 
 - [Phase 1]: User direction 2026-10-10 added Plan 01-17 (premium custom shell, System/Light/Dark themes, design system, motion). Design contract = 01-UI-SPEC.md Amendment A; executed before 01-07. macOS shell behavior is implemented but not yet run on macOS.
 
+- [Phase 1]: 01-10 needs the user to push (branch feat/danesh-phase-01 via PR, or main) so ci.yml runs on windows-latest and macos-latest; REL-01 stays partially verified until a green run on both OSes is linked in evidence/tier-a-ci/.
+
 ### Pending Todos
 
 None yet.
@@ -92,5 +94,5 @@ Items acknowledged and deferred at milestone close, most recent first:
 ## Session Continuity
 
 Last session: 2026-10-09T21:20:56.806Z
-Stopped at: Completed 01-09; next 01-10
+Stopped at: 01-10 Task 3 (user push / CI run gate)
 Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-10-PLAN.md
