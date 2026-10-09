@@ -2,7 +2,7 @@ import { expect } from '@playwright/test';
 import { Given, When, Then } from './fixtures.ts';
 import { createRequire } from 'node:module';
 import { join } from 'node:path';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import type Database from 'better-sqlite3';
 import { EngineEchoOutputSchema } from '../../packages/contracts/src/test-rpc.ts';
@@ -116,3 +116,44 @@ Then('after 5 seconds it also shows «آماده‌سازی کمی طول کشی
 Then('«بررسی سامانه» stays enabled throughout', async ({ harness }) => { await expect(harness.page!.getByRole('button', { name: 'بررسی سامانه', exact: true })).toBeEnabled(); });
 When('Core reports ready', async ({ harness }) => { await expect(harness.page!.getByRole('heading', { name: 'نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست', exact: true })).toBeVisible({ timeout: 5000 }); });
 Then('the preparation messages clear and the foundation banner appears', async ({ harness }) => { await expect(harness.page!.getByText('در حال آماده‌سازی…', { exact: true })).toHaveCount(0); await expect(harness.page!.getByText('آماده‌سازی کمی طول کشید؛ لطفاً صبر کنید.', { exact: true })).toHaveCount(0); await expect(harness.page!.getByRole('heading', { name: 'نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست', exact: true })).toBeVisible(); });
+
+// Plan 01-07: the rejection scenarios. The Persian payload is mixed-script on purpose (ZWNJ and Latin digits).
+const persianPayload = 'دانش‌آموز ۴۲ 42';
+const rejections = new WeakMap<object, { code: string; logBefore: string }>();
+const coreLog = (root: string) => { const path = join(root, 'logs', 'core.jsonl'); return existsSync(path) ? readFileSync(path, 'utf8') : ''; };
+When('"system.ping" receives a non-integer Persian string directly at Core', async ({ harness, libraryRoot }) => {
+  await expect(harness.page!.getByRole('heading', { name: 'نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست', exact: true })).toBeVisible();
+  const logBefore = coreLog(libraryRoot);
+  const code = await harness.page!.evaluate(async (text) => {
+    try { await window.danesh.call('test.raw', { method: 'system.ping', input: { n: text } }); return 'unexpected-success'; }
+    catch (error) { return (error as Error).message; }
+  }, persianPayload);
+  rejections.set(harness, { code, logBefore });
+});
+Then('the request fails with INVALID_INPUT', ({ harness }) => { expect(rejections.get(harness)?.code).toBe('INVALID_INPUT'); });
+Then(/^"logs\/core\.jsonl" gains a record with schema "system\.ping", sender "renderer", error class and byte length$/, async ({ harness, libraryRoot }) => {
+  await expect.poll(() => coreLog(libraryRoot).length).toBeGreaterThan(rejections.get(harness)!.logBefore.length);
+  const added = coreLog(libraryRoot).slice(rejections.get(harness)!.logBefore.length).trim().split('\n').map((line) => JSON.parse(line) as Record<string, unknown>);
+  const record = added.find((line) => line.event === 'rpc.rejected' && line.schema === 'system.ping');
+  expect(record).toMatchObject({ schema: 'system.ping', sender: 'renderer', errorClass: 'SchemaMismatch', code: 'INVALID_INPUT' });
+  expect(record?.byteLength).toBe(Buffer.byteLength(JSON.stringify({ n: persianPayload }), 'utf8'));
+  expect(record).not.toHaveProperty('input');
+});
+Then('the log contains neither the Persian string nor its escaped representation', ({ libraryRoot }) => {
+  const text = coreLog(libraryRoot);
+  for (const needle of [persianPayload, 'دانش', '‌', JSON.stringify(persianPayload).slice(1, -1), '\u0645', '\u200c']) expect(text).not.toContain(needle);
+  expect(text).not.toMatch(/[؀-ۿ‌]/);
+});
+When('a malformed call is rejected', async ({ harness }) => {
+  await expect(harness.page!.getByRole('heading', { name: 'نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست', exact: true })).toBeVisible();
+  harness.echo = { hostPid: 0, corePid: (await harness.page!.evaluate(() => window.danesh.call('system.ping', { n: 1 })) as { corePid: number }).corePid };
+  const code = await harness.page!.evaluate(async () => { try { await window.danesh.call('test.raw', { method: 'system.ping', input: { n: 'x', extra: true } }); return 'unexpected-success'; } catch (error) { return (error as Error).message; } });
+  expect(code).toBe('INVALID_INPUT');
+});
+When('a valid "system.ping" call is sent immediately afterwards', async ({ harness }) => {
+  rejections.set(harness, { code: JSON.stringify(await harness.page!.evaluate(() => window.danesh.call('system.ping', { n: 7 }))), logBefore: '' });
+});
+Then('the valid ping succeeds on the same connection', ({ harness }) => {
+  // Same Core process and no reconnect: the rejection did not tear down the private port.
+  expect(JSON.parse(rejections.get(harness)!.code)).toEqual({ n: 7, corePid: harness.echo!.corePid });
+});

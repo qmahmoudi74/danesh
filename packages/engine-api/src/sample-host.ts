@@ -1,4 +1,5 @@
 import { CoreToHostSchema, HostPortSchema } from '@danesh/contracts/host-protocol.ts';
+import { utf8ByteLength } from '@danesh/contracts/envelope.ts';
 import { parentPort } from '@danesh/contracts/utility-port.ts';
 
 parentPort().on('message', ({ data, ports }) => {
@@ -8,6 +9,10 @@ parentPort().on('message', ({ data, ports }) => {
     const parsed = CoreToHostSchema.safeParse(request);
     if (!parsed.success) {
       const taskId = typeof request === 'object' && request !== null && 'taskId' in request && typeof request.taskId === 'string' && request.taskId.length ? request.taskId : 'invalid';
+      let byteLength = 0;
+      try { byteLength = utf8ByteLength(request); } catch { /* unserializable input is still rejected */ }
+      // Core writes the record: metadata only, never the command body.
+      port.postMessage({ type: 'rejected', schema: 'host-command', errorClass: 'InvalidMessage', byteLength });
       port.postMessage({ type: 'result', taskId, ok: false, errorClass: 'InvalidMessage' });
     } else if (parsed.data.type === 'hello') port.postMessage({ type: 'hello-ack', hostPid: process.pid, kind: 'sample' });
     else port.postMessage({ type: 'result', taskId: parsed.data.taskId, ok: true, output: parsed.data.input });

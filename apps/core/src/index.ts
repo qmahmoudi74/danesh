@@ -1,6 +1,10 @@
 import { randomUUID } from 'node:crypto';
 import { MainToCoreSchema, type Init } from '@danesh/contracts/control.ts';
-import { RpcRequestSchema, rpcMethods, type RpcErrorCode } from '@danesh/contracts/rpc.ts';
+import { rpcMethods } from '@danesh/contracts/rpc.ts';
+import { utf8ByteLength } from '@danesh/contracts/envelope.ts';
+import { createJsonlLogger, type JsonlLogger } from '@danesh/logging/jsonl.ts';
+import { join } from 'node:path';
+import { createRpcServer, type RpcHandler } from './rpc-server.ts';
 import { SystemCheck } from './system-check.ts';
 import { parentPort, type UtilityPort } from '@danesh/contracts/utility-port.ts';
 import { openLibraryDb, type Db } from '@danesh/storage/db.ts';
@@ -10,6 +14,9 @@ import { HostToCoreSchema, EchoInputSchema } from '@danesh/contracts/host-protoc
 
 const parent = parentPort();
 const methods = { ...rpcMethods, ...(__TEST_HOOKS__ ? testRpcMethods : {}) };
+// Core owns logs/core.jsonl for itself, the renderer, the preload and every host; it exists once init names the library.
+let coreLog: JsonlLogger | undefined;
+const logger = { log: (...args: Parameters<JsonlLogger['log']>) => coreLog?.log(...args) };
 interface HostClient { port: UtilityPort; pid: number }
 const hosts = new Map<'sample', HostClient>();
 let hostReady: Promise<HostClient> | undefined;
@@ -19,7 +26,14 @@ const hostTasks = new Map<string, { resolve: (output: unknown) => void; reject: 
 function attachHost(port: UtilityPort): void {
   port.on('message', ({ data }) => {
     const message = HostToCoreSchema.safeParse(data);
-    if (!message.success) { console.error('Invalid host message'); return; }
+    if (!message.success) {
+      let byteLength = 0;
+      try { byteLength = utf8ByteLength(data); } catch { /* still rejected */ }
+      logger.log('host.rejected', { schema: 'host-message', sender: 'host:sample', errorClass: 'InvalidMessage', byteLength }, 'warn');
+      return;
+    }
+    if (message.data.type === 'log') { logger.log(message.data.event, { ...message.data.fields, sender: 'host:sample' }); return; }
+    if (message.data.type === 'rejected') { logger.log('rpc.rejected', { schema: message.data.schema, sender: 'host:sample', errorClass: message.data.errorClass, byteLength: message.data.byteLength }, 'warn'); return; }
     if (message.data.type === 'hello-ack') {
       const host = { port, pid: message.data.hostPid }; hosts.set(message.data.kind, host); resolveHost?.(host);
     } else if (message.data.type === 'result') {
@@ -59,57 +73,44 @@ const systemCheck = new SystemCheck();
 let checkFixture: z.infer<typeof CheckRunFixtureSchema> | undefined;
 let stalledUntil = 0;
 
-function attachRenderer(port: UtilityPort): void {
-  const handle = async (data: unknown): Promise<void> => {
-    if (__TEST_HOOKS__ && Date.now() < stalledUntil) return;
-    const request = RpcRequestSchema.safeParse(data);
-    if (!request.success) return;
-    const { id, method, input } = request.data;
-    const reject = (code: RpcErrorCode) => port.postMessage({ id, ok: false, error: { code } });
-    const contract = Object.hasOwn(methods, method) ? methods[method] : undefined;
-    if (!contract) return reject('UNKNOWN_METHOD');
-    let inputBytes: number;
-    try { inputBytes = Buffer.byteLength(JSON.stringify(input) ?? '', 'utf8'); }
-    catch { return reject('INVALID_INPUT'); }
-    if (inputBytes > contract.maxInputBytes) return reject('PAYLOAD_TOO_LARGE');
-    const parsed = contract.input.safeParse(input);
-    if (!parsed.success) return reject('INVALID_INPUT');
-    if (!init || !db) return reject('UNAVAILABLE');
-    try {
-      let output: unknown;
-      if (__TEST_HOOKS__ && method === 'test.engineEcho') output = await engineEcho();
-      else if (__TEST_HOOKS__ && method === 'test.checkRun') { checkFixture = CheckRunFixtureSchema.parse(parsed.data); output = { ok: true }; }
-      else if (__TEST_HOOKS__ && method === 'test.coreStall') { stalledUntil = Date.now() + (parsed.data as { ms: number }).ms; output = { ok: true }; }
-      else if (method === 'system.info') { const { appVersion, electronVersion, osName, osVersion, arch, locale, libraryRoot } = init; output = { appVersion, electronVersion, osName, osVersion, arch, locale, libraryRoot }; }
-      else if (method === 'system.ping') output = { ...parsed.data as { n: number }, corePid: process.pid };
-      else if (method === 'systemCheck.run') {
-        const runId = randomUUID(); const fixture = __TEST_HOOKS__ ? checkFixture : undefined; checkFixture = undefined;
-        output = { runId, checkIds: systemCheck.checkIds(fixture) };
-        const facts = init, database = db;
-        setImmediate(() => { void systemCheck.run(runId, port, facts, database, fixture).catch(() => console.error('System check failed')); });
-      } else if (method === 'systemCheck.get') output = systemCheck.get((parsed.data as { runId: string }).runId);
-      else if (method === 'systemCheck.export') { const { runId, token } = parsed.data as { runId: string; token: string }; output = await systemCheck.export(runId, token); }
-      else return reject('UNKNOWN_METHOD');
-      const validated = contract.output.safeParse(output);
-      if (!validated.success) return reject('UNAVAILABLE');
-      port.postMessage({ id, ok: true, output: validated.data });
-    } catch { reject('INTERNAL'); }
-  };
-  port.on('message', ({ data }) => { void handle(data).catch(() => console.error('RPC dispatch failed')); });
-  port.start();
-}
+const handlers: Record<string, RpcHandler> = {
+  'system.info': () => { const { appVersion, electronVersion, osName, osVersion, arch, locale, libraryRoot } = init!; return { appVersion, electronVersion, osName, osVersion, arch, locale, libraryRoot }; },
+  'system.ping': (input: { n: number }) => ({ ...input, corePid: process.pid }),
+  'systemCheck.run': (_input: Record<string, never>, port: UtilityPort) => {
+    const runId = randomUUID(); const fixture = __TEST_HOOKS__ ? checkFixture : undefined; checkFixture = undefined;
+    const facts = init!, database = db!;
+    setImmediate(() => { void systemCheck.run(runId, port, facts, database, fixture).catch(() => logger.log('system-check.failed', { sender: 'core' }, 'error')); });
+    return { runId, checkIds: systemCheck.checkIds(fixture) };
+  },
+  'systemCheck.get': (input: { runId: string }) => systemCheck.get(input.runId),
+  'systemCheck.export': (input: { runId: string; token: string }) => systemCheck.export(input.runId, input.token),
+  'diag.rejected': (input: { schema: string; errorClass: string; byteLength: number }) => {
+    // Only contract names or fixed labels are recorded, never an arbitrary caller-chosen string.
+    const schema = Object.hasOwn(methods, input.schema) || ['envelope', 'unknown-method'].includes(input.schema) ? input.schema : 'unknown-method';
+    logger.log('rpc.rejected', { schema, sender: 'preload', errorClass: input.errorClass, byteLength: input.byteLength }, 'warn');
+    return {};
+  },
+  ...(__TEST_HOOKS__ ? {
+    'test.engineEcho': () => engineEcho(),
+    'test.checkRun': (input: z.infer<typeof CheckRunFixtureSchema>) => { checkFixture = input; return { ok: true }; },
+    'test.coreStall': (input: { ms: number }) => { stalledUntil = Date.now() + input.ms; return { ok: true }; },
+  } : {}),
+};
+const rpcServer = createRpcServer({ methods, handlers, logger, sender: 'renderer', ready: () => !!init && !!db, paused: () => __TEST_HOOKS__ && Date.now() < stalledUntil });
 
 parent.on('message', (message) => {
   const control = MainToCoreSchema.safeParse(message.data);
-  if (!control.success) { console.error('Invalid Main control message'); return; }
+  if (!control.success) { logger.log('control.rejected', { schema: 'main-control', sender: 'main', errorClass: 'InvalidMessage' }, 'warn'); return; }
   if (control.data.type === 'init') {
     if (init) return;
-    init = control.data; db = openLibraryDb(init.libraryRoot, init.appVersion);
+    init = control.data;
+    coreLog = createJsonlLogger({ dir: join(init.libraryRoot, 'logs'), name: 'core' });
+    db = openLibraryDb(init.libraryRoot, init.appVersion);
     parent.postMessage({ type: 'ready', corePid: process.pid });
   } else if (control.data.type === 'export-target') {
     systemCheck.addTarget(control.data.token, control.data.path); parent.postMessage({ type: 'export-target-ready', token: control.data.token });
   } else if (message.ports[0]) {
-    if (control.data.type === 'renderer-port') attachRenderer(message.ports[0]);
+    if (control.data.type === 'renderer-port') rpcServer.attach(message.ports[0]);
     else attachHost(message.ports[0]);
   }
 });

@@ -4,12 +4,15 @@ import { CheckIdSchema, SmokeReportSchema } from './smoke-report.ts';
 export type RpcMethod = { input: z.ZodType; output: z.ZodType; maxInputBytes: number };
 export const SystemInfoSchema = z.strictObject({ appVersion: z.string(), electronVersion: z.string(), osName: z.string(), osVersion: z.string(), arch: z.string(), locale: z.string(), libraryRoot: z.string() });
 export type SystemInfo = z.infer<typeof SystemInfoSchema>;
+export const DiagRejectedSchema = z.strictObject({ schema: z.string().regex(/^[a-z][\w.-]{0,63}$/i), errorClass: z.enum(['InvalidEnvelope', 'UnknownMethod', 'PayloadTooLarge', 'SchemaMismatch', 'Unserializable']), byteLength: z.number().int().min(0).max(100_000_000) });
 export const rpcMethods: Record<string, RpcMethod> = {
-  'system.info': { input: z.strictObject({}), output: SystemInfoSchema, maxInputBytes: 128 },
-  'system.ping': { input: z.strictObject({ n: z.number().int().min(0).max(1_000_000) }), output: z.strictObject({ n: z.number().int(), corePid: z.number().int().positive() }), maxInputBytes: 128 },
-  'systemCheck.run': { input: z.strictObject({}), output: z.strictObject({ runId: z.string().uuid(), checkIds: z.array(CheckIdSchema).max(100).optional() }), maxInputBytes: 128 },
-  'systemCheck.get': { input: z.strictObject({ runId: z.string().uuid() }), output: SmokeReportSchema, maxInputBytes: 128 },
-  'systemCheck.export': { input: z.strictObject({ runId: z.string().uuid(), token: z.string().uuid() }), output: z.discriminatedUnion('ok', [z.strictObject({ ok: z.literal(true) }), z.strictObject({ ok: z.literal(false), reason: z.enum(['write-failed', 'unknown-token', 'unknown-run']) })]), maxInputBytes: 256 },
+  'system.info': { input: z.strictObject({}), output: SystemInfoSchema, maxInputBytes: 1024 },
+  'system.ping': { input: z.strictObject({ n: z.number().int().min(0).max(1_000_000) }), output: z.strictObject({ n: z.number().int(), corePid: z.number().int().positive() }), maxInputBytes: 256 },
+  'systemCheck.run': { input: z.strictObject({}), output: z.strictObject({ runId: z.string().uuid(), checkIds: z.array(CheckIdSchema).max(100).optional() }), maxInputBytes: 1024 },
+  'systemCheck.get': { input: z.strictObject({ runId: z.string().uuid() }), output: SmokeReportSchema, maxInputBytes: 1024 },
+  'systemCheck.export': { input: z.strictObject({ runId: z.string().uuid(), token: z.string().uuid() }), output: z.discriminatedUnion('ok', [z.strictObject({ ok: z.literal(true) }), z.strictObject({ ok: z.literal(false), reason: z.enum(['write-failed', 'unknown-token', 'unknown-run']) })]), maxInputBytes: 1024 },
+  // Preload-side rejections are reported here so Core logs them with sender 'preload' (metadata only, D-16).
+  'diag.rejected': { input: DiagRejectedSchema, output: z.strictObject({}), maxInputBytes: 256 },
 };
 export const RpcErrorCodeSchema = z.enum(['UNKNOWN_METHOD', 'INVALID_INPUT', 'PAYLOAD_TOO_LARGE', 'UNAVAILABLE', 'READ_ONLY', 'INTERNAL']);
 export type RpcErrorCode = z.infer<typeof RpcErrorCodeSchema>;

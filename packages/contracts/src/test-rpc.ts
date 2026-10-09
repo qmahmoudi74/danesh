@@ -7,4 +7,6 @@ export const testRpcMethods: Record<string, RpcMethod> = typeof __TEST_HOOKS__ !
   'test.engineEcho': { input: z.strictObject({}), output: EngineEchoOutputSchema, maxInputBytes: 128 },
   'test.checkRun': { input: CheckRunFixtureSchema, output: z.strictObject({ ok: z.literal(true) }), maxInputBytes: 65536 },
   'test.coreStall': { input: z.strictObject({ ms: z.number().int().min(0).max(60000) }), output: z.strictObject({ ok: z.literal(true) }), maxInputBytes: 128 },
+  // Preload forwards the inner request to Core without local validation, to prove Core validates independently.
+  'test.raw': { input: z.strictObject({ method: z.string().max(128), input: z.unknown() }), output: z.unknown(), maxInputBytes: 65536 },
 } : {};
