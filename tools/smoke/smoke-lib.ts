@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { closeSync, openSync, readdirSync, readFileSync, readSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { parseSmokeArgs } from '../../apps/main/src/smoke-mode.ts';
 
@@ -54,3 +54,18 @@ export function isSafeSmokeOut(path: string, forbiddenRoots: string[]): boolean 
   const parsed = parseSmokeArgs(['--smoke-test', `--smoke-out=${path}`], forbiddenRoots);
   return !!parsed && !('error' in parsed);
 }
+
+/** Reads an asar archive's JSON header (format: 4-byte length, pickled header size, string size, JSON length, JSON). */
+export function readAsarTopLevel(asarPath: string): string[] {
+  const file = openSync(asarPath, 'r');
+  try {
+    const prefix = Buffer.alloc(16);
+    readSync(file, prefix, 0, 16, 0);
+    const json = Buffer.alloc(prefix.readUInt32LE(12));
+    readSync(file, json, 0, json.length, 16);
+    return Object.keys((JSON.parse(json.toString('utf8')) as { files: Record<string, unknown> }).files).sort();
+  } finally { closeSync(file); }
+}
+/** The packaged app may contain only the built output, its manifest and production node_modules. */
+export const ASAR_ALLOWED_TOP_LEVEL = ['node_modules', 'out', 'package.json'];
+export function unexpectedAsarEntries(topLevel: string[]): string[] { return topLevel.filter((name) => !ASAR_ALLOWED_TOP_LEVEL.includes(name)); }

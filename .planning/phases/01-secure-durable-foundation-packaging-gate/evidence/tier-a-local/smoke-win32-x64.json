@@ -1,0 +1,136 @@
+{
+  "runnerVersion": 1,
+  "recordedAt": "2026-10-09T22:47:53.452Z",
+  "platform": "win32",
+  "arch": "x64",
+  "appPath": "D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\Danesh.exe",
+  "items": {
+    "appRun": {
+      "verdict": "pass",
+      "exitCode": 0,
+      "durationMs": 472
+    },
+    "persianLibraryPath": {
+      "verdict": "pass",
+      "path": "~\\AppData\\Local\\Temp\\danesh-smoke-P1EE1W\\ دانش آزمون\\کتابخانهٔ من",
+      "folder": "کتابخانهٔ من"
+    },
+    "fuses": {
+      "verdict": "pass",
+      "fuses": {
+        "RunAsNode": false,
+        "EnableNodeOptionsEnvironmentVariable": false,
+        "EnableNodeCliInspectArguments": false,
+        "EnableEmbeddedAsarIntegrityValidation": true,
+        "OnlyLoadAppFromAsar": true,
+        "GrantFileProtocolExtraPrivileges": false
+      },
+      "differing": []
+    },
+    "manifest": {
+      "verdict": "pass",
+      "entries": 72,
+      "missing": [],
+      "extra": [],
+      "changed": [],
+      "ok": true
+    },
+    "asarContents": {
+      "verdict": "pass",
+      "topLevel": [
+        "node_modules",
+        "out",
+        "package.json"
+      ],
+      "unexpected": []
+    },
+    "installPathBound": {
+      "verdict": "pass",
+      "userNameUtf16": 40,
+      "maxInstalledPathUtf16": 185,
+      "longestRel": "app.asar.unpacked/node_modules/@node-llama-cpp/win-x64/bins/win-x64/ggml-cpu-sapphirerapids.dll",
+      "limit": 260
+    },
+    "testHooks": {
+      "verdict": "pass",
+      "markers": []
+    },
+    "nsis": {
+      "verdict": "pass",
+      "installer": "Danesh Setup 0.1.0.exe",
+      "installDir": "~\\AppData\\Local\\Temp\\danesh-smoke-P1EE1W\\دانش نصب آزمون",
+      "installExit": 0,
+      "installedManifest": {
+        "missing": [],
+        "extra": [],
+        "changed": [],
+        "ok": true
+      },
+      "installedRun": {
+        "exitCode": 0,
+        "durationMs": 3411,
+        "overall": "pass"
+      },
+      "uninstalled": true,
+      "durationMs": 13618
+    },
+    "codesign": {
+      "verdict": "not-applicable"
+    }
+  },
+  "appReport": {
+    "schemaVersion": 1,
+    "appVersion": "0.1.0",
+    "electronVersion": "44.7.0",
+    "platform": "win32",
+    "arch": "x64",
+    "startedAt": "2026-10-09T22:47:39.314Z",
+    "finishedAt": "2026-10-09T22:47:39.446Z",
+    "overall": "pass",
+    "checks": [
+      {
+        "checkId": "app-launch",
+        "status": "pass",
+        "durationMs": 0,
+        "detail": "برنامه به‌درستی باز شد.",
+        "fields": {
+          "corePid": 30628,
+          "mainPid": 20208,
+          "appVersion": "0.1.0"
+        }
+      },
+      {
+        "checkId": "database",
+        "status": "pass",
+        "durationMs": 2,
+        "detail": "پایگاه داده باز شد و آمادهٔ استفاده است.",
+        "fields": {
+          "count": 1,
+          "corePid": 30628,
+          "dbPath": "~\\AppData\\Local\\Temp\\danesh-smoke-P1EE1W\\ دانش آزمون\\کتابخانهٔ من\\danesh.db",
+          "journal_mode": "wal",
+          "user_version": 1,
+          "nodeSqlite": "available",
+          "nodeSqliteVersion": "3.53.4"
+        }
+      },
+      {
+        "checkId": "fuses",
+        "status": "pass",
+        "durationMs": 129,
+        "detail": "D-09 production fuses set",
+        "fields": {
+          "binary": "D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\Danesh.exe",
+          "RunAsNode": "false",
+          "EnableNodeOptionsEnvironmentVariable": "false",
+          "EnableNodeCliInspectArguments": "false",
+          "EnableEmbeddedAsarIntegrityValidation": "true",
+          "OnlyLoadAppFromAsar": "true",
+          "GrantFileProtocolExtraPrivileges": "false"
+        }
+      }
+    ]
+  },
+  "verdict": "pass",
+  "failing": []
+}

@@ -7,8 +7,9 @@ import { homedir, tmpdir } from 'node:os';
 import { basename, dirname, join, resolve } from 'node:path';
 import { getCurrentFuseWire, FuseState as WireState, FuseV1Options } from '@electron/fuses';
 import { SmokeReportSchema, type SmokeReport } from '../../packages/contracts/src/smoke-report.ts';
-import { buildManifest, compareFuseWire, defaultInstallPathLength, diffManifest, LONG_PERSIAN_USER, MAX_PATH, PRODUCTION_FUSES, type FuseState, type Manifest } from './smoke-lib.ts';
+import { readAsarTopLevel, unexpectedAsarEntries, buildManifest, compareFuseWire, defaultInstallPathLength, diffManifest, LONG_PERSIAN_USER, MAX_PATH, PRODUCTION_FUSES, type FuseState, type Manifest } from './smoke-lib.ts';
 import { packagedResources } from './build-manifest.ts';
+import { findHookMarkers } from '../assert-no-test-hooks.ts';
 
 const RUNNER_VERSION = 1;
 const APP_TIMEOUT_MS = 300_000;
@@ -131,7 +132,10 @@ async function main(): Promise<number> {
     persianLibraryPath: persian ? { verdict: existsSync(join(library, 'danesh.db')) ? 'pass' : 'fail', path: library, folder: basename(library) } : { verdict: 'not-applicable' },
     fuses: await fuseItem(appPath),
     manifest: manifestItem(resources, recorded),
+    asarContents: (() => { const topLevel = readAsarTopLevel(join(resources, 'app.asar')); const unexpected = unexpectedAsarEntries(topLevel); return { verdict: unexpected.length ? 'fail' : 'pass', topLevel, unexpected } satisfies Item; })(),
     installPathBound: pathBoundItem(recorded),
+    // The packaged artifact itself, not just the bundler output, must be free of test hooks.
+    testHooks: (() => { const found = findHookMarkers([join(resources, 'app.asar'), ...(existsSync(join(resources, 'app.asar.unpacked')) ? [join(resources, 'app.asar.unpacked')] : [])]); return { verdict: found.length ? 'fail' : 'pass', markers: found.map((hit) => hit.marker) } satisfies Item; })(),
     nsis: process.argv.includes('--install-nsis') ? await nsisItem(recorded) : { verdict: 'not-applicable' },
     codesign: codesignItem(),
   };

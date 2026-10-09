@@ -49,3 +49,11 @@ describe('packaged smoke helpers', () => {
     } finally { rmSync(root, { recursive: true, force: true }); }
   });
 });
+
+describe('asar contents allowlist', () => {
+  it('accepts only out/, package.json and node_modules/ at the top level', async () => {
+    const { unexpectedAsarEntries } = await import('./smoke-lib.ts');
+    expect(unexpectedAsarEntries(['node_modules', 'out', 'package.json'])).toEqual([]);
+    expect(unexpectedAsarEntries(['dist-test', 'electron-builder.test.yml', 'out', 'package.json', 'playwright.config.ts'])).toEqual(['dist-test', 'electron-builder.test.yml', 'playwright.config.ts']);
+  });
+});

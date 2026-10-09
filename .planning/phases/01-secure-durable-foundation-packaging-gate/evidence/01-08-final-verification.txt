@@ -1,0 +1,72 @@
+Plan 01-08 final verification 2026-10-09T22:42:35Z on win32-x64, commit 20e2840
+
+COMMAND: pnpm typecheck
+$ tsc -p tsconfig.json --noEmit && tsc -p apps/renderer/tsconfig.json --noEmit
+EXIT: 0
+
+COMMAND: pnpm lint
+$ eslint .
+EXIT: 0
+
+COMMAND: pnpm depcruise
+$ depcruise apps packages tools --config .dependency-cruiser.cjs
+✔ no dependency violations found (113 modules, 326 dependencies cruised)
+EXIT: 0
+
+COMMAND: pnpm test
+ Test Files  21 passed (21)
+      Tests  235 passed (235)
+   Start at  02:12:43
+   Duration  4.86s (tests 81%, transform 11%, import 8%, worker 1%)
+EXIT: 0
+
+COMMAND: pnpm licenses:scan
+WARNING needs-review: stories15M-q4_0.gguf: Research A5 upstream inherited grant needs verification before obtaining or shipping
+WARNING needs-review: fa_IR-mana-medium.onnx and .onnx.json: Preserve model MIT notice; record CC0 dataset provenance; verify artifacts before shipping
+WARNING needs-review: eng.traineddata: Preserve Apache license; verify artifact before shipping
+license-scan: scanned=739 lockfile=737 failures=0 notices=ok
+EXIT: 0
+
+COMMAND: pnpm check:adr
+$ node tools/check-adr.ts
+check-adr: failures=0
+EXIT: 0
+
+COMMAND: node tools/check-features-first.ts --allow-unbound
+check-features-first: failures=0
+
+COMMAND: env -u ELECTRON_RUN_AS_NODE DANESH_E2E_PACKAGED=1 DANESH_E2E_GREP=@plan-01-08 pnpm test:e2e (packages DaneshTest first)
+$ electron-vite build --mode test && node ../../tools/assert-no-test-hooks.ts --out out --expect-present && electron-builder --config electron-builder.test.yml --publish never --dir && node ../../tools/smoke/build-manifest.ts --dist dist-test
+assert-no-test-hooks: expect-present markers=9 ok
+  • skipped dependencies rebuild  reason=npmRebuild is set to false
+  • executable resource editing and code signing skipped — signAndEditExecutable is false. To skip only code signing while keeping icon and metadata applied, use signExecutable: false instead.  exe=dist-test\win-unpacked\DaneshTest.exe
+  ok 1 apps\desktop\.features-gen\system-check.feature.spec.js:93:3 › Local System check with visible results and JSON export › The test build reports its differing security fuses
+  1 passed (4.9s)
+EXIT: 0
+
+COMMAND: node tools/assert-no-test-hooks.ts --out apps/desktop/dist/win-unpacked/resources/app.asar.unpacked --asar apps/desktop/dist/win-unpacked/resources/app.asar
+assert-no-test-hooks: expect-absent markers=4 failed
+
+Production packaging and smoke (same commit): pnpm package -> assert-no-test-hooks expect-absent markers=0 ok; build-manifest entries=72 maxRelUtf16=95; installer 'Danesh Setup 0.1.0.exe' 146,197,714 bytes.
+env -u ELECTRON_RUN_AS_NODE node tools/smoke/run-packaged-smoke.ts --persian-paths --install-nsis -> verdict=pass (evidence/tier-a-local/smoke-win32-x64.json): appRun, persianLibraryPath, fuses, manifest, installPathBound (185/260), nsis (install, identical tree, installed smoke pass, uninstalled) pass; codesign not applicable on Windows. No registry uninstall entry remained.
+Refused arguments: Danesh.exe --smoke-test --smoke-out=relative.json -> exit 3, stderr one line, no library content; Chromium itself creates an empty directory for an explicit --user-data-dir before app code runs.
+Full unpackaged E2E after the applicability fix: 28 passed, 38 skipped (later plans), 0 failed.
+
+---
+DEFECT FOUND DURING THIS VERIFICATION AND FIXED (not suppressed)
+The production asar scan above failed: expect-absent markers=4. Root cause: platform-level win.files/mac.files lists that
+held only negations replaced the root whitelist, so electron-builder packaged the whole apps/desktop directory. The
+production app.asar was 891,885,840 bytes and contained dist-test/ (828 MB, including the test build's own asar with
+test hooks), .features-gen/, playwright.config.ts, electron.vite.config.ts and electron-builder.test.yml. The earlier
+"pass" runs had not noticed because the manifest diff compares the package against its own build manifest.
+
+Fix: every platform files list repeats the full whitelist, and the packaged-smoke runner gained two gates that would
+have caught it: asarContents (top level must be exactly node_modules, out, package.json) and testHooks (scans the
+packaged app.asar and app.asar.unpacked). Reproduced the failing order (pnpm package:test, then pnpm package with
+dist-test present): production app.asar 23,687,465 bytes, top level [node_modules, out, package.json] for both builds,
+assert-no-test-hooks on the packaged asar expect-absent markers=0 ok.
+
+Post-fix results on the same tree:
+- run-packaged-smoke --persian-paths --install-nsis: verdict=pass; appRun, persianLibraryPath, fuses, manifest,
+  asarContents, installPathBound (185/260), testHooks, nsis pass; codesign not applicable. Installer 146,185,048 bytes.
+- pnpm test: 236 tests pass. Packaged @plan-01-08 E2E: 1 passed. Full unpackaged E2E: 28 passed, 38 skipped, 0 failed.
