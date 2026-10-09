@@ -4,8 +4,6 @@ import { extname } from 'node:path';
 import { protocol } from 'electron';
 import { buildCsp, resolveAppAssetPath } from './policy/app-path.ts';
 
-export { buildCsp, resolveAppAssetPath } from './policy/app-path.ts';
-
 export function registerAppScheme(): void {
   protocol.registerSchemesAsPrivileged([
     { scheme: 'app', privileges: { standard: true, secure: true, supportFetchAPI: true } },

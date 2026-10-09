@@ -3,6 +3,7 @@ import type { ThemeState } from '@danesh/contracts/shell.ts';
 import { type BrowserWindow, nativeTheme, screen } from 'electron';
 import { installAppMenu } from './menu.ts';
 import { matchShortcut, nextZoomLevel } from './policy/shortcuts.ts';
+import { WINDOW_BACKGROUND } from './policy/window-options.ts';
 import {
   boundsToSave,
   measureDrift,
@@ -10,9 +11,15 @@ import {
   restoreWindowBounds,
 } from './preferences.ts';
 import { sendShellEvent } from './shell-ipc.ts';
-import { applyTheme, trackWindowState, WINDOW_BACKGROUND } from './window-chrome.ts';
+import { trackWindowState } from './window.ts';
 
 const BOUNDS_SAVE_DELAY_MS = 400;
+
+/** Electron drives the renderer's prefers-color-scheme from themeSource, so CSS is correct from the first frame. */
+export function applyTheme(theme: ThemePreference): ThemeState {
+  nativeTheme.themeSource = theme;
+  return { theme, dark: nativeTheme.shouldUseDarkColors };
+}
 
 /** Where the first window goes: the saved bounds if still reachable, otherwise centered on the primary display. */
 export function initialPlacement(preferences: PreferenceStore) {
@@ -43,21 +50,18 @@ export function installWindowSession({
   const send = (topic: string, payload: unknown) => sendShellEvent(window, topic, payload);
   let theme = initialTheme;
 
-  const refreshMenu = () => installAppMenu(send, effectiveTheme(preferences.get()), setTheme);
   function setTheme(value: ThemePreference) {
     if (preferences.get().theme !== value) preferences.update({ theme: value });
     theme = applyTheme(value);
-    // nativeTheme only emits 'updated' when the effective scheme changes, so always resync the menu and renderer.
-    refreshMenu();
+    // nativeTheme only emits 'updated' when the effective scheme changes, so always tell the renderer.
     send('shell.theme', theme);
     return theme;
   }
-  refreshMenu();
+  installAppMenu((route) => send('shell.navigate', { route }));
   nativeTheme.on('updated', () => {
     theme = { theme: effectiveTheme(preferences.get()), dark: nativeTheme.shouldUseDarkColors };
     if (window.isDestroyed()) return;
     window.setBackgroundColor(theme.dark ? WINDOW_BACKGROUND.dark : WINDOW_BACKGROUND.light);
-    refreshMenu();
     send('shell.theme', theme);
   });
 

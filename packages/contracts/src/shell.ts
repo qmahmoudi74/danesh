@@ -11,7 +11,6 @@ export const ThemeStateSchema = z.strictObject({ theme: ThemePreferenceSchema, d
 export type ThemeState = z.infer<typeof ThemeStateSchema>;
 export const RouteSchema = z.enum(['#/', '#/system-check', '#/settings']);
 export type Route = z.infer<typeof RouteSchema>;
-const menuPoint = z.number().int().min(0).max(20_000);
 
 export const shellMethods: Record<string, RpcMethod> = {
   'shell.chooseExportPath': { input: z.strictObject({}), output: ChooseExportOutputSchema, maxInputBytes: 128 },
@@ -19,7 +18,6 @@ export const shellMethods: Record<string, RpcMethod> = {
   'shell.windowState': { input: z.strictObject({}), output: WindowStateSchema, maxInputBytes: 128 },
   'shell.getTheme': { input: z.strictObject({}), output: ThemeStateSchema, maxInputBytes: 128 },
   'shell.setTheme': { input: z.strictObject({ theme: ThemePreferenceSchema }), output: ThemeStateSchema, maxInputBytes: 128 },
-  'shell.showAppMenu': { input: z.strictObject({ x: menuPoint, y: menuPoint }), output: z.strictObject({}), maxInputBytes: 128 },
   // Headless smoke mode only (--smoke-test): the renderer reports the overall result of the run Main asked for.
   'shell.smokeDone': { input: z.strictObject({ overall: z.enum(['pass', 'fail']) }), output: z.strictObject({}), maxInputBytes: 128 },
 };

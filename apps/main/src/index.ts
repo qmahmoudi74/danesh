@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 import { effectiveTheme } from '@danesh/contracts/preferences.ts';
 import { TEST_HOOKS_SENTINEL } from '@danesh/contracts/test-rpc.ts';
 import { createJsonlLogger } from '@danesh/logging/jsonl.ts';
-import { app, Menu } from 'electron';
+import { app } from 'electron';
 import { startCore } from './core-link.ts';
 import { getChromiumBlockedCount, installChromiumEgressBlock } from './egress-l1.ts';
 import { createPreferenceStore } from './preferences.ts';
@@ -12,9 +12,8 @@ import { registerAppProtocol, registerAppScheme } from './protocol.ts';
 import { registerShellIpc, sendShellEvent } from './shell-ipc.ts';
 import { parseSmokeArgs, SMOKE_EXIT, SMOKE_TIMEOUT_MS, type SmokeArgs } from './smoke-mode.ts';
 import { resolveUserDataPath, userDataSwitch } from './user-data.ts';
-import { createMainWindow } from './window.ts';
-import { applyTheme, performWindowAction, readWindowState } from './window-chrome.ts';
-import { initialPlacement, installWindowSession } from './window-session.ts';
+import { createMainWindow, performWindowAction, readWindowState } from './window.ts';
+import { applyTheme, initialPlacement, installWindowSession } from './window-session.ts';
 
 type SmokeRun = Extract<SmokeArgs, { outPath: string }>;
 
@@ -131,14 +130,6 @@ function start(libraryRoot: string, smokeRun: SmokeRun | null): void {
             logger.log('smoke.done', { code: overall });
             setImmediate(() => app.exit(overall === 'pass' ? SMOKE_EXIT.pass : SMOKE_EXIT.fail));
             return true;
-          },
-          showAppMenu: (x, y) => {
-            const zoom = window.webContents.getZoomFactor();
-            Menu.getApplicationMenu()?.popup({
-              window,
-              x: Math.round(x * zoom),
-              y: Math.round(y * zoom),
-            });
           },
         },
         logger,

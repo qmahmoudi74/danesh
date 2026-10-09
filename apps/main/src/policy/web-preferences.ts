@@ -15,8 +15,8 @@ export function secureWebPreferences(preload: string): WebPreferences {
   };
 }
 
-/** Origins a window may navigate to: the packaged app host, plus the dev server only when unpackaged. */
-export function isAllowedNavigation(address: string, devUrl: string | undefined): boolean {
+/** Origins a window may navigate to and a sender may call from: the packaged app host, plus the dev server only when unpackaged. */
+export function isAppOrigin(address: string, devUrl: string | undefined): boolean {
   try {
     const url = new URL(address);
     if (url.username || url.password) return false;

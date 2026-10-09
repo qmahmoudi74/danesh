@@ -24,7 +24,6 @@ function useMediaQuery(query: string): boolean {
     () => matchMedia(query).matches,
   );
 }
-export const useReducedMotion = () => useMediaQuery('(prefers-reduced-motion: reduce)');
 export const useNarrowWindow = () => useMediaQuery('(max-width: 879px)');
 
 /** Subscribes to a Main-owned shell state, fetching it once and then following its events. */

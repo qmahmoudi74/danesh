@@ -5,9 +5,7 @@ import { shellEventPayloads, type WindowAction } from '@danesh/contracts/shell.t
 import type { JsonlLogger } from '@danesh/logging/jsonl.ts';
 import { app, type BrowserWindow, dialog, ipcMain } from 'electron';
 import { dispatchShellRequest, ShellFailure } from './policy/shell-dispatch.ts';
-import { isTrustedShellOrigin } from './policy/shell-origin.ts';
-
-export { isTrustedShellOrigin } from './policy/shell-origin.ts';
+import { isAppOrigin } from './policy/web-preferences.ts';
 
 export function sendShellEvent(window: BrowserWindow, topic: string, payload: unknown): void {
   const parsed = shellEventPayloads[topic]?.safeParse(payload);
@@ -23,7 +21,6 @@ export type ShellServices = {
   windowState: () => unknown;
   getTheme: () => unknown;
   setTheme: (theme: ThemePreference) => unknown;
-  showAppMenu: (x: number, y: number) => void;
   /** Returns false outside smoke mode, where the method is unavailable. */
   smokeDone: (overall: 'pass' | 'fail') => boolean;
 };
@@ -68,16 +65,12 @@ export function registerShellIpc(
       if (!services.smokeDone(overall)) throw new ShellFailure('UNAVAILABLE');
       return {};
     },
-    'shell.showAppMenu': ({ x, y }: { x: number; y: number }) => {
-      services.showAppMenu(x, y);
-      return {};
-    },
   };
   ipcMain.handle('danesh:shell', (event, value: unknown) => {
     const trusted =
       event.sender === window.webContents &&
       event.senderFrame === window.webContents.mainFrame &&
-      isTrustedShellOrigin(event.senderFrame.url, app.isPackaged ? undefined : devUrl);
+      isAppOrigin(event.senderFrame.url, app.isPackaged ? undefined : devUrl);
     return dispatchShellRequest(trusted, value, handlers, (rejection) =>
       logger.log(
         'rpc.rejected',

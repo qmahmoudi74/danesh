@@ -87,10 +87,6 @@ Then('the page uses the dark tokens and the native theme source is "dark"', asyn
 });
 Then('the page uses the dark tokens', async ({ harness }) => { await expect.poll(() => bodyBackground(harness)).toBe(surface.dark); });
 Then('the page uses the light tokens', async ({ harness }) => { await expect.poll(() => bodyBackground(harness)).toBe(surface.light); });
-Then('the native menu «نمایش» › «پوسته» marks «تیره»', async ({ harness }) => {
-  const checked = await harness.app!.evaluate(({ Menu }) => Menu.getApplicationMenu()?.items.find((item) => item.label === 'نمایش')?.submenu?.items.find((item) => item.label === 'پوسته')?.submenu?.items.filter((item) => item.checked).map((item) => item.label));
-  expect(checked).toEqual(['تیره']);
-});
 When('the window is resized to {int} by {int}', async ({ harness }, width: number, height: number) => {
   await harness.app!.evaluate(({ BrowserWindow }, [w, h]) => { BrowserWindow.getAllWindows()[0]!.setSize(w!, h!); }, [width, height]);
   await expect.poll(async () => Math.abs((await windowInfo(harness.app!)).bounds.width - width)).toBeLessThanOrEqual(4);
@@ -202,3 +198,12 @@ Then(/^the route is "#\/settings" and its h1 «تنظیمات» has focus$/, asy
 const zoomLevel = (harness: { app: ElectronApplication | undefined }) => harness.app!.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0]!.webContents.getZoomLevel());
 Then('the page zoom level is above 0', async ({ harness }) => { await expect.poll(() => zoomLevel(harness)).toBeGreaterThan(0); });
 Then('the page zoom level is 0', async ({ harness }) => { await expect.poll(() => zoomLevel(harness)).toBe(0); });
+
+Then('the title bar holds only the brand, the screen name and the window controls', async ({ harness }) => {
+  const labels = await harness.page!.locator('header.title-bar').getByRole('button').evaluateAll((buttons) => buttons.map((button) => button.getAttribute('aria-label')));
+  expect(labels).toEqual(isMac ? [] : ['کوچک کردن', 'بزرگ کردن', 'بستن']);
+});
+Then('there is no native application menu on Windows and Linux', async ({ harness }) => {
+  const hasMenu = await harness.app!.evaluate(({ Menu }) => Menu.getApplicationMenu() !== null);
+  expect(hasMenu).toBe(isMac);
+});

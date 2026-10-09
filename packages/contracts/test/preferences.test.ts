@@ -24,10 +24,6 @@ describe('closed shell window and theme contracts', () => {
     for (const theme of ['system', 'light', 'dark']) expect(shellMethods['shell.setTheme']!.input.safeParse({ theme }).success).toBe(true);
     for (const input of [{ theme: 'neon' }, { theme: 'dark', path: 'C:/' }, { theme: 'DARK' }]) expect(shellMethods['shell.setTheme']!.input.safeParse(input).success).toBe(false);
   });
-  it('bounds menu popup coordinates to non-negative integers', () => {
-    expect(shellMethods['shell.showAppMenu']!.input.safeParse({ x: 10, y: 40 }).success).toBe(true);
-    for (const input of [{ x: -1, y: 0 }, { x: 1.5, y: 0 }, { x: 0, y: 1e9 }, { x: 0 }]) expect(shellMethods['shell.showAppMenu']!.input.safeParse(input).success).toBe(false);
-  });
   it('routes only to real destinations', () => {
     for (const route of ['#/', '#/system-check', '#/settings']) expect(shellEventPayloads['shell.navigate']!.safeParse({ route }).success).toBe(true);
     for (const route of ['#/reader', 'https://example.com', '#/settings/../']) expect(shellEventPayloads['shell.navigate']!.safeParse({ route }).success).toBe(false);

@@ -3,7 +3,7 @@ import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { handleCoreControl } from '../src/control.ts';
 import {
-  isAllowedNavigation,
+  isAppOrigin,
   secureWebPreferences,
   shouldBlockRequest,
 } from '../src/policy/web-preferences.ts';
@@ -30,7 +30,7 @@ describe('window policy', () => {
     });
   });
   it('allows navigation only to the app host, or the dev server when unpackaged', () => {
-    expect(isAllowedNavigation('app://danesh/index.html#/settings', undefined)).toBe(true);
+    expect(isAppOrigin('app://danesh/index.html#/settings', undefined)).toBe(true);
     for (const address of [
       'https://example.com/',
       'app://evil/',
@@ -40,9 +40,10 @@ describe('window policy', () => {
       'javascript:alert(1)',
       'not a url',
     ])
-      expect(isAllowedNavigation(address, undefined)).toBe(false);
-    expect(isAllowedNavigation('http://localhost:5173/#/', 'http://localhost:5173')).toBe(true);
-    expect(isAllowedNavigation('app://danesh/index.html', 'http://localhost:5173')).toBe(false);
+      expect(isAppOrigin(address, undefined)).toBe(false);
+    expect(isAppOrigin('http://localhost:5173/#/', 'http://localhost:5173')).toBe(true);
+    expect(isAppOrigin('app://danesh/index.html', 'http://localhost:5173')).toBe(false);
+    expect(isAppOrigin('http://localhost:5174/', 'http://localhost:5173')).toBe(false);
   });
   it('blocks every Chromium network scheme, logging only the host, except the local dev server', () => {
     for (const address of [

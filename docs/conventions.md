@@ -76,6 +76,14 @@ with its component, hook and test together). Do not add layers such as `services
 - Renderer-supplied paths are never trusted: use Main-issued single-use tokens.
 - Test-only hooks exist only behind `__TEST_HOOKS__` and must not appear in production output (a scanner checks).
 
+## Settings
+
+- One Settings screen, one list of sections (`apps/renderer/src/screens/Settings.tsx`). Show only settings that work today;
+  add a section in the same commit as its feature. Never expose implementation details; prefer detection and defaults.
+- A setting is saved only after the user changes it (defaults follow the system), validated by a schema in
+  `packages/contracts`, changed through a typed IPC method, and persisted by Main in one store.
+- No application menu or hamburger on Windows/Linux. macOS keeps its system menu.
+
 ## Async, processes and memory
 
 - Long operations take an `AbortSignal` (or expose `cancel`) and always release what they started (ports, timers,

@@ -1,39 +1,32 @@
-import type { ThemePreference } from '@danesh/contracts/preferences.ts';
+import type { Route } from '@danesh/contracts/shell.ts';
 import { Menu, type MenuItemConstructorOptions } from 'electron';
 
-export const themeLabels: Record<ThemePreference, string> = {
-  system: 'هماهنگ با سیستم',
-  light: 'روشن',
-  dark: 'تیره',
-};
-
-export function installAppMenu(
-  sendShellEvent: (topic: string, payload: unknown) => void,
-  theme: ThemePreference,
-  setTheme: (theme: ThemePreference) => void,
-): void {
-  const platformMenu: MenuItemConstructorOptions =
-    process.platform === 'darwin'
-      ? {
-          label: 'دانش',
-          submenu: [
-            { label: 'دربارهٔ دانش', role: 'about' },
-            { type: 'separator' },
-            { label: 'خروج از دانش', role: 'quit' },
-          ],
-        }
-      : { label: 'پرونده', submenu: [{ label: 'خروج', role: 'quit' }] };
-  const themeItems: MenuItemConstructorOptions[] = (['system', 'light', 'dark'] as const).map(
-    (value) => ({
-      label: themeLabels[value],
-      type: 'radio',
-      checked: value === theme,
-      click: () => setTheme(value),
-    }),
-  );
+/**
+ * macOS keeps its system menu bar (About, Quit, Edit shortcuts, zoom), as users expect. Windows and Linux have no
+ * application menu at all: navigation is the sidebar, preferences are in Settings, and the window controls and
+ * keyboard shortcuts (matched in policy/shortcuts.ts) cover the rest.
+ */
+export function installAppMenu(navigate: (route: Route) => void): void {
+  if (process.platform !== 'darwin') {
+    Menu.setApplicationMenu(null);
+    return;
+  }
+  const go =
+    (route: Route): MenuItemConstructorOptions['click'] =>
+    () =>
+      navigate(route);
   Menu.setApplicationMenu(
     Menu.buildFromTemplate([
-      platformMenu,
+      {
+        label: 'دانش',
+        submenu: [
+          { label: 'دربارهٔ دانش', role: 'about' },
+          { type: 'separator' },
+          { label: 'تنظیمات', accelerator: 'Cmd+,', click: go('#/settings') },
+          { type: 'separator' },
+          { label: 'خروج از دانش', role: 'quit' },
+        ],
+      },
       {
         label: 'ویرایش',
         submenu: [
@@ -44,23 +37,8 @@ export function installAppMenu(
       {
         label: 'نمایش',
         submenu: [
-          {
-            label: 'صفحهٔ اصلی',
-            accelerator: 'CmdOrCtrl+1',
-            click: () => sendShellEvent('shell.navigate', { route: '#/' }),
-          },
-          {
-            label: 'بررسی سامانه',
-            accelerator: 'CmdOrCtrl+2',
-            click: () => sendShellEvent('shell.navigate', { route: '#/system-check' }),
-          },
-          {
-            label: 'تنظیمات',
-            accelerator: 'CmdOrCtrl+,',
-            click: () => sendShellEvent('shell.navigate', { route: '#/settings' }),
-          },
-          { type: 'separator' },
-          { label: 'پوسته', submenu: themeItems },
+          { label: 'صفحهٔ اصلی', accelerator: 'Cmd+1', click: go('#/') },
+          { label: 'بررسی سامانه', accelerator: 'Cmd+2', click: go('#/system-check') },
           { type: 'separator' },
           { label: 'بزرگ‌نمایی', role: 'zoomIn' },
           { label: 'کوچک‌نمایی', role: 'zoomOut' },

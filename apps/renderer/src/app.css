@@ -174,11 +174,6 @@ h1[tabindex="-1"]:focus-visible {
 .title-drag {
   flex: 1 1 auto;
 }
-.title-actions {
-  display: flex;
-  align-items: stretch;
-  gap: 4px;
-}
 .traffic-lights {
   flex: none;
   inline-size: 72px;
@@ -192,33 +187,6 @@ h1[tabindex="-1"]:focus-visible {
 }
 :root[data-window-inactive] .brand-mark {
   opacity: 0.6;
-}
-
-.chrome-button {
-  display: grid;
-  place-items: center;
-  align-self: center;
-  inline-size: 32px;
-  block-size: 24px;
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius);
-  background: transparent;
-  color: inherit;
-  cursor: default;
-  transition:
-    background-color var(--duration-fast) var(--ease-standard),
-    transform var(--duration-instant) var(--ease-standard);
-}
-.chrome-button[data-hovered] {
-  background: var(--color-hover);
-}
-.chrome-button[data-pressed] {
-  background: var(--color-pressed);
-  transform: scale(0.98);
-}
-.chrome-button[data-focus-visible] {
-  outline-offset: -2px;
 }
 
 .window-controls {

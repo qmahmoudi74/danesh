@@ -21,7 +21,7 @@ created: "2026-10-09"
 
 Everything else (reader, curriculum, import, model manager, settings, themes) is out of scope and appears only under `## Future Extension Points`.
 
-> **Amended 2026-10-10 by user direction (Plan 01-17).** The custom window shell, System/Light/Dark themes, a theme-only Settings screen, a collapsible sidebar of real destinations and a motion language are now in Phase 1. See `## Amendment A` at the end; where it conflicts with an earlier section, Amendment A wins. All other rules (honest scope, RTL/bidi, copy, status vocabulary, accessibility) stay in force.
+> **Amended 2026-10-10 by user direction (Plan 01-17).** The native application menu described under Screen Contracts exists on macOS only. The custom window shell, System/Light/Dark themes, a theme-only Settings screen, a collapsible sidebar of real destinations and a motion language are now in Phase 1. See `## Amendment A` at the end; where it conflicts with an earlier section, Amendment A wins. All other rules (honest scope, RTL/bidi, copy, status vocabulary, accessibility) stay in force.
 
 ---
 
@@ -538,7 +538,7 @@ spinner", "Disclosure open/close has no animation" and "Home has one tab stop".
 | Placement | Windows/Linux: controls at the physical right (user direction 2026-10-10, superseding the earlier inline-end rule). macOS: native traffic lights at the physical left via `trafficLightPosition` (12,10), with a 72px spacer that fullscreen removes. |
 | macOS | Native traffic lights are kept (fullscreen, tiling and accessibility stay native) via `trafficLightPosition`, vertically centered in the 40px bar. The title bar reserves 80px at the physical left for them; fullscreen removes the reservation. No custom controls are drawn on macOS. |
 | Native behavior | Double-click on the drag region maximizes/restores (Windows) or follows the user's macOS preference; this is handled natively by the drag region. Right-click on the drag region (Windows) opens the native system menu. |
-| Menu (Windows/Linux) | Frameless windows have no menu bar, so the title bar shows a «منو» icon button that pops up the **native** application menu beneath it. Menu accelerators remain registered. macOS keeps the global menu bar. |
+| Menu | **No application menu on Windows and Linux** and no hamburger button (user direction 2026-10-10): navigation is the sidebar, preferences are Settings, zoom and navigation are keyboard shortcuts, quit is the close button. macOS keeps its system menu bar (About, Settings, Quit, Edit copy/select-all, Home/System check, zoom) in Persian. |
 | Window state | Normal bounds and maximized state persist in `ui-preferences.json`. On start-up, saved bounds are used only when at least a 160x40 strip of the title bar would be visible on a connected display's work area; otherwise the window is centered at 1040x720 (clamped to the work area) on the primary display. |
 | Security | Only three window actions exist (`minimize`, `toggleMaximize`, `close`), sent through the existing validated `danesh:shell` channel. No generic BrowserWindow access, no new preload keys. |
 
@@ -594,8 +594,7 @@ the contrast pairs above for both themes. Forced-colors mode keeps the existing 
 
 `h1` «تنظیمات» → section «ظاهر» → radio group «پوسته» with three 12px-radius cards (miniature light / dark / split
 preview drawn with tokens, plus the label). Arrow keys move between options (RTL-aware); selection applies
-immediately and is announced by the radio semantics. The native menu «نمایش» › «پوسته» shows the same three choices
-as radio items and stays in sync through the `shell.theme` event. Nothing else appears in Settings in Phase 1.
+immediately and is announced by the radio semantics. Theme is chosen only here (no duplicate in a menu); the choice reaches Main through the validated `shell.setTheme` method. Nothing else appears in Settings in Phase 1.
 
 ### A.5 Scrolling
 

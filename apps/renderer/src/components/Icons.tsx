@@ -10,8 +10,7 @@ export type IconName =
   | 'home'
   | 'activity'
   | 'sliders'
-  | 'sidebar'
-  | 'menu';
+  | 'sidebar';
 const paths: Record<IconName, React.ReactNode> = {
   'check-circle': (
     <>
@@ -62,7 +61,6 @@ const paths: Record<IconName, React.ReactNode> = {
       <path d="M8 4v12" />
     </>
   ),
-  menu: <path d="M3.5 6h13M3.5 10h13M3.5 14h13" />,
 };
 // Directional glyphs mirror in RTL (UI-SPEC RTL rule 7); a vertically symmetric glyph mirrors by rotating 180deg.
 const directional = new Set<IconName>(['arrow-back', 'sidebar']);

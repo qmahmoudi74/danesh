@@ -1,8 +1,7 @@
 import type { WindowAction, WindowState } from '@danesh/contracts/shell.ts';
-import { useRef } from 'react';
 import { Button, Tooltip, TooltipTrigger } from 'react-aria-components';
 import { platform } from '../lib/theme.ts';
-import { BrandMark, type CaptionGlyph, CaptionIcon, Icon } from './Icons.tsx';
+import { BrandMark, type CaptionGlyph, CaptionIcon } from './Icons.tsx';
 
 const act = (action: WindowAction) => {
   void window.danesh.call('shell.window', { action }).catch(() => undefined);
@@ -49,31 +48,6 @@ function CaptionButton({
   );
 }
 
-/** The native application menu, popped up under the button (Windows/Linux have no menu bar in a frameless window). */
-function MenuButton() {
-  const ref = useRef<HTMLButtonElement>(null);
-  const open = () => {
-    const rect = ref.current?.getBoundingClientRect();
-    const bar = ref.current?.closest('header')?.getBoundingClientRect();
-    if (!rect || !bar) return;
-    // Opens flush with the title bar's lower edge, aligned to the button.
-    void window.danesh
-      .call('shell.showAppMenu', {
-        x: Math.max(0, Math.round(rect.left)),
-        y: Math.round(bar.bottom),
-      })
-      .catch(() => undefined);
-  };
-  return (
-    <TooltipTrigger delay={500} closeDelay={0}>
-      <Button ref={ref} className="chrome-button" aria-label="منو" onPress={open}>
-        <Icon name="menu" />
-      </Button>
-      <ChromeTooltip>منو</ChromeTooltip>
-    </TooltipTrigger>
-  );
-}
-
 export function TitleBar({ screen, state }: { screen: string; state: WindowState | undefined }) {
   const maximized = state?.maximized ?? false;
   return (
@@ -90,17 +64,14 @@ export function TitleBar({ screen, state }: { screen: string; state: WindowState
       {platform === 'mac' ? (
         <div className="traffic-lights" aria-hidden="true" />
       ) : (
-        <div className="title-actions">
-          <MenuButton />
-          <div className="window-controls">
-            <CaptionButton label="کوچک کردن" glyph="minimize" action="minimize" />
-            <CaptionButton
-              label={maximized ? 'بازگرداندن' : 'بزرگ کردن'}
-              glyph={maximized ? 'restore' : 'maximize'}
-              action="toggleMaximize"
-            />
-            <CaptionButton label="بستن" glyph="close" action="close" close />
-          </div>
+        <div className="window-controls">
+          <CaptionButton label="کوچک کردن" glyph="minimize" action="minimize" />
+          <CaptionButton
+            label={maximized ? 'بازگرداندن' : 'بزرگ کردن'}
+            glyph={maximized ? 'restore' : 'maximize'}
+            action="toggleMaximize"
+          />
+          <CaptionButton label="بستن" glyph="close" action="close" close />
         </div>
       )}
     </header>

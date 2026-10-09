@@ -48,9 +48,9 @@ Feature: An honest Persian-first shell behind a closed preload API
     And no disabled study-feature placeholder is shown
 
   @plan-01-06 @kind-edge
-  Scenario: Native menu navigation focuses the heading and unknown routes return Home
+  Scenario: Keyboard navigation focuses the heading and unknown routes return Home
     Given Danesh is launched with that library folder
-    When I choose «نمایش» then «بررسی سامانه» using CmdOrCtrl+2
+    When I press CmdOrCtrl and the physical 2 key
     Then the route is "#/system-check" and its h1 «بررسی سامانه» has focus
     And the window title is «بررسی سامانه — دانش»
     When an unknown hash route is selected

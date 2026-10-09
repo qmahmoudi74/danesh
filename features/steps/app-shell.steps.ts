@@ -97,14 +97,6 @@ Then('the banner title is «نسخهٔ پایه؛ امکانات مطالعه ه
 Then('the only action in the Home content is «بررسی سامانه»', async ({ harness }) => { const main = harness.page!.locator('main'); await expect(main.getByRole('button')).toHaveCount(1); await expect(main.getByRole('link')).toHaveCount(0); await expect(main.getByRole('button', { name: 'بررسی سامانه', exact: true })).toBeEnabled(); await expect(harness.page!.locator('footer bdi[dir="ltr"]')).toHaveText('0.1.0'); });
 Then('the Home content has no import, reader, curriculum or search control', async ({ harness }) => { const main = harness.page!.locator('main'); expect(await main.getByRole('button').allTextContents()).toEqual(['بررسی سامانه']); await expect(main.locator('input, textarea, nav, [role="tablist"], [role="searchbox"]')).toHaveCount(0); expect(await harness.page!.getByRole('navigation').getByRole('link').allTextContents()).toEqual(['خانه', 'بررسی سامانه', 'تنظیمات']); });
 Then('no disabled study-feature placeholder is shown', async ({ harness }) => { await expect(harness.page!.locator('button[disabled], [aria-disabled="true"]')).toHaveCount(0); });
-When('I choose «نمایش» then «بررسی سامانه» using CmdOrCtrl+2', async ({ harness }) => {
-  await harness.app!.evaluate(({ Menu, BrowserWindow }) => {
-    const menu = Menu.getApplicationMenu();
-    const item = menu?.items.find((entry) => entry.label === 'نمایش')?.submenu?.items.find((entry) => entry.label === 'بررسی سامانه');
-    if (!item || item.accelerator !== 'CmdOrCtrl+2') throw new Error('Missing menu accelerator');
-    Reflect.apply(item.click, item, [item, BrowserWindow.getAllWindows()[0], { ctrlKey: true, metaKey: false, shiftKey: false, altKey: false, triggeredByAccelerator: true }]);
-  });
-});
 Then(/^the route is "#\/system-check" and its h1 «بررسی سامانه» has focus$/, async ({ harness }) => { await expect(harness.page!).toHaveURL(/#\/system-check$/); await expect(harness.page!.getByRole('heading', { name: 'بررسی سامانه', level: 1, exact: true })).toBeFocused(); });
 Then('the window title is «بررسی سامانه — دانش»', async ({ harness }) => { await expect(harness.page!).toHaveTitle('بررسی سامانه — دانش'); });
 When('an unknown hash route is selected', async ({ harness }) => { await harness.page!.evaluate(() => { location.hash = '/unknown-route'; }); });

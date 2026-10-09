@@ -28,7 +28,6 @@ Feature: A custom, themed desktop shell that keeps native window behavior
     Given Danesh is launched with that library folder
     When I open «تنظیمات» from the sidebar and choose «تیره»
     Then the page uses the dark tokens and the native theme source is "dark"
-    And the native menu «نمایش» › «پوسته» marks «تیره»
     When the window is resized to 900 by 640
     And the app is closed and reopened with the same library folder
     Then the window background and the first rendered frame are dark
@@ -92,3 +91,9 @@ Feature: A custom, themed desktop shell that keeps native window behavior
     Then the page zoom level is above 0
     When I press CmdOrCtrl and the physical 0 key
     Then the page zoom level is 0
+
+  @plan-01-17 @kind-edge
+  Scenario: The title bar carries no application menu
+    Given Danesh is launched with that library folder
+    Then the title bar holds only the brand, the screen name and the window controls
+    And there is no native application menu on Windows and Linux

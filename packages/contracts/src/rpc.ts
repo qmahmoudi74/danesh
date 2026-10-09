@@ -28,7 +28,4 @@ export const eventPayloads: Record<string, z.ZodType> = {
   'systemCheck.finished': z.strictObject({ runId: z.string().uuid() }),
 };
 export const RpcEventSchema = z.strictObject({ topic: z.string(), payload: z.unknown() });
-export type RpcRequest = z.infer<typeof RpcRequestSchema>;
-export type RpcResponse = z.infer<typeof RpcResponseSchema>;
-export type RpcEvent = z.infer<typeof RpcEventSchema>;
 export type DaneshApi = { call(method: string, input: unknown): Promise<unknown>; on(topic: string, callback: (payload: unknown) => void): () => void };

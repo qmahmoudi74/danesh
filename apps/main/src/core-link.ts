@@ -4,7 +4,7 @@ import type { JsonlLogger } from '@danesh/logging/jsonl.ts';
 import { app, ipcMain, MessageChannelMain, utilityProcess } from 'electron';
 import { handleCoreControl } from './control.ts';
 import { killHosts, spawnHost, stopHost } from './hosts.ts';
-import { isAllowedNavigation } from './policy/web-preferences.ts';
+import { isAppOrigin } from './policy/web-preferences.ts';
 import { sendShellEvent } from './shell-ipc.ts';
 
 type CoreState = 'starting' | 'ready' | 'unreachable';
@@ -84,7 +84,7 @@ export function startCore({
     const trusted =
       event.sender === window.webContents &&
       event.senderFrame === window.webContents.mainFrame &&
-      isAllowedNavigation(event.senderFrame.url, devUrl);
+      isAppOrigin(event.senderFrame.url, devUrl);
     if (!trusted) {
       const rejection = { schema: 'hello', sender: 'renderer', errorClass: 'UntrustedSender' };
       logger.log('rpc.rejected', rejection, 'warn');
