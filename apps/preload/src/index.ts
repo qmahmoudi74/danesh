@@ -1,5 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { rpcMethods, eventPayloads, RpcResponseSchema, RpcEventSchema, type DaneshApi, type RpcErrorCode } from '@danesh/contracts/rpc.ts';
+import { testRpcMethods } from '@danesh/contracts/test-rpc.ts';
+const methods = { ...rpcMethods, ...(__TEST_HOOKS__ ? testRpcMethods : {}) };
 
 let port: MessagePort | undefined;
 let nextId = 1;
@@ -20,7 +22,7 @@ ipcRenderer.on('danesh:port', (event) => {
       pending.delete(response.data.id); clearTimeout(waiting.timer);
       if (!response.data.ok) waiting.reject(failure(response.data.error.code));
       else {
-        const result = rpcMethods[waiting.method]?.output.safeParse(response.data.output);
+        const result = methods[waiting.method]?.output.safeParse(response.data.output);
         if (result?.success) waiting.resolve(result.data); else waiting.reject(failure('INTERNAL'));
       }
       return;
@@ -36,7 +38,7 @@ ipcRenderer.on('danesh:port', (event) => {
 
 const api: DaneshApi = {
   async call(method, input) {
-    const contract = rpcMethods[method];
+    const contract = methods[method];
     if (!contract) throw failure('UNKNOWN_METHOD');
     const parsed = contract.input.safeParse(input);
     if (!parsed.success) throw failure('INVALID_INPUT');

@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
       resolve: { alias }, define,
       plugins: [externalizeDepsPlugin()],
       build: { rollupOptions: {
-        input: { index: resolve(import.meta.dirname, '../main/src/index.ts'), core: resolve(import.meta.dirname, '../core/src/index.ts') },
+        input: { index: resolve(import.meta.dirname, '../main/src/index.ts'), core: resolve(import.meta.dirname, '../core/src/index.ts'), 'engine-sample': resolve(import.meta.dirname, '../../packages/engine-api/src/sample-host.ts') },
         output: { format: 'es' },
         onwarn,
       } },

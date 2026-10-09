@@ -5,8 +5,54 @@ import { SmokeReportSchema, type SmokeReport, type CheckResult } from '@danesh/c
 import { parentPort, type UtilityPort } from '@danesh/contracts/utility-port.ts';
 import { openLibraryDb, type Db } from '@danesh/storage/db.ts';
 import { checks } from './checks/registry.ts';
+import { testRpcMethods } from '@danesh/contracts/test-rpc.ts';
+import { HostToCoreSchema, EchoInputSchema } from '@danesh/contracts/host-protocol.ts';
 
 const parent = parentPort();
+const methods = { ...rpcMethods, ...(__TEST_HOOKS__ ? testRpcMethods : {}) };
+interface HostClient { port: UtilityPort; pid: number }
+const hosts = new Map<'sample', HostClient>();
+let hostReady: Promise<HostClient> | undefined;
+let resolveHost: ((host: HostClient) => void) | undefined;
+const hostTasks = new Map<string, { resolve: (output: unknown) => void; reject: (error: Error) => void; timer: ReturnType<typeof setTimeout> }>();
+
+function attachHost(port: UtilityPort): void {
+  port.on('message', ({ data }) => {
+    const message = HostToCoreSchema.safeParse(data);
+    if (!message.success) { console.error('Invalid host message'); return; }
+    if (message.data.type === 'hello-ack') {
+      const host = { port, pid: message.data.hostPid }; hosts.set(message.data.kind, host); resolveHost?.(host);
+    } else if (message.data.type === 'result') {
+      const task = hostTasks.get(message.data.taskId);
+      if (!task) return;
+      clearTimeout(task.timer); hostTasks.delete(message.data.taskId);
+      if (message.data.ok) task.resolve(message.data.output); else task.reject(new Error(message.data.errorClass));
+    }
+  });
+  port.start(); port.postMessage({ type: 'hello' });
+}
+async function engineEcho(): Promise<{ hostPid: number; corePid: number }> {
+  let host = hosts.get('sample');
+  if (!host) {
+    if (!hostReady) {
+      hostReady = new Promise<HostClient>((resolve, reject) => {
+        const timer = setTimeout(() => reject(new Error('Host unavailable')), 5000);
+        resolveHost = (client) => { clearTimeout(timer); resolve(client); };
+      });
+      parent.postMessage({ type: 'spawn-host', kind: 'sample' });
+    }
+    host = await hostReady;
+  }
+  const taskId = randomUUID();
+  const input = { type: 'echo' as const, value: 'danesh-skeleton' };
+  const output = await new Promise<unknown>((resolve, reject) => {
+    const timer = setTimeout(() => { hostTasks.delete(taskId); reject(new Error('Host timeout')); }, 5000);
+    hostTasks.set(taskId, { resolve, reject, timer });
+    host.port.postMessage({ type: 'run', taskId, input });
+  });
+  if (EchoInputSchema.parse(output).value !== input.value) throw new Error('Echo mismatch');
+  return { hostPid: host.pid, corePid: process.pid };
+}
 let init: Init | undefined;
 let db: Db | undefined;
 const reports = new Map<string, SmokeReport>();
@@ -31,12 +77,12 @@ function runChecks(runId: string, port: UtilityPort, facts: Init, database: Db):
 }
 
 function attachRenderer(port: UtilityPort): void {
-  port.on('message', ({ data }) => {
+  const handle = async (data: unknown): Promise<void> => {
     const request = RpcRequestSchema.safeParse(data);
     if (!request.success) return;
     const { id, method, input } = request.data;
     const reject = (code: RpcErrorCode) => port.postMessage({ id, ok: false, error: { code } });
-    const contract = rpcMethods[method];
+    const contract = methods[method];
     if (!contract) return reject('UNKNOWN_METHOD');
     if (Buffer.byteLength(JSON.stringify(input) ?? '', 'utf8') > contract.maxInputBytes) return reject('PAYLOAD_TOO_LARGE');
     const parsed = contract.input.safeParse(input);
@@ -44,7 +90,8 @@ function attachRenderer(port: UtilityPort): void {
     if (!init || !db) return reject('UNAVAILABLE');
     try {
       let output: unknown;
-      if (method === 'system.ping') output = { ...parsed.data as { n: number }, corePid: process.pid };
+      if (__TEST_HOOKS__ && method === 'test.engineEcho') output = await engineEcho();
+      else if (method === 'system.ping') output = { ...parsed.data as { n: number }, corePid: process.pid };
       else if (method === 'systemCheck.run') {
         const runId = randomUUID(); output = { runId };
         const facts = init, database = db;
@@ -55,7 +102,8 @@ function attachRenderer(port: UtilityPort): void {
       if (!validated.success) return reject('UNAVAILABLE');
       port.postMessage({ id, ok: true, output: validated.data });
     } catch { reject('INTERNAL'); }
-  });
+  };
+  port.on('message', ({ data }) => { void handle(data).catch(() => console.error('RPC dispatch failed')); });
   port.start();
 }
 
@@ -66,6 +114,9 @@ parent.on('message', (message) => {
     if (init) return;
     init = control.data; db = openLibraryDb(init.libraryRoot, init.appVersion);
     parent.postMessage({ type: 'ready', corePid: process.pid });
-  } else if (message.ports[0]) attachRenderer(message.ports[0]);
+  } else if (message.ports[0]) {
+    if (control.data.type === 'renderer-port') attachRenderer(message.ports[0]);
+    else attachHost(message.ports[0]);
+  }
 });
 process.on('exit', () => db?.close());

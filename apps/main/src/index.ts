@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { CoreToMainSchema } from '@danesh/contracts/control.ts';
 import { registerAppScheme, registerAppProtocol } from './protocol.ts';
+import { spawnHost, killHosts } from './hosts.ts';
 
 registerAppScheme();
 const userDataArg = process.argv.find((arg) => arg.startsWith('--user-data-dir='));
@@ -43,10 +44,11 @@ void app.whenReady().then(() => {
   child.on('message', (message: unknown) => {
     const parsed = CoreToMainSchema.safeParse(message);
     if (!parsed.success) { console.error('Invalid Core control message'); return; }
-    coreReady = true; connect();
+    if (parsed.data.type === 'ready') { coreReady = true; connect(); }
+    else spawnHost(parsed.data.kind, child);
   });
   child.postMessage({ type: 'init', libraryRoot: app.getPath('userData'), appVersion: app.getVersion(), electronVersion: process.versions.electron, platform: process.platform, arch: process.arch, mainPid: process.pid, exePath: app.getPath('exe') });
   void window.loadURL(devUrl ?? 'app://danesh/index.html');
 }).catch((error: unknown) => { console.error(error); app.exit(1); });
 app.on('window-all-closed', () => app.quit());
-app.on('before-quit', () => core?.kill());
+app.on('before-quit', () => { killHosts(); core?.kill(); });

@@ -10,6 +10,18 @@ Given('an isolated library folder whose path contains Persian letters and a spac
   expect(libraryRoot).toMatch(/[\u0600-\u06ff]/); expect(libraryRoot).toContain(' ');
 });
 Given('Danesh is launched with that library folder', async ({ harness }) => { await harness.launch(); });
+Given('the test build of Danesh is launched with that library folder', async ({ harness }) => { await harness.launch(); });
+When('a test-only echo travels through Core to the sample engine host', async ({ harness }) => {
+  const output = await harness.page!.evaluate(() => window.danesh.call('test.engineEcho', {}));
+  Object.assign(harness, { echo: output });
+});
+Then("the returned host process id differs from Core, Main and the window's renderer process ids", async ({ harness }) => {
+  const echo = (harness as typeof harness & { echo: { hostPid: number; corePid: number } }).echo;
+  const mainPid = await harness.app!.evaluate(() => process.pid);
+  const rendererPid = await harness.app!.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0]?.webContents.getOSProcessId());
+  expect(new Set([echo.hostPid, echo.corePid, mainPid, rendererPid]).size).toBe(4);
+  expect(echo.hostPid).toBeGreaterThan(0); expect(echo.corePid).toBeGreaterThan(0);
+});
 When('I open System check and press «اجرای بررسی»', async ({ harness }) => {
   const page = harness.page; if (!page) throw new Error('App not launched');
   await page.getByRole('button', { name: 'بررسی سامانه', exact: true }).click();
