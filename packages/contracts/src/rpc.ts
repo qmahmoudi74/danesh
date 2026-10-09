@@ -6,6 +6,7 @@ export const rpcMethods: Record<string, RpcMethod> = {
   'system.ping': { input: z.strictObject({ n: z.number().int().min(0).max(1_000_000) }), output: z.strictObject({ n: z.number().int(), corePid: z.number().int().positive() }), maxInputBytes: 128 },
   'systemCheck.run': { input: z.strictObject({}), output: z.strictObject({ runId: z.string().uuid() }), maxInputBytes: 128 },
   'systemCheck.get': { input: z.strictObject({ runId: z.string().uuid() }), output: SmokeReportSchema, maxInputBytes: 128 },
+  'systemCheck.export': { input: z.strictObject({ runId: z.string().uuid(), token: z.string().uuid() }), output: z.discriminatedUnion('ok', [z.strictObject({ ok: z.literal(true) }), z.strictObject({ ok: z.literal(false), reason: z.enum(['write-failed', 'unknown-token', 'unknown-run']) })]), maxInputBytes: 256 },
 };
 export const RpcErrorCodeSchema = z.enum(['UNKNOWN_METHOD', 'INVALID_INPUT', 'PAYLOAD_TOO_LARGE', 'UNAVAILABLE', 'READ_ONLY', 'INTERNAL']);
 export type RpcErrorCode = z.infer<typeof RpcErrorCodeSchema>;

@@ -4,6 +4,7 @@ import { mkdirSync } from 'node:fs';
 import { CoreToMainSchema } from '@danesh/contracts/control.ts';
 import { registerAppScheme, registerAppProtocol } from './protocol.ts';
 import { spawnHost, killHosts } from './hosts.ts';
+import { registerShellIpc } from './shell-ipc.ts';
 
 registerAppScheme();
 const userDataArg = process.argv.find((arg) => arg.startsWith('--user-data-dir='));
@@ -27,6 +28,11 @@ void app.whenReady().then(() => {
   const child = core;
   child.stdout?.on('data', (chunk: Buffer) => process.stdout.write(chunk));
   child.stderr?.on('data', (chunk: Buffer) => process.stderr.write(chunk));
+  const exportTargets = new Map<string, { resolve: () => void; reject: (error: Error) => void; timer: ReturnType<typeof setTimeout> }>();
+  registerShellIpc(window, (token, path) => new Promise<void>((resolve, reject) => {
+    const timer = setTimeout(() => { exportTargets.delete(token); reject(new Error('Core unavailable')); }, 5000);
+    exportTargets.set(token, { resolve, reject, timer }); child.postMessage({ type: 'export-target', token, path });
+  }), devUrl);
   let coreReady = false;
   let hello = false;
   let connected = false;
@@ -48,6 +54,7 @@ void app.whenReady().then(() => {
     const parsed = CoreToMainSchema.safeParse(message);
     if (!parsed.success) { console.error('Invalid Core control message'); return; }
     if (parsed.data.type === 'ready') { coreReady = true; connect(); }
+    else if (parsed.data.type === 'export-target-ready') { const target = exportTargets.get(parsed.data.token); if (target) { clearTimeout(target.timer); exportTargets.delete(parsed.data.token); target.resolve(); } }
     else spawnHost(parsed.data.kind, child);
   });
   child.postMessage({ type: 'init', libraryRoot: app.getPath('userData'), appVersion: app.getVersion(), electronVersion: process.versions.electron, platform: process.platform, arch: process.arch, mainPid: process.pid, exePath: app.getPath('exe') });

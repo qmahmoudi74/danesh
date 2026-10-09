@@ -1,10 +1,9 @@
 import { randomUUID } from 'node:crypto';
 import { MainToCoreSchema, type Init } from '@danesh/contracts/control.ts';
 import { RpcRequestSchema, rpcMethods, type RpcErrorCode } from '@danesh/contracts/rpc.ts';
-import { SmokeReportSchema, type SmokeReport, type CheckResult } from '@danesh/contracts/smoke-report.ts';
+import { SystemCheck } from './system-check.ts';
 import { parentPort, type UtilityPort } from '@danesh/contracts/utility-port.ts';
 import { openLibraryDb, type Db } from '@danesh/storage/db.ts';
-import { checks } from './checks/registry.ts';
 import { testRpcMethods } from '@danesh/contracts/test-rpc.ts';
 import { HostToCoreSchema, EchoInputSchema } from '@danesh/contracts/host-protocol.ts';
 
@@ -55,26 +54,7 @@ async function engineEcho(): Promise<{ hostPid: number; corePid: number }> {
 }
 let init: Init | undefined;
 let db: Db | undefined;
-const reports = new Map<string, SmokeReport>();
-
-function runChecks(runId: string, port: UtilityPort, facts: Init, database: Db): void {
-  const startedAt = new Date().toISOString();
-  const results: CheckResult[] = [];
-  for (const check of checks) {
-    port.postMessage({ topic: 'systemCheck.progress', payload: { runId, checkId: check.id, status: 'running' } });
-    const start = performance.now();
-    let result: CheckResult | null;
-    try { result = check.run({ init: facts, db: database, rendererConnected: true }); }
-    catch { result = { checkId: check.id, status: 'fail', durationMs: 0, detail: 'بررسی انجام نشد.', fields: {} }; }
-    if (!result) continue;
-    result.durationMs = Math.max(0, Math.round(performance.now() - start));
-    results.push(result);
-    port.postMessage({ topic: 'systemCheck.progress', payload: { runId, checkId: check.id, status: result.status } });
-  }
-  reports.set(runId, SmokeReportSchema.parse({ schemaVersion: 1, appVersion: facts.appVersion, electronVersion: facts.electronVersion, platform: facts.platform, arch: facts.arch, startedAt, finishedAt: new Date().toISOString(), overall: results.every((r) => r.status === 'pass') ? 'pass' : 'fail', checks: results }));
-  if (reports.size > 100) { const oldest = reports.keys().next().value; if (oldest) reports.delete(oldest); }
-  port.postMessage({ topic: 'systemCheck.finished', payload: { runId } });
-}
+const systemCheck = new SystemCheck();
 
 function attachRenderer(port: UtilityPort): void {
   const handle = async (data: unknown): Promise<void> => {
@@ -98,8 +78,9 @@ function attachRenderer(port: UtilityPort): void {
       else if (method === 'systemCheck.run') {
         const runId = randomUUID(); output = { runId };
         const facts = init, database = db;
-        setImmediate(() => runChecks(runId, port, facts, database));
-      } else if (method === 'systemCheck.get') output = reports.get((parsed.data as { runId: string }).runId);
+        setImmediate(() => systemCheck.run(runId, port, facts, database));
+      } else if (method === 'systemCheck.get') output = systemCheck.get((parsed.data as { runId: string }).runId);
+      else if (method === 'systemCheck.export') { const { runId, token } = parsed.data as { runId: string; token: string }; output = await systemCheck.export(runId, token); }
       else return reject('UNKNOWN_METHOD');
       const validated = contract.output.safeParse(output);
       if (!validated.success) return reject('UNAVAILABLE');
@@ -117,6 +98,8 @@ parent.on('message', (message) => {
     if (init) return;
     init = control.data; db = openLibraryDb(init.libraryRoot, init.appVersion);
     parent.postMessage({ type: 'ready', corePid: process.pid });
+  } else if (control.data.type === 'export-target') {
+    systemCheck.addTarget(control.data.token, control.data.path); parent.postMessage({ type: 'export-target-ready', token: control.data.token });
   } else if (message.ports[0]) {
     if (control.data.type === 'renderer-port') attachRenderer(message.ports[0]);
     else attachHost(message.ports[0]);

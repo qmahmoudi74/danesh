@@ -1,7 +1,9 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { rpcMethods, eventPayloads, RpcResponseSchema, RpcEventSchema, type DaneshApi, type RpcErrorCode } from '@danesh/contracts/rpc.ts';
 import { testRpcMethods } from '@danesh/contracts/test-rpc.ts';
-const methods = { ...rpcMethods, ...(__TEST_HOOKS__ ? testRpcMethods : {}) };
+import { shellMethods, shellEventPayloads } from '@danesh/contracts/shell.ts';
+const topics = { ...eventPayloads, ...shellEventPayloads };
+const methods = { ...shellMethods, ...rpcMethods, ...(__TEST_HOOKS__ ? testRpcMethods : {}) };
 
 let port: MessagePort | undefined;
 let nextId = 1;
@@ -36,6 +38,12 @@ ipcRenderer.on('danesh:port', (event) => {
   port.start(); connected?.();
 });
 
+ipcRenderer.on('danesh:shell-event', (_event, data: unknown) => {
+  const event = RpcEventSchema.safeParse(data); if (!event.success) return;
+  const payload = Object.hasOwn(shellEventPayloads, event.data.topic) ? shellEventPayloads[event.data.topic]?.safeParse(event.data.payload) : undefined;
+  if (!payload?.success) return;
+  for (const callback of subscribers.get(event.data.topic) ?? []) callback(payload.data);
+});
 const api: DaneshApi = {
   async call(method, input) {
     const contract = Object.hasOwn(methods, method) ? methods[method] : undefined;
@@ -43,6 +51,12 @@ const api: DaneshApi = {
     const parsed = contract.input.safeParse(input);
     if (!parsed.success) throw failure('INVALID_INPUT');
     if (new TextEncoder().encode(JSON.stringify(parsed.data)).byteLength > contract.maxInputBytes) throw failure('PAYLOAD_TOO_LARGE');
+    if (Object.hasOwn(shellMethods, method)) {
+      const response = RpcResponseSchema.safeParse(await ipcRenderer.invoke('danesh:shell', { id: 1, method, input: parsed.data }));
+      if (!response.success) throw failure('INTERNAL');
+      if (!response.data.ok) throw failure(response.data.error.code);
+      const output = contract.output.safeParse(response.data.output); if (!output.success) throw failure('INTERNAL'); return output.data;
+    }
     await Promise.race([connection, new Promise<never>((_, reject) => { const timer = setTimeout(() => reject(failure('UNAVAILABLE')), 15000); void connection.then(() => clearTimeout(timer)); })]);
     if (!port || pending.size >= 100) throw failure('UNAVAILABLE');
     const id = nextId++;
@@ -53,7 +67,7 @@ const api: DaneshApi = {
     });
   },
   on(topic, callback) {
-    if (!Object.hasOwn(eventPayloads, topic)) throw failure('UNKNOWN_METHOD');
+    if (!Object.hasOwn(topics, topic)) throw failure('UNKNOWN_METHOD');
     let callbacks = subscribers.get(topic);
     if (!callbacks) { callbacks = new Set(); subscribers.set(topic, callbacks); }
     callbacks.add(callback);
