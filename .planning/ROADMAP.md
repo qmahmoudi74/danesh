@@ -28,6 +28,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: Secure, Durable Foundation & Packaging Gate
+
 **Goal:** As a learner, I want to install Danesh on a clean Windows or macOS machine and have it keep my data durable, private and safe from crashing engines, so that I can trust it with my documents and study history.
 **Mode:** mvp
 **Depends on**: Nothing (first phase)
@@ -40,25 +41,53 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Killing an engine process mid-task, or forcing it out of memory, never takes down the app: the task is marked retriable and the engine restarts with backoff. A sample job resumes after an app restart or a kill -9 without redoing completed work or losing committed output.
   4. User data lives in a versioned database with forward-only migrations. The app snapshots data before migrating, a failed migration leaves prior data intact and restorable, and a database written by a newer version is refused. Large artifacts are written atomically into a content-addressed store.
   5. Danesh's own license is recorded in an ADR. The ADR-with-spike template, the acceptance-scenarios-before-implementation practice and the evidence-path verification report (verified, partially verified, blocked) are all in use for this phase's own work.
-**Plans**: 14 plans (planned set; follow-up items for the zero-egress proof, Tier B runs and ADR results are listed in the planning return)
+
+**Plans**: 15 plans — planning complete and ready for implementation; the latest plan-checker findings (3 blockers, 1 warning) were corrected directly and verified only by deterministic checks, NOT formally rechecked by the AI plan checker (2026-10-09)
 
 Plans:
+**Wave 1**
 - [ ] 01-01-PLAN.md — Acceptance scenarios (12 Gherkin files), ADR template and ADR 0001-0003 pass policies, written before any implementation
-- [ ] 01-02-PLAN.md — Exact-pinned manifests (license MIT), consolidated package-legitimacy checkpoint, frozen install
+- [ ] 01-02-PLAN.md — Exact-pinned manifests (license MIT), consolidated package-legitimacy checkpoint, frozen install, MIT LICENSE and ADR 0004
+
+**Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 01-03-PLAN.md — Walking skeleton tracer: Persian window → preload → Core → SQLite → engine host; lint/type/boundary/test harness
-- [ ] 01-04-PLAN.md — D-LICENSE recorded: MIT LICENSE, manifests MIT, ADR 0004 accepted
+
+**Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 01-05-PLAN.md — Repository gates: license scan (permissive-only, non-commercial rejected, notices) and ADR/features-first/report checkers
 - [ ] 01-06-PLAN.md — Persian-first Home and System check UI, report export, native menu
+
+**Wave 4** *(blocked on Wave 3 completion)*
 - [ ] 01-07-PLAN.md — Hardened window, strict validated IPC, local logging, single instance, Windows library location, Chromium egress block
+
+**Wave 5** *(blocked on Wave 4 completion)*
 - [ ] 01-08-PLAN.md — Packaged production build with fuses, headless smoke mode, packaged smoke runner, test build
+
+**Wave 6** *(blocked on Wave 5 completion)*
 - [ ] 01-09-PLAN.md — LLM, OCR and TTS packaging probes in isolated hosts; UI responsiveness check
+
+**Wave 7** *(blocked on Wave 6 completion)*
 - [ ] 01-10-PLAN.md — CI on Windows and macOS, local CI parity, Tier B runbooks, first GitHub run (user push)
+
+**Wave 8** *(blocked on Wave 7 completion)*
 - [ ] 01-11-PLAN.md — Forward-only migrations, verified backups, newer-schema refusal, read-only recovery
+
+**Wave 9** *(blocked on Wave 8 completion)*
 - [ ] 01-12-PLAN.md — Content-addressed blob store with atomic writes
+
+**Wave 10** *(blocked on Wave 9 completion)*
 - [ ] 01-13-PLAN.md — Durable job kernel and sample durable job with crash-safe resume
+
+**Wave 11** *(blocked on Wave 10 completion)*
 - [ ] 01-14-PLAN.md — Engine and Core supervision: crash/OOM containment with backoff
 
+**Wave 12** *(blocked on Wave 11 completion)*
+- [ ] 01-15-PLAN.md — Default-deny egress proof: Node guard, empty allowlist policy and broker skeleton, egress-zero check, network-monitored E2E with positive controls
+
+**Wave 13** *(blocked on Wave 12 completion)*
+- [ ] 01-16-PLAN.md — Evidence: Tier B Windows and macOS checkpoints, ADR 0001-0003 spike results, evidence index
+
 ### Phase 2: PDF Import & Faithful Canonical Model
+
 **Goal:** As a learner, I want to import my PDFs, including large, encrypted or damaged ones, through a resumable pipeline that reconstructs them faithfully with stable block identity and honest coverage, so that everything Danesh later teaches rests on content I can trust.
 **Mode:** mvp
 **Depends on**: Phase 1
@@ -71,10 +100,12 @@ Plans:
   3. Imported content lands in a canonical semantic model (not Markdown) in the correct reading order. Multi-column layouts are handled, and running headers, footers and page numbers are excluded. Mixed Persian/English text is stored in logical order with ZWNJ and notation preserved, and raw and normalized forms are kept separately. Every block carries a stable ID, type, page/region provenance, extraction version, quality status and producer record.
   4. Every page is accounted for as extracted, explicitly missing or unsupported, or page furniture. Low-confidence content is marked and missing content is never invented. This is checked by an eval harness, with recorded baselines and a written pass/fail policy, against a hand-verified fixture suite from multiple producers. The suite covers selectable text, bidi, code, tables, multi-column, figures, math, scanned, broken and long documents.
   5. User can view a source library showing each source's title, page count, import date, processing status and size on disk, and can edit a source's title and author.
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 3: Persian-First Semantic Reader, Outline & Search
+
 **Goal:** As a learner, I want to read my reconstructed sources in a calm, reflowable Persian-first reader with correct mixed-language text, inspectable evidence, a remembered position and Persian-aware search, so that I can study the real content without ever needing a PDF viewer.
 **Mode:** mvp
 **Depends on**: Phase 2
@@ -87,10 +118,12 @@ Plans:
   3. After the app is closed and reopened, the reader returns to the same block. Reading progress advances only from meaningful activity, not from opening or scrolling, can be corrected manually, and is stored separately from learning evidence.
   4. User can search all sources with Persian-aware matching (ي/ی and ك/ک folding, ZWNJ, Persian vs Latin digits, diacritics). User can reach core navigation and actions through keyboard shortcuts and a command palette.
   5. Every screen built so far is Persian-first RTL with an English fallback, a Persian-digit preference, Jalali dates and Persian punctuation. Empty-state, error and status messages are Persian and actionable and never show stack traces. The content-first layout (collapsible navigation, wide reader, optional contextual panel) has passed a recorded usability review.
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 4: Local Model Manager & AI Runtime
+
 **Goal:** As a learner, I want to get tested local models that suit my hardware, downloaded or imported offline and run within my machine's limits, so that private AI features work on my own computer without cloud services or crashes.
 **Mode:** mvp
 **Depends on**: Phase 1, Phase 2, Phase 3
@@ -103,10 +136,12 @@ Plans:
   3. User can download models with progress, pause/resume, a disk-space preflight and hash verification, and downloads resume after an app restart. User can also import a model bundle from disk offline, verified against the registry hashes.
   4. At most one heavy model is resident under an enforced memory budget, and interactive requests go ahead of background jobs. Under memory pressure the app degrades gracefully and explains the problem in plain language instead of crashing. Switching or removing a model never deletes source data or reading progress.
   5. Normal reading and study screens never show model names, context sizes or technical plumbing. Import, model, job and quality state remain available on demand.
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 5: Document Intelligence
+
 **Goal:** As a learner, I want to see scanned pages, tables, equations and figures from my PDFs reconstructed faithfully, or clearly labeled when uncertain, so that technical and scientific material is complete and honest in the reader.
 **Mode:** mvp
 **Depends on**: Phase 2, Phase 3, Phase 4
@@ -119,10 +154,12 @@ Plans:
   3. Each table is stored as a cell grid with spans, column direction and a confidence level. Low-confidence tables show the region crop with a label.
   4. Figures are extracted as images linked to their captions. The reader renders every block type from the canonical model: headings, paragraphs, lists, tables, syntax-highlighted code, equations, figures with captions, footnotes and citations.
   5. User can re-process a source imported in Phase 2 with the newer extraction version. Matched blocks keep their IDs, so reading position and progress survive. The adversarial fixtures (scans, rotated and borderless tables, math-heavy Persian, two-column RTL) meet the pre-written pass policy against the recorded baseline.
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 6: Knowledge Map & Curriculum
+
 **Goal:** As a learner, I want to study by concept through an automatically built curriculum with evidence-backed merges, prerequisite hints and next-step suggestions, so that I never have to build notebooks, goals or schedules myself.
 **Mode:** mvp
 **Depends on**: Phase 3, Phase 4, Phase 5
@@ -134,10 +171,12 @@ Plans:
   2. Prerequisite and corequisite relations appear in context as hints, never as locks. "What next" recommendations use source coverage, prerequisites and demonstrated progress, and any topic can always be opened. A prerequisite missing from all sources is mentioned in context without creating an empty topic or an unsourced lesson.
   3. Equivalent concepts from different PDFs merge only when evidence supports it. Each merge shows its reason and source attribution and keeps alternative definitions and disagreements. The user can undo or split a merge, rename a concept or mark something "not a concept", and those corrections survive re-synthesis. Merge and prerequisite precision meet the pre-written pass policy on the reference set.
   4. Adding a further PDF updates only the affected concepts and relationships and records staleness on dependent generated artifacts. Reading history, progress and generated content are not erased. Concept IDs are identical across identical re-runs and stay stable through incremental updates.
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 7: Persian Translation, Normalization & Summarization
+
 **Goal:** As a learner, I want to read faithful Persian translations with consistent terminology and optional, explicitly shorter summaries that report what they omit, so that I can study foreign-language material at full academic depth in Persian.
 **Mode:** mvp
 **Depends on**: Phase 3, Phase 4, Phase 6
@@ -150,10 +189,12 @@ Plans:
   3. Each translated block shows a fidelity status from deterministic checks: either checked, or flagged for a number mismatch, a missing sentence or added content.
   4. User can view the English-Persian domain glossary and pin a preferred term, after which affected outputs are flagged stale.
   5. User can generate an optional summary that is explicitly shorter, carries an essential-points coverage report listing omissions and uncertainty, and never replaces canonical content. Source-wide translation and summarization jobs show progress and resume after interruption.
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 8: Grounded Lessons & Scoped Q&A
+
 **Goal:** As a learner, I want to get on-demand lessons and scoped answers composed from my own sources, with verified citations and clearly labeled supplemental explanation, so that I learn from evidence I can check instead of invented facts.
 **Mode:** mvp
 **Depends on**: Phase 4, Phase 6, Phase 7
@@ -166,10 +207,12 @@ Plans:
   3. Lessons reopen from cache without regeneration and carry generation, version and provenance metadata. When source knowledge changes, only the affected sections are flagged stale, and they are regenerated on demand.
   4. User can regenerate a lesson with feedback and recover the previous version. User can report a problem on any generated sentence, and reports are stored locally only.
   5. User can ask a question scoped to a selection, concept or lesson in the contextual panel. The answer is either cited from the user's sources or states explicitly that it was not found in them.
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 9: Active Learning & Memory
+
 **Goal:** As a learner, I want to practice retrieval with feedback and hints, see honest separate signals for coverage, understanding and predicted recall, and get gentle review suggestions, so that I achieve delayed, AI-independent recall and application of what I study.
 **Mode:** mvp
 **Depends on**: Phase 6, Phase 8
@@ -182,10 +225,12 @@ Plans:
   3. Predicted recall comes from an FSRS-class scheduler that replays an immutable review log with default parameters. Only retrieval attempts strengthen recall, never reading or manual marking. The evidence type (system-assessed vs self-graded) is stored distinctly, and manual progress corrections are kept separate and never feed scheduling.
   4. Due reviews are suggested passively with a soft per-session cap, with no calendar plan and no backlog counter. User can flag, suspend or replace a bad practice question.
   5. Selecting text in the reader offers explain, translate, summarize, ask, practice and copy-with-citation, and each action works on the selection.
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 10: Natural Local Audio
+
 **Goal:** As a learner, I want to listen to normalized translations and lessons in natural local Persian and English voices that pronounce technical terms correctly, so that I can study by ear while offline.
 **Mode:** mvp
 **Depends on**: Phase 4, Phase 7, Phase 8
@@ -198,10 +243,12 @@ Plans:
   3. Mixed Persian/English technical terms, numbers, units and abbreviations are pronounced correctly through a speech front-end. Code, equations and tables are read with a labeled strategy. User can add pronunciation-lexicon entries.
   4. User can preview and download voices, each showing its size, resource needs, license and quality status (evaluated or experimental). The quality status is backed by a recorded native-listener evaluation, and no voice is called natural just because it is tagged Persian.
   5. User can see and reclaim the storage used by models, the audio cache, sources and generated artifacts.
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 11: Opt-in Web Research & Privacy Controls
+
 **Goal:** As a learner, I want to optionally extend answers with web research only after seeing and approving exactly what leaves my machine, so that I get outside context without risking my privacy or mixing web content into my sources.
 **Mode:** mvp
 **Depends on**: Phase 1, Phase 4, Phase 8
@@ -213,10 +260,12 @@ Plans:
   2. Web results appear as labeled online evidence with URLs and dates, visually distinct from PDF evidence. They are kept in a separate store that never enters the knowledge map. Prompt-injection fixtures embedded in PDFs and web text cannot trigger tool calls or alter grounding labels.
   3. User can view a log of every outbound web request. With web research disabled and models present, every other feature works fully offline, and an offline indicator shows when web research is unavailable.
   4. User can manage language, theme, fonts, web-research consent, storage, models and diagnostics from one settings page with sane defaults. User can export a local diagnostic bundle after previewing its redactions, with no telemetry and no automatic upload.
+
 **Plans**: TBD
 **UI hint**: yes
 
 ### Phase 12: Data Ownership, Hardening & Release
+
 **Goal:** As a learner, I want to install a signed, accessible Danesh release that stays stable on large books, is honest about its platforms, licenses and quality, and lets me back up, export and safely delete my data, so that I can rely on it as my long-term study environment.
 **Mode:** mvp
 **Depends on**: Phase 1, Phase 2, Phase 3, Phase 4, Phase 5, Phase 6, Phase 7, Phase 8, Phase 9, Phase 10, Phase 11
@@ -229,6 +278,7 @@ Plans:
   3. User can back up all data to a single local file and restore it. User can export review history (JSON/CSV), lessons and translations with citations, and the glossary in open formats.
   4. User can delete a source after an impact preview listing affected concepts, lessons and review items. Review history is kept, and concepts that lose their only source are marked "source removed". Destructive actions require confirmation and offer undo where feasible.
   5. Repeatedly processing 500+ page sources keeps memory flat in soak tests. The complete reference-based AI eval suite runs against recorded baselines as a release gate, as does the license-matrix check. The suite covers completeness, source fidelity, omission and extra content, Persian term consistency, merge and prerequisite precision, citation accuracy, and quiz answer quality. Accurate licensing notices cover every dependency, engine, model and voice.
+
 **Plans**: TBD
 **UI hint**: yes
 

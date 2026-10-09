@@ -44,7 +44,7 @@ A packaged smoke test proves the shell launches on clean machines. It opens the 
     - GPL, AGPL and LGPL components are excluded from distributed builds. That rules out MuPDF, espeak-ng (including sherpa-onnx's embedded copy), piper1-gpl and arabic-reshaper unless a separate product decision or commercial license is obtained.
     - D-02's permissive-only gate stays in force.
 - **D-02:** Until D-LICENSE is decided, every dependency added in Phase 1 must be permissively licensed (MIT, Apache-2.0, BSD, ISC; OFL-1.1 for fonts). No GPL or AGPL package may enter the lockfile, directly or transitively. Check this with a license-scan script that runs in CI.
-- **D-03:** Phase 1 work does not wait on D-LICENSE. Scaffold, kernel, tests and smoke test proceed in parallel. Only closing REL-08 and committing the LICENSE file wait, and the phase cannot be marked complete until both are done.
+- **D-03:** Phase 1 work does not wait on D-LICENSE. Scaffold, kernel, tests and smoke test proceed in parallel. Only closing REL-08 and committing the LICENSE file wait, and the phase cannot be marked complete until both are done. (D-LICENSE was resolved on 2026-10-09 as MIT; both items are done inside Plan 01-02 Task 4.)
 - **D-04:** The verified smoke-test targets are the D-PLATFORM default: **Windows 11 x64** and **macOS 13+ on Apple Silicon**. Intel Macs and Windows arm64 are not built or smoke-tested in Phase 1 and are reported as "untested".
 
 ### Clean-machine verification standard (REL-02, PLAT-11)

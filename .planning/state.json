@@ -1,0 +1,73 @@
+{
+  "contract": "1.0.0",
+  "flavor": "core",
+  "milestone": null,
+  "phases": [
+    {
+      "number": "1",
+      "name": "Secure, Durable Foundation & Packaging Gate",
+      "status": "pending"
+    },
+    {
+      "number": "2",
+      "name": "PDF Import & Faithful Canonical Model",
+      "status": "pending"
+    },
+    {
+      "number": "3",
+      "name": "Persian-First Semantic Reader, Outline & Search",
+      "status": "pending"
+    },
+    {
+      "number": "4",
+      "name": "Local Model Manager & AI Runtime",
+      "status": "pending"
+    },
+    {
+      "number": "5",
+      "name": "Document Intelligence",
+      "status": "pending"
+    },
+    {
+      "number": "6",
+      "name": "Knowledge Map & Curriculum",
+      "status": "pending"
+    },
+    {
+      "number": "7",
+      "name": "Persian Translation, Normalization & Summarization",
+      "status": "pending"
+    },
+    {
+      "number": "8",
+      "name": "Grounded Lessons & Scoped Q&A",
+      "status": "pending"
+    },
+    {
+      "number": "9",
+      "name": "Active Learning & Memory",
+      "status": "pending"
+    },
+    {
+      "number": "10",
+      "name": "Natural Local Audio",
+      "status": "pending"
+    },
+    {
+      "number": "11",
+      "name": "Opt-in Web Research & Privacy Controls",
+      "status": "pending"
+    },
+    {
+      "number": "12",
+      "name": "Data Ownership, Hardening & Release",
+      "status": "pending"
+    }
+  ],
+  "next": {
+    "command": "/gsd:progress --next",
+    "label": "Advance to the next step",
+    "reason": "Phase 1 of 12 · 0% · executing"
+  },
+  "updated_at": "2026-10-09T18:18:25.877Z"
+}
