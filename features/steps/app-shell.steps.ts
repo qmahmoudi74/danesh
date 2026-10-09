@@ -157,3 +157,39 @@ Then('the valid ping succeeds on the same connection', ({ harness }) => {
   // Same Core process and no reconnect: the rejection did not tear down the private port.
   expect(JSON.parse(rejections.get(harness)!.code)).toEqual({ n: 7, corePid: harness.echo!.corePid });
 });
+
+// Plan 01-07: CSP and navigation lockdown, including a reload that happens while Core is still starting.
+When('Home and System check are visited while CSP violations are recorded', async ({ harness }) => {
+  await harness.close();
+  harness.coreReadyDelayMs = 4000;
+  await harness.launch(); // the harness reloads the page and asserts a fresh-nonce CSP header while Core is still delayed
+  expect(await harness.page!.evaluate(() => [typeof require, typeof process, Object.keys(window.danesh).sort().join()])).toEqual(['undefined', 'undefined', 'call,on']);
+  await expect(harness.page!.getByRole('heading', { name: 'نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست', exact: true })).toBeVisible({ timeout: 8000 });
+  await harness.page!.getByRole('button', { name: 'بررسی سامانه', exact: true }).click();
+  await expect(harness.page!.getByRole('heading', { name: 'بررسی سامانه', level: 1, exact: true })).toBeVisible();
+  await harness.page!.evaluate(() => { location.hash = '/'; });
+  await expect(harness.page!.getByRole('heading', { name: 'دانش', level: 1, exact: true })).toBeVisible();
+});
+Then('zero "securitypolicyviolation" events are recorded', async ({ harness }) => {
+  expect(await harness.page!.evaluate(() => (window as Window & { __cspViolations?: string[] }).__cspViolations)).toEqual([]);
+});
+When(/^page navigation to "https:\/\/example\.com" is attempted$/, async ({ harness }) => {
+  await harness.page!.evaluate(() => { location.assign('https://example.com/'); });
+  await harness.page!.waitForTimeout(500);
+});
+Then('navigation is blocked before any external connection', async ({ harness }) => {
+  // will-navigate cancels the navigation before Chromium issues a request, so not even the L1 egress block sees one.
+  expect(harness.page!.url()).toMatch(/^app:\/\/danesh\//);
+  expect(await harness.app!.evaluate(() => (globalThis as unknown as { __daneshChromiumBlocked: () => number }).__daneshChromiumBlocked())).toBe(0);
+});
+Then('"window.open" for that URL returns null', async ({ harness }) => {
+  expect(await harness.page!.evaluate(() => window.open('https://example.com/') === null)).toBe(true);
+  expect(await harness.app!.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows().length)).toBe(1);
+});
+Then(/^the page remains on the app origin "app:\/\/danesh"$/, async ({ harness }) => {
+  // URL.origin is 'null' for non-special schemes such as app:, so compare protocol and host.
+  const url = new URL(harness.page!.url());
+  expect([url.protocol, url.host]).toEqual(['app:', 'danesh']);
+  // Read the DOM directly: Playwright locators keep waiting on the navigation that Main cancelled.
+  expect(await harness.page!.evaluate(() => [document.readyState, document.querySelector('main h1')?.textContent])).toEqual(['complete', 'دانش']);
+});

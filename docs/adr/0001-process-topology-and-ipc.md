@@ -41,7 +41,7 @@ Main serves the built renderer from `app://danesh/` with a traversal guard and a
 
 Only `apps/desktop` is a pnpm workspace package. Source lives under `apps/{main,preload,renderer,core}` and `packages/{contracts,domain,storage,egress,engine-api,logging,engines/*}` and uses aliases declared in `aliases.ts` and `tsconfig.base.json`; relative source imports use explicit `.ts` or `.tsx` extensions. Path-based dependency-cruiser rules preserve the same boundaries without separate manifests in every directory.
 
-The library defaults to `app.getPath('userData')`. Before ready on Windows, `userData` and `sessionData` are set to `%LOCALAPPDATA%\Danesh` unless `--user-data-dir` was supplied; that explicit path takes precedence. macOS keeps its platform userData default. The location is a costly D-13 decision after release: paths retain their Unicode spelling and no failure path silently relocates the library to an ASCII-only directory.
+The library defaults to `app.getPath('userData')`. Before ready on Windows, `userData` and `sessionData` are set to `%LOCALAPPDATA%\Danesh` unless `--user-data-dir` was supplied; that explicit path takes precedence. macOS keeps its platform userData default. The location is a costly D-13 decision after release: paths retain their Unicode spelling and no failure path silently relocates the library to an ASCII-only directory. Plan 01-07 implements this in `apps/main/src/user-data.ts` (`resolveUserDataPath`), applied before `app.requestSingleInstanceLock()` so one library is never opened by two instances.
 
 ### Consequences
 
