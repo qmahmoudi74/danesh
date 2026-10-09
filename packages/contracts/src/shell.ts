@@ -20,10 +20,13 @@ export const shellMethods: Record<string, RpcMethod> = {
   'shell.getTheme': { input: z.strictObject({}), output: ThemeStateSchema, maxInputBytes: 128 },
   'shell.setTheme': { input: z.strictObject({ theme: ThemePreferenceSchema }), output: ThemeStateSchema, maxInputBytes: 128 },
   'shell.showAppMenu': { input: z.strictObject({ x: menuPoint, y: menuPoint }), output: z.strictObject({}), maxInputBytes: 128 },
+  // Headless smoke mode only (--smoke-test): the renderer reports the overall result of the run Main asked for.
+  'shell.smokeDone': { input: z.strictObject({ overall: z.enum(['pass', 'fail']) }), output: z.strictObject({}), maxInputBytes: 128 },
 };
 export const shellEventPayloads: Record<string, z.ZodType> = {
   'shell.navigate': z.strictObject({ route: RouteSchema }),
   'shell.coreState': z.strictObject({ state: z.enum(['starting', 'ready', 'unreachable']) }),
   'shell.windowState': WindowStateSchema,
   'shell.theme': ThemeStateSchema,
+  'shell.smokeRun': z.strictObject({ token: z.string().uuid() }),
 };

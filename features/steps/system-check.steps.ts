@@ -137,3 +137,25 @@ When('Core becomes reachable and I press «تلاش دوبارهٔ بررسی»'
   await harness.page!.getByRole('button', { name: 'تلاش دوبارهٔ بررسی', exact: true }).click();
 });
 Then('the run completes and the unreachable-Core alert clears', async ({ harness }) => { await expect(harness.page!.getByRole('status')).toContainText('همهٔ بررسی‌ها موفق بود'); await expect(harness.page!.getByRole('alert')).toHaveCount(0); });
+
+// Plan 01-08: runs only against the packaged DaneshTest build (DANESH_E2E_PACKAGED=1 sets DANESH_TEST_EXE).
+Given('the packaged test build of Danesh is launched with that library folder on System check', async ({ harness, $test }) => {
+  $test.skip(!process.env.DANESH_TEST_EXE, 'needs the packaged test build: run with DANESH_E2E_PACKAGED=1');
+  await harness.launch();
+  await harness.page!.getByRole('button', { name: 'بررسی سامانه', exact: true }).click();
+});
+When('I run System check', async ({ harness }) => {
+  await harness.page!.getByRole('button', { name: 'اجرای بررسی', exact: true }).click();
+  await expect(harness.page!.getByRole('button', { name: 'اجرای دوباره', exact: true })).toBeEnabled({ timeout: 30_000 });
+});
+Then('«قفل‌های امنیتی برنامه» shows «ناموفق»', async ({ harness }) => {
+  const row = harness.page!.locator('[data-check-id="fuses"]');
+  await expect(row.getByRole('heading', { name: 'قفل‌های امنیتی برنامه', exact: true })).toBeVisible();
+  await expect(row.locator('.status-badge')).toHaveText('ناموفق');
+  await row.getByRole('button', { name: 'جزئیات فنی', exact: true }).click();
+  // The only differing fuse in the test build is the inspect fuse Playwright needs.
+  await expect(row.getByRole('region')).toContainText('EnableNodeCliInspectArguments');
+});
+Then('its sentence is «تنظیمات امنیتی با نسخهٔ نهایی مطابقت ندارد. این نسخه برای آزمایش ساخته شده است.»', async ({ harness }) => {
+  await expect(harness.page!.locator('[data-check-id="fuses"] .check-result')).toHaveText('تنظیمات امنیتی با نسخهٔ نهایی مطابقت ندارد. این نسخه برای آزمایش ساخته شده است.');
+});

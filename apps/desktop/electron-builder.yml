@@ -1,0 +1,60 @@
+# Production packaging (Plan 01-08, ADR 0003). Never published from here: `publish: null` and `--publish never`.
+appId: dev.danesh.app
+productName: Danesh
+copyright: Copyright (c) 2026 Danesh contributors
+npmRebuild: false                      # every native dependency is an N-API prebuild; never node-gyp
+directories:
+  output: dist
+  buildResources: build
+electronLanguages: [en-US, fa]
+files:
+  - out/**
+  - package.json
+  - "!node_modules/better-sqlite3/{deps,src,binding.gyp}/**"
+  - "!node_modules/better-sqlite3/prebuilds/{linux,linuxmusl}-*.node"
+  - "!node_modules/node-llama-cpp/llama/gitRelease.bundle"
+  - "!node_modules/@node-llama-cpp/linux-*/**"
+  - "!node_modules/onnxruntime-node/bin/napi-v6/linux/**"
+  - "!node_modules/tesseract.js-core/*.wasm.js"
+  - "!node_modules/tesseract.js-core/*-lstm.*"
+  - "!**/*.{md,map,ts,tsbuildinfo}"
+  - "!**/{test,tests,__tests__,docs,example,examples}/**"
+asarUnpack:                            # native binaries only; engine binaries are added by Plan 01-09
+  - node_modules/better-sqlite3/prebuilds/**
+extraResources:
+  - from: ../../LICENSE
+    to: licenses/LICENSE
+  - from: ../../third_party/THIRD-PARTY-NOTICES.txt
+    to: licenses/THIRD-PARTY-NOTICES.txt
+electronFuses:                         # D-09 production fuse set, applied before signing
+  runAsNode: false
+  enableNodeOptionsEnvironmentVariable: false
+  enableNodeCliInspectArguments: false
+  enableEmbeddedAsarIntegrityValidation: true
+  onlyLoadAppFromAsar: true
+  grantFileProtocolExtraPrivileges: false
+win:
+  target: [{ target: nsis, arch: [x64] }]
+  signAndEditExecutable: false         # unsigned in Phase 1 (D-08)
+  files:
+    - "!node_modules/better-sqlite3/prebuilds/{darwin-arm64,darwin-x64,win32-arm64}.node"
+    - "!node_modules/@node-llama-cpp/{mac-*,win-arm64,win-x64-cuda,win-x64-cuda-ext,win-x64-vulkan}/**"
+    - "!node_modules/onnxruntime-node/bin/napi-v6/{darwin,win32/arm64}/**"
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: false
+mac:
+  target: [{ target: dir, arch: [arm64] }, { target: dmg, arch: [arm64] }]
+  identity: "-"                        # explicit ad-hoc signing; no automatic fallback
+  hardenedRuntime: true
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  gatekeeperAssess: false
+  minimumSystemVersion: "13.0"
+  files:
+    - "!node_modules/better-sqlite3/prebuilds/{win32-*,darwin-x64}.node"
+    - "!node_modules/@node-llama-cpp/{win-*,mac-x64*}/**"
+    - "!node_modules/onnxruntime-node/bin/napi-v6/{win32,darwin/x64}/**"
+publish: null

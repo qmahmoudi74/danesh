@@ -16,7 +16,7 @@ describe('Core report export capabilities', () => {
   const port: UtilityPort = { on() {}, start() {}, postMessage() {} };
   beforeEach(() => {
     repo = testRepository(); db = openLibraryDb(repo.root);
-    facts = { type: 'init', libraryRoot: repo.root, appVersion: '0.1.0', electronVersion: '44.7.0', platform: 'win32', arch: 'x64', mainPid: 1, exePath: 'test', osName: 'Windows_NT', osVersion: '10.0', locale: 'fa-IR' };
+    facts = { type: 'init', libraryRoot: repo.root, appVersion: '0.1.0', electronVersion: '44.7.0', platform: 'win32', arch: 'x64', mainPid: 1, exePath: 'test', osName: 'Windows_NT', osVersion: '10.0', locale: 'fa-IR', packaged: false };
   });
   afterEach(() => { db.close(); repo.cleanup(); });
   it('writes the real stored report atomically and consumes its token', async () => {
@@ -47,5 +47,15 @@ describe('Core report export capabilities', () => {
     const service = new SystemCheck(); expect(() => service.addTarget(randomUUID(), 'relative.json')).toThrow('absolute');
     for (let index = 0; index < 100; index++) service.addTarget(randomUUID(), join(repo.root, `${index}.json`));
     expect(() => service.addTarget(randomUUID(), join(repo.root, 'overflow.json'))).toThrow('Too many');
+  });
+  it('fails a check that exceeds its timeout and still runs the next one, never passing an unrun check', async () => {
+    const hung = { id: 'app-launch', run: () => new Promise<never>(() => undefined) };
+    const next = { id: 'database', run: () => ({ checkId: 'database', status: 'pass' as const, durationMs: 0, detail: 'ok', fields: {} }) };
+    const service = new SystemCheck(Date.now, { checks: [hung, next], timeouts: { engine: 20, default: 20 } });
+    const runId = randomUUID();
+    await service.run(runId, port, facts, db);
+    const report = service.get(runId)!;
+    expect(report.checks.map((check) => [check.checkId, check.status, check.detail])).toEqual([['app-launch', 'fail', 'timeout'], ['database', 'pass', 'ok']]);
+    expect(report.overall).toBe('fail');
   });
 });

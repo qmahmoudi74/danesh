@@ -1,0 +1,16 @@
+# Test build for Playwright (Plan 01-08, D-09). Identical to production except the inspect fuse, which Playwright's
+# Electron driver needs. Built with `electron-vite build --mode test` (test hooks on). Never published or distributed.
+extends: ./electron-builder.yml
+appId: dev.danesh.app.test
+productName: DaneshTest
+directories:
+  output: dist-test
+  buildResources: build
+electronFuses:
+  runAsNode: false
+  enableNodeOptionsEnvironmentVariable: false
+  enableNodeCliInspectArguments: true
+  enableEmbeddedAsarIntegrityValidation: true
+  onlyLoadAppFromAsar: true
+  grantFileProtocolExtraPrivileges: false
+publish: null

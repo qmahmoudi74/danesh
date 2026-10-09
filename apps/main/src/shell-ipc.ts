@@ -21,6 +21,8 @@ export type ShellServices = {
   getTheme: () => unknown;
   setTheme: (theme: ThemePreference) => unknown;
   showAppMenu: (x: number, y: number) => void;
+  /** Returns false outside smoke mode, where the method is unavailable. */
+  smokeDone: (overall: 'pass' | 'fail') => boolean;
 };
 
 export function registerShellIpc(window: BrowserWindow, services: ShellServices, logger: Pick<JsonlLogger, 'log'>, devUrl?: string): void {
@@ -45,6 +47,7 @@ export function registerShellIpc(window: BrowserWindow, services: ShellServices,
     'shell.windowState': () => services.windowState(),
     'shell.getTheme': () => services.getTheme(),
     'shell.setTheme': ({ theme }: { theme: ThemePreference }) => services.setTheme(theme),
+    'shell.smokeDone': ({ overall }: { overall: 'pass' | 'fail' }) => { if (!services.smokeDone(overall)) throw new ShellFailure('UNAVAILABLE'); return {}; },
     'shell.showAppMenu': ({ x, y }: { x: number; y: number }) => { services.showAppMenu(x, y); return {}; },
   };
   ipcMain.handle('danesh:shell', (event, value: unknown) => {

@@ -8,7 +8,9 @@ const topics = { ...eventPayloads, ...shellEventPayloads };
 const coreMethods = { ...rpcMethods, ...(__TEST_HOOKS__ ? testRpcMethods : {}) };
 
 const subscribers = new Map<string, Set<(payload: unknown) => void>>();
-let latestCoreState: unknown;
+// Shell events that may arrive before the page subscribes are replayed to the first subscribers.
+const replayable = new Set(['shell.coreState', 'shell.smokeRun']);
+const latest = new Map<string, unknown>();
 const notify = (topic: string, payload: unknown) => { for (const callback of subscribers.get(topic) ?? []) callback(payload); };
 const client = createRpcClient({ methods: coreMethods, events: eventPayloads, onEvent: notify, onReject: (rejection) => client.report(rejection) });
 
@@ -27,7 +29,7 @@ ipcRenderer.on('danesh:shell-event', (_event, data: unknown) => {
   const event = RpcEventSchema.safeParse(data); if (!event.success) return;
   const payload = Object.hasOwn(shellEventPayloads, event.data.topic) ? shellEventPayloads[event.data.topic]?.safeParse(event.data.payload) : undefined;
   if (!payload?.success) return;
-  if (event.data.topic === 'shell.coreState') latestCoreState = payload.data;
+  if (replayable.has(event.data.topic)) latest.set(event.data.topic, payload.data);
   notify(event.data.topic, payload.data);
 });
 
@@ -56,7 +58,7 @@ const api: DaneshApi = {
     let callbacks = subscribers.get(topic);
     if (!callbacks) { callbacks = new Set(); subscribers.set(topic, callbacks); }
     callbacks.add(callback);
-    if (topic === 'shell.coreState' && latestCoreState) { const value = latestCoreState; queueMicrotask(() => { if (callbacks.has(callback)) callback(value); }); }
+    if (latest.has(topic)) { const value = latest.get(topic); queueMicrotask(() => { if (callbacks.has(callback)) callback(value); }); }
     return () => { callbacks.delete(callback); if (!callbacks.size) subscribers.delete(topic); };
   },
 };

@@ -1,6 +1,8 @@
 import { z } from './schema.ts';
 
 export const CHECK_ORDER = ['app-launch', 'database', 'cas-storage', 'engine-llm', 'engine-ocr', 'engine-tts', 'ui-responsive', 'egress-zero', 'fuses', 'codesign'] as const;
+/** Per-check limits sized for first runs (Windows Defender scanning a new binary); a check over its limit fails as 'timeout'. */
+export const CHECK_TIMEOUT_MS = { engine: 90_000, default: 15_000 } as const;
 // Forward-compatible names remain bounded; known checks keep their canonical order.
 export const CheckIdSchema = z.string().regex(/^[a-z][a-z0-9-]{0,127}$/);
 export const CheckResultSchema = z.strictObject({
@@ -24,6 +26,9 @@ export const SmokeReportSchema = z.strictObject({
     seen.add(check.checkId);
     if (index >= 0) previous = index;
   }
+  // overall is derived, never asserted: pass only when every check passed.
+  const derived = report.checks.every((check) => check.status === 'pass') ? 'pass' : 'fail';
+  if (report.overall !== derived) ctx.addIssue({ code: 'custom', message: 'overall must be pass exactly when every check passed', path: ['overall'] });
 });
 export type CheckResult = z.infer<typeof CheckResultSchema>;
 export type SmokeReport = z.infer<typeof SmokeReportSchema>;

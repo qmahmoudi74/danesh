@@ -14,6 +14,7 @@ export const checkCopy: Record<string, { name: string; pass: string; fail: strin
   codesign: { name: 'امضای برنامه', pass: 'امضای همهٔ بخش‌های برنامه تأیید شد.', fail: 'امضای برخی بخش‌های برنامه تأیید نشد. گزارش را ذخیره کنید.' },
 };
 export const genericPass = 'بررسی با موفقیت انجام شد.';
+export const timeoutFail = 'بررسی در زمان مقرر تمام نشد. دوباره اجرا کنید.';
 export const genericFail = 'بررسی ناموفق بود. گزارش را ذخیره کنید و دوباره اجرا کنید.';
 export const summary = (failures: number): string => failures === 0 ? 'همهٔ بررسی‌ها موفق بود' : `${formatNumber(failures)} بررسی ناموفق بود. برای هر مورد، توضیح و راه‌حل زیر آن نوشته شده است.`;
 export const exportFailure = 'ذخیرهٔ گزارش انجام نشد. مسیر دیگری را امتحان کنید یا فضای خالی دیسک را بررسی کنید.';

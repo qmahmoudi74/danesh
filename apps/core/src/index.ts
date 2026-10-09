@@ -80,7 +80,7 @@ const handlers: Record<string, RpcHandler> = {
     const runId = randomUUID(); const fixture = __TEST_HOOKS__ ? checkFixture : undefined; checkFixture = undefined;
     const facts = init!, database = db!;
     setImmediate(() => { void systemCheck.run(runId, port, facts, database, fixture).catch(() => logger.log('system-check.failed', { sender: 'core' }, 'error')); });
-    return { runId, checkIds: systemCheck.checkIds(fixture) };
+    return { runId, checkIds: systemCheck.checkIds(facts, fixture) };
   },
   'systemCheck.get': (input: { runId: string }) => systemCheck.get(input.runId),
   'systemCheck.export': (input: { runId: string; token: string }) => systemCheck.export(input.runId, input.token),
@@ -103,7 +103,7 @@ parent.on('message', (message) => {
     db = openLibraryDb(init.libraryRoot, init.appVersion);
     parent.postMessage({ type: 'ready', corePid: process.pid });
   } else if (control.data.type === 'export-target') {
-    systemCheck.addTarget(control.data.token, control.data.path); parent.postMessage({ type: 'export-target-ready', token: control.data.token });
+    systemCheck.addTarget(control.data.token, control.data.path, control.data.ttlMs); parent.postMessage({ type: 'export-target-ready', token: control.data.token });
   } else if (message.ports[0]) {
     if (control.data.type === 'renderer-port') rpcServer.attach(message.ports[0]);
     else attachHost(message.ports[0]);

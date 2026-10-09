@@ -12,8 +12,8 @@
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "build:test": "electron-vite build --mode test",
-    "package": "electron-vite build && electron-builder --config electron-builder.yml --publish never",
-    "package:test": "electron-vite build --mode test && electron-builder --config electron-builder.test.yml --publish never"
+    "package": "electron-vite build && node ../../tools/assert-no-test-hooks.ts --out out && electron-builder --config electron-builder.yml --publish never && node ../../tools/smoke/build-manifest.ts --dist dist",
+    "package:test": "electron-vite build --mode test && node ../../tools/assert-no-test-hooks.ts --out out --expect-present && electron-builder --config electron-builder.test.yml --publish never --dir && node ../../tools/smoke/build-manifest.ts --dist dist-test"
   },
   "dependencies": {
     "better-sqlite3": "13.0.3",
