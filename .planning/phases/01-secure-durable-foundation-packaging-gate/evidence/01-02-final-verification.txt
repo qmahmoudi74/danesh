@@ -1,0 +1,14 @@
+Plan01-02 final required verification: Task1 pre-install pass is retained from before installation; its absence-of-node_modules condition is historical.
+
+bash -c 'set -e; NODE_LLAMA_CPP_SKIP_DOWNLOAD=true ONNXRUNTIME_NODE_INSTALL=skip pnpm install --frozen-lockfile; V=$(ELECTRON_RUN_AS_NODE=1 pnpm exec electron -p process.versions.node); echo "electron-node=$V"; test "$V" = "24.21.0"; pnpm exec tsc -v | grep -q "Version 6.0.3"; node -p "require(\"electron/package.json\").version" | grep -qx "44.7.0"; git diff --exit-code -- pnpm-lock.yaml; echo INSTALL-OK'
+Exit 0
+Scope: all 2 workspace projects
+✓ Lockfile passes supply-chain policies (verified 58m ago)
+Lockfile is up to date, resolution step is skipped
+Done in 73ms using pnpm v12.9.1
+electron-node=24.21.0
+INSTALL-OK
+
+bash -c 'set -e; head -n 3 LICENSE | grep -qx "MIT License"; grep -qx "Copyright (c) 2026 Danesh contributors" LICENSE; grep -q "WITHOUT WARRANTY OF ANY KIND" LICENSE; test "$(node -p "require(\"./package.json\").license")" = MIT; test "$(node -p "require(\"./apps/desktop/package.json\").license")" = MIT; f=docs/adr/0004-project-license.md; grep -q "^status: accepted" "$f"; grep -q "^kind: license" "$f"; grep -q "^date: 2026-10-09" "$f"; grep -q "Project license: MIT" "$f"; grep -q "NOTICE" "$f"; grep -q "OFL-1.1" "$f"; grep -q "D-COMMERCIAL" "$f"; echo LICENSE-ADR-OK'
+Exit 0
+LICENSE-ADR-OK

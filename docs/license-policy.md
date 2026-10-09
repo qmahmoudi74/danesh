@@ -11,13 +11,15 @@ The user approved the following named exceptions after reviewing the exact depen
 | lightningcss 1.32.0 and its eleven locked platform packages at 1.32.0 | MPL-2.0 | Build-time tooling only. Preserve license and source attribution. Do not distribute these packages or covered code in the application without separate review; if distribution is proposed, record applicable source-access and notice obligations. |
 | spdx-exceptions 2.5.0 | CC-BY-3.0 | SPDX exception-list data. Preserve published attribution and license text, identify the upstream source and retain any modification notices. |
 | spdx-ranges 2.1.1 | MIT AND CC-BY-3.0 | Preserve both the MIT notice and the published CC-BY attribution/license for the included SPDX data; the AND expression requires both. |
-| truncate-utf8-bytes 1.0.2 | WTFPL | Conditional on confirming its published license text. Retain that text and copyright notice; do not extend this exception to other versions or packages. |
+| truncate-utf8-bytes 1.0.2 | WTFPL | Verified official repository grants cover identical pinned runtime source; select MIT and retain both upstream license texts and copyright notice. No exception for other versions/packages. |
 
 The platform packages are: lightningcss-android-arm64, lightningcss-darwin-arm64, lightningcss-darwin-x64, lightningcss-freebsd-x64, lightningcss-linux-arm-gnueabihf, lightningcss-linux-arm64-gnu, lightningcss-linux-arm64-musl, lightningcss-linux-x64-gnu, lightningcss-linux-x64-musl, lightningcss-win32-arm64-msvc and lightningcss-win32-x64-msvc. Every approved version is 1.32.0, including packages not installed on this Windows host.
 
 ### Published-text verification result
 
-The installed truncate-utf8-bytes 1.0.2 package declares WTFPL but supplies no license text. Its pinned upstream revision `c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708` also supplies none. Package metadata, README and AUTHORS are retained as evidence; they are not treated as confirmation of a published WTFPL text. The user's conditional exception therefore remains unverified, and Plan 01-02 cannot be closed without a further explicit decision or verifiable publisher-supplied text. Do not substitute a generic WTFPL text as proof of the package's published license material.
+Resolved using verifiable upstream history. Release v1.0.2 and npm gitHead are c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708. Its immediate child 4212839ea184e74fb81f1e4e633e1db794ebe4f4, merged by maintainer parshap in PR #4, adds LICENSE.MIT.txt and LICENSE.WTFPL.txt and changes only the license expression in package.json; version remains 1.0.2 and runtime code is unchanged. Installed index.js, browser.js and lib/truncate.js match that licensed source byte for byte. Both immutable upstream texts and their hashes are retained. Select the MIT grant for this identical component; retain the npm WTFPL declaration as publisher metadata rather than modifying the installed package or lockfile. This is a package/version-specific provenance decision, not a global license-policy relaxation.
+
+See the Plan 01-02 license-applicability-check.json and repository-history evidence. The original tarball omission remains accurately recorded; the conditional published-text requirement is now satisfied by the verified official repository grant.
 
 ## Notice preservation
 

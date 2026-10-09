@@ -1,6 +1,6 @@
 # Plan 01-02 dependency approval checkpoint
 
-Status: installation approved and required installation checks passed; Plan 01-02 close-out is blocked. The conditional published-license-text check for truncate-utf8-bytes is unverified, and an additional strict TypeScript probe found two upstream node-llama-cpp declaration errors. Required local task commits are authorized after their respective checks pass. Original pre-install evidence below is retained as historical evidence.
+Status: both close-out blockers resolved; required final verification is being rerun. Historical checkpoint and first-install evidence below remain retained.
 
 ## Explicit approval and scoped exceptions
 
@@ -194,3 +194,11 @@ The user's reply authorizes installation and the required local task commits. Th
 Evidence: [installation commands and outcomes](evidence/01-02-install-verification.txt), [native module checks](evidence/01-02-native-verification.txt), [toolchain versions](evidence/01-02-toolchain-versions.txt), [strict TypeScript diagnostics](evidence/01-02-typescript-verification.txt), [production graph result](evidence/01-02-production-dependency-check.json), [truncate publisher/source evidence](evidence/01-02-truncate-license-provenance.json).
 
 Plan 01-02 remains incomplete. A noncanonical draft execution summary will record this stop; GSD completion counts must not advance until the conditional license issue and TypeScript compatibility disposition are resolved explicitly. The permissive-only default and all non-commercial/GPL/AGPL/LGPL exclusions remain intact.
+
+## Blocker resolution follow-up
+
+Official maintainer-merged commit 4212839ea184e74fb81f1e4e633e1db794ebe4f4 is the immediate child of the v1.0.2 npm gitHead. It adds both license texts and updates only package metadata, retaining version 1.0.2. All three installed runtime source files match that licensed revision. Both official license texts are retained with hashes; select MIT for the identical component without altering package metadata, dependency graph or global policy. The earlier text-absence finding is historical and is superseded by this verifiable upstream grant.
+
+The TypeScript root causes are published declaration defects: an omitted tempDir member and an upstream dev-only async-retry type dependency. The existing approved Plan 01-03 skipLibCheck setting permits the reviewed declarations while preserving strict Danesh source checking. The setting and its declaration-only trade-off were explained before use and documented in docs/typescript-compatibility.md. A valid source probe passes; an invalid numeric gpu option still fails TS2322. No new dependency, version change, vendor patch or source suppression was used.
+
+Evidence: evidence/01-02-license-history-followup.json, evidence/01-02-license-history-detail.json, evidence/01-02-license-applicability-check.json and evidence/01-02-type-compatibility-followup.json. Actual packaging inspection remains outstanding until the authorized packaging plan.

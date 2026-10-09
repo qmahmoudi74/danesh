@@ -1,0 +1,20 @@
+{
+  "typescript": "6.0.3",
+  "options": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true
+  },
+  "rootCauses": [
+    "Published getLlamaForOptions declaration destructures tempDir not present in its annotated LlamaOptions type alias",
+    "readGgufFileInfo.d.ts references async-retry types, but @types/async-retry is upstream devDependencies only"
+  ],
+  "validSourceDiagnostics": 0,
+  "invalidSourceDiagnostics": [
+    {
+      "code": 2322,
+      "message": "Type 'number' is not assignable to type '\"auto\" | LlamaGpuType | { type: \"auto\"; exclude?: LlamaGpuType[] | undefined; } | undefined'."
+    }
+  ],
+  "tradeoff": "Declaration files are not independently checked; Danesh .ts/.tsx and imported public type usage remain strictly checked. Matches approved Plan01-03 configuration. No package patch, new dependency or version change."
+}

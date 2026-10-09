@@ -1,0 +1,53 @@
+{
+  "releaseCommit": "c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+  "licenseCommit": "4212839ea184e74fb81f1e4e633e1db794ebe4f4",
+  "maintainerMergedBy": "parshap",
+  "changedFiles": [
+    "LICENSE.MIT.txt",
+    "LICENSE.WTFPL.txt",
+    "package.json"
+  ],
+  "runtimeSourceChecks": [
+    {
+      "path": "index.js",
+      "url": "https://raw.githubusercontent.com/parshap/truncate-utf8-bytes/4212839ea184e74fb81f1e4e633e1db794ebe4f4/index.js",
+      "sha256": "2b73a25f485d18cdfb4c02d4776d8f16e137891ddfba5eebc9191a4f23030ff7",
+      "installedBytesMatch": true
+    },
+    {
+      "path": "browser.js",
+      "url": "https://raw.githubusercontent.com/parshap/truncate-utf8-bytes/4212839ea184e74fb81f1e4e633e1db794ebe4f4/browser.js",
+      "sha256": "c6d1350a61d9d64c5d4eb02840438b7d5659c18a1be4c2daf130125d85621dcd",
+      "installedBytesMatch": true
+    },
+    {
+      "path": "lib/truncate.js",
+      "url": "https://raw.githubusercontent.com/parshap/truncate-utf8-bytes/4212839ea184e74fb81f1e4e633e1db794ebe4f4/lib/truncate.js",
+      "sha256": "2593c60c726ba7d77baa57149b25c8a44c238e68b3642c0beb56207d4bba144a",
+      "installedBytesMatch": true
+    }
+  ],
+  "retainedLicenses": [
+    {
+      "name": "truncate-utf8-bytes",
+      "version": "1.0.2",
+      "license": "MIT",
+      "source": "https://raw.githubusercontent.com/parshap/truncate-utf8-bytes/4212839ea184e74fb81f1e4e633e1db794ebe4f4/LICENSE.MIT.txt",
+      "destination": "third_party/license-evidence/truncate-utf8-bytes@1.0.2/LICENSE.MIT.txt",
+      "sha256": "bfefe6b48c92732f278120d7a3bf682c3b01e25fdc2e0327544cbb62a2fa9a8e",
+      "upstream": "https://github.com/parshap/truncate-utf8-bytes",
+      "note": "Maintainer-merged immediate child of pinned release; no runtime changes; text not included in original tarball"
+    },
+    {
+      "name": "truncate-utf8-bytes",
+      "version": "1.0.2",
+      "license": "WTFPL",
+      "source": "https://raw.githubusercontent.com/parshap/truncate-utf8-bytes/4212839ea184e74fb81f1e4e633e1db794ebe4f4/LICENSE.WTFPL.txt",
+      "destination": "third_party/license-evidence/truncate-utf8-bytes@1.0.2/LICENSE.WTFPL.txt",
+      "sha256": "184d8dd2923c05139a55da1ff61a367e45ca596ac4fb96a26856c3c90003c4bb",
+      "upstream": "https://github.com/parshap/truncate-utf8-bytes",
+      "note": "Maintainer-merged immediate child of pinned release; no runtime changes; text not included in original tarball"
+    }
+  ],
+  "conclusion": "The official dual license covers identical runtime source at version 1.0.2. Select MIT; retain both upstream texts. No metadata/lockfile or package bytes changed."
+}

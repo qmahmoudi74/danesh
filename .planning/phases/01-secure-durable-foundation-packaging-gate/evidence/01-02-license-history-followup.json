@@ -1,0 +1,319 @@
+[
+  {
+    "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits?path=LICENSE.MIT.txt&per_page=100",
+    "status": 200,
+    "body": [
+      {
+        "sha": "4212839ea184e74fb81f1e4e633e1db794ebe4f4",
+        "node_id": "C_kwDOArj7LdoAKDQyMTI4MzllYTE4NGU3NGZiODFmMWU0ZTYzM2UxZGI3OTRlYmU0ZjQ",
+        "commit": {
+          "author": {
+            "name": "Ben Langfeld",
+            "email": "ben@langfeld.me",
+            "date": "2023-05-30T19:12:22Z"
+          },
+          "committer": {
+            "name": "GitHub",
+            "email": "noreply@github.com",
+            "date": "2023-05-30T19:12:22Z"
+          },
+          "message": "Dual license MIT (#4)\n\nFixes https://github.com/parshap/truncate-utf8-bytes/issues/2",
+          "tree": {
+            "sha": "519b5c92d7eb9265115e3625aba19a9c4dd14b36",
+            "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/trees/519b5c92d7eb9265115e3625aba19a9c4dd14b36"
+          },
+          "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/commits/4212839ea184e74fb81f1e4e633e1db794ebe4f4",
+          "comment_count": 0,
+          "verification": {
+            "verified": true,
+            "reason": "valid",
+            "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsBcBAABCAAQBQJkdkqWCRBK7hj4Ov3rIwAAca0IAHufP3jwHIkTEfYXwEOQhFvI\nys6b41YuKBGjFt5jKmcStap3CCEHAcfqv7fwKMfWeACzyAYiKwMtEu0UBMrYCCZW\n46yVtVboyFdJWH4lWFWq+4Tv41SlKnT31yhv9AgnzoFzaE2I1CKeoJwGwpC4/E/C\nCO6Xa6TmyBmcXOUWwL2nNeWe+LlDZ0waSp5+pKlPF/8zPnFTn41Xc0n7fBBrGFvl\nbE0ufOMU3RkCCC1X/o2Nwxe4NhflHtv2DohcfhiUZXu2364Op9QICs0qIyAWDpgc\nMtyDoFwa03Ioq806+80JqsDr7pYAO2jyVQ6/VScd/BSVHMmmfwKGTUSWmgs+/0Q=\n=obFT\n-----END PGP SIGNATURE-----\n",
+            "payload": "tree 519b5c92d7eb9265115e3625aba19a9c4dd14b36\nparent c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708\nauthor Ben Langfeld <ben@langfeld.me> 1685473942 -0300\ncommitter GitHub <noreply@github.com> 1685473942 -0700\n\nDual license MIT (#4)\n\nFixes https://github.com/parshap/truncate-utf8-bytes/issues/2",
+            "verified_at": "2024-01-16T19:59:59Z"
+          }
+        },
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits/4212839ea184e74fb81f1e4e633e1db794ebe4f4",
+        "html_url": "https://github.com/parshap/truncate-utf8-bytes/commit/4212839ea184e74fb81f1e4e633e1db794ebe4f4",
+        "comments_url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits/4212839ea184e74fb81f1e4e633e1db794ebe4f4/comments",
+        "author": {
+          "login": "benlangfeld",
+          "id": 210221,
+          "node_id": "MDQ6VXNlcjIxMDIyMQ==",
+          "avatar_url": "https://avatars.githubusercontent.com/u/210221?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/benlangfeld",
+          "html_url": "https://github.com/benlangfeld",
+          "followers_url": "https://api.github.com/users/benlangfeld/followers",
+          "following_url": "https://api.github.com/users/benlangfeld/following{/other_user}",
+          "gists_url": "https://api.github.com/users/benlangfeld/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/benlangfeld/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/benlangfeld/subscriptions",
+          "organizations_url": "https://api.github.com/users/benlangfeld/orgs",
+          "repos_url": "https://api.github.com/users/benlangfeld/repos",
+          "events_url": "https://api.github.com/users/benlangfeld/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/benlangfeld/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "committer": {
+          "login": "web-flow",
+          "id": 19864447,
+          "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+          "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/web-flow",
+          "html_url": "https://github.com/web-flow",
+          "followers_url": "https://api.github.com/users/web-flow/followers",
+          "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+          "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+          "organizations_url": "https://api.github.com/users/web-flow/orgs",
+          "repos_url": "https://api.github.com/users/web-flow/repos",
+          "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/web-flow/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "parents": [
+          {
+            "sha": "c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+            "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits/c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+            "html_url": "https://github.com/parshap/truncate-utf8-bytes/commit/c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits?path=LICENSE.WTFPL.txt&per_page=100",
+    "status": 200,
+    "body": [
+      {
+        "sha": "4212839ea184e74fb81f1e4e633e1db794ebe4f4",
+        "node_id": "C_kwDOArj7LdoAKDQyMTI4MzllYTE4NGU3NGZiODFmMWU0ZTYzM2UxZGI3OTRlYmU0ZjQ",
+        "commit": {
+          "author": {
+            "name": "Ben Langfeld",
+            "email": "ben@langfeld.me",
+            "date": "2023-05-30T19:12:22Z"
+          },
+          "committer": {
+            "name": "GitHub",
+            "email": "noreply@github.com",
+            "date": "2023-05-30T19:12:22Z"
+          },
+          "message": "Dual license MIT (#4)\n\nFixes https://github.com/parshap/truncate-utf8-bytes/issues/2",
+          "tree": {
+            "sha": "519b5c92d7eb9265115e3625aba19a9c4dd14b36",
+            "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/trees/519b5c92d7eb9265115e3625aba19a9c4dd14b36"
+          },
+          "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/commits/4212839ea184e74fb81f1e4e633e1db794ebe4f4",
+          "comment_count": 0,
+          "verification": {
+            "verified": true,
+            "reason": "valid",
+            "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsBcBAABCAAQBQJkdkqWCRBK7hj4Ov3rIwAAca0IAHufP3jwHIkTEfYXwEOQhFvI\nys6b41YuKBGjFt5jKmcStap3CCEHAcfqv7fwKMfWeACzyAYiKwMtEu0UBMrYCCZW\n46yVtVboyFdJWH4lWFWq+4Tv41SlKnT31yhv9AgnzoFzaE2I1CKeoJwGwpC4/E/C\nCO6Xa6TmyBmcXOUWwL2nNeWe+LlDZ0waSp5+pKlPF/8zPnFTn41Xc0n7fBBrGFvl\nbE0ufOMU3RkCCC1X/o2Nwxe4NhflHtv2DohcfhiUZXu2364Op9QICs0qIyAWDpgc\nMtyDoFwa03Ioq806+80JqsDr7pYAO2jyVQ6/VScd/BSVHMmmfwKGTUSWmgs+/0Q=\n=obFT\n-----END PGP SIGNATURE-----\n",
+            "payload": "tree 519b5c92d7eb9265115e3625aba19a9c4dd14b36\nparent c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708\nauthor Ben Langfeld <ben@langfeld.me> 1685473942 -0300\ncommitter GitHub <noreply@github.com> 1685473942 -0700\n\nDual license MIT (#4)\n\nFixes https://github.com/parshap/truncate-utf8-bytes/issues/2",
+            "verified_at": "2024-01-16T19:59:59Z"
+          }
+        },
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits/4212839ea184e74fb81f1e4e633e1db794ebe4f4",
+        "html_url": "https://github.com/parshap/truncate-utf8-bytes/commit/4212839ea184e74fb81f1e4e633e1db794ebe4f4",
+        "comments_url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits/4212839ea184e74fb81f1e4e633e1db794ebe4f4/comments",
+        "author": {
+          "login": "benlangfeld",
+          "id": 210221,
+          "node_id": "MDQ6VXNlcjIxMDIyMQ==",
+          "avatar_url": "https://avatars.githubusercontent.com/u/210221?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/benlangfeld",
+          "html_url": "https://github.com/benlangfeld",
+          "followers_url": "https://api.github.com/users/benlangfeld/followers",
+          "following_url": "https://api.github.com/users/benlangfeld/following{/other_user}",
+          "gists_url": "https://api.github.com/users/benlangfeld/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/benlangfeld/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/benlangfeld/subscriptions",
+          "organizations_url": "https://api.github.com/users/benlangfeld/orgs",
+          "repos_url": "https://api.github.com/users/benlangfeld/repos",
+          "events_url": "https://api.github.com/users/benlangfeld/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/benlangfeld/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "committer": {
+          "login": "web-flow",
+          "id": 19864447,
+          "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+          "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/web-flow",
+          "html_url": "https://github.com/web-flow",
+          "followers_url": "https://api.github.com/users/web-flow/followers",
+          "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+          "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+          "organizations_url": "https://api.github.com/users/web-flow/orgs",
+          "repos_url": "https://api.github.com/users/web-flow/repos",
+          "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/web-flow/received_events",
+          "type": "User",
+          "user_view_type": "public",
+          "site_admin": false
+        },
+        "parents": [
+          {
+            "sha": "c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+            "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits/c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+            "html_url": "https://github.com/parshap/truncate-utf8-bytes/commit/c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits/c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+    "status": 200,
+    "body": {
+      "sha": "c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+      "node_id": "MDY6Q29tbWl0NDU2NzczNTc6YzhmY2ViYzhiZTA5M2M4YmQ4ZGIxZTdkNzVjMDliOWZjZTdlNDcwOA==",
+      "commit": {
+        "author": {
+          "name": "Parsha Pourkhomami",
+          "email": "parshap+git@gmail.com",
+          "date": "2016-09-29T18:43:50Z"
+        },
+        "committer": {
+          "name": "Parsha Pourkhomami",
+          "email": "parshap+git@gmail.com",
+          "date": "2016-09-29T18:43:50Z"
+        },
+        "message": "1.0.2",
+        "tree": {
+          "sha": "a408be5ca7ac860d7b06fc17afa997b61d11a676",
+          "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/trees/a408be5ca7ac860d7b06fc17afa997b61d11a676"
+        },
+        "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/git/commits/c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      },
+      "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits/c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+      "html_url": "https://github.com/parshap/truncate-utf8-bytes/commit/c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+      "comments_url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits/c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708/comments",
+      "author": {
+        "login": "parshap",
+        "id": 332258,
+        "node_id": "MDQ6VXNlcjMzMjI1OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/332258?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/parshap",
+        "html_url": "https://github.com/parshap",
+        "followers_url": "https://api.github.com/users/parshap/followers",
+        "following_url": "https://api.github.com/users/parshap/following{/other_user}",
+        "gists_url": "https://api.github.com/users/parshap/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/parshap/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/parshap/subscriptions",
+        "organizations_url": "https://api.github.com/users/parshap/orgs",
+        "repos_url": "https://api.github.com/users/parshap/repos",
+        "events_url": "https://api.github.com/users/parshap/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/parshap/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "committer": {
+        "login": "parshap",
+        "id": 332258,
+        "node_id": "MDQ6VXNlcjMzMjI1OA==",
+        "avatar_url": "https://avatars.githubusercontent.com/u/332258?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/parshap",
+        "html_url": "https://github.com/parshap",
+        "followers_url": "https://api.github.com/users/parshap/followers",
+        "following_url": "https://api.github.com/users/parshap/following{/other_user}",
+        "gists_url": "https://api.github.com/users/parshap/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/parshap/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/parshap/subscriptions",
+        "organizations_url": "https://api.github.com/users/parshap/orgs",
+        "repos_url": "https://api.github.com/users/parshap/repos",
+        "events_url": "https://api.github.com/users/parshap/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/parshap/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "parents": [
+        {
+          "sha": "eac88524d2b36d0995d579c6d01496fec44aec12",
+          "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits/eac88524d2b36d0995d579c6d01496fec44aec12",
+          "html_url": "https://github.com/parshap/truncate-utf8-bytes/commit/eac88524d2b36d0995d579c6d01496fec44aec12"
+        }
+      ],
+      "stats": {
+        "total": 2,
+        "additions": 1,
+        "deletions": 1
+      },
+      "files": [
+        {
+          "sha": "e0ab9844a86d5f5fa50288562b7ebdae053ebbe3",
+          "filename": "package.json",
+          "status": "modified",
+          "additions": 1,
+          "deletions": 1,
+          "changes": 2,
+          "blob_url": "https://github.com/parshap/truncate-utf8-bytes/blob/c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708/package.json",
+          "raw_url": "https://github.com/parshap/truncate-utf8-bytes/raw/c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708/package.json",
+          "contents_url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/contents/package.json?ref=c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+          "patch": "@@ -1,6 +1,6 @@\n {\n   \"name\": \"truncate-utf8-bytes\",\n-  \"version\": \"1.0.1\",\n+  \"version\": \"1.0.2\",\n   \"description\": \"Truncate string to given length in bytes\",\n   \"main\": \"index.js\",\n   \"browser\": \"browser.js\","
+        }
+      ]
+    }
+  },
+  {
+    "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/tags?per_page=100",
+    "status": 200,
+    "body": [
+      {
+        "name": "v1.0.2",
+        "zipball_url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/zipball/refs/tags/v1.0.2",
+        "tarball_url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/tarball/refs/tags/v1.0.2",
+        "commit": {
+          "sha": "c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708",
+          "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits/c8fcebc8be093c8bd8db1e7d75c09b9fce7e4708"
+        },
+        "node_id": "MDM6UmVmNDU2NzczNTc6cmVmcy90YWdzL3YxLjAuMg=="
+      },
+      {
+        "name": "v1.0.1",
+        "zipball_url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/zipball/refs/tags/v1.0.1",
+        "tarball_url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/tarball/refs/tags/v1.0.1",
+        "commit": {
+          "sha": "3528735219b2c17f5b01a444b23383752542f769",
+          "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits/3528735219b2c17f5b01a444b23383752542f769"
+        },
+        "node_id": "MDM6UmVmNDU2NzczNTc6cmVmcy90YWdzL3YxLjAuMQ=="
+      },
+      {
+        "name": "v1.0.0",
+        "zipball_url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/zipball/refs/tags/v1.0.0",
+        "tarball_url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/tarball/refs/tags/v1.0.0",
+        "commit": {
+          "sha": "6cf4f21baf8e062db3cbb5b4d5f8a649e8a5c8ef",
+          "url": "https://api.github.com/repos/parshap/truncate-utf8-bytes/commits/6cf4f21baf8e062db3cbb5b4d5f8a649e8a5c8ef"
+        },
+        "node_id": "MDM6UmVmNDU2NzczNTc6cmVmcy90YWdzL3YxLjAuMA=="
+      }
+    ]
+  }
+]
