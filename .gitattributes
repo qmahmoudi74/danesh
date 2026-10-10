@@ -1,4 +1,5 @@
-* text=auto
+# LF in every working tree: Biome, SQL migration checksums and the Gherkin tooling all assume it.
+* text=auto eol=lf
 *.sql text eol=lf
 *.feature text eol=lf
 *.md text eol=lf
