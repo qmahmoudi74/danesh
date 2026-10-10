@@ -3,9 +3,9 @@ gsd_state_version: "1.0"
 current_phase: 1
 current_phase_name: Secure, Durable Foundation & Packaging Gate
 status: in_progress
-stopped_at: Owner-authorized increments PDF-01 (import, Library, original viewer) and PDF-02 (text extraction and reader, early Phase 2) complete on Windows; Windows CI green at 5436b02 (PDF-02 CI run pending at push time); Phase 1 plan count unchanged at 11/16; Plan 01-13 next and not started; Plan 01-10 partial (macOS smoke still failing)
+stopped_at: PDF-01 and PDF-02 (text extraction and reader, early Phase 2) complete; Windows CI green at e473b92 (run 38024316170, owner-confirmed); macOS smoke still fails ui-responsive (one App Nap fix improved idle p95 140->62 ms, still above 50 ms); Phase 1 plan count unchanged at 11/16; Plan 01-13 next and not started
 last_updated: "2026-10-10"
-last_activity: 2026-10-10 (Windows CI run 38021049327 green at 5436b02; PDF-02 committed with 445 unit tests, packaged PDF scenarios and production smoke passing; pushed)
+last_activity: 2026-10-10 (Windows CI green at e473b92; PDF-02 pushed; 445 unit tests, 49 full E2E, 10 packaged PDF scenarios and production smoke passed locally)
 state_head: 833b26fe1a8d4cfcf48b0deaf4bdd3268f64172c
 progress:
   total_phases: 12
@@ -111,5 +111,5 @@ Items acknowledged and deferred at milestone close, most recent first:
 ## Session Continuity
 
 Last session: 2026-10-10
-Stopped at: PDF-02 (text extraction and reader) complete and verified locally on Windows; Windows CI green at 5436b02, the PDF-02 run was pending when this was written; pushed to origin/feat/danesh-phase-01. 11/16 Phase 1 plans and 0/12 phases complete (unchanged). Plan 01-10 partial (macOS smoke), Tier B outstanding. Next approved product milestone: broaden extraction evidence (S-PDF fixtures from other producers) and the reading view for multi-column, lists and tables; or Plan 01-13 (durable job kernel, migration 0005).
+Stopped at: PDF-02 complete and pushed; Windows CI green at e473b92 (run 38024316170). 11/16 Phase 1 plans and 0/12 phases complete (unchanged). Plan 01-10 partial (macOS smoke), Tier B outstanding. Next approved product milestone: broaden extraction evidence (S-PDF fixtures from other producers) and reading-order for multi-column pages, lists and tables; or Plan 01-13 (durable job kernel, migration 0005).
 Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-13-PLAN.md

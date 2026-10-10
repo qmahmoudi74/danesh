@@ -76,3 +76,18 @@ Unicode map was flagged `needs-review`. An invoice's scanned page was flagged `n
 - No OCR. Scanned pages are only identified.
 - Extraction has no cancel button; closing Danesh interrupts it, and «ادامهٔ استخراج» continues it.
 - Not run on macOS.
+
+## CI follow-up (same session)
+
+- Windows run 38024316170 at e473b92 (the pushed implementation plus both fixes) passed the whole Windows job; the
+  product owner confirmed it on the GitHub run page (the API quota was exhausted, so it was not re-read here).
+
+- Windows run 38022763061 (b0fb7ea) failed one E2E scenario: a test-only engine echo raced Core start-up under its
+  10 s client deadline. Fixed in f10811a: the step waits for Core readiness, the host-spawning test call declares
+  a 30 s deadline, and a Home step waits for «افزودن PDF» before reading the action list. Assertions unchanged.
+- macOS (owner-accepted as unresolved): the one bounded attempt, e473b92, holds `prevent-app-suspension` (no App
+  Nap) only during headless macOS smoke runs. Run 38024316170 measured idle heartbeat p95 62 ms (was 139–140 ms
+  in runs 38021049327 and 38022763061) and loaded p95 113 ms, max 214 ms (was about 140 ms). That is one run, a
+  partial improvement, and still above the unchanged 50 ms policy, so macOS smoke still fails. The remaining lateness
+  is unexplained; runner CPU contention is plausible but unmeasured. No thresholds, samples or engine checks were
+  changed. No further macOS work was done.
