@@ -13,6 +13,7 @@ import {
 } from '@danesh/contracts/smoke-report.ts';
 import type { CheckRunFixtureSchema } from '@danesh/contracts/test-rpc.ts';
 import type { UtilityPort } from '@danesh/contracts/utility-port.ts';
+import type { Cas } from '@danesh/storage/cas.ts';
 import type { LibraryOpen } from '@danesh/storage/db.ts';
 import type { z } from 'zod';
 import { type Check, checks as registeredChecks } from './checks/registry.ts';
@@ -164,6 +165,7 @@ export class SystemCheck {
     facts: Init,
     library: LibraryOpen | undefined,
     fixture?: Fixture,
+    cas?: Cas,
   ): Promise<void> {
     const startedAt = new Date().toISOString();
     const results: CheckResult[] = [];
@@ -176,6 +178,7 @@ export class SystemCheck {
     const context = {
       init: facts,
       library,
+      cas,
       rendererConnected: true,
       engines: this.engines!,
       responsiveness: (timeoutMs: number) => withTimeout(this.responsivenessFor(runId), timeoutMs),

@@ -6,9 +6,10 @@ import { rpcMethods } from '@danesh/contracts/rpc.ts';
 import { type CheckRunFixtureSchema, testRpcMethods } from '@danesh/contracts/test-rpc.ts';
 import { parentPort, type UtilityPort } from '@danesh/contracts/utility-port.ts';
 import { createJsonlLogger, type JsonlLogger } from '@danesh/logging/jsonl.ts';
+import type { Cas } from '@danesh/storage/cas.ts';
 import { type LibraryOpen, recordSystemCheckProbe } from '@danesh/storage/db.ts';
 import type { z } from 'zod';
-import { bootLibrary, libraryStatus, requireWritable } from './boot.ts';
+import { bootCas, bootLibrary, libraryStatus, requireWritable } from './boot.ts';
 import { createEngineClient } from './engine-client.ts';
 import { createDiagRejectedHandler, createRpcServer, type RpcHandler } from './rpc-server.ts';
 import { SystemCheck } from './system-check.ts';
@@ -31,6 +32,7 @@ async function engineEcho(): Promise<{ hostPid: number; corePid: number }> {
 }
 let init: Init | undefined;
 let library: LibraryOpen | undefined;
+let cas: Cas | undefined;
 const systemCheck = new SystemCheck(Date.now, { engines });
 let checkFixture: z.infer<typeof CheckRunFixtureSchema> | undefined;
 let stalledUntil = 0;
@@ -50,7 +52,7 @@ const handlers: Record<string, RpcHandler> = {
       opened = library;
     setImmediate(() => {
       void systemCheck
-        .run(runId, port, facts, opened, fixture)
+        .run(runId, port, facts, opened, fixture, cas)
         .catch(() => logger.log('system-check.failed', { sender: 'core' }, 'error'));
     });
     return { runId, checkIds: systemCheck.checkIds(facts, fixture) };
@@ -104,6 +106,18 @@ const rpcServer = createRpcServer({
   paused: () => __TEST_HOOKS__ && Date.now() < stalledUntil,
 });
 
+async function initialize(facts: Init): Promise<void> {
+  try {
+    cas = await bootCas(facts.libraryRoot);
+    library = bootLibrary(facts.libraryRoot, facts.appVersion);
+  } catch {
+    library = { state: 'failed', details: { errorClass: 'CasStartupFailed' } };
+    logger.log('cas.startup-failed', {}, 'error');
+  }
+  logger.log('library.opened', { kind: library.state });
+  parent.postMessage({ type: 'ready', corePid: process.pid });
+}
+
 parent.on('message', (message) => {
   const control = MainToCoreSchema.safeParse(message.data);
   if (!control.success) {
@@ -118,9 +132,7 @@ parent.on('message', (message) => {
     if (init) return;
     init = control.data;
     coreLog = createJsonlLogger({ dir: join(init.libraryRoot, 'logs'), name: 'core' });
-    library = bootLibrary(init.libraryRoot, init.appVersion);
-    logger.log('library.opened', { kind: library.state });
-    parent.postMessage({ type: 'ready', corePid: process.pid });
+    void initialize(init).catch(() => logger.log('core.startup-failed', {}, 'error'));
   } else if (control.data.type === 'host-exited') {
     engines.hostExited(control.data.kind, control.data.exitCode, control.data.requested);
   } else if (control.data.type === 'export-target') {

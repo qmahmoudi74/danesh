@@ -1,12 +1,14 @@
 import type { Init } from '@danesh/contracts/control.ts';
 import type { ResponsivenessDiagnostics } from '@danesh/contracts/responsiveness.ts';
 import { CHECK_ORDER, type CheckResult } from '@danesh/contracts/smoke-report.ts';
+import type { Cas } from '@danesh/storage/cas.ts';
 import type { LibraryOpen } from '@danesh/storage/db.ts';
 import type { EngineClient } from '../engine-client.ts';
 
 export type CheckContext = {
   init: Init;
   library: LibraryOpen | undefined;
+  cas: Cas | undefined;
   rendererConnected: boolean;
   engines: EngineClient;
   responsiveness: (

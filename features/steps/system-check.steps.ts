@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -6,6 +7,28 @@ import { genericFail, summary } from '../../apps/renderer/src/lib/copy.ts';
 import { SystemInfoSchema } from '../../packages/contracts/src/rpc.ts';
 import { SmokeReportSchema } from '../../packages/contracts/src/smoke-report.ts';
 import { Given, Then, When } from './fixtures.ts';
+
+Then('the blob storage row passes in report position three', async ({ harness }) => {
+  await expect(
+    harness.page!.getByRole('button', { name: 'ذخیرهٔ گزارش', exact: true }),
+  ).toBeEnabled();
+  const rows = harness.page!.locator('[data-check-id]');
+  await expect(rows.nth(2)).toHaveAttribute('data-check-id', 'cas-storage');
+  await expect(rows.nth(2)).toHaveAttribute('data-status', 'pass');
+});
+Then(
+  'its reported SHA-256 names a real verified blob in the library',
+  async ({ harness, libraryRoot }) => {
+    const { fields } = await technical(harness, 'cas-storage');
+    const bytes = Buffer.from('danesh cas check v1');
+    const sha256 = createHash('sha256').update(bytes).digest('hex');
+    expect(fields.sha256).toBe(sha256);
+    expect(fields.size).toBe(bytes.length);
+    expect(
+      await readFile(join(libraryRoot, 'blobs', 'sha256', sha256.slice(0, 2), sha256)),
+    ).toEqual(bytes);
+  },
+);
 
 Given('Danesh is launched with that library folder on System check', async ({ harness }) => {
   await harness.launch();
