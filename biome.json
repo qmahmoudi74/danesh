@@ -7,12 +7,19 @@
   },
   "files": {
     "includes": [
-      "biome.json",
-      "apps/main/src/**",
-      "apps/main/test/**",
-      "apps/preload/src/**",
-      "apps/renderer/src/**",
-      "apps/renderer/test/**"
+      "*.{js,cjs,mjs,ts,json}",
+      "apps/**",
+      "packages/**",
+      "tools/**",
+      "types/**",
+      "features/steps/**",
+      "!!**/node_modules",
+      "!!apps/desktop/out",
+      "!!apps/desktop/dist",
+      "!!apps/desktop/dist-test",
+      "!!apps/desktop/.features-gen",
+      ".*.{js,cjs,mjs,ts,json}",
+      ".vscode/**"
     ]
   },
   "formatter": {
@@ -46,7 +53,15 @@
       "complexity": {
         "noImportantStyles": "off"
       }
-    }
+    },
+    "includes": [
+      "biome.json",
+      "apps/main/src/**",
+      "apps/main/test/**",
+      "apps/preload/src/**",
+      "apps/renderer/src/**",
+      "apps/renderer/test/**"
+    ]
   },
   "css": {
     "parser": {

@@ -26,7 +26,10 @@ child.on('error', (error) => {
 });
 child.on('exit', (code) => {
   if (code && process.env.GITHUB_ACTIONS) {
-    const clean = tail.join('\n').replace(/\u001b\[[0-9;]*m/g, '').slice(-MAX_MESSAGE);
+    const clean = tail
+      .join('\n')
+      .replace(/\u001b\[[0-9;]*m/g, '')
+      .slice(-MAX_MESSAGE);
     const escaped = clean.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
     console.log(`::error title=${command.replace(/[,:]/g, ' ')}::${escaped}`);
   }

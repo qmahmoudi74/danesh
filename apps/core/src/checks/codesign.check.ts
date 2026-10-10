@@ -9,9 +9,20 @@ export const check: Check = {
   run({ init }) {
     const bundle = resolve(init.exePath, '..', '..', '..');
     return new Promise((done) => {
-      execFile('codesign', ['--verify', '--deep', '--strict', bundle], { timeout: 60_000 }, (error, _stdout, stderr) => {
-        done({ checkId: 'codesign', status: error ? 'fail' : 'pass', durationMs: 0, detail: (stderr || (error ? error.name : 'valid on disk')).slice(0, 2000), fields: { bundle, exitCode: error && typeof error.code === 'number' ? error.code : 0 } });
-      });
+      execFile(
+        'codesign',
+        ['--verify', '--deep', '--strict', bundle],
+        { timeout: 60_000 },
+        (error, _stdout, stderr) => {
+          done({
+            checkId: 'codesign',
+            status: error ? 'fail' : 'pass',
+            durationMs: 0,
+            detail: (stderr || (error ? error.name : 'valid on disk')).slice(0, 2000),
+            fields: { bundle, exitCode: error && typeof error.code === 'number' ? error.code : 0 },
+          });
+        },
+      );
     });
   },
 };
