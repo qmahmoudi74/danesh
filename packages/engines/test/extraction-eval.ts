@@ -87,15 +87,12 @@ function locate(haystack: string, block: string): number {
   return anchor ? haystack.indexOf(anchor) : -1;
 }
 
-function scorePage(
-  name: string,
-  truth: Truth,
-  page: number,
-  extracted: ExtractedPage,
-): PageScore {
+function scorePage(name: string, truth: Truth, page: number, extracted: ExtractedPage): PageScore {
   const all = (truth.pages[page - 1] ?? []).filter((block) => block.kind !== 'image');
   const expected = all.filter((block) => block.kind !== 'furniture');
-  const furniture = all.filter((block) => block.kind === 'furniture').map((block) => block.text ?? '');
+  const furniture = all
+    .filter((block) => block.kind === 'furniture')
+    .map((block) => block.text ?? '');
   const expectedText = expected.map((block) => block.text ?? '').join('\n');
   const extractedText = extracted.blocks.map((block) => block.normalizedText).join('\n');
   const flatExtracted = collapse(extractedText);
@@ -129,7 +126,8 @@ function scorePage(
     exactBlocks: expected.filter((block) =>
       extracted.blocks.some(
         (candidate) =>
-          candidate.kind === block.kind && collapse(candidate.normalizedText) === collapse(block.text ?? ''),
+          candidate.kind === block.kind &&
+          collapse(candidate.normalizedText) === collapse(block.text ?? ''),
       ),
     ).length,
     characters,

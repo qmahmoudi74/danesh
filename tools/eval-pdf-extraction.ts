@@ -13,7 +13,8 @@ const out = outIndex > 0 ? process.argv[outIndex + 1] : undefined;
 const pages: PageScore[] = [];
 for (const name of fixtureNames()) pages.push(...(await evaluateFixture(name)));
 
-const sum = (pick: (page: PageScore) => number) => pages.reduce((total, page) => total + pick(page), 0);
+const sum = (pick: (page: PageScore) => number) =>
+  pages.reduce((total, page) => total + pick(page), 0);
 const characters = sum((page) => page.characters);
 const edits = sum((page) => page.edits);
 const classTotals = (key: keyof PageScore['characterClasses']) => ({

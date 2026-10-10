@@ -186,11 +186,15 @@ const specs: Spec[] = [
 const latexEscape = (text: string) => text.replace(/([%&#_$])/g, '\\$1');
 /** Latin runs inside Persian text are typeset left to right with \lr{…}. */
 const persianLatex = (text: string) =>
-  latexEscape(text).replace(/[A-Za-z0-9][A-Za-z0-9.:/\-+=²≤ ]*[A-Za-z0-9²]/g, (run) => `\\lr{${run}}`);
+  latexEscape(text).replace(
+    /[A-Za-z0-9][A-Za-z0-9.:/\-+=²≤ ]*[A-Za-z0-9²]/g,
+    (run) => `\\lr{${run}}`,
+  );
 
 function latexSource(spec: Spec): string {
   const persian = spec.lang === 'fa';
-  const body = (block: Block) => (persian && block.lang !== 'en' ? persianLatex(block.text) : latexEscape(block.text));
+  const body = (block: Block) =>
+    persian && block.lang !== 'en' ? persianLatex(block.text) : latexEscape(block.text);
   const [title, ...rest] = spec.blocks.filter((block) => block.kind !== 'furniture');
   const lines = [
     `\\documentclass[11pt${spec.columns === 2 ? ',twocolumn' : ''}]{article}`,
@@ -211,7 +215,8 @@ function latexSource(spec: Spec): string {
 }
 
 // ---------- LibreOffice (flat ODF) ----------
-const xml = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const xml = (text: string) =>
+  text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 function fodtSource(spec: Spec): string {
   const rtl = spec.lang === 'fa';
   const [title, ...rest] = spec.blocks.filter((block) => block.kind !== 'furniture');
@@ -222,7 +227,10 @@ function fodtSource(spec: Spec): string {
   const body =
     spec.columns === 2
       ? `${paragraph(title!)}<text:section text:style-name="Columns" text:name="Columns">${rest.map(paragraph).join('')}</text:section>`
-      : spec.blocks.filter((block) => block.kind !== 'furniture').map(paragraph).join('');
+      : spec.blocks
+          .filter((block) => block.kind !== 'furniture')
+          .map(paragraph)
+          .join('');
   const font = 'Vazirmatn';
   const text = (align: string, mode: string, size: string, bold = false) =>
     `<style:paragraph-properties fo:text-align="${align}" style:writing-mode="${mode}" fo:margin-bottom="0.3cm"/>` +
@@ -279,7 +287,13 @@ for (const spec of specs) {
       writeFileSync(join(work, `${spec.name}.fodt`), source);
       execFileSync(
         soffice,
-        [`-env:UserInstallation=file:///${work.replaceAll('\\', '/')}/profile`, '--headless', '--convert-to', 'pdf', `${spec.name}.fodt`],
+        [
+          `-env:UserInstallation=file:///${work.replaceAll('\\', '/')}/profile`,
+          '--headless',
+          '--convert-to',
+          'pdf',
+          `${spec.name}.fodt`,
+        ],
         { cwd: work, stdio: 'ignore' },
       );
     }
@@ -291,7 +305,9 @@ for (const spec of specs) {
       pages: [spec.blocks.map(({ kind, text }) => ({ kind, text }))],
     };
     writeFileSync(join(out, `${spec.name}.truth.json`), `${JSON.stringify(truth, null, 2)}\n`);
-    console.log(`${spec.name}: ${readFileSync(join(out, `${spec.name}.pdf`)).length} bytes (${truth.producer})`);
+    console.log(
+      `${spec.name}: ${readFileSync(join(out, `${spec.name}.pdf`)).length} bytes (${truth.producer})`,
+    );
   } finally {
     rmSync(work, { recursive: true, force: true });
   }
