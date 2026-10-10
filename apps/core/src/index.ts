@@ -1,7 +1,7 @@
 import { randomBytes, randomUUID } from 'node:crypto';
 import { join } from 'node:path';
 import { type Init, MainToCoreSchema } from '@danesh/contracts/control.ts';
-import { EchoInputSchema } from '@danesh/contracts/host-protocol.ts';
+import { EchoInputSchema, type HostKind } from '@danesh/contracts/host-protocol.ts';
 import { EXTRACTOR_VERSION } from '@danesh/contracts/pdf.ts';
 import { rpcMethods } from '@danesh/contracts/rpc.ts';
 import { type CheckRunFixtureSchema, testRpcMethods } from '@danesh/contracts/test-rpc.ts';
@@ -41,6 +41,9 @@ const logger = { log: (...args: Parameters<JsonlLogger['log']>) => coreLog?.log(
 const engines = createEngineClient({
   requestSpawn: (kind) => parent.postMessage({ type: 'spawn-host', kind }),
   requestStop: (kind) => parent.postMessage({ type: 'stop-host', kind }),
+  requestKill: (kind) => {
+    if (__TEST_HOOKS__) parent.postMessage({ type: 'test-kill-host', kind });
+  },
   logger,
 });
 async function engineEcho(): Promise<{ hostPid: number; corePid: number }> {
@@ -169,6 +172,15 @@ const handlers: Record<string, RpcHandler> = {
   'diag.rejected': createDiagRejectedHandler(methods, logger),
   ...(__TEST_HOOKS__
     ? {
+        'test.engineFault': (input: {
+          kind: HostKind;
+          mode: string;
+          when: 'now' | 'next-task';
+        }) => {
+          if (input.mode !== 'kill') throw new RpcHandlerError('INVALID_INPUT');
+          engines.killFault(input.kind, input.when);
+          return { ok: true };
+        },
         'test.sampleFault': (input: { chunkIndex: number; mode: 'always-fail' | 'none' }) => {
           sampleJob?.setFault(input.chunkIndex, input.mode);
           return { ok: true };
@@ -252,6 +264,10 @@ parent.on('message', (message) => {
     void initialize(init).catch(() => logger.log('core.startup-failed', {}, 'error'));
   } else if (control.data.type === 'host-exited') {
     engines.hostExited(control.data.kind, control.data.exitCode, control.data.requested);
+  } else if (control.data.type === 'circuit-open') {
+    engines.hostStartFailed(control.data.kind, 'CircuitOpen');
+  } else if (control.data.type === 'host-start-failed') {
+    engines.hostStartFailed(control.data.kind, control.data.errorClass);
   } else if (control.data.type === 'export-target') {
     systemCheck.addTarget(control.data.token, control.data.path, control.data.ttlMs);
     parent.postMessage({ type: 'export-target-ready', token: control.data.token });

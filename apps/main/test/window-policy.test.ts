@@ -124,6 +124,7 @@ describe('Core control channel', () => {
       ready: (pid: number) => calls.push(['ready', pid]),
       spawnHost: (kind: string) => calls.push(['spawn', kind]),
       stopHost: (kind: string) => calls.push(['stop', kind]),
+      killHost: (kind: string) => calls.push(['kill', kind]),
       exportTargetReady: (token: string) => calls.push(['export', token]),
       importSourceReady: (token: string) => calls.push(['import', token]),
     };

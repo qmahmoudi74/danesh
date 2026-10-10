@@ -12,6 +12,7 @@ import { Given, Then, When } from './fixtures.ts';
 const number = (value: number) => new Intl.NumberFormat('fa-IR').format(value);
 const card = (page: Page) => page.locator('.sample-job');
 const evidence = new WeakMap<Page, ReturnType<typeof readJobAudit>>();
+const crashPids = new WeakMap<Page, { main: number; window: number; core: number }>();
 async function snapshot(page: Page): Promise<SampleJobSnapshot | null> {
   return SampleJobSnapshotSchema.nullable().parse(
     await page.evaluate(() => window.danesh.call('sampleJob.get', {})),
@@ -105,6 +106,81 @@ Then(/^the progress bar value text is .* for the committed count$/, async ({ har
     .toBe(true);
 });
 When('all chunks commit', async ({ harness }) => completed(harness.page!));
+Given(
+  'the sample job has committed chunks and one running chunk',
+  async ({ harness, libraryRoot }) => {
+    const page = harness.page!;
+    await ready(page);
+    await page.evaluate(() => window.danesh.call('test.sampleDelay', { ms: 1500 }));
+    await start(page);
+    await expect
+      .poll(async () => {
+        const job = await snapshot(page);
+        return !!job && job.committed >= 3 && job.chunks.some((chunk) => chunk.state === 'running');
+      })
+      .toBe(true);
+    const pids = await harness.app!.evaluate(({ BrowserWindow }) => ({
+      main: process.pid,
+      window: BrowserWindow.getAllWindows()[0]!.webContents.getOSProcessId(),
+    }));
+    const ping = (await page.evaluate(() => window.danesh.call('system.ping', { n: 1 }))) as {
+      corePid: number;
+    };
+    crashPids.set(page, { ...pids, core: ping.corePid });
+    evidence.set(page, readJobAudit(libraryRoot, (await snapshot(page))!.jobId));
+  },
+);
+When('the sample engine host is killed mid-chunk', async ({ harness, libraryRoot }) => {
+  const page = harness.page!;
+  const before = evidence.get(page)!;
+  // Capture immediately before the real kill, so the retry assertion names the interrupted durable task.
+  const audit = readJobAudit(libraryRoot, before.snapshot.jobId);
+  expect(audit.tasks.filter((task) => task.state === 'running')).toHaveLength(1);
+  evidence.set(page, audit);
+  await page.evaluate(() =>
+    window.danesh.call('test.engineFault', { kind: 'sample', mode: 'kill', when: 'now' }),
+  );
+});
+Then('the host restarts after backoff and the job completes', async ({ harness, libraryRoot }) => {
+  const page = harness.page!;
+  await completed(page);
+  const before = crashPids.get(page)!;
+  const pids = await harness.app!.evaluate(({ BrowserWindow }) => ({
+    main: process.pid,
+    window: BrowserWindow.getAllWindows()[0]!.webContents.getOSProcessId(),
+  }));
+  const ping = (await page.evaluate(() => window.danesh.call('system.ping', { n: 2 }))) as {
+    corePid: number;
+  };
+  expect({ ...pids, core: ping.corePid }).toEqual(before);
+  const logs = (await readFile(join(libraryRoot, 'logs', 'main.jsonl'), 'utf8'))
+    .trim()
+    .split('\n')
+    .map(
+      (line) => JSON.parse(line) as { event: string; kind?: string; attempt?: number; ts: string },
+    );
+  const crash = logs.find((line) => line.event === 'host.crashed' && line.kind === 'sample')!;
+  const restart = logs.find((line) => line.event === 'host.restarted' && line.kind === 'sample')!;
+  expect(crash).toBeDefined();
+  expect(restart).toMatchObject({ attempt: 1 });
+  expect(Date.parse(restart.ts) - Date.parse(crash.ts)).toBeGreaterThanOrEqual(250);
+  await verifyOutputs(libraryRoot, readJobAudit(libraryRoot, evidence.get(page)!.snapshot.jobId));
+});
+Then('committed chunks keep attempt count 1', ({ harness, libraryRoot }) => {
+  const before = evidence.get(harness.page!)!;
+  const after = readJobAudit(libraryRoot, before.snapshot.jobId);
+  for (const task of before.tasks.filter((task) => task.state === 'done')) {
+    expect(task.attempt).toBe(1);
+    expect(after.tasks.find((other) => other.taskId === task.taskId)).toEqual(task);
+  }
+});
+Then('only the interrupted chunk acquires another attempt', ({ harness, libraryRoot }) => {
+  const before = evidence.get(harness.page!)!;
+  const after = readJobAudit(libraryRoot, before.snapshot.jobId);
+  const interrupted = before.tasks.find((task) => task.state === 'running')!;
+  for (const task of after.tasks)
+    expect(task.attempt).toBe(task.taskId === interrupted.taskId ? 2 : 1);
+});
 Then('the card shows «کار نمونه کامل شد. هر ۱۲ بخش انجام شد.»', async ({ harness }) => {
   await expect(harness.page!.getByRole('status')).toHaveCount(1);
   await expect(card(harness.page!).locator('.banner')).toContainText(

@@ -7,6 +7,7 @@ export interface CoreControlHandlers {
   ready: (corePid: number) => void;
   spawnHost: (kind: HostKind) => void;
   stopHost: (kind: HostKind) => void;
+  killHost: (kind: HostKind) => void;
   exportTargetReady: (token: string) => void;
   importSourceReady: (token: string) => void;
 }
@@ -37,5 +38,6 @@ export function handleCoreControl(
   else if (control.type === 'export-target-ready') handlers.exportTargetReady(control.token);
   else if (control.type === 'import-source-ready') handlers.importSourceReady(control.token);
   else if (control.type === 'stop-host') handlers.stopHost(control.kind);
+  else if (__TEST_HOOKS__ && control.type === 'test-kill-host') handlers.killHost(control.kind);
   else handlers.spawnHost(control.kind);
 }

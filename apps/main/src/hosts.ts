@@ -1,6 +1,7 @@
-import { join } from 'node:path';
-import type { HostKind } from '@danesh/contracts/host-protocol.ts';
-import { MessageChannelMain, utilityProcess } from 'electron';
+import { type HostKind, HostKindSchema } from '@danesh/contracts/host-protocol.ts';
+import type { JsonlLogger } from '@danesh/logging/jsonl.ts';
+import { MessageChannelMain } from 'electron';
+import { createUtilitySupervisor } from './supervisor.ts';
 
 // Main refers to engine hosts by bundle file name only; it never imports an engine module (dependency-cruiser rule).
 const hostEntries: Record<HostKind, string> = {
@@ -10,42 +11,48 @@ const hostEntries: Record<HostKind, string> = {
   tts: 'engine-tts.js',
   pdf: 'engine-pdf.js',
 };
-const children = new Map<HostKind, Electron.UtilityProcess>();
-const stopping = new Set<Electron.UtilityProcess>();
-
-/** Forks one utilityProcess per engine kind and brokers its private port to Core; every exit is reported to Core. */
-export function spawnHost(kind: HostKind, core: Electron.UtilityProcess): void {
-  if (children.has(kind)) return;
-  const host = utilityProcess.fork(join(import.meta.dirname, hostEntries[kind]), [], {
-    serviceName: `Danesh ${kind}`,
-    stdio: ['ignore', 'pipe', 'pipe'],
+export function createHosts(core: Electron.UtilityProcess, logger: Pick<JsonlLogger, 'log'>) {
+  let stopped = false;
+  const supervisor = createUtilitySupervisor({
+    entries: hostEntries,
+    logger,
+    onSpawn: (kind, host) => {
+      const { port1, port2 } = new MessageChannelMain();
+      host.postMessage({ type: 'host-port', kind }, [port1]);
+      core.postMessage({ type: 'host-port', kind }, [port2]);
+    },
   });
-  children.set(kind, host);
-  host.stdout?.on('data', (chunk: Buffer) => process.stdout.write(chunk));
-  host.stderr?.on('data', (chunk: Buffer) => process.stderr.write(chunk));
-  host.once('exit', (exitCode) => {
-    if (children.get(kind) === host) children.delete(kind);
-    const requested = stopping.delete(host);
-    core.postMessage({ type: 'host-exited', kind, exitCode, requested });
+  supervisor.subscribe((event) => {
+    if (stopped) return;
+    const kind = HostKindSchema.parse(event.kind);
+    if (event.type === 'exited')
+      core.postMessage({
+        type: 'host-exited',
+        kind,
+        exitCode: event.code,
+        requested: event.requested,
+        restartAttempt: event.restartAttempt,
+      });
+    else if (event.type === 'circuit-open') core.postMessage({ type: 'circuit-open', kind });
   });
-  const { port1, port2 } = new MessageChannelMain();
-  host.postMessage({ type: 'host-port', kind }, [port1]);
-  core.postMessage({ type: 'host-port', kind }, [port2]);
-}
-
-/** A requested stop: Core is told the exit was expected, so it is not treated as a crash. */
-export function stopHost(kind: HostKind): void {
-  const host = children.get(kind);
-  if (!host) return;
-  children.delete(kind);
-  stopping.add(host);
-  host.kill();
-}
-
-export function killHosts(): void {
-  for (const host of children.values()) {
-    stopping.add(host);
-    host.kill();
-  }
-  children.clear();
+  return {
+    spawnHost(this: void, kind: HostKind): void {
+      if (stopped) return;
+      void supervisor.spawn(kind).catch((error: unknown) => {
+        if (stopped) return;
+        const circuit = error instanceof Error && error.message === 'CircuitOpen';
+        core.postMessage({
+          type: 'host-start-failed',
+          kind,
+          errorClass: circuit ? 'CircuitOpen' : 'HostSpawnFailed',
+        });
+      });
+    },
+    stopHost: supervisor.requestStop,
+    killUnexpected: supervisor.killUnexpected,
+    stop(): void {
+      stopped = true;
+      supervisor.stopAll();
+    },
+  };
 }

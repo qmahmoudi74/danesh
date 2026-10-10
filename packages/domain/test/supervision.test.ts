@@ -109,7 +109,7 @@ it.each([0, 1, 134, 137])(
     await vi.advanceTimersByTimeAsync(1);
     expect((await waiting).pid).not.toBe(first.pid);
     expect(events).toEqual([
-      { type: 'exited', kind: 'sample', code, requested: false },
+      { type: 'exited', kind: 'sample', code, requested: false, restartAttempt: 1 },
       { type: 'restarted', kind: 'sample', attempt: 1 },
     ]);
   },
@@ -124,7 +124,9 @@ it('isolates policies by child kind and never lets a delayed requested exit repl
   children[0]!.exit(0);
   expect(await supervisor.spawn('sample')).toBe(replacement);
   expect(await supervisor.spawn('ocr')).toBe(other);
-  expect(events).toEqual([{ type: 'exited', kind: 'sample', code: 0, requested: true }]);
+  expect(events).toEqual([
+    { type: 'exited', kind: 'sample', code: 0, requested: true, restartAttempt: 0 },
+  ]);
   children[2]!.exit(0);
   await vi.advanceTimersByTimeAsync(250);
   expect(children).toHaveLength(4);

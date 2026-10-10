@@ -26,6 +26,13 @@ export const MainToCoreSchema = z.discriminatedUnion('type', [
     kind: HostKindSchema,
     exitCode: z.number().int(),
     requested: z.boolean(),
+    restartAttempt: z.number().int().min(0),
+  }),
+  z.strictObject({ type: z.literal('circuit-open'), kind: HostKindSchema }),
+  z.strictObject({
+    type: z.literal('host-start-failed'),
+    kind: HostKindSchema,
+    errorClass: z.enum(['CircuitOpen', 'HostSpawnFailed']),
   }),
   z.strictObject({
     type: z.literal('export-target'),
@@ -47,5 +54,8 @@ export const CoreToMainSchema = z.discriminatedUnion('type', [
   z.strictObject({ type: z.literal('export-target-ready'), token: z.string().uuid() }),
   z.strictObject({ type: z.literal('import-source-ready'), token: z.string().uuid() }),
   z.strictObject({ type: z.literal('stop-host'), kind: HostKindSchema }),
+  ...(typeof __TEST_HOOKS__ !== 'undefined' && __TEST_HOOKS__
+    ? [z.strictObject({ type: z.literal('test-kill-host'), kind: HostKindSchema })]
+    : []),
 ]);
 export type Init = z.infer<typeof InitSchema>;

@@ -1,3 +1,4 @@
+import { HostKindSchema } from './host-protocol.ts';
 import type { RpcMethod } from './rpc.ts';
 import { z } from './schema.ts';
 import { CheckIdSchema, CheckResultSchema } from './smoke-report.ts';
@@ -19,6 +20,15 @@ export const TEST_HOOKS_SENTINEL =
 export const testRpcMethods: Record<string, RpcMethod> =
   typeof __TEST_HOOKS__ !== 'undefined' && __TEST_HOOKS__
     ? {
+        'test.engineFault': {
+          input: z.strictObject({
+            kind: HostKindSchema,
+            mode: z.enum(['kill', 'exit0', 'exit1', 'abort', 'spin', 'oom']),
+            when: z.enum(['now', 'next-task']),
+          }),
+          output: z.strictObject({ ok: z.literal(true) }),
+          maxInputBytes: 256,
+        },
         'test.sampleFault': {
           input: z.strictObject({
             chunkIndex: z.number().int().min(1).max(64),

@@ -13,6 +13,9 @@ export class HostExitedError extends Error {
   }
 }
 type Host = { port: UtilityPort; pid: number; entry: string | undefined };
+export class CircuitOpenError extends Error {
+  override readonly name = 'CircuitOpen';
+}
 type Waiter = {
   resolve: (host: Host) => void;
   reject: (error: Error) => void;
@@ -33,11 +36,13 @@ type Task = {
 export function createEngineClient({
   requestSpawn,
   requestStop,
+  requestKill,
   logger,
   spawnTimeoutMs = 30_000,
 }: {
   requestSpawn: (kind: HostKind) => void;
   requestStop: (kind: HostKind) => void;
+  requestKill?: (kind: HostKind) => void;
   logger: Pick<JsonlLogger, 'log'>;
   spawnTimeoutMs?: number;
 }) {
@@ -45,6 +50,8 @@ export function createEngineClient({
   const waiting = new Map<HostKind, Waiter>();
   const tasks = new Map<string, Task>();
   const faults = new Set<HostKind>();
+  const killNext = new Set<HostKind>();
+  const circuits = new Set<HostKind>();
 
   const attach = (kind: HostKind, port: UtilityPort): void => {
     port.on('message', ({ data }) => {
@@ -142,6 +149,7 @@ export function createEngineClient({
   };
 
   const ensureHost = (kind: HostKind): Promise<Host> => {
+    if (circuits.has(kind)) return Promise.reject(new CircuitOpenError());
     const existing = hosts.get(kind);
     if (existing) return Promise.resolve(existing);
     return new Promise((resolve, reject) => {
@@ -163,11 +171,29 @@ export function createEngineClient({
       }, timeoutMs);
       tasks.set(taskId, { kind, resolve, reject, timer });
       host.port.postMessage({ type: 'run', taskId, input });
+      if (__TEST_HOOKS__ && killNext.delete(kind)) requestKill?.(kind);
     });
 
   return {
     attach,
     hostExited,
+    hostStartFailed(kind: HostKind, errorClass: 'CircuitOpen' | 'HostSpawnFailed'): void {
+      if (errorClass === 'CircuitOpen') circuits.add(kind);
+      const waiter = waiting.get(kind);
+      if (!waiter) return;
+      clearTimeout(waiter.timer);
+      waiting.delete(kind);
+      waiter.reject(
+        errorClass === 'CircuitOpen'
+          ? new CircuitOpenError()
+          : Object.assign(new Error('Host failed to spawn'), { name: 'HostSpawnFailed' }),
+      );
+    },
+    killFault(kind: HostKind, when: 'now' | 'next-task'): void {
+      if (!__TEST_HOOKS__) return;
+      if (when === 'next-task') killNext.add(kind);
+      else requestKill?.(kind);
+    },
     /** Test builds only: the next task in that host crashes it. */
     armFault(kind: HostKind): void {
       faults.add(kind);
@@ -199,8 +225,11 @@ export function createEngineClient({
           entry: host.entry,
         };
       } finally {
-        hosts.delete(kind);
-        requestStop(kind);
+        // A crash already removed this generation. Stopping now would cancel its pending backoff.
+        if (hosts.get(kind) === host) {
+          hosts.delete(kind);
+          requestStop(kind);
+        }
       }
     },
   };

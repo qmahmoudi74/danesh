@@ -15,7 +15,7 @@ export interface SupervisorClock {
   clearTimeout(timer: object | number): void;
 }
 export type SupervisorEvent =
-  | { type: 'exited'; kind: string; code: number; requested: boolean }
+  | { type: 'exited'; kind: string; code: number; requested: boolean; restartAttempt: number }
   | { type: 'restarted'; kind: string; attempt: number }
   | { type: 'circuit-open'; kind: string };
 type Waiter = {
@@ -60,11 +60,20 @@ export function createSupervisor({
     entry.policy.onStarted(clock.now());
     child.onExit((code) => {
       const wasRequested = requested.has(child);
-      emit({ type: 'exited', kind, code, requested: wasRequested });
       // A stopped generation can acknowledge its exit after its replacement started.
-      if (entry.child !== child) return;
+      if (entry.child !== child) {
+        emit({ type: 'exited', kind, code, requested: wasRequested, restartAttempt: 0 });
+        return;
+      }
       entry.child = undefined;
       const decision = entry.policy.onExit({ requested: wasRequested, t: clock.now() });
+      emit({
+        type: 'exited',
+        kind,
+        code,
+        requested: wasRequested,
+        restartAttempt: wasRequested ? 0 : entry.policy.failureCount(),
+      });
       if (decision.action === 'circuit-open') {
         entry.waiting?.reject(new Error('CircuitOpen'));
         entry.waiting = undefined;

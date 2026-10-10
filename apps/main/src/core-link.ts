@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import type { JsonlLogger } from '@danesh/logging/jsonl.ts';
 import { app, ipcMain, MessageChannelMain, utilityProcess } from 'electron';
 import { handleCoreControl } from './control.ts';
-import { killHosts, spawnHost, stopHost } from './hosts.ts';
+import { createHosts } from './hosts.ts';
 import { isAppOrigin } from './policy/web-preferences.ts';
 import { sendShellEvent } from './shell-ipc.ts';
 
@@ -44,6 +44,7 @@ export function startCore({
   });
   core.stdout?.on('data', (chunk: Buffer) => process.stdout.write(chunk));
   core.stderr?.on('data', (chunk: Buffer) => process.stderr.write(chunk));
+  const hosts = createHosts(core, logger);
   core.on('exit', (exitCode) => {
     logger.log('core.exit', { exitCode });
     state = 'unreachable';
@@ -120,8 +121,9 @@ export function startCore({
         },
         exportTargetReady: acknowledge,
         importSourceReady: acknowledge,
-        spawnHost: (kind) => spawnHost(kind, core),
-        stopHost,
+        spawnHost: hosts.spawnHost,
+        stopHost: hosts.stopHost,
+        killHost: hosts.killUnexpected,
       },
       logger,
     ),
@@ -154,7 +156,7 @@ export function startCore({
     registerTarget,
     registerSource,
     stop: () => {
-      killHosts();
+      hosts.stop();
       core.kill();
     },
   };

@@ -6,7 +6,7 @@ import {
   nearestRank,
   check as responsivenessCheck,
 } from '../src/checks/ui-responsive.check.ts';
-import { createEngineClient, HostExitedError } from '../src/engine-client.ts';
+import { CircuitOpenError, createEngineClient, HostExitedError } from '../src/engine-client.ts';
 
 function fakeHost(
   behaviour: (
@@ -69,26 +69,61 @@ describe('engine client', () => {
     });
     expect(calls).toEqual(['spawn:llm', 'stop:llm']);
   });
-  it('fails only the pending task of a host that exits, with its exit code', async () => {
+  it.each([0, 1])(
+    'fails the pending task on exit %i without cancelling its pending restart',
+    async (code) => {
+      const stops: string[] = [];
+      const client = createEngineClient({
+        requestSpawn: (kind) => queueMicrotask(() => client.attach(kind, port)),
+        requestStop: (kind) => {
+          stops.push(kind);
+        },
+        logger: { log: () => undefined },
+      });
+      const port = fakeHost((message, reply) => {
+        if (message.type === 'hello') reply({ type: 'hello-ack', hostPid: 7, kind: 'ocr' });
+        else queueMicrotask(() => client.hostExited('ocr', code, false));
+      });
+      const failure = await client
+        .withHost('ocr', {
+          type: 'ocr-probe',
+          langDir: 'd',
+          imagePath: 'i.png',
+          expectedFirstWord: 'This',
+        })
+        .catch((error: unknown) => error);
+      expect(failure).toBeInstanceOf(HostExitedError);
+      expect((failure as HostExitedError).exitCode).toBe(code);
+      expect(stops).toEqual([]);
+    },
+  );
+  it('refuses a circuit-open host promptly while other host kinds keep working', async () => {
+    const starts: string[] = [];
     const client = createEngineClient({
-      requestSpawn: (kind) => queueMicrotask(() => client.attach(kind, port)),
+      requestSpawn: (kind) => {
+        starts.push(kind);
+        queueMicrotask(() => {
+          if (kind === 'sample') client.hostStartFailed(kind, 'CircuitOpen');
+          else client.attach(kind, port);
+        });
+      },
       requestStop: () => undefined,
       logger: { log: () => undefined },
     });
     const port = fakeHost((message, reply) => {
-      if (message.type === 'hello') reply({ type: 'hello-ack', hostPid: 7, kind: 'ocr' });
-      else queueMicrotask(() => client.hostExited('ocr', 1, false));
+      if (message.type === 'hello') reply({ type: 'hello-ack', hostPid: 8, kind: 'ocr' });
+      else reply({ type: 'result', taskId: message.taskId, ok: true, output: {} });
     });
-    const failure = await client
-      .withHost('ocr', {
-        type: 'ocr-probe',
-        langDir: 'd',
-        imagePath: 'i.png',
-        expectedFirstWord: 'This',
-      })
-      .catch((error: unknown) => error);
-    expect(failure).toBeInstanceOf(HostExitedError);
-    expect((failure as HostExitedError).exitCode).toBe(1);
+    await expect(client.withHost('sample', { type: 'echo', value: '' })).rejects.toBeInstanceOf(
+      CircuitOpenError,
+    );
+    await expect(client.withHost('sample', { type: 'echo', value: '' })).rejects.toBeInstanceOf(
+      CircuitOpenError,
+    );
+    await expect(client.withHost('ocr', { type: 'echo', value: '' })).resolves.toMatchObject({
+      hostPid: 8,
+    });
+    expect(starts).toEqual(['sample', 'ocr']);
   });
   it('rejects host messages that do not match the protocol and a hello from the wrong kind', async () => {
     const records: string[] = [];
