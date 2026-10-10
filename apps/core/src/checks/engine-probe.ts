@@ -68,10 +68,11 @@ export async function runProbeCheck(
         : {}),
     };
   } catch (error) {
+    // The orchestrator retries this probe once after supervised backoff, preserving its original deadline.
+    if (error instanceof HostExitedError) throw error;
     const fields: Record<string, string | number> = {
       errorClass: error instanceof Error ? error.name : 'Error',
     };
-    if (error instanceof HostExitedError) fields.hostExitCode = error.exitCode;
     return {
       checkId,
       status: 'fail',

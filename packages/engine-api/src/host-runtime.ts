@@ -7,6 +7,7 @@ import {
   type RunInput,
 } from '@danesh/contracts/host-protocol.ts';
 import { parentPort, type UtilityPort } from '@danesh/contracts/utility-port.ts';
+import { type FaultMode, faults } from './faults.ts';
 
 export type HostHandlers = Partial<Record<RunInput['type'], (input: never) => unknown>>;
 
@@ -31,7 +32,7 @@ export function startHost({
   handlers: HostHandlers;
 }): void {
   const entry = fileURLToPath(entryUrl);
-  let crashNext = false;
+  let nextFault: FaultMode | undefined;
   const handle = async (port: UtilityPort, request: unknown): Promise<void> => {
     const parsed = CoreToHostSchema.safeParse(request);
     if (!parsed.success) {
@@ -64,11 +65,26 @@ export function startHost({
     }
     const { taskId, input } = parsed.data;
     if (__TEST_HOOKS__ && input.type === 'fault') {
-      crashNext = true;
       port.postMessage({ type: 'result', taskId, ok: true, output: { armed: true } });
+      if (input.when === 'now') setImmediate(() => faults?.execute(input.mode));
+      else nextFault = input.mode;
       return;
     }
-    if (__TEST_HOOKS__ && crashNext) process.exit(1);
+    if (__TEST_HOOKS__ && nextFault) {
+      const mode = nextFault;
+      nextFault = undefined;
+      if (mode === 'malformed') {
+        port.postMessage({
+          type: 'result',
+          taskId,
+          ok: true,
+          output: {},
+          payload: 'DANESH_PRIVATE_FAULT_PAYLOAD',
+        });
+        return;
+      }
+      faults?.execute(mode);
+    }
     const handler = handlers[input.type];
     if (!handler) {
       port.postMessage({
@@ -81,6 +97,11 @@ export function startHost({
       return;
     }
     try {
+      if (__TEST_HOOKS__ && input.type.endsWith('-probe')) {
+        const ms = Number(process.env.DANESH_TEST_PROBE_DELAY_MS ?? 0);
+        if (Number.isInteger(ms) && ms > 0 && ms <= 10000)
+          await new Promise<void>((resolve) => setTimeout(resolve, ms));
+      }
       const cpuStarted = process.cpuUsage();
       const output = await handler(input as never);
       const cpu = process.cpuUsage(cpuStarted);

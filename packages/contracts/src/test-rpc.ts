@@ -20,6 +20,20 @@ export const TEST_HOOKS_SENTINEL =
 export const testRpcMethods: Record<string, RpcMethod> =
   typeof __TEST_HOOKS__ !== 'undefined' && __TEST_HOOKS__
     ? {
+        'test.engineMessage': {
+          input: z.strictObject({ kind: HostKindSchema }),
+          output: z.strictObject({ ok: z.literal(true) }),
+          maxInputBytes: 128,
+        },
+        'test.engineSession': {
+          input: z.strictObject({ kind: HostKindSchema, action: z.enum(['open', 'close']) }),
+          output: z.strictObject({
+            hostPid: z.number().int().positive(),
+            corePid: z.number().int().positive(),
+          }),
+          maxInputBytes: 128,
+          timeoutMs: 30000,
+        },
         'test.engineFault': {
           input: z.strictObject({
             kind: HostKindSchema,

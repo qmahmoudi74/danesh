@@ -1,5 +1,5 @@
 import type { UtilityMessage, UtilityPort } from '@danesh/contracts/utility-port.ts';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import type { CheckContext } from '../src/checks/registry.ts';
 import {
   judgeResponsiveness,
@@ -27,6 +27,60 @@ function fakeHost(
 }
 
 describe('engine client', () => {
+  it('kills a host missing heartbeats at the watchdog deadline and preserves its crash restart', async () => {
+    vi.useFakeTimers();
+    try {
+      const killed: unknown[] = [];
+      const stops: string[] = [];
+      const client = createEngineClient({
+        requestSpawn: (kind) => queueMicrotask(() => client.attach(kind, port)),
+        requestStop: (kind) => {
+          stops.push(kind);
+        },
+        requestKill: (kind, reason) => {
+          killed.push([kind, reason]);
+          client.hostExited(kind, 0, false);
+        },
+        logger: { log: () => undefined },
+      });
+      const port = fakeHost((message, reply) => {
+        if (message.type === 'hello') reply({ type: 'hello-ack', hostPid: 8, kind: 'sample' });
+      });
+      const task = client.withHost('sample', { type: 'echo', value: 'waiting' });
+      const rejection = expect(task).rejects.toBeInstanceOf(HostExitedError);
+      await vi.advanceTimersByTimeAsync(4999);
+      expect(killed).toEqual([]);
+      await vi.advanceTimersByTimeAsync(1);
+      await rejection;
+      expect(killed).toEqual([['sample', 'watchdog']]);
+      expect(stops).toEqual([]);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+  it('rejects a malformed in-flight result promptly, logs metadata only, and permits a retry', async () => {
+    let malformed = true;
+    const records: unknown[] = [];
+    const client = createEngineClient({
+      requestSpawn: (kind) => queueMicrotask(() => client.attach(kind, port)),
+      requestStop: () => undefined,
+      logger: { log: (event, fields) => records.push({ event, fields }) },
+    });
+    const port = fakeHost((message, reply) => {
+      if (message.type === 'hello') reply({ type: 'hello-ack', kind: 'sample', hostPid: 4 });
+      else if (malformed)
+        reply({ type: 'result', taskId: message.taskId, ok: true, payload: 'PRIVATE' });
+      else reply({ type: 'result', taskId: message.taskId, ok: true, output: {} });
+    });
+    await expect(client.withHost('sample', { type: 'echo', value: '' })).rejects.toMatchObject({
+      name: 'HostProtocolError',
+    });
+    malformed = false;
+    await expect(client.withHost('sample', { type: 'echo', value: '' })).resolves.toMatchObject({
+      hostPid: 4,
+    });
+    expect(JSON.stringify(records)).not.toContain('PRIVATE');
+  });
   it('a delayed requested exit cannot reject the next host task of the same kind', async () => {
     let starts = 0;
     const client = createEngineClient({
@@ -142,7 +196,7 @@ describe('engine client', () => {
     const failure = await client
       .withHost('llm', { type: 'llm-probe', modelPath: 'm' })
       .catch((error: unknown) => error as Error);
-    expect((failure as Error).name).toBe('HostStartTimeout');
+    expect((failure as Error).name).toBe('HostProtocolError');
     expect(records).toEqual(['host.rejected:KindMismatch', 'host.rejected:InvalidMessage']);
   });
 });

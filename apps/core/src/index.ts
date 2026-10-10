@@ -41,9 +41,11 @@ const logger = { log: (...args: Parameters<JsonlLogger['log']>) => coreLog?.log(
 const engines = createEngineClient({
   requestSpawn: (kind) => parent.postMessage({ type: 'spawn-host', kind }),
   requestStop: (kind) => parent.postMessage({ type: 'stop-host', kind }),
-  requestKill: (kind) => {
-    if (__TEST_HOOKS__) parent.postMessage({ type: 'test-kill-host', kind });
+  requestKill: (kind, reason) => {
+    if (reason === 'watchdog') parent.postMessage({ type: 'kill-host', kind, reason });
+    else if (__TEST_HOOKS__) parent.postMessage({ type: 'test-kill-host', kind });
   },
+  watchdogMs: __TEST_HOOKS__ && process.env.DANESH_TEST_WATCHDOG_MS === '2000' ? 2000 : 5000,
   logger,
 });
 async function engineEcho(): Promise<{ hostPid: number; corePid: number }> {
@@ -67,6 +69,9 @@ const bootId = randomBytes(16).toString('hex');
 const systemCheck = new SystemCheck(Date.now, { engines });
 let checkFixture: z.infer<typeof CheckRunFixtureSchema> | undefined;
 let stalledUntil = 0;
+const testSessions = __TEST_HOOKS__
+  ? new Map<HostKind, Awaited<ReturnType<typeof engines.session>>>()
+  : undefined;
 const importSources = createImportSources();
 
 function requireCas(): Cas {
@@ -172,14 +177,32 @@ const handlers: Record<string, RpcHandler> = {
   'diag.rejected': createDiagRejectedHandler(methods, logger),
   ...(__TEST_HOOKS__
     ? {
-        'test.engineFault': (input: {
+        'test.engineFault': async (input: {
           kind: HostKind;
-          mode: string;
+          mode: 'kill' | 'exit0' | 'exit1' | 'abort' | 'spin' | 'oom';
           when: 'now' | 'next-task';
         }) => {
-          if (input.mode !== 'kill') throw new RpcHandlerError('INVALID_INPUT');
-          engines.killFault(input.kind, input.when);
+          if (input.mode === 'kill') engines.killFault(input.kind, input.when);
+          else await engines.injectFault(input.kind, input.mode, input.when);
           return { ok: true };
+        },
+        'test.engineMessage': async (input: { kind: HostKind }) => {
+          await engines.injectFault(input.kind, 'malformed', 'next-task');
+          return { ok: true };
+        },
+        'test.engineSession': async (input: { kind: HostKind; action: 'open' | 'close' }) => {
+          if (input.action === 'open') {
+            const existing = testSessions!.get(input.kind);
+            if (existing) return { hostPid: existing.hostPid, corePid: process.pid };
+            const session = await engines.session(input.kind);
+            testSessions!.set(input.kind, session);
+            return { hostPid: session.hostPid, corePid: process.pid };
+          }
+          const session = testSessions!.get(input.kind);
+          if (!session) throw new RpcHandlerError('INVALID_INPUT');
+          session.close();
+          testSessions!.delete(input.kind);
+          return { hostPid: session.hostPid, corePid: process.pid };
         },
         'test.sampleFault': (input: { chunkIndex: number; mode: 'always-fail' | 'none' }) => {
           sampleJob?.setFault(input.chunkIndex, input.mode);
@@ -263,7 +286,12 @@ parent.on('message', (message) => {
     coreLog = createJsonlLogger({ dir: join(init.libraryRoot, 'logs'), name: 'core' });
     void initialize(init).catch(() => logger.log('core.startup-failed', {}, 'error'));
   } else if (control.data.type === 'host-exited') {
-    engines.hostExited(control.data.kind, control.data.exitCode, control.data.requested);
+    engines.hostExited(
+      control.data.kind,
+      control.data.exitCode,
+      control.data.requested,
+      control.data.restartAttempt,
+    );
   } else if (control.data.type === 'circuit-open') {
     engines.hostStartFailed(control.data.kind, 'CircuitOpen');
   } else if (control.data.type === 'host-start-failed') {

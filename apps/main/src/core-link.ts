@@ -157,6 +157,7 @@ export function startCore({
     registerSource,
     stop: () => {
       hosts.stop();
+      logger.log('core.stop-requested', { kind: 'core' });
       core.kill();
     },
   };

@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { testRepository } from '../../../tools/lib/test-repo.ts';
 import { check as appLaunch } from '../src/checks/app-launch.check.ts';
 import { check as database } from '../src/checks/database.check.ts';
+import { HostExitedError } from '../src/engine-client.ts';
 import { SystemCheck } from '../src/system-check.ts';
 
 // These tests cover export capabilities, so they pin the two local checks instead of starting engines.
@@ -43,6 +44,70 @@ describe('Core report export capabilities', () => {
     db.close();
     repo.cleanup();
   });
+  it.each([1, 2])(
+    'retries an engine probe once and isolates %i crashes from other rows',
+    async (crashes) => {
+      let calls = 0;
+      const events: unknown[] = [];
+      const service = new SystemCheck(Date.now, {
+        checks: [
+          {
+            id: 'engine-llm',
+            group: 'engines',
+            run: () => {
+              calls++;
+              if (calls <= crashes) throw new HostExitedError('llm', 0, calls);
+              return {
+                checkId: 'engine-llm',
+                status: 'pass',
+                durationMs: 0,
+                detail: 'recovered',
+                fields: {},
+              };
+            },
+          },
+          {
+            id: 'engine-ocr',
+            group: 'engines',
+            run: () => ({
+              checkId: 'engine-ocr',
+              status: 'pass',
+              durationMs: 0,
+              detail: 'healthy',
+              fields: {},
+            }),
+          },
+        ],
+      });
+      const runId = randomUUID();
+      await service.run(
+        runId,
+        {
+          ...port,
+          postMessage: (message) => {
+            events.push(message);
+          },
+        },
+        facts,
+        { state: 'ready', db },
+      );
+      expect(calls).toBe(2);
+      expect(events).toContainEqual({
+        topic: 'systemCheck.progress',
+        payload: {
+          runId,
+          checkId: 'engine-llm',
+          status: 'running',
+          restarting: { attempt: 1 },
+        },
+      });
+      const results = service.get(runId)!.checks;
+      expect(results[0]!.status).toBe(crashes === 1 ? 'pass' : 'fail');
+      expect(results[1]!.status).toBe('pass');
+      if (crashes === 2)
+        expect(results[0]!.fields).toMatchObject({ errorClass: 'HostExited', hostExitCode: 0 });
+    },
+  );
   it('writes the real stored report atomically and consumes its token', async () => {
     const service = new SystemCheck(Date.now, localChecks);
     const runId = randomUUID(),

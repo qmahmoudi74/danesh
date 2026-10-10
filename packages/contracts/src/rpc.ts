@@ -226,6 +226,7 @@ export const eventPayloads: Record<string, z.ZodType> = {
     runId: z.string().uuid(),
     checkId: CheckIdSchema,
     status: z.enum(['pending', 'running', 'pass', 'fail', 'not-run']),
+    restarting: z.strictObject({ attempt: z.number().int().positive() }).optional(),
   }),
   'systemCheck.finished': z.strictObject({ runId: z.string().uuid() }),
 };

@@ -38,6 +38,7 @@ export function handleCoreControl(
   else if (control.type === 'export-target-ready') handlers.exportTargetReady(control.token);
   else if (control.type === 'import-source-ready') handlers.importSourceReady(control.token);
   else if (control.type === 'stop-host') handlers.stopHost(control.kind);
+  else if (control.type === 'kill-host') handlers.killHost(control.kind);
   else if (__TEST_HOOKS__ && control.type === 'test-kill-host') handlers.killHost(control.kind);
   else handlers.spawnHost(control.kind);
 }

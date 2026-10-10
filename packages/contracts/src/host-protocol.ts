@@ -31,7 +31,8 @@ export const TtsProbeInputSchema = z.strictObject({
 /** Test builds only: the next run makes the host exit, to prove a crash fails only its own check. */
 export const FaultInputSchema = z.strictObject({
   type: z.literal('fault'),
-  mode: z.literal('crash'),
+  mode: z.enum(['crash', 'exit0', 'exit1', 'abort', 'spin', 'oom', 'malformed']),
+  when: z.enum(['now', 'next-task']).optional(),
 });
 /** PDF host: paths come from Core (a verified content-addressed blob), never from the page. */
 export const PdfInspectInputSchema = z.strictObject({
@@ -51,7 +52,7 @@ export const RunInputSchema = z.discriminatedUnion('type', [
   LlmProbeInputSchema,
   OcrProbeInputSchema,
   TtsProbeInputSchema,
-  FaultInputSchema,
+  ...(typeof __TEST_HOOKS__ !== 'undefined' && __TEST_HOOKS__ ? [FaultInputSchema] : []),
 ]);
 export type RunInput = z.infer<typeof RunInputSchema>;
 export const CoreToHostSchema = z.discriminatedUnion('type', [

@@ -54,6 +54,11 @@ export const CoreToMainSchema = z.discriminatedUnion('type', [
   z.strictObject({ type: z.literal('export-target-ready'), token: z.string().uuid() }),
   z.strictObject({ type: z.literal('import-source-ready'), token: z.string().uuid() }),
   z.strictObject({ type: z.literal('stop-host'), kind: HostKindSchema }),
+  z.strictObject({
+    type: z.literal('kill-host'),
+    kind: HostKindSchema,
+    reason: z.literal('watchdog'),
+  }),
   ...(typeof __TEST_HOOKS__ !== 'undefined' && __TEST_HOOKS__
     ? [z.strictObject({ type: z.literal('test-kill-host'), kind: HostKindSchema })]
     : []),

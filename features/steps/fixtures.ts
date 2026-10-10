@@ -111,4 +111,4 @@ export const test = base.extend<{ libraryRoot: string; harness: Harness }>({
     }
   },
 });
-export const { Given, When, Then } = createBdd(test);
+export const { Given, When, Then, Before } = createBdd(test);

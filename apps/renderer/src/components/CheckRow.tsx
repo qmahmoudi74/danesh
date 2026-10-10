@@ -2,6 +2,7 @@ import type { CheckResult } from '@danesh/contracts/smoke-report.ts';
 import { Button, Disclosure, DisclosurePanel, Heading } from 'react-aria-components';
 import {
   checkCopy,
+  formatNumber,
   genericFail,
   genericPass,
   newerDatabaseBody,
@@ -11,7 +12,12 @@ import {
 import { Icon } from './Icons.tsx';
 import { Ltr, TechnicalDetail } from './Layout.tsx';
 import { type CheckStatus, StatusBadge } from './Status.tsx';
-export type Row = { checkId: string; status: CheckStatus; result?: CheckResult };
+export type Row = {
+  checkId: string;
+  status: CheckStatus;
+  result?: CheckResult;
+  restarting?: { attempt: number };
+};
 export function CheckRow({ row }: { row: Row }) {
   const copy = Object.hasOwn(checkCopy, row.checkId) ? checkCopy[row.checkId] : undefined;
   const databaseFailure =
@@ -21,15 +27,17 @@ export function CheckRow({ row }: { row: Row }) {
         ? readOnlyDatabaseBody
         : undefined;
   const sentence =
-    row.status === 'pass'
-      ? (copy?.pass ?? genericPass)
-      : row.status === 'fail'
-        ? row.result?.detail === 'timeout'
-          ? timeoutFail
-          : (databaseFailure ?? copy?.fail ?? genericFail)
-        : row.status === 'not-run'
-          ? 'این بررسی اجرا نشد. دوباره تلاش کنید.'
-          : '';
+    row.status === 'running' && row.restarting
+      ? `موتور متوقف شد و تا چند لحظهٔ دیگر دوباره راه‌اندازی می‌شود (تلاش ${formatNumber(row.restarting.attempt)}).`
+      : row.status === 'pass'
+        ? (copy?.pass ?? genericPass)
+        : row.status === 'fail'
+          ? row.result?.detail === 'timeout'
+            ? timeoutFail
+            : (databaseFailure ?? copy?.fail ?? genericFail)
+          : row.status === 'not-run'
+            ? 'این بررسی اجرا نشد. دوباره تلاش کنید.'
+            : '';
   return (
     <Disclosure className="check-row" data-check-id={row.checkId} data-status={row.status}>
       <div className="check-top">

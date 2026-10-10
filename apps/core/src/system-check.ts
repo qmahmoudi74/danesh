@@ -17,7 +17,7 @@ import type { Cas } from '@danesh/storage/cas.ts';
 import type { LibraryOpen } from '@danesh/storage/db.ts';
 import type { z } from 'zod';
 import { type Check, checks as registeredChecks } from './checks/registry.ts';
-import type { EngineClient } from './engine-client.ts';
+import { type EngineClient, HostExitedError } from './engine-client.ts';
 
 type Fixture = z.infer<typeof CheckRunFixtureSchema>;
 export type Responsiveness = {
@@ -170,8 +170,11 @@ export class SystemCheck {
     const startedAt = new Date().toISOString();
     const results: CheckResult[] = [];
     const selected = this.selection(facts, fixture);
-    const progress = (checkId: string, status: string) =>
-      port.postMessage({ topic: 'systemCheck.progress', payload: { runId, checkId, status } });
+    const progress = (checkId: string, status: string, restarting?: { attempt: number }) =>
+      port.postMessage({
+        topic: 'systemCheck.progress',
+        payload: { runId, checkId, status, ...(restarting ? { restarting } : {}) },
+      });
     for (const check of selected) progress(check.id, 'pending');
     if (__TEST_HOOKS__ && fixture) await delay(50);
     else await yieldTurn();
@@ -209,15 +212,27 @@ export class SystemCheck {
       });
       let result: CheckResult | null;
       const checkStartedAtMs = performance.timeOrigin + performance.now();
+      const execute = async () => {
+        try {
+          return await check.run(context);
+        } catch (error) {
+          if (!(error instanceof HostExitedError) || check.group !== 'engines') throw error;
+          progress(check.id, 'running', { attempt: error.restartAttempt });
+          return await check.run(context);
+        }
+      };
       try {
-        result = await Promise.race([Promise.resolve(check.run(context)), timedOut]);
-      } catch {
+        result = await Promise.race([execute(), timedOut]);
+      } catch (error) {
         result = {
           checkId: check.id,
           status: 'fail',
           durationMs: 0,
           detail: 'بررسی انجام نشد.',
-          fields: {},
+          fields:
+            error instanceof HostExitedError
+              ? { errorClass: error.name, hostExitCode: error.exitCode }
+              : {},
         };
       } finally {
         clearTimeout(timer);

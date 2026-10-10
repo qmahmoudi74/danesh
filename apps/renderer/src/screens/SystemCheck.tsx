@@ -71,14 +71,24 @@ export function SystemCheck() {
     const progress = window.danesh.on('systemCheck.progress', (input) => {
       const event = eventPayloads['systemCheck.progress']!.safeParse(input);
       if (!event.success) return;
-      const value = event.data as { runId: string; checkId: string; status: Row['status'] };
+      const value = event.data as {
+        runId: string;
+        checkId: string;
+        status: Row['status'];
+        restarting?: { attempt: number };
+      };
       if (value.runId !== runId.current) return;
       setRows((previous) =>
         previous.some((row) => row.checkId === value.checkId)
           ? previous.map((row) =>
-              row.checkId === value.checkId ? { ...row, status: value.status } : row,
+              row.checkId === value.checkId
+                ? { ...row, status: value.status, restarting: value.restarting }
+                : row,
             )
-          : [...previous, { checkId: value.checkId, status: value.status }],
+          : [
+              ...previous,
+              { checkId: value.checkId, status: value.status, restarting: value.restarting },
+            ],
       );
     });
     const finished = window.danesh.on('systemCheck.finished', (input) => {
