@@ -1,6 +1,7 @@
 import { eventPayloads, rpcMethods } from '@danesh/contracts/rpc.ts';
 import { shellEventPayloads } from '@danesh/contracts/shell.ts';
 import { type SmokeReport, SmokeReportSchema } from '@danesh/contracts/smoke-report.ts';
+import { measureSmokeIdle } from './heartbeat.ts';
 
 /** Runs one System check through Core's normal run → finished → get path and resolves with its id and report. */
 export function runSystemCheckOnce(): Promise<{ runId: string; report: SmokeReport }> {
@@ -42,7 +43,8 @@ let started = false;
  * the report with that token and tells Main the overall result. A failed run or export is reported as fail.
  */
 export function installSmokeRunner(): () => void {
-  return window.danesh.on('shell.smokeRun', (payload) => {
+  const idle = new AbortController();
+  const unsubscribe = window.danesh.on('shell.smokeRun', (payload) => {
     const event = shellEventPayloads['shell.smokeRun']!.safeParse(payload);
     if (!event.success || started) return;
     started = true;
@@ -50,6 +52,8 @@ export function installSmokeRunner(): () => void {
     void (async () => {
       let overall: 'pass' | 'fail' = 'fail';
       try {
+        await measureSmokeIdle(idle.signal);
+        if (idle.signal.aborted) return;
         const { runId, report } = await runSystemCheckOnce();
         const exported = rpcMethods['systemCheck.export']!.output.parse(
           await window.danesh.call('systemCheck.export', { runId, token }),
@@ -61,4 +65,8 @@ export function installSmokeRunner(): () => void {
       await window.danesh.call('shell.smokeDone', { overall });
     })();
   });
+  return () => {
+    unsubscribe();
+    idle.abort();
+  };
 }

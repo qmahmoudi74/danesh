@@ -97,6 +97,30 @@ describe('Core report export capabilities', () => {
       'Too many',
     );
   });
+  it('records each concurrent engine completion before the batch is reported in canonical order', async () => {
+    const finished: Record<string, number> = {};
+    const engine = (id: string, ms: number) => ({
+      id,
+      group: 'engines' as const,
+      async run() {
+        await new Promise((resolve) => setTimeout(resolve, ms));
+        finished[id] = performance.timeOrigin + performance.now();
+        return { checkId: id, status: 'pass' as const, durationMs: 0, detail: '', fields: {} };
+      },
+    });
+    const service = new SystemCheck(Date.now, {
+      checks: [engine('engine-llm', 10), engine('engine-ocr', 60)],
+    });
+    const runId = randomUUID();
+    await service.run(runId, port, facts, { state: 'ready', db });
+    const results = service.get(runId)!.checks;
+    expect(results.map((entry) => entry.checkId)).toEqual(['engine-llm', 'engine-ocr']);
+    // The first completion must precede the slower handler's completion, regardless of CI speed.
+    expect(Number(results[0]!.fields.checkFinishedAtMs)).toBeLessThan(finished['engine-ocr']!);
+    expect(Number(results[0]!.fields.checkFinishedAtMs)).toBeLessThan(
+      Number(results[1]!.fields.checkFinishedAtMs),
+    );
+  });
   it('fails a check that exceeds its timeout and still runs the next one, never passing an unrun check', async () => {
     const hung = { id: 'app-launch', run: () => new Promise<never>(() => undefined) };
     const next = {

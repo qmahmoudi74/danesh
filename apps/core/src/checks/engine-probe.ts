@@ -38,6 +38,12 @@ export async function runProbeCheck(
     const libraries = Array.isArray(value.nativeLibraries)
       ? (value.nativeLibraries as string[])
       : [];
+    const metrics: Record<string, number> = {};
+    for (const key of ['hostCpuUserMs', 'hostCpuSystemMs', 'hostRssAtFinishBytes']) {
+      const metric = value[key];
+      if (typeof metric === 'number' && Number.isFinite(metric) && metric >= 0)
+        metrics[key] = metric;
+    }
     return {
       checkId,
       status:
@@ -55,6 +61,7 @@ export async function runProbeCheck(
           ? { nativeLibrary: libraries[0], nativeLibraryCount: libraries.length }
           : {}),
         ...verdict.fields,
+        ...metrics,
       },
       ...(verdict.outputSha256 && /^[0-9a-f]{64}$/.test(verdict.outputSha256)
         ? { outputSha256: verdict.outputSha256 }

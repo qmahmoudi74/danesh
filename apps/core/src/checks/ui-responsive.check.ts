@@ -51,6 +51,12 @@ export const check: Check = {
         fields: { sampleCount: 0, method: 'nearest-rank' },
       };
     const verdict = judgeResponsiveness(measured.samplesMs, measured.intervalMs);
+    if (measured.diagnostics) {
+      verdict.fields.diagnostics = JSON.stringify({
+        ...measured.diagnostics,
+        samplesMs: measured.samplesMs,
+      });
+    }
     return {
       checkId: 'ui-responsive',
       status: verdict.pass ? 'pass' : 'fail',

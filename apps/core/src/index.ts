@@ -62,8 +62,14 @@ const handlers: Record<string, RpcHandler> = {
     runId: string;
     intervalMs: number;
     samplesMs: number[];
+    diagnostics?: import('@danesh/contracts/responsiveness.ts').ResponsivenessDiagnostics;
   }) => {
-    systemCheck.reportResponsiveness(input.runId, input.intervalMs, input.samplesMs);
+    systemCheck.reportResponsiveness(
+      input.runId,
+      input.intervalMs,
+      input.samplesMs,
+      input.diagnostics,
+    );
     return {};
   },
   'diag.rejected': createDiagRejectedHandler(methods, logger),

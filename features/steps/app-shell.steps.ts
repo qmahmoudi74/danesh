@@ -4,6 +4,7 @@ import { createRequire } from 'node:module';
 import { join, resolve } from 'node:path';
 import { _electron, expect } from '@playwright/test';
 import type Database from 'better-sqlite3';
+import { ResponsivenessInputSchema } from '../../packages/contracts/src/responsiveness.ts';
 import { SmokeReportSchema } from '../../packages/contracts/src/smoke-report.ts';
 import { EngineEchoOutputSchema } from '../../packages/contracts/src/test-rpc.ts';
 import { Given, Then, When } from './fixtures.ts';
@@ -552,6 +553,56 @@ Then(
     for (const checkId of ['engine-llm', 'engine-ocr', 'engine-tts', 'ui-responsive']) {
       expect(report.checks.find((check) => check.checkId === checkId)?.status).toBe('pass');
     }
+    await harness.close();
+  },
+);
+
+async function readHeadlessReport(libraryRoot: string) {
+  const reportPath = join(libraryRoot, 'headless-report.json');
+  await expect.poll(() => existsSync(reportPath), { timeout: 40_000 }).toBe(true);
+  return SmokeReportSchema.parse(JSON.parse(readFileSync(reportPath, 'utf8')));
+}
+Then(
+  'its smoke report contains an independent idle baseline and timestamped renderer samples',
+  async ({ libraryRoot }) => {
+    const report = await readHeadlessReport(libraryRoot);
+    const check = report.checks.find((entry) => entry.checkId === 'ui-responsive')!;
+    const raw = JSON.parse(String(check.fields.diagnostics)) as Record<string, unknown>;
+    const { samplesMs, ...diagnostics } = raw;
+    const parsed = ResponsivenessInputSchema.parse({
+      runId: '00000000-0000-4000-8000-000000000000',
+      intervalMs: 50,
+      samplesMs,
+      diagnostics,
+    });
+    expect(parsed.diagnostics!.idleSamplesMs.length).toBeGreaterThan(0);
+    expect(parsed.diagnostics!.idleSamplesMs.length).toBeLessThanOrEqual(100);
+    expect(parsed.samplesMs.length).toBe(check.fields.sampleCount);
+    expect(parsed.samplesMs.length).toBeGreaterThanOrEqual(100);
+    expect(parsed.diagnostics!.sampleElapsedMs[0]).toBeGreaterThanOrEqual(50);
+  },
+);
+Then(
+  'its engine rows record actual start and finish times without changing report order',
+  async ({ libraryRoot, harness }) => {
+    const report = await readHeadlessReport(libraryRoot);
+    const engines = report.checks.filter((entry) => entry.checkId.startsWith('engine-'));
+    expect(engines.map((entry) => entry.checkId)).toEqual([
+      'engine-llm',
+      'engine-ocr',
+      'engine-tts',
+    ]);
+    for (const engine of engines) {
+      expect(engine.status).toBe('pass');
+      expect(Number(engine.fields.checkFinishedAtMs)).toBeGreaterThanOrEqual(
+        Number(engine.fields.checkStartedAtMs),
+      );
+      expect(Number(engine.fields.hostCpuUserMs)).toBeGreaterThanOrEqual(0);
+      expect(Number(engine.fields.hostRssAtFinishBytes)).toBeGreaterThan(0);
+    }
+    expect(Math.max(...engines.map((entry) => Number(entry.fields.checkStartedAtMs)))).toBeLessThan(
+      Math.min(...engines.map((entry) => Number(entry.fields.checkFinishedAtMs))),
+    );
     await harness.close();
   },
 );

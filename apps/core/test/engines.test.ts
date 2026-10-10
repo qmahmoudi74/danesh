@@ -1,6 +1,11 @@
 import type { UtilityMessage, UtilityPort } from '@danesh/contracts/utility-port.ts';
 import { describe, expect, it } from 'vitest';
-import { judgeResponsiveness, nearestRank } from '../src/checks/ui-responsive.check.ts';
+import type { CheckContext } from '../src/checks/registry.ts';
+import {
+  judgeResponsiveness,
+  nearestRank,
+  check as responsivenessCheck,
+} from '../src/checks/ui-responsive.check.ts';
 import { createEngineClient, HostExitedError } from '../src/engine-client.ts';
 
 function fakeHost(
@@ -90,6 +95,25 @@ describe('engine client', () => {
 const filled = (count: number, value: number): number[] =>
   Array.from({ length: count }, () => value);
 describe('responsiveness judgment (ADR 0003 PK5)', () => {
+  it('exports idle diagnostics while judging only the original loaded samples', async () => {
+    const samplesMs = filled(120, 67);
+    const diagnostics = {
+      startedAtEpochMs: 1000,
+      idleSamplesMs: filled(40, 0),
+      sampleElapsedMs: samplesMs.map((_, index) => (index + 1) * 117),
+      longTasksSupported: false,
+      longTasks: [],
+      visibility: 'hidden' as const,
+    };
+    // The responsiveness check consumes only this dependency; other Core services are unused.
+    const context = {
+      responsiveness: () => Promise.resolve({ intervalMs: 50, samplesMs, diagnostics }),
+    } as unknown as CheckContext;
+    const result = await responsivenessCheck.run(context);
+    expect(result?.status).toBe('fail');
+    expect(result?.fields.p95).toBe(67);
+    expect(JSON.parse(String(result?.fields.diagnostics))).toEqual({ ...diagnostics, samplesMs });
+  });
   it('uses nearest-rank percentiles', () => {
     const sorted = Array.from({ length: 100 }, (_, index) => index + 1);
     expect(nearestRank(sorted, 0.95)).toBe(95);

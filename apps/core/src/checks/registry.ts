@@ -1,4 +1,5 @@
 import type { Init } from '@danesh/contracts/control.ts';
+import type { ResponsivenessDiagnostics } from '@danesh/contracts/responsiveness.ts';
 import { CHECK_ORDER, type CheckResult } from '@danesh/contracts/smoke-report.ts';
 import type { LibraryOpen } from '@danesh/storage/db.ts';
 import type { EngineClient } from '../engine-client.ts';
@@ -10,7 +11,9 @@ export type CheckContext = {
   engines: EngineClient;
   responsiveness: (
     timeoutMs: number,
-  ) => Promise<{ intervalMs: number; samplesMs: number[] } | undefined>;
+  ) => Promise<
+    { intervalMs: number; samplesMs: number[]; diagnostics?: ResponsivenessDiagnostics } | undefined
+  >;
 };
 /**
  * applies() decides up front whether a check belongs in this run (a non-applicable check is never listed, never shown

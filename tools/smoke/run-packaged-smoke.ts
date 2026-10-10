@@ -12,12 +12,13 @@ import {
   rmSync,
   writeFileSync,
 } from 'node:fs';
-import { homedir, tmpdir } from 'node:os';
+import { availableParallelism, freemem, homedir, loadavg, tmpdir, totalmem } from 'node:os';
 import { basename, dirname, join, resolve } from 'node:path';
 import { FuseV1Options, getCurrentFuseWire, FuseState as WireState } from '@electron/fuses';
 import { type SmokeReport, SmokeReportSchema } from '../../packages/contracts/src/smoke-report.ts';
 import { findHookMarkers } from '../assert-no-test-hooks.ts';
 import { packagedResources } from './build-manifest.ts';
+import { summarizeResponsiveness } from './responsiveness-diagnostics.ts';
 import {
   buildManifest,
   compareFuseWire,
@@ -254,6 +255,13 @@ async function main(): Promise<number> {
     ? join(scratch, ' دانش آزمون', process.platform === 'darwin' ? 'کتابخانهٔ من ' : 'کتابخانهٔ من')
     : join(scratch, 'library');
   mkdirSync(dirname(library), { recursive: true });
+  const runnerResources = {
+    availableParallelism: availableParallelism(),
+    totalMemoryBytes: totalmem(),
+    freeMemoryBeforeBytes: freemem(),
+    loadAverageBefore: loadavg(),
+    loadAverageAvailable: process.platform !== 'win32',
+  };
   const run = await runApp(appPath, library);
   // Keep the run's own metadata-only logs (D-16) next to the evidence; CI uploads evidence-tmp/.
   if (existsSync(join(library, 'logs')))
@@ -313,6 +321,14 @@ async function main(): Promise<number> {
     appPath,
     items,
     appReport: run.report,
+    runnerResources: {
+      ...runnerResources,
+      freeMemoryAfterBytes: freemem(),
+      loadAverageAfter: loadavg(),
+    },
+    responsivenessDiagnostics: run.report
+      ? summarizeResponsiveness(run.report)
+      : { available: false as const },
     verdict: failing.length ? 'fail' : 'pass',
     failing,
   };
@@ -329,7 +345,51 @@ async function main(): Promise<number> {
   for (const check of run.report?.checks ?? []) {
     if (check.status !== 'pass') {
       console.error(
-        `packaged-smoke: check ${check.checkId}: ${check.detail} ${JSON.stringify(check.fields)}`,
+        `packaged-smoke: check ${check.checkId}: ${check.detail} ${JSON.stringify(Object.fromEntries(Object.entries(check.fields).filter(([key]) => key !== 'diagnostics')))}`,
+      );
+    }
+  }
+  if (run.report) {
+    console.log(`packaged-smoke: runner-resources ${JSON.stringify(evidence.runnerResources)}`);
+    console.log(
+      `packaged-smoke: responsiveness-diagnostics ${JSON.stringify(evidence.responsivenessDiagnostics)}`,
+    );
+    for (const check of run.report.checks.filter((check) => check.checkId.startsWith('engine-'))) {
+      const fields = Object.fromEntries(
+        Object.entries(check.fields).filter(
+          ([key]) =>
+            key.startsWith('checkStarted') ||
+            key.startsWith('checkFinished') ||
+            key.startsWith('hostCpu') ||
+            key.startsWith('hostRss'),
+        ),
+      );
+      console.log(`packaged-smoke: engine-timing ${check.checkId} ${JSON.stringify(fields)}`);
+    }
+    const diagnostics = evidence.responsivenessDiagnostics;
+    if (diagnostics.available) {
+      // The public CI annotation keeps only the output tail; retain the useful comparison there.
+      const compact = ({
+        count,
+        p95,
+        max,
+      }: {
+        count: number;
+        p95: number | null;
+        max: number | null;
+      }) => ({ count, p95, max });
+      console.log(
+        `packaged-smoke: diagnosis ${JSON.stringify({
+          idle: compact(diagnostics.idle),
+          loaded: compact(diagnostics.loaded),
+          phases: Object.fromEntries(
+            Object.entries(diagnostics.phases).map(([phase, values]) => [phase, compact(values)]),
+          ),
+          longTasksSupported: diagnostics.longTasksSupported,
+          longTaskCount: diagnostics.longTaskCount,
+          longestTaskMs: diagnostics.longestTaskMs,
+          visibility: diagnostics.visibility,
+        })}`,
       );
     }
   }

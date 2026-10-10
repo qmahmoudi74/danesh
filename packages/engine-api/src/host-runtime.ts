@@ -81,7 +81,20 @@ export function startHost({
       return;
     }
     try {
-      port.postMessage({ type: 'result', taskId, ok: true, output: await handler(input as never) });
+      const cpuStarted = process.cpuUsage();
+      const output = await handler(input as never);
+      const cpu = process.cpuUsage(cpuStarted);
+      // Diagnostic metadata only for the fixed packaging probes; echo/product outputs stay intact.
+      const measured =
+        input.type.endsWith('-probe') && typeof output === 'object' && output !== null
+          ? {
+              ...output,
+              hostCpuUserMs: cpu.user / 1000,
+              hostCpuSystemMs: cpu.system / 1000,
+              hostRssAtFinishBytes: process.memoryUsage.rss(),
+            }
+          : output;
+      port.postMessage({ type: 'result', taskId, ok: true, output: measured });
     } catch (error) {
       port.postMessage({
         type: 'result',

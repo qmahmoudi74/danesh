@@ -1,3 +1,4 @@
+import { ResponsivenessInputSchema } from './responsiveness.ts';
 import { z } from './schema.ts';
 import { CheckIdSchema, SmokeReportSchema } from './smoke-report.ts';
 
@@ -69,13 +70,10 @@ export const rpcMethods: Record<string, RpcMethod> = {
   },
   // The renderer's heartbeat lateness while the engine group ran (integer ms, at most 4000 samples; ADR 0003 PK5).
   'systemCheck.reportResponsiveness': {
-    input: z.strictObject({
-      runId: z.string().uuid(),
-      intervalMs: z.number().int().min(10).max(1000),
-      samplesMs: z.array(z.number().int().min(0).max(60_000)).max(4000),
-    }),
+    input: ResponsivenessInputSchema,
     output: z.strictObject({}),
-    maxInputBytes: 32_768,
+    // Two aligned bounded arrays plus idle samples and long-task metadata fit within 64 KiB.
+    maxInputBytes: 65_536,
   },
   // Preload-side rejections are reported here so Core logs them with sender 'preload' (metadata only, D-16).
   'diag.rejected': { input: DiagRejectedSchema, output: z.strictObject({}), maxInputBytes: 256 },

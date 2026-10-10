@@ -3,6 +3,7 @@ import { open, rename, unlink } from 'node:fs/promises';
 import { isAbsolute } from 'node:path';
 import { setTimeout as delay, setImmediate as yieldTurn } from 'node:timers/promises';
 import type { Init } from '@danesh/contracts/control.ts';
+import type { ResponsivenessDiagnostics } from '@danesh/contracts/responsiveness.ts';
 import {
   CHECK_ORDER,
   CHECK_TIMEOUT_MS,
@@ -18,7 +19,11 @@ import { type Check, checks as registeredChecks } from './checks/registry.ts';
 import type { EngineClient } from './engine-client.ts';
 
 type Fixture = z.infer<typeof CheckRunFixtureSchema>;
-export type Responsiveness = { intervalMs: number; samplesMs: number[] };
+export type Responsiveness = {
+  intervalMs: number;
+  samplesMs: number[];
+  diagnostics?: ResponsivenessDiagnostics;
+};
 function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T | undefined> {
   let timer: ReturnType<typeof setTimeout> | undefined;
   return Promise.race([
@@ -107,17 +112,22 @@ export class SystemCheck {
     );
   }
   /** Renderer heartbeat lateness for a run (ADR 0003 PK5); the ui-responsive check waits for it. */
-  reportResponsiveness(runId: string, intervalMs: number, samplesMs: number[]): void {
+  reportResponsiveness(
+    runId: string,
+    intervalMs: number,
+    samplesMs: number[],
+    diagnostics?: ResponsivenessDiagnostics,
+  ): void {
     if (this.reports.has(runId)) return; // the run already finished; nothing is waiting
     const waiting = this.responsiveness.get(runId);
     if (waiting && !waiting.settled) {
       waiting.settled = true;
-      waiting.resolve({ intervalMs, samplesMs });
+      waiting.resolve({ intervalMs, samplesMs, diagnostics });
     } else if (!waiting)
       this.responsiveness.set(runId, {
         settled: true,
         resolve: () => undefined,
-        promise: Promise.resolve({ intervalMs, samplesMs }),
+        promise: Promise.resolve({ intervalMs, samplesMs, diagnostics }),
       });
   }
   private responsivenessFor(runId: string): Promise<Responsiveness | undefined> {
@@ -195,6 +205,7 @@ export class SystemCheck {
         );
       });
       let result: CheckResult | null;
+      const checkStartedAtMs = performance.timeOrigin + performance.now();
       try {
         result = await Promise.race([Promise.resolve(check.run(context)), timedOut]);
       } catch {
@@ -208,7 +219,15 @@ export class SystemCheck {
       } finally {
         clearTimeout(timer);
       }
-      if (result) result.durationMs = Math.max(0, Math.round(performance.now() - start));
+      if (result) {
+        result.durationMs = Math.max(0, Math.round(performance.now() - start));
+        if (check.group === 'engines')
+          result.fields = {
+            ...result.fields,
+            checkStartedAtMs,
+            checkFinishedAtMs: performance.timeOrigin + performance.now(),
+          };
+      }
       return result;
     };
     let index = 0;
