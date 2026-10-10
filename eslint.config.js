@@ -27,7 +27,7 @@ export default [
     },
     rules: {
       '@typescript-eslint/no-floating-promises': 'error',
-      // Biome handles @ts-ignore; keep the stronger policy for whole-file suppression and expect-error reasons.
+      // Biome bans single-line suppression; keep whole-file and expect-error policies here.
       '@typescript-eslint/ban-ts-comment': [
         'error',
         {
