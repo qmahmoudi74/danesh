@@ -1,6 +1,6 @@
 {
   "runnerVersion": 1,
-  "recordedAt": "2026-10-10T00:01:08.249Z",
+  "recordedAt": "2026-10-10T03:17:50.047Z",
   "platform": "win32",
   "arch": "x64",
   "appPath": "D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\Danesh.exe",
@@ -8,11 +8,11 @@
     "appRun": {
       "verdict": "pass",
       "exitCode": 0,
-      "durationMs": 9984
+      "durationMs": 17615
     },
     "persianLibraryPath": {
       "verdict": "pass",
-      "path": "~\\AppData\\Local\\Temp\\danesh-smoke-M3fK3r\\ دانش آزمون\\کتابخانهٔ من",
+      "path": "~\\AppData\\Local\\Temp\\danesh-smoke-RwQbjb\\ دانش آزمون\\کتابخانهٔ من",
       "folder": "کتابخانهٔ من"
     },
     "fuses": {
@@ -58,7 +58,7 @@
     "nsis": {
       "verdict": "pass",
       "installer": "Danesh Setup 0.1.0.exe",
-      "installDir": "~\\AppData\\Local\\Temp\\danesh-smoke-M3fK3r\\دانش نصب آزمون",
+      "installDir": "~\\AppData\\Local\\Temp\\danesh-smoke-RwQbjb\\دانش نصب آزمون",
       "installExit": 0,
       "installedManifest": {
         "missing": [],
@@ -68,11 +68,11 @@
       },
       "installedRun": {
         "exitCode": 0,
-        "durationMs": 9131,
+        "durationMs": 15391,
         "overall": "pass"
       },
       "uninstalled": true,
-      "durationMs": 29078
+      "durationMs": 35061
     },
     "codesign": {
       "verdict": "not-applicable"
@@ -84,81 +84,103 @@
     "electronVersion": "44.7.0",
     "platform": "win32",
     "arch": "x64",
-    "startedAt": "2026-10-10T00:00:32.591Z",
-    "finishedAt": "2026-10-10T00:00:38.747Z",
+    "startedAt": "2026-10-10T03:17:08.392Z",
+    "finishedAt": "2026-10-10T03:17:14.542Z",
     "overall": "pass",
     "checks": [
       {
         "checkId": "app-launch",
         "status": "pass",
-        "durationMs": 0,
+        "durationMs": 1,
         "detail": "برنامه به‌درستی باز شد.",
         "fields": {
-          "corePid": 37036,
-          "mainPid": 17324,
+          "corePid": 36808,
+          "mainPid": 15216,
           "appVersion": "0.1.0"
         }
       },
       {
         "checkId": "database",
         "status": "pass",
-        "durationMs": 2,
+        "durationMs": 4,
         "detail": "پایگاه داده باز شد و آمادهٔ استفاده است.",
         "fields": {
           "count": 1,
-          "corePid": 37036,
-          "dbPath": "~\\AppData\\Local\\Temp\\danesh-smoke-M3fK3r\\ دانش آزمون\\کتابخانهٔ من\\danesh.db",
+          "corePid": 36808,
+          "dbPath": "~\\AppData\\Local\\Temp\\danesh-smoke-RwQbjb\\ دانش آزمون\\کتابخانهٔ من\\danesh.db",
           "journal_mode": "wal",
-          "user_version": 1,
+          "user_version": 3,
           "nodeSqlite": "available",
           "nodeSqliteVersion": "3.53.4"
         }
       },
       {
+        "checkId": "cas-storage",
+        "status": "pass",
+        "durationMs": 4,
+        "detail": "نوشتن و خواندن فایل در پوشهٔ داده‌های برنامه درست کار می‌کند.",
+        "fields": {
+          "sha256": "7b6ce09b1db6c890136d657a75a54a3cc8aac797cb90979af7a07234deff3dbb",
+          "size": 19,
+          "existed": false,
+          "shard": "7b"
+        }
+      },
+      {
         "checkId": "engine-llm",
         "status": "pass",
-        "durationMs": 2382,
+        "durationMs": 601,
         "detail": "generated 24 tokens at temperature 0",
         "fields": {
-          "hostPid": 38220,
-          "corePid": 37036,
+          "hostPid": 13976,
+          "corePid": 36808,
           "entry": "D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\resources\\app.asar\\out\\main\\engine-llm.js",
           "assets": "stories15M-q4_0.gguf",
           "nativeLibrary": "\\\\?\\D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\resources\\app.asar.unpacked\\node_modules\\@node-llama-cpp\\win-x64\\bins\\win-x64\\llama-addon.node",
           "nativeLibraryCount": 6,
           "runtime": "node-llama-cpp 3.22.1 (CPU)",
           "tokenCount": 24,
-          "loadMs": 667,
-          "generateMs": 1343
+          "loadMs": 260,
+          "generateMs": 23,
+          "hostCpuUserMs": 140,
+          "hostCpuSystemMs": 188,
+          "hostRssAtFinishBytes": 159490048,
+          "checkStartedAtMs": 1791602228402.9158,
+          "checkFinishedAtMs": 1791602229004.0103
         },
         "outputSha256": "76297550fbec3077fdd5f5d46a9af419078dd8cc6d5b7a1861d6d30b2abdf6c2"
       },
       {
         "checkId": "engine-ocr",
         "status": "pass",
-        "durationMs": 357,
+        "durationMs": 309,
         "detail": "first word matches the sample",
         "fields": {
-          "hostPid": 19452,
-          "corePid": 37036,
+          "hostPid": 30084,
+          "corePid": 36808,
           "entry": "D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\resources\\app.asar\\out\\main\\engine-ocr.js",
           "assets": "eng.traineddata,testocr.png",
           "runtime": "tesseract.js 7.0.0 (offline)",
           "firstWord": "This",
           "expectedFirstWord": "This",
           "confidence": 95,
-          "durationMs": 284
+          "durationMs": 236,
+          "hostCpuUserMs": 281,
+          "hostCpuSystemMs": 141,
+          "hostRssAtFinishBytes": 160456704,
+          "checkStartedAtMs": 1791602228403.1267,
+          "checkFinishedAtMs": 1791602228711.5571
         },
         "outputSha256": "76ef157baeb6ab275b7d90f310477a8060d5822aea2b2e05d480f459b016a6ed"
       },
       {
         "checkId": "engine-tts",
         "status": "pass",
-        "durationMs": 2072,
+        "durationMs": 1535,
         "detail": "synthesized 6400 samples",
         "fields": {
-          "hostPid": 14048,
-          "corePid": 37036,
+          "hostPid": 33084,
+          "corePid": 36808,
           "entry": "D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\resources\\app.asar\\out\\main\\engine-tts.js",
           "assets": "fa_IR-mana-medium.onnx,fa_IR-mana-medium.onnx.json",
           "nativeLibrary": "\\\\?\\D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\resources\\app.asar.unpacked\\node_modules\\onnxruntime-node\\bin\\napi-v6\\win32\\x64\\onnxruntime_binding.node",
@@ -167,14 +189,19 @@
           "sampleCount": 6400,
           "peak": 0.003898,
           "loadedFrom": "path",
-          "durationMs": 1638
+          "durationMs": 1271,
+          "hostCpuUserMs": 1172,
+          "hostCpuSystemMs": 63,
+          "hostRssAtFinishBytes": 143458304,
+          "checkStartedAtMs": 1791602228403.2139,
+          "checkFinishedAtMs": 1791602229937.9543
         },
-        "outputSha256": "c08cdb1e136e092727ef321e3f916589d4adce7e22f5d4f5015ba13dd9dfd5e9"
+        "outputSha256": "898a5a213192538ad59b3a1d88fb8ba46b692798692988e5110afe9324000943"
       },
       {
         "checkId": "ui-responsive",
         "status": "pass",
-        "durationMs": 3635,
+        "durationMs": 4473,
         "detail": "heartbeat within policy",
         "fields": {
           "sampleCount": 119,
@@ -183,13 +210,14 @@
           "max": 14,
           "intervalMs": 50,
           "method": "nearest-rank",
-          "policy": "samples>=100, p95<=50ms, max<=250ms"
+          "policy": "samples>=100, p95<=50ms, max<=250ms",
+          "diagnostics": "{\"startedAtEpochMs\":1791602228403.6,\"idleSamplesMs\":[1,13,0,0,0,0,12,0,4,0,12,0,0,0,0,11,0,0,0,0,13,0,0,0,0,12,0,0,0,13,0,0,0,0,12,0,0,0,0,12],\"sampleElapsedMs\":[65,112,159,206,252,314,360,400,455,503,564,611,657,704,751,814,861,908,954,1002,1065,1111,1159,1205,1253,1316,1362,1410,1457,1503,1565,1611,1657,1703,1765,1811,1857,1904,1951,2014,2061,2108,2155,2201,2263,2309,2355,2402,2463,2510,2557,2603,2665,2711,2757,2804,2866,2912,2960,3006,3052,3114,3160,3207,3253,3316,3361,3409,3455,3502,3563,3610,3656,3703,3764,3811,3857,3904,3965,4012,4059,4104,4152,4214,4261,4308,4355,4403,4465,4511,4558,4605,4652,4713,4759,4806,4852,4916,4963,5010,5057,5104,5166,5213,5260,5307,5354,5401,5464,5510,5558,5604,5651,5713,5759,5805,5852,5913,5960],\"longTasksSupported\":true,\"longTasks\":[],\"visibility\":\"visible\",\"samplesMs\":[14,0,0,0,0,12,0,0,5,0,12,0,0,0,0,13,0,0,0,0,13,0,0,0,0,13,0,0,0,0,12,0,0,0,12,0,0,0,0,12,0,0,0,0,12,0,0,0,12,0,0,0,11,0,0,0,12,0,0,0,0,12,0,0,0,13,0,0,0,0,11,0,0,0,12,0,0,0,11,0,0,0,0,12,0,0,0,0,12,0,0,0,0,12,0,0,0,14,0,0,0,0,12,0,0,0,0,0,13,0,0,0,0,12,0,0,0,12,0]}"
         }
       },
       {
         "checkId": "fuses",
         "status": "pass",
-        "durationMs": 135,
+        "durationMs": 131,
         "detail": "D-09 production fuses set",
         "fields": {
           "binary": "D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\Danesh.exe",
@@ -202,6 +230,248 @@
         }
       }
     ]
+  },
+  "runnerResources": {
+    "availableParallelism": 24,
+    "totalMemoryBytes": 68044726272,
+    "freeMemoryBeforeBytes": 47520886784,
+    "loadAverageBefore": [
+      0,
+      0,
+      0
+    ],
+    "loadAverageAvailable": false,
+    "freeMemoryAfterBytes": 47281487872,
+    "loadAverageAfter": [
+      0,
+      0,
+      0
+    ]
+  },
+  "responsivenessDiagnostics": {
+    "available": true,
+    "idle": {
+      "count": 40,
+      "p50": 0,
+      "p95": 13,
+      "max": 13,
+      "buckets": [
+        {
+          "upperMs": 0,
+          "count": 29
+        },
+        {
+          "upperMs": 10,
+          "count": 2
+        },
+        {
+          "upperMs": 25,
+          "count": 9
+        },
+        {
+          "upperMs": 50,
+          "count": 0
+        },
+        {
+          "upperMs": 100,
+          "count": 0
+        },
+        {
+          "upperMs": 250,
+          "count": 0
+        },
+        {
+          "upperMs": 9007199254740991,
+          "count": 0
+        }
+      ]
+    },
+    "loaded": {
+      "count": 119,
+      "p50": 0,
+      "p95": 13,
+      "max": 14,
+      "buckets": [
+        {
+          "upperMs": 0,
+          "count": 92
+        },
+        {
+          "upperMs": 10,
+          "count": 1
+        },
+        {
+          "upperMs": 25,
+          "count": 26
+        },
+        {
+          "upperMs": 50,
+          "count": 0
+        },
+        {
+          "upperMs": 100,
+          "count": 0
+        },
+        {
+          "upperMs": 250,
+          "count": 0
+        },
+        {
+          "upperMs": 9007199254740991,
+          "count": 0
+        }
+      ]
+    },
+    "phases": {
+      "engine-llm+engine-ocr+engine-tts": {
+        "count": 6,
+        "p50": 0,
+        "p95": 14,
+        "max": 14,
+        "buckets": [
+          {
+            "upperMs": 0,
+            "count": 4
+          },
+          {
+            "upperMs": 10,
+            "count": 0
+          },
+          {
+            "upperMs": 25,
+            "count": 2
+          },
+          {
+            "upperMs": 50,
+            "count": 0
+          },
+          {
+            "upperMs": 100,
+            "count": 0
+          },
+          {
+            "upperMs": 250,
+            "count": 0
+          },
+          {
+            "upperMs": 9007199254740991,
+            "count": 0
+          }
+        ]
+      },
+      "engine-llm+engine-tts": {
+        "count": 6,
+        "p50": 0,
+        "p95": 12,
+        "max": 12,
+        "buckets": [
+          {
+            "upperMs": 0,
+            "count": 4
+          },
+          {
+            "upperMs": 10,
+            "count": 1
+          },
+          {
+            "upperMs": 25,
+            "count": 1
+          },
+          {
+            "upperMs": 50,
+            "count": 0
+          },
+          {
+            "upperMs": 100,
+            "count": 0
+          },
+          {
+            "upperMs": 250,
+            "count": 0
+          },
+          {
+            "upperMs": 9007199254740991,
+            "count": 0
+          }
+        ]
+      },
+      "engine-tts": {
+        "count": 19,
+        "p50": 0,
+        "p95": 13,
+        "max": 13,
+        "buckets": [
+          {
+            "upperMs": 0,
+            "count": 15
+          },
+          {
+            "upperMs": 10,
+            "count": 0
+          },
+          {
+            "upperMs": 25,
+            "count": 4
+          },
+          {
+            "upperMs": 50,
+            "count": 0
+          },
+          {
+            "upperMs": 100,
+            "count": 0
+          },
+          {
+            "upperMs": 250,
+            "count": 0
+          },
+          {
+            "upperMs": 9007199254740991,
+            "count": 0
+          }
+        ]
+      },
+      "after-engines": {
+        "count": 88,
+        "p50": 0,
+        "p95": 12,
+        "max": 14,
+        "buckets": [
+          {
+            "upperMs": 0,
+            "count": 69
+          },
+          {
+            "upperMs": 10,
+            "count": 0
+          },
+          {
+            "upperMs": 25,
+            "count": 19
+          },
+          {
+            "upperMs": 50,
+            "count": 0
+          },
+          {
+            "upperMs": 100,
+            "count": 0
+          },
+          {
+            "upperMs": 250,
+            "count": 0
+          },
+          {
+            "upperMs": 9007199254740991,
+            "count": 0
+          }
+        ]
+      }
+    },
+    "longTasksSupported": true,
+    "longTaskCount": 0,
+    "longestTaskMs": 0,
+    "visibility": "visible"
   },
   "verdict": "pass",
   "failing": []

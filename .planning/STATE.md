@@ -3,9 +3,9 @@ gsd_state_version: "1.0"
 current_phase: 1
 current_phase_name: Secure, Durable Foundation & Packaging Gate
 status: in_progress
-stopped_at: Plan 01-12 implemented and verified on Windows; Plan 01-13 next and not started; macOS investigation deferred by owner; Plan 01-10 stays partial
+stopped_at: Owner-authorized PDF-01 increment (import, Library, original-page viewer) complete and verified on Windows; Phase 1 plan count unchanged at 11/16; Plan 01-13 next and not started; Plan 01-10 stays partial
 last_updated: "2026-10-10"
-last_activity: 2026-10-10 (CAS committed; 423 unit tests, 39 full E2E and 2 packaged E2E passed; Persian-path production smoke passed; no push)
+last_activity: 2026-10-10 (PDF-01 committed: 433 unit tests, full E2E 45 passed/31 skipped, packaged PDF scenarios and production smoke passed; no push)
 state_head: 833b26fe1a8d4cfcf48b0deaf4bdd3268f64172c
 progress:
   total_phases: 12
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-10-09)
 ## Current Position
 
 Phase: 1 (Secure, Durable Foundation & Packaging Gate) — IN PROGRESS
-Plan: 11 of 16 completed in current phase; Plan 01-13 Durable Job Kernel is next under the owner's Windows-first sequencing exception.
+Plan: 11 of 16 completed in current phase; Plan 01-13 Durable Job Kernel is next under the owner's Windows-first sequencing exception. Out-of-plan increment PDF-01 (first usable PDF journey) is complete on Windows; see PDF-01-SUMMARY.md. It completes no Phase 1 plan.
 Status: Plan 01-12 implementation is complete and locally verified on Windows, with macOS unverified; canonical summary and evidence are committed. Plan 01-11 remains complete. Plan 01-10 stays partially verified: latest run 38016154277 at pushed commit c36666b passed the complete Windows job (363 unit tests, installed smoke, full and packaged E2E), but macOS failed at smoke and skipped E2E. Its fresh Windows artifact was downloaded through authenticated access, ZIP hash matched metadata and smoke passed validation. That pre-CAS CI run does not verify the new implementation. Earlier failed evidence and the Windows native worker crash remain tracked. No macOS investigation or policy/security/CI changes occurred. Plan 01-13 and 01-14 were not started. No push this session.
 Last activity: 2026-10-10 (CAS implementation d5095d0 and canonical summary/evidence 833b26f committed; required static, license, CI/ADR/features checks passed; 423 local unit tests, 152 storage tests, 39 full E2E, 2 packaged E2E and Persian-path production smoke passed; idle/loaded p95 both 13 ms)
 
@@ -58,6 +58,8 @@ Progress: [███████░░░] 69% of current-phase plans; Phase 1 r
 
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
+
+- [Owner direction 2026-10-10, PDF-01]: Ship a usable PDF journey before the remaining Phase 1 infrastructure. Done on Windows: pick PDF → pdf.js check in Core → original in CAS → `document` row (migration 0003) → Library → original pages in a pdf.js viewer → survives relaunch. Durable jobs move to migration 0004 (01-13-PLAN.md renamed accordingly). ADR 0005 (pdf.js, proposed). Drizzle stays deferred (pin approval). Encrypted PDFs are refused, not unlocked. No text extraction. macOS and CI not run for this increment. See PDF-01-SUMMARY.md.
 
 - [Owner direction 2026-10-10]: Continue Windows-first implementation of approved Plan 01-12 (depends directly on completed 01-11) while 01-10 remains partially verified. This is a development-sequencing exception only: all cross-platform/release acceptance criteria, failed evidence, macOS support, security and CI remain intact. macOS investigation is deferred technical debt. Track the Windows native worker crash; investigate only if it reproduces locally or blocks current work. Plan 01-13 may follow only after verified 01-12 and with enough context to finish; do not start 01-14. No push is authorized.
 
@@ -106,5 +108,5 @@ Items acknowledged and deferred at milestone close, most recent first:
 ## Session Continuity
 
 Last session: 2026-10-10
-Stopped at: Plan 01-12 implemented and verified on Windows; canonical summary and evidence committed. 11/16 plans and 0/12 phases complete. Plan 01-10 stays partial, macOS debugging is deferred by owner, and Tier B remains outstanding. Plan 01-13 was not started because this session cannot fully implement and verify the job kernel within remaining execution budget. Resume its existing approved plan next; do not automatically return to macOS investigation. No push occurred.
+Stopped at: PDF-01 (first usable PDF journey) complete and verified on Windows; commits 2559c90, 2a78fcc plus docs. 11/16 Phase 1 plans and 0/12 phases complete (unchanged). Plan 01-10 stays partial, macOS deferred, Tier B outstanding, nothing pushed. Next: Plan 01-13 (durable job kernel, migration 0004), or the owner's next product milestone (text extraction spike S-PDF).
 Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-13-PLAN.md

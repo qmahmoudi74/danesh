@@ -216,7 +216,8 @@ All user-visible copy is Persian. Primary text never contains stack traces, erro
 |---------|------|
 | App name (`h1`, Display) | «دانش» |
 | Status banner (info) title | «نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست» |
-| Status banner body | «این نسخه فقط زیرساخت امن و پایدار برنامه را آماده می‌کند. ورود فایل PDF، خواندن و یادگیری در نسخه‌های بعدی اضافه می‌شود. تا آن زمان می‌توانید با «بررسی سامانه» وضعیت برنامه را روی این رایانه ببینید.» |
+| Status banner body | «در این نسخه می‌توانید فایل PDF را به کتابخانه بیفزایید و صفحه‌های اصلی آن را ببینید. استخراج متن، خواندن فارسی و یادگیری در نسخه‌های بعدی اضافه می‌شود.» (PDF-01, 2026-10-10; was the foundation-only sentence) |
+| Home actions (PDF-01) | primary «افزودن PDF» (only when the library is ready), secondary «بررسی سامانه»; the sidebar gains «کتابخانه» (`#/library`): list, import, and an original-page viewer labelled «متن این فایل هنوز استخراج نشده است.» |
 | Footer | «نسخه» + `<Ltr>{appVersion}</Ltr>` |
 | Starting (Core not ready) | «در حال آماده‌سازی…» (after 5 s add: «آماده‌سازی کمی طول کشید؛ لطفاً صبر کنید.») |
 | Background activity line (only while the sample job is running or resuming) | «کار نمونه در حال انجام است.» + link «مشاهده» |
