@@ -22,7 +22,7 @@ Feature: Startup preserves data and exposes honest recovery states
     Then Home shows «این داده‌ها با نسخهٔ جدیدتری از دانش ساخته شده‌اند»
     And the database file's SHA-256 is unchanged
     And database and supported schema versions appear only in «جزئیات فنی»
-    And «بررسی سامانه» remains reachable through Home and the menu
+    And «بررسی سامانه» remains reachable through Home and the sidebar
 
   @plan-01-11 @kind-recovery
   Scenario: Failed migration opens read-only and preserves prior rows
@@ -31,7 +31,7 @@ Feature: Startup preserves data and exposes honest recovery states
     Then Home shows «برنامه در حالت فقط‌خواندنی باز شد»
     And «جزئیات فنی» shows the verified backup file path and failed migration id
     And those technical values are absent from the primary Persian message
-    And starting the sample job is refused with READ_ONLY
+    And a write request is refused with READ_ONLY (the sample job will use the same guard in a later plan)
     And the prior rows are intact and «بررسی سامانه» remains reachable
 
   @plan-01-11 @kind-persistence
