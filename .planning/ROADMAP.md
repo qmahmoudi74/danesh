@@ -67,16 +67,16 @@ Plans:
 - [x] 01-09-PLAN.md — LLM, OCR and TTS packaging probes in isolated hosts; UI responsiveness check
 
 **Wave 7** *(blocked on Wave 6 completion)*
-- [ ] 01-10-PLAN.md — Run 38015174157 failed both jobs; actual authenticated artifacts evaluated, macOS scheduling and Windows native crash diagnosis, green CI and passing artifact validation pending
+- [ ] 01-10-PLAN.md — Partially verified; latest run 38016154277 passed Windows with fresh artifact validated, macOS smoke failed; owner defers macOS investigation, native worker crash remains tracked, cross-platform and Tier B acceptance unchanged
 
 **Wave 8** *(blocked on Wave 7 completion)*
 - [x] 01-11-PLAN.md — Forward-only migrations, verified backups, newer-schema refusal and read-only recovery; existing local slice resumed and verified on Windows while the CI gate remains pending
 
 **Wave 9** *(blocked on Wave 8 completion)*
-- [ ] 01-12-PLAN.md — Content-addressed blob store; owner authorizes Windows-first execution while 01-10 platform verification remains deferred (2026-10-10); release criteria unchanged
+- [x] 01-12-PLAN.md — Content-addressed blob store, Core startup cleanup and real System Check; implementation complete and verified on Windows only under owner-approved sequencing exception (2026-10-10); macOS unverified, 01-10 and release criteria unchanged
 
 **Wave 10** *(blocked on Wave 9 completion)*
-- [ ] 01-13-PLAN.md — Durable job kernel and sample durable job with crash-safe resume
+- [ ] 01-13-PLAN.md — Durable job kernel and sample durable job with crash-safe resume; next approved Windows-first implementation, not started
 
 **Wave 11** *(blocked on Wave 10 completion)*
 - [ ] 01-14-PLAN.md — Engine and Core supervision: crash/OOM containment with backoff
@@ -345,7 +345,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Secure, Durable Foundation & Packaging Gate | 10/16 | In Progress | - |
+| 1. Secure, Durable Foundation & Packaging Gate | 11/16 | In Progress (Windows-first; cross-platform verification pending) | - |
 | 2. PDF Import & Faithful Canonical Model | 0/TBD | Not started | - |
 | 3. Persian-First Semantic Reader, Outline & Search | 0/TBD | Not started | - |
 | 4. Local Model Manager & AI Runtime | 0/TBD | Not started | - |

@@ -66,8 +66,8 @@
   ],
   "next": {
     "command": "/gsd-execute-phase 1",
-    "label": "Plan 01-10 macOS scheduling and Windows native crash diagnosis",
-    "reason": "10 of 16 plans complete; Plan 01-11 is complete locally. Latest run 38015174157 at user-pushed 1a1c397 failed both jobs: macOS idle p95 120 ms and loaded p95 143 ms; Windows native probe worker exit 3221226356. Both artifacts and job logs were downloaded through authenticated GitHub access; hashes and exact macOS distributions checked, but its pass gate correctly fails. Both jobs skipped E2E. No specific runtime cause or correction was established. Obtain macOS scheduler/priority/CPU observations and a Windows native crash stack, then choose an evidence-based fix if supported. Green cross-platform CI and current-run artifacts validated as passing remain required. Plan 01-12 CAS remains gated; Plan 01-13 was not started. Automatic chaining remains disabled."
+    "label": "Plan 01-13 Durable Job Kernel, Windows-first",
+    "reason": "11 of 16 plans and 0 of 12 phases complete. Plan 01-12 implementation is complete with Windows-only verification: 423 unit tests, 152 storage tests, 39 full E2E, two packaged E2E and Persian-path production smoke passed. Plan 01-11 stays complete. Owner explicitly authorizes this Windows-first development sequence while Plan 01-10 stays partially verified; release and cross-platform acceptance criteria are unchanged. Latest run 38016154277 at user-pushed c36666b passed Windows, with fresh authenticated artifact hash checked and smoke validated, but failed macOS smoke and skipped macOS E2E. That run predates CAS. macOS investigation is deferred; preserve failed evidence and track the prior Windows native worker crash without assuming a fix. Plan 01-13 was not started because remaining execution budget cannot cover its complete implementation and crash/restart verification. Resume the approved durable jobs plan next toward PDF Import. Plan 01-14 was not started. Tier B stays outstanding and automatic chaining stays disabled. No push occurred."
   },
   "updated_at": "2026-10-10"
 }

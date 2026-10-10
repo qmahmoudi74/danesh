@@ -18,7 +18,7 @@ Requirements for the initial release. Each maps to exactly one roadmap phase.
 - [ ] **PLAT-05**: Outbound network access is denied by default. Only explicit, user-controlled paths (web research, model downloads, opt-in update check) can open connections. An automated test verifies this with the network blocked.
 - [x] **PLAT-06**: User data lives in a versioned local database with forward-only migrations. The app refuses to open a database written by a newer version.
 - [x] **PLAT-07**: The app automatically snapshots the user's data before any schema migration. A failed migration leaves prior data intact and restorable.
-- [ ] **PLAT-08**: Original PDFs and large artifacts are stored in a content-addressed store with atomic writes.
+- [x] **PLAT-08**: Original PDFs and large artifacts are stored in a content-addressed store with atomic writes.
 - [ ] **PLAT-09**: These data domains are stored separately: source model, evidence, language outputs, concepts, lessons, learning evidence, recall schedule, and model/job state. Switching or removing a model never deletes source data or study progress.
 - [ ] **PLAT-10**: Every generated artifact records its producer: model ID/version, prompt/processing version and input fingerprint.
 - [ ] **PLAT-11**: The app works when the user profile or storage path contains Persian characters or spaces.
@@ -280,7 +280,7 @@ Which phases cover which requirements. Filled in during roadmap creation.
 | PLAT-05 | Phase 1 | Pending |
 | PLAT-06 | Phase 1 | Complete (Windows; macOS platform evidence pending) |
 | PLAT-07 | Phase 1 | Complete (Windows; macOS platform evidence pending) |
-| PLAT-08 | Phase 1 | Pending |
+| PLAT-08 | Phase 1 | Complete (Windows; macOS platform evidence pending) |
 | PLAT-09 | Phase 4 | Pending |
 | PLAT-10 | Phase 2 | Pending |
 | PLAT-11 | Phase 1 | Pending |
