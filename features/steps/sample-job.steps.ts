@@ -39,6 +39,11 @@ async function start(page: Page): Promise<void> {
 async function details(page: Page): Promise<void> {
   const trigger = card(page).getByRole('button', { name: 'جزئیات فنی', exact: true });
   if ((await trigger.getAttribute('aria-expanded')) !== 'true') await trigger.click();
+  const region = card(page).getByRole('region', { name: 'جزئیات بخش‌های کار نمونه' });
+  await expect(region).toHaveAttribute('tabindex', '0');
+  expect(await region.evaluate((element) => getComputedStyle(element).maxBlockSize)).toBe('320px');
+  await region.focus();
+  await expect(region).toBeFocused();
 }
 async function verifyOutputs(root: string, audit: ReturnType<typeof readJobAudit>): Promise<void> {
   const sample = (await readFile('apps/core/assets/sample-durable-job.txt', 'utf8')).normalize(
@@ -122,6 +127,10 @@ Then(
       await expect(row.locator('td').nth(2)).toHaveText('1');
     }
     const job = (await snapshot(page))!;
+    await expect(card(page).locator('dd bdi[dir="ltr"]').first()).toHaveText(job.jobId);
+    await expect(card(page).locator('dd bdi[dir="ltr"]').nth(2)).toHaveText(
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/,
+    );
     const audit = readJobAudit(libraryRoot, job.jobId);
     expect(audit.tasks.every((task) => task.state === 'done' && task.attempt === 1)).toBe(true);
     await verifyOutputs(libraryRoot, audit);
