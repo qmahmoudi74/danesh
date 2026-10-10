@@ -26,6 +26,16 @@ Feature: Extract a PDF's text and read it in Danesh
     Then opening the document's extracted text shows the same blocks without extracting again
 
   @plan-pdf-02 @kind-edge
+  Scenario: Source evidence is inspectable independently of the clipboard
+    Given Danesh is launched with that library folder
+    And the fixture «persian-mixed.pdf» has been imported
+    When I open it in the semantic Reader
+    And I start the extraction
+    Then extraction progress is shown per page until all 3 pages are done
+    When I inspect the original excerpt for the mixed sentence
+    Then its stored raw text and source-block provenance are shown without a PDF page viewer
+
+  @plan-pdf-02 @kind-edge
   Scenario: An English PDF reads left to right with its headings
     Given Danesh is launched with that library folder
     And the fixture «english-report.pdf» has been imported
