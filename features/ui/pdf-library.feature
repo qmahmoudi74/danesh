@@ -1,27 +1,23 @@
-# covers: packages/storage/src/documents.ts, apps/core/src/documents.ts, packages/engines/pdf/src/pdf.ts, apps/renderer/src/screens/Library.tsx, apps/renderer/src/components/PdfViewer.tsx
+# covers: packages/storage/src/documents.ts, apps/core/src/documents.ts, packages/engines/pdf/src/pdf.ts, apps/renderer/src/screens/Library.tsx
 @ui @req-DOC-01 @req-DOC-02 @req-DOC-03 @req-DOC-05
-Feature: Import a PDF into the Library and view its original pages
-  The first usable journey: the original is stored once, listed, and shown page by page, offline and across
-  restarts. Viewing the original is not the semantic reader; nothing is extracted from the PDF yet.
+Feature: Import a PDF into the Library and open its semantic Reader
+  Originals remain immutable evidence. The confirmed v1 experience displays reconstructed content,
+  never an embedded PDF page viewer or page-navigation controls.
 
   Background:
     Given an isolated library folder whose path contains Persian letters and a space
 
   @plan-pdf-01 @kind-happy @kind-persistence
-  Scenario: A PDF is imported, read page by page, and is still there after a relaunch
+  Scenario: An imported PDF opens the semantic Reader and survives a relaunch
     Given Danesh is launched with that library folder
     When I choose «افزودن PDF» and pick the 3-page file «کتاب نمونه.pdf» titled «مبانی Danesh»
     Then the Library lists «مبانی Danesh» with 3 pages
     And the original bytes are stored once in the content-addressed store
     When I open «مبانی Danesh» from the Library
-    Then page 1 of 3 is drawn inside Danesh
-    When I go to the next page
-    Then page 2 of 3 is drawn inside Danesh
-    When I zoom in
-    Then the page is drawn wider than before
+    Then the semantic Reader offers extraction without PDF viewing or page navigation
     When Danesh is closed and relaunched with the same library folder
     Then the Library still lists «مبانی Danesh» once
-    And opening it draws page 1 of 3
+    And opening it offers semantic extraction
 
   @plan-pdf-01 @kind-edge
   Scenario: Importing the same content again opens the existing entry

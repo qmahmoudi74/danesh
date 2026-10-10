@@ -12,7 +12,7 @@ Feature: Extract a PDF's text and read it in Danesh
   Scenario: A Persian and English PDF is extracted, read, and still readable after a relaunch
     Given Danesh is launched with that library folder
     And the fixture «persian-mixed.pdf» has been imported
-    When I open it and choose «متن استخراج‌شده»
+    When I open it in the semantic Reader
     And I start the extraction
     Then extraction progress is shown per page until all 3 pages are done
     And the reader shows the heading «فصل ۱: آشنایی با کتابخانهٔ دانش» and Persian paragraphs in logical order
@@ -20,8 +20,8 @@ Feature: Extract a PDF's text and read it in Danesh
     And page 3 is marked as needing OCR
     And every block carries its page number
     And the reader's text can be selected and copied
-    When I switch to «نسخه اصلی»
-    Then the original page is drawn
+    When I inspect the original excerpt for the mixed sentence
+    Then its stored raw text and source-block provenance are shown without a PDF page viewer
     When Danesh is closed and relaunched with the same library folder
     Then opening the document's extracted text shows the same blocks without extracting again
 
@@ -29,7 +29,7 @@ Feature: Extract a PDF's text and read it in Danesh
   Scenario: An English PDF reads left to right with its headings
     Given Danesh is launched with that library folder
     And the fixture «english-report.pdf» has been imported
-    When I open it and choose «متن استخراج‌شده»
+    When I open it in the semantic Reader
     And I start the extraction
     Then the reader shows the heading «Results» and the paragraph text in left-to-right blocks
 
@@ -39,7 +39,7 @@ Feature: Extract a PDF's text and read it in Danesh
     And the fixture «persian-mixed.pdf» has been imported
     And its extraction stopped after page 1 when Danesh closed
     When Danesh is closed and relaunched with the same library folder
-    And I open it and choose «متن استخراج‌شده»
+    And I open it in the semantic Reader
     Then the extraction is shown as interrupted after 1 of 3 pages
     When I continue the extraction
     Then all 3 pages are extracted and page 1 was not extracted twice
@@ -49,7 +49,7 @@ Feature: Extract a PDF's text and read it in Danesh
     Given Danesh is launched with that library folder
     And the fixture «english-report.pdf» has been imported
     And the stored original has been altered on disk
-    When I open it and choose «متن استخراج‌شده»
+    When I open it in the semantic Reader
     And I start the extraction
     Then Danesh says the stored file failed its integrity check and nothing was extracted
 
