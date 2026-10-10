@@ -1,0 +1,454 @@
+{
+    "os":  "macos",
+    "sha256":  "c115a7e27d1038f17c44c5b4410aa1184173ef8139c9b7ebac4dd7ea923c8b6d",
+    "entries":  [
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-close-out-validation.txt",
+                        "bytes":  619
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-01-static-validation.txt",
+                        "bytes":  5212
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-final-verification.txt",
+                        "bytes":  1378
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-install-verification.txt",
+                        "bytes":  14266
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-license-applicability-check.json",
+                        "bytes":  2600
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-license-history-followup.json",
+                        "bytes":  17634
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-license-history-detail.json",
+                        "bytes":  34213
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-lockfile-package-metadata.json",
+                        "bytes":  581627
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-lockfile-resolution.txt",
+                        "bytes":  397
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-native-verification.txt",
+                        "bytes":  2784
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-npm-view.json",
+                        "bytes":  5681
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-pre-install-validation.txt",
+                        "bytes":  2168
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-production-dependency-check.json",
+                        "bytes":  281
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-production-dependency-graph.json",
+                        "bytes":  166506
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-provenance-attestations.json",
+                        "bytes":  652037
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-registry-metadata.json",
+                        "bytes":  67445
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-provenance-checks.json",
+                        "bytes":  4679
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-spdx-MIT.txt",
+                        "bytes":  1078
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-toolchain-versions.txt",
+                        "bytes":  1022
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-truncate-license-provenance.json",
+                        "bytes":  6261
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-type-compatibility-followup.json",
+                        "bytes":  880
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-typescript-verification.txt",
+                        "bytes":  3854
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-02-user-approval.md",
+                        "bytes":  2863
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-05-final-verification.txt",
+                        "bytes":  9315
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-03-final-verification.txt",
+                        "bytes":  14399
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-06-deadline-check.mjs",
+                        "bytes":  2493
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-06-deadline-recheck.txt",
+                        "bytes":  11855
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-06-final-verification.txt",
+                        "bytes":  15089
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-06-deadline-result.json",
+                        "bytes":  326
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-06-home-720-200.png",
+                        "bytes":  78081
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-06-home-720.png",
+                        "bytes":  51120
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-06-system-detail-720-200.png",
+                        "bytes":  78960
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-06-postcommit-verification.txt",
+                        "bytes":  9613
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-06-system-partial-720-200.png",
+                        "bytes":  55456
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-06-system-partial-720.png",
+                        "bytes":  105445
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-06-visual-check.mjs",
+                        "bytes":  6054
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-06-visual-results.json",
+                        "bytes":  3872
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-07-final-verification.txt",
+                        "bytes":  2683
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-08-final-verification.txt",
+                        "bytes":  4862
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-09-final-verification.txt",
+                        "bytes":  4566
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-10-ci-fixes-smoke-win32-x64.json",
+                        "bytes":  6300
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-10-ci-fixes-verification.txt",
+                        "bytes":  163426
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-10-ci-local.txt",
+                        "bytes":  771
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-10-diagnostics-verification.txt",
+                        "bytes":  67559
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-10-diagnostics-smoke-win32-x64.json",
+                        "bytes":  12532
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-11-final-verification.txt",
+                        "bytes":  78305
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-11-packaged-smoke-win32-x64.json",
+                        "bytes":  6297
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-dark-close-hover.png",
+                        "bytes":  5683
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-dark-home-1040.png",
+                        "bytes":  73313
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-dark-home-720.png",
+                        "bytes":  61432
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-dark-inactive.png",
+                        "bytes":  73313
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-dark-rail-focus.png",
+                        "bytes":  73430
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-dark-rail-tooltip.png",
+                        "bytes":  73176
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-dark-settings-1040.png",
+                        "bytes":  54409
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-dark-settings-zoom200.png",
+                        "bytes":  53287
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-dark-system-1040.png",
+                        "bytes":  106867
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-dark-system-zoom200.png",
+                        "bytes":  97207
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-final-verification.txt",
+                        "bytes":  14632
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-dark-system-720.png",
+                        "bytes":  72146
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-light-close-hover.png",
+                        "bytes":  5908
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-light-home-1040.png",
+                        "bytes":  71710
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-light-home-720.png",
+                        "bytes":  60187
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-light-inactive.png",
+                        "bytes":  71725
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-light-rail-focus.png",
+                        "bytes":  72220
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-light-settings-1040.png",
+                        "bytes":  55270
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-light-rail-tooltip.png",
+                        "bytes":  71846
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-light-settings-zoom200.png",
+                        "bytes":  55704
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-light-system-1040.png",
+                        "bytes":  104452
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-light-system-zoom200.png",
+                        "bytes":  93536
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-visual-check.mjs",
+                        "bytes":  5824
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-light-system-720.png",
+                        "bytes":  70846
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-17-visual-results.json",
+                        "bytes":  2973
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-ci/38008716935/ci-status.json",
+                        "bytes":  952
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-ci/38008716935/RUN.md",
+                        "bytes":  620
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-ci/38008995205/RUN.md",
+                        "bytes":  613
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-ci/38008995205/ci-status.json",
+                        "bytes":  947
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-ci/38010179906/RUN.md",
+                        "bytes":  493
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-ci/38010179906/ci-status.json",
+                        "bytes":  416
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-ci/38010302448/RUN.md",
+                        "bytes":  1963
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-ci/38011901925/public-annotations.txt",
+                        "bytes":  4116
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-ci/38011901925/RUN.md",
+                        "bytes":  5217
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-ci/38013304000/RUN.md",
+                        "bytes":  6802
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-ci/38013304000/observed-metadata.json",
+                        "bytes":  27360
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-ci/38013304000/public-annotations.txt",
+                        "bytes":  534
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-ci/README.md",
+                        "bytes":  757
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-local/smoke-darwin-arm64.json",
+                        "bytes":  15751
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-local/smoke-win32-x64.json",
+                        "bytes":  6744
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/dark-close-hover.png",
+                        "bytes":  7585
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/dark-home-1040.png",
+                        "bytes":  71036
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/dark-home-720.png",
+                        "bytes":  59546
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/dark-inactive.png",
+                        "bytes":  71026
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/dark-rail-tooltip.png",
+                        "bytes":  65994
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/dark-rail-focus.png",
+                        "bytes":  65918
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/dark-settings-1040.png",
+                        "bytes":  47691
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/dark-settings-zoom200.png",
+                        "bytes":  52713
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/dark-system-1040.png",
+                        "bytes":  101978
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/dark-system-720.png",
+                        "bytes":  77120
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/light-close-hover.png",
+                        "bytes":  7437
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/dark-system-zoom200.png",
+                        "bytes":  92656
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/light-home-720.png",
+                        "bytes":  58387
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/light-inactive.png",
+                        "bytes":  69604
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/light-home-1040.png",
+                        "bytes":  69629
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/light-rail-focus.png",
+                        "bytes":  64541
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/light-rail-tooltip.png",
+                        "bytes":  64495
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/light-settings-1040.png",
+                        "bytes":  48639
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/light-settings-zoom200.png",
+                        "bytes":  53195
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/light-system-1040.png",
+                        "bytes":  99372
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/light-system-720.png",
+                        "bytes":  75800
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/light-system-zoom200.png",
+                        "bytes":  89216
+                    },
+                    {
+                        "name":  ".planning/phases/01-secure-durable-foundation-packaging-gate/evidence/ui-cleanup/visual-results.json",
+                        "bytes":  2973
+                    },
+                    {
+                        "name":  "evidence-tmp/logs-darwin-arm64/core.jsonl",
+                        "bytes":  106
+                    },
+                    {
+                        "name":  "evidence-tmp/logs-darwin-arm64/main.jsonl",
+                        "bytes":  200
+                    }
+                ]
+}

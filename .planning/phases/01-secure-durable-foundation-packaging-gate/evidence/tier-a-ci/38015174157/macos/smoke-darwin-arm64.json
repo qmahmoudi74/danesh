@@ -1,0 +1,428 @@
+{
+  "runnerVersion": 1,
+  "recordedAt": "2026-10-10T02:00:56.389Z",
+  "platform": "darwin",
+  "arch": "arm64",
+  "appPath": "~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/MacOS/Danesh",
+  "items": {
+    "appRun": {
+      "verdict": "fail",
+      "exitCode": 1,
+      "durationMs": 36480
+    },
+    "persianLibraryPath": {
+      "verdict": "pass",
+      "path": "/var/folders/36/tjdph2t965j8snz9_vkdnw0r0000gn/T/danesh-smoke-zDqdtZ/ دانش آزمون/کتابخانهٔ من ",
+      "folder": "کتابخانهٔ من "
+    },
+    "fuses": {
+      "verdict": "pass",
+      "fuses": {
+        "RunAsNode": false,
+        "EnableNodeOptionsEnvironmentVariable": false,
+        "EnableNodeCliInspectArguments": false,
+        "EnableEmbeddedAsarIntegrityValidation": true,
+        "OnlyLoadAppFromAsar": true,
+        "GrantFileProtocolExtraPrivileges": false
+      },
+      "differing": []
+    },
+    "manifest": {
+      "verdict": "pass",
+      "entries": 77,
+      "missing": [],
+      "extra": [],
+      "changed": [],
+      "ok": true
+    },
+    "asarContents": {
+      "verdict": "pass",
+      "topLevel": [
+        "node_modules",
+        "out",
+        "package.json"
+      ],
+      "unexpected": []
+    },
+    "installPathBound": {
+      "verdict": "pass",
+      "userNameUtf16": 40,
+      "maxInstalledPathUtf16": 201,
+      "longestRel": "app.asar.unpacked/node_modules/@node-llama-cpp/mac-arm64-metal/bins/mac-arm64-metal/libllama.metal.v0.5.0.dylib",
+      "limit": 260
+    },
+    "testHooks": {
+      "verdict": "pass",
+      "markers": []
+    },
+    "nsis": {
+      "verdict": "not-applicable"
+    },
+    "codesign": {
+      "verdict": "pass",
+      "bundle": "~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app",
+      "output": "--prepared:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Danesh Helper (Plugin).app\n--validated:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Danesh Helper (Plugin).app\n--prepared:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/ReactiveObjC.framework/Versions/Current/.\n--validated:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/ReactiveObjC.framework/Versions/Current/.\n--prepared:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Squirrel.framework/Versions/Current/.\n--validated:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Squirrel.framework/Versions/Current/.\n--prepared:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Danesh Helper (Renderer).app\n--validated:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Danesh Helper (Renderer).app\n--prepared:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Danesh Helper.app\n--prepared:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Mantle.framework/Versions/Current/.\n--validated:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Danesh Helper.app\n--validated:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Mantle.framework/Versions/Current/.\n--prepared:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Danesh Helper (GPU).app\n--validated:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Danesh Helper (GPU).app\n--prepared:~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Electron Framework.f"
+    }
+  },
+  "appReport": {
+    "schemaVersion": 1,
+    "appVersion": "0.1.0",
+    "electronVersion": "44.7.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "startedAt": "2026-10-10T02:00:24.355Z",
+    "finishedAt": "2026-10-10T02:00:55.126Z",
+    "overall": "fail",
+    "checks": [
+      {
+        "checkId": "app-launch",
+        "status": "pass",
+        "durationMs": 1,
+        "detail": "برنامه به‌درستی باز شد.",
+        "fields": {
+          "corePid": 23662,
+          "mainPid": 23549,
+          "appVersion": "0.1.0"
+        }
+      },
+      {
+        "checkId": "database",
+        "status": "pass",
+        "durationMs": 4,
+        "detail": "پایگاه داده باز شد و آمادهٔ استفاده است.",
+        "fields": {
+          "count": 1,
+          "corePid": 23662,
+          "dbPath": "/var/folders/36/tjdph2t965j8snz9_vkdnw0r0000gn/T/danesh-smoke-zDqdtZ/ دانش آزمون/کتابخانهٔ من /danesh.db",
+          "journal_mode": "wal",
+          "user_version": 2,
+          "nodeSqlite": "available",
+          "nodeSqliteVersion": "3.53.4"
+        }
+      },
+      {
+        "checkId": "engine-llm",
+        "status": "pass",
+        "durationMs": 30142,
+        "detail": "generated 24 tokens at temperature 0",
+        "fields": {
+          "hostPid": 23669,
+          "corePid": 23662,
+          "entry": "~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Resources/app.asar/out/main/engine-llm.js",
+          "assets": "stories15M-q4_0.gguf",
+          "nativeLibrary": "~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Resources/app.asar.unpacked/node_modules/@node-llama-cpp/mac-arm64-metal/bins/mac-arm64-metal/llama-addon.node",
+          "nativeLibraryCount": 8,
+          "runtime": "node-llama-cpp 3.22.1 (CPU)",
+          "tokenCount": 24,
+          "loadMs": 28691,
+          "generateMs": 815,
+          "hostCpuUserMs": 687.119,
+          "hostCpuSystemMs": 265.101,
+          "hostRssAtFinishBytes": 225509376,
+          "checkStartedAtMs": 1791597624362.2275,
+          "checkFinishedAtMs": 1791597654504.0847
+        },
+        "outputSha256": "76297550fbec3077fdd5f5d46a9af419078dd8cc6d5b7a1861d6d30b2abdf6c2"
+      },
+      {
+        "checkId": "engine-ocr",
+        "status": "pass",
+        "durationMs": 1693,
+        "detail": "first word matches the sample",
+        "fields": {
+          "hostPid": 23670,
+          "corePid": 23662,
+          "entry": "~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Resources/app.asar/out/main/engine-ocr.js",
+          "assets": "eng.traineddata,testocr.png",
+          "runtime": "tesseract.js 7.0.0 (offline)",
+          "firstWord": "This",
+          "expectedFirstWord": "This",
+          "confidence": 95,
+          "durationMs": 1467,
+          "hostCpuUserMs": 959.112,
+          "hostCpuSystemMs": 103.915,
+          "hostRssAtFinishBytes": 156336128,
+          "checkStartedAtMs": 1791597624363.22,
+          "checkFinishedAtMs": 1791597626055.0344
+        },
+        "outputSha256": "76ef157baeb6ab275b7d90f310477a8060d5822aea2b2e05d480f459b016a6ed"
+      },
+      {
+        "checkId": "engine-tts",
+        "status": "pass",
+        "durationMs": 3497,
+        "detail": "synthesized 6400 samples",
+        "fields": {
+          "hostPid": 23671,
+          "corePid": 23662,
+          "entry": "~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Resources/app.asar/out/main/engine-tts.js",
+          "assets": "fa_IR-mana-medium.onnx,fa_IR-mana-medium.onnx.json",
+          "nativeLibrary": "~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Resources/app.asar.unpacked/node_modules/onnxruntime-node/bin/napi-v6/darwin/arm64/onnxruntime_binding.node",
+          "nativeLibraryCount": 2,
+          "runtime": "onnxruntime-node 1.30.0 (CPU, no espeak-ng)",
+          "sampleCount": 6400,
+          "peak": 0.003898,
+          "loadedFrom": "path",
+          "durationMs": 3147,
+          "hostCpuUserMs": 1957.191,
+          "hostCpuSystemMs": 222.513,
+          "hostRssAtFinishBytes": 155320320,
+          "checkStartedAtMs": 1791597624363.6414,
+          "checkFinishedAtMs": 1791597627858.8328
+        },
+        "outputSha256": "f824e462d46e6e7cde46f14ad6d2d77c3a12938d542d5b1e00223b1f47492a8a"
+      },
+      {
+        "checkId": "ui-responsive",
+        "status": "fail",
+        "durationMs": 6,
+        "detail": "heartbeat outside policy",
+        "fields": {
+          "sampleCount": 261,
+          "p50": 78,
+          "p95": 143,
+          "max": 155,
+          "intervalMs": 50,
+          "method": "nearest-rank",
+          "policy": "samples>=100, p95<=50ms, max<=250ms",
+          "diagnostics": "{\"startedAtEpochMs\":1791597624362.5,\"idleSamplesMs\":[39,51,40,120,145,0,110,22,0,0,88,62,0,5,0,15,0,88,12,3,111,81],\"sampleElapsedMs\":[108,302,354,411,466,627,680,715,860,1061,1223,1370,1550,1735,1855,2011,2181,2354,2549,2719,2864,3054,3242,3315,3435,3563,3746,3778,3944,3980,4117,4247,4264,4425,4551,4745,4762,4925,4979,5118,5175,5213,5256,5425,5462,5513,5715,5872,5926,6101,6281,6432,6593,6654,6806,6898,6921,7094,7142,7214,7365,7416,7568,7691,7750,7928,8083,8175,8234,8378,8462,8654,8721,8880,9025,9155,9295,9318,9427,9561,9607,9653,9718,9895,9931,10043,10116,10182,10303,10433,10505,10703,10896,10915,11054,11187,11302,11408,11479,11506,11688,11807,11964,12106,12178,12335,12426,12599,12676,12852,13010,13203,13371,13426,13601,13799,13987,14009,14208,14252,14302,14367,14418,14464,14654,14724,14804,14931,15045,15061,15224,15252,15431,15560,15694,15715,15902,16058,16239,16302,16453,16507,16554,16735,16801,16951,17085,17103,17304,17443,17452,17501,17561,17685,17818,17925,18058,18219,18374,18526,18629,18662,18839,18933,19028,19187,19258,19455,19556,19754,19935,20039,20055,20197,20209,20358,20515,20675,20828,20979,21013,21177,21289,21303,21475,21575,21680,21803,21937,21976,22112,22301,22433,22554,22686,22816,22853,23027,23195,23219,23376,23435,23489,23607,23657,23807,23999,24057,24242,24318,24507,24552,24679,24810,24933,25098,25304,25442,25527,25679,25781,25912,26094,26109,26310,26431,26554,26747,26774,26932,27073,27180,27303,27436,27556,27689,27792,27883,28019,28170,28340,28434,28562,28690,28731,28806,28857,28908,29049,29175,29300,29376,29402,29473,29560,29601,29664,29802,29989,30049,30136],\"longTasksSupported\":true,\"longTasks\":[],\"visibility\":\"visible\",\"samplesMs\":[57,145,2,7,5,110,4,0,95,151,112,97,130,134,70,106,121,122,145,121,95,140,137,23,70,78,133,0,115,0,87,80,0,111,75,145,0,113,4,89,7,0,0,120,0,1,152,107,4,125,131,101,111,11,102,42,0,124,0,22,101,2,102,73,9,128,105,42,9,94,35,142,17,109,94,81,90,0,59,84,0,0,16,127,0,61,24,15,71,80,22,148,143,0,90,82,66,56,21,0,132,69,107,92,22,107,41,124,27,126,108,143,118,4,126,148,138,0,149,0,0,15,2,0,141,20,30,77,64,0,113,0,130,79,84,0,137,106,130,14,101,5,0,131,16,99,85,0,152,89,0,0,9,74,83,57,83,110,105,103,53,0,127,44,46,109,21,147,51,148,131,53,0,93,0,100,107,110,103,101,0,115,61,0,122,51,55,73,85,0,86,140,82,71,82,80,0,124,118,0,108,9,4,68,0,100,142,8,135,26,139,0,78,81,73,115,155,88,35,102,52,81,133,0,151,71,73,142,0,108,91,57,73,83,70,83,53,41,86,102,120,44,78,79,0,25,2,1,91,76,75,26,0,21,37,0,13,88,136,10,38]}"
+        }
+      },
+      {
+        "checkId": "fuses",
+        "status": "pass",
+        "durationMs": 165,
+        "detail": "D-09 production fuses set",
+        "fields": {
+          "binary": "~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app/Contents/Frameworks/Electron Framework.framework/Electron Framework",
+          "RunAsNode": "false",
+          "EnableNodeOptionsEnvironmentVariable": "false",
+          "EnableNodeCliInspectArguments": "false",
+          "EnableEmbeddedAsarIntegrityValidation": "true",
+          "OnlyLoadAppFromAsar": "true",
+          "GrantFileProtocolExtraPrivileges": "false"
+        }
+      },
+      {
+        "checkId": "codesign",
+        "status": "pass",
+        "durationMs": 452,
+        "detail": "valid on disk",
+        "fields": {
+          "bundle": "~/work/danesh/danesh/apps/desktop/dist/mac-arm64/Danesh.app",
+          "exitCode": 0
+        }
+      }
+    ]
+  },
+  "runnerResources": {
+    "availableParallelism": 3,
+    "totalMemoryBytes": 7516192768,
+    "freeMemoryBeforeBytes": 947601408,
+    "loadAverageBefore": [
+      5.59423828125,
+      7.78076171875,
+      10.13818359375
+    ],
+    "loadAverageAvailable": true,
+    "freeMemoryAfterBytes": 919453696,
+    "loadAverageAfter": [
+      9.0673828125,
+      8.654296875,
+      10.3759765625
+    ]
+  },
+  "responsivenessDiagnostics": {
+    "available": true,
+    "idle": {
+      "count": 22,
+      "p50": 22,
+      "p95": 120,
+      "max": 145,
+      "buckets": [
+        {
+          "upperMs": 0,
+          "count": 6
+        },
+        {
+          "upperMs": 10,
+          "count": 2
+        },
+        {
+          "upperMs": 25,
+          "count": 3
+        },
+        {
+          "upperMs": 50,
+          "count": 2
+        },
+        {
+          "upperMs": 100,
+          "count": 5
+        },
+        {
+          "upperMs": 250,
+          "count": 4
+        },
+        {
+          "upperMs": 9007199254740991,
+          "count": 0
+        }
+      ]
+    },
+    "loaded": {
+      "count": 261,
+      "p50": 78,
+      "p95": 143,
+      "max": 155,
+      "buckets": [
+        {
+          "upperMs": 0,
+          "count": 42
+        },
+        {
+          "upperMs": 10,
+          "count": 21
+        },
+        {
+          "upperMs": 25,
+          "count": 18
+        },
+        {
+          "upperMs": 50,
+          "count": 15
+        },
+        {
+          "upperMs": 100,
+          "count": 77
+        },
+        {
+          "upperMs": 250,
+          "count": 88
+        },
+        {
+          "upperMs": 9007199254740991,
+          "count": 0
+        }
+      ]
+    },
+    "phases": {
+      "engine-llm+engine-ocr+engine-tts": {
+        "count": 14,
+        "p50": 95,
+        "p95": 151,
+        "max": 151,
+        "buckets": [
+          {
+            "upperMs": 0,
+            "count": 1
+          },
+          {
+            "upperMs": 10,
+            "count": 4
+          },
+          {
+            "upperMs": 25,
+            "count": 0
+          },
+          {
+            "upperMs": 50,
+            "count": 0
+          },
+          {
+            "upperMs": 100,
+            "count": 3
+          },
+          {
+            "upperMs": 250,
+            "count": 6
+          },
+          {
+            "upperMs": 9007199254740991,
+            "count": 0
+          }
+        ]
+      },
+      "engine-llm+engine-tts": {
+        "count": 12,
+        "p50": 106,
+        "p95": 145,
+        "max": 145,
+        "buckets": [
+          {
+            "upperMs": 0,
+            "count": 0
+          },
+          {
+            "upperMs": 10,
+            "count": 0
+          },
+          {
+            "upperMs": 25,
+            "count": 1
+          },
+          {
+            "upperMs": 50,
+            "count": 0
+          },
+          {
+            "upperMs": 100,
+            "count": 4
+          },
+          {
+            "upperMs": 250,
+            "count": 7
+          },
+          {
+            "upperMs": 9007199254740991,
+            "count": 0
+          }
+        ]
+      },
+      "engine-llm": {
+        "count": 235,
+        "p50": 75,
+        "p95": 143,
+        "max": 155,
+        "buckets": [
+          {
+            "upperMs": 0,
+            "count": 41
+          },
+          {
+            "upperMs": 10,
+            "count": 17
+          },
+          {
+            "upperMs": 25,
+            "count": 17
+          },
+          {
+            "upperMs": 50,
+            "count": 15
+          },
+          {
+            "upperMs": 100,
+            "count": 70
+          },
+          {
+            "upperMs": 250,
+            "count": 75
+          },
+          {
+            "upperMs": 9007199254740991,
+            "count": 0
+          }
+        ]
+      }
+    },
+    "longTasksSupported": true,
+    "longTaskCount": 0,
+    "longestTaskMs": 0,
+    "visibility": "visible"
+  },
+  "verdict": "fail",
+  "failing": [
+    "appRun"
+  ]
+}

@@ -1,0 +1,31 @@
+2026-10-10T01:59:33.2387101Z ⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+2026-10-10T01:59:33.2387982Z
+2026-10-10T01:59:33.2388630Z Vitest caught 1 unhandled error during the test run.
+2026-10-10T01:59:33.2390153Z This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+2026-10-10T01:59:33.2430349Z
+2026-10-10T01:59:33.2431753Z ⎯⎯⎯⎯⎯⎯ Unhandled Error ⎯⎯⎯⎯⎯⎯⎯
+2026-10-10T01:59:33.2437715Z Error: [vitest-pool]: Worker forks emitted error.
+2026-10-10T01:59:33.2441145Z  ❯ EventEmitter.onTaskError node_modules/vitest/dist/chunks/index.DpLw24bj.js:11532:21
+2026-10-10T01:59:33.2444402Z  ❯ EventEmitter.emit node:events:514:28
+2026-10-10T01:59:33.2446141Z  ❯ ChildProcess.emitUnexpectedExit node_modules/vitest/dist/chunks/index.DpLw24bj.js:11007:22
+2026-10-10T01:59:33.2456518Z
+2026-10-10T01:59:33.2459104Z  ❯ ChildProcess.emit node:events:514:28
+2026-10-10T01:59:33.2460344Z  Test Files  29 passed (30)
+2026-10-10T01:59:33.2461372Z  ❯ Process.ChildProcess._handle.onexit node:internal/child_process:295:12
+2026-10-10T01:59:33.2461828Z
+2026-10-10T01:59:33.2462784Z Caused by: Error: Worker exited unexpectedly with exit code 3221226356 during started state while running test file D:/a/danesh/danesh/packages/engines/test/probes.test.ts
+2026-10-10T01:59:33.2464381Z  ❯ ChildProcess.emitUnexpectedExit node_modules/vitest/dist/chunks/index.DpLw24bj.js:11005:33
+2026-10-10T01:59:33.2465298Z  ❯ ChildProcess.emit node:events:514:28
+2026-10-10T01:59:33.2466193Z  ❯ Process.ChildProcess._handle.onexit node:internal/child_process:295:12
+2026-10-10T01:59:33.2466699Z
+2026-10-10T01:59:33.2466961Z ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+2026-10-10T01:59:33.2467196Z
+2026-10-10T01:59:33.2467918Z       Tests  357 passed (363)
+2026-10-10T01:59:33.2468496Z      Errors  1 error
+2026-10-10T01:59:33.2469001Z    Start at  01:59:15
+2026-10-10T01:59:33.2469619Z    Duration  17.38s (tests 87%, import 8%, transform 4%)
+2026-10-10T01:59:33.2480187Z
+2026-10-10T01:59:33.2481617Z     Isolate  30 workers spawned · ~122ms startup each (spawn + environment, per file)
+2026-10-10T01:59:33.2482677Z              at least ~1.70s faster with isolate: false — reuses workers across files instead of one per file
+2026-10-10T01:59:33.2483114Z
+2026-10-10T01:59:33.2875410Z [ELIFECYCLE] Test failed. See above for more details.

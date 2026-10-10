@@ -1,0 +1,633 @@
+Run 38015174157 evidence review, 2026-10-10.
+Authenticated GitHub connector retrieved both archives and job logs. Both archive SHA-256 values match GitHub metadata; inventories are retained separately. Temporary download URLs and credentials are excluded.
+The macOS report is structurally valid; the pass gate correctly fails only ui-responsive. Windows did not produce a current-run smoke report. Historical reports in its artifact are not evidence for this run.
+No runtime correction was selected: no specific cause is sufficiently established. No new package or E2E build/run was performed locally. The existing full unit suite includes the native probes and passed on this Windows machine; it does not resolve the hosted worker crash.
+PowerShell NativeCommandError wrappers on pnpm banners do not indicate failure; exits are native LASTEXITCODE values.
+
+COMMAND: Downloaded macOS artifact: full smoke validation with Persian path, darwin and all eight required checks
+EXIT: 1
+node : FAIL overall is fail; failing checks: ui-responsive
+At line:2 char:1
++ node tools/smoke/validate-evidence.ts --file .planning/phases/01-secu ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (FAIL overall is...: ui-responsive:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+FAIL required check ui-responsive is fail
+validate-evidence: failed (2)
+
+
+COMMAND: node evidence-tmp/ci-38015174157-analyze.ts (scratch analysis, schema/contract and exact summary recomputation)
+EXIT: 0
+Downloaded smoke schema, bounded diagnostic contract, distributions, phase classification and failing verdict verified.
+{
+  "available": true,
+  "idle": {
+    "count": 22,
+    "p50": 22,
+    "p95": 120,
+    "max": 145,
+    "buckets": [
+      {
+        "upperMs": 0,
+        "count": 6
+      },
+      {
+        "upperMs": 10,
+        "count": 2
+      },
+      {
+        "upperMs": 25,
+        "count": 3
+      },
+      {
+        "upperMs": 50,
+        "count": 2
+      },
+      {
+        "upperMs": 100,
+        "count": 5
+      },
+      {
+        "upperMs": 250,
+        "count": 4
+      },
+      {
+        "upperMs": 9007199254740991,
+        "count": 0
+      }
+    ]
+  },
+  "loaded": {
+    "count": 261,
+    "p50": 78,
+    "p95": 143,
+    "max": 155,
+    "buckets": [
+      {
+        "upperMs": 0,
+        "count": 42
+      },
+      {
+        "upperMs": 10,
+        "count": 21
+      },
+      {
+        "upperMs": 25,
+        "count": 18
+      },
+      {
+        "upperMs": 50,
+        "count": 15
+      },
+      {
+        "upperMs": 100,
+        "count": 77
+      },
+      {
+        "upperMs": 250,
+        "count": 88
+      },
+      {
+        "upperMs": 9007199254740991,
+        "count": 0
+      }
+    ]
+  },
+  "phases": {
+    "engine-llm+engine-ocr+engine-tts": {
+      "count": 14,
+      "p50": 95,
+      "p95": 151,
+      "max": 151,
+      "buckets": [
+        {
+          "upperMs": 0,
+          "count": 1
+        },
+        {
+          "upperMs": 10,
+          "count": 4
+        },
+        {
+          "upperMs": 25,
+          "count": 0
+        },
+        {
+          "upperMs": 50,
+          "count": 0
+        },
+        {
+          "upperMs": 100,
+          "count": 3
+        },
+        {
+          "upperMs": 250,
+          "count": 6
+        },
+        {
+          "upperMs": 9007199254740991,
+          "count": 0
+        }
+      ]
+    },
+    "engine-llm+engine-tts": {
+      "count": 12,
+      "p50": 106,
+      "p95": 145,
+      "max": 145,
+      "buckets": [
+        {
+          "upperMs": 0,
+          "count": 0
+        },
+        {
+          "upperMs": 10,
+          "count": 0
+        },
+        {
+          "upperMs": 25,
+          "count": 1
+        },
+        {
+          "upperMs": 50,
+          "count": 0
+        },
+        {
+          "upperMs": 100,
+          "count": 4
+        },
+        {
+          "upperMs": 250,
+          "count": 7
+        },
+        {
+          "upperMs": 9007199254740991,
+          "count": 0
+        }
+      ]
+    },
+    "engine-llm": {
+      "count": 235,
+      "p50": 75,
+      "p95": 143,
+      "max": 155,
+      "buckets": [
+        {
+          "upperMs": 0,
+          "count": 41
+        },
+        {
+          "upperMs": 10,
+          "count": 17
+        },
+        {
+          "upperMs": 25,
+          "count": 17
+        },
+        {
+          "upperMs": 50,
+          "count": 15
+        },
+        {
+          "upperMs": 100,
+          "count": 70
+        },
+        {
+          "upperMs": 250,
+          "count": 75
+        },
+        {
+          "upperMs": 9007199254740991,
+          "count": 0
+        }
+      ]
+    }
+  },
+  "longTasksSupported": true,
+  "longTaskCount": 0,
+  "longestTaskMs": 0,
+  "visibility": "visible"
+}
+Loaded samples >50 ms: 165
+Idle samples >50 ms: 9
+{"engine":"engine-llm","startEpochMs":1791597624362.2275,"finishEpochMs":1791597654504.0847,"elapsedMs":30141.857177734375,"userCpuMs":687.119,"systemCpuMs":265.101,"rssAtFinishBytes":225509376}
+{"engine":"engine-ocr","startEpochMs":1791597624363.22,"finishEpochMs":1791597626055.0344,"elapsedMs":1691.814453125,"userCpuMs":959.112,"systemCpuMs":103.915,"rssAtFinishBytes":156336128}
+{"engine":"engine-tts","startEpochMs":1791597624363.6414,"finishEpochMs":1791597627858.8328,"elapsedMs":3495.19140625,"userCpuMs":1957.191,"systemCpuMs":222.513,"rssAtFinishBytes":155320320}
+
+
+COMMAND: pnpm check:format
+EXIT: 0
+pnpm : $ biome check
+At line:2 char:1
++ pnpm check:format *> $env:TEMP\danesh-newci-format.txt; if ($LASTEXIT ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ biome check:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+apps\core\src\system-check.ts:89:23 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    87 │     let created = false;
+    88 │     try {
+  > 89 │       const content = JSON.stringify(SmokeReportSchema.parse(report), null, 2) + '\n';
+       │                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    90 │       const file = await open(temporary, 'wx');
+    91 │       created = true;
+
+  i Unsafe fix: Use a template literal.
+
+     87  87 │       let created = false;
+     88  88 │       try {
+     89     │ - ······const·content·=·JSON.stringify(SmokeReportSchema.parse(report),·null,·2)·+·'\n';
+         89 │ + ······const·content·=·`${JSON.stringify(SmokeReportSchema.parse(report),·null,·2)}\n`;
+     90  90 │         const file = await open(temporary, 'wx');
+     91  91 │         created = true;
+
+
+packages\contracts\test\ipc-validation.feature.test.ts:298:26 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    296 │               'a'.repeat(TEXT_LIMIT - envelopeBytes - persianLetters * 2),
+    297 │           };
+  > 298 │           over = { text: atLimit.text + 'a' };
+        │                          ^^^^^^^^^^^^^^^^^^
+    299 │           expect(utf8ByteLength(atLimit)).toBe(TEXT_LIMIT);
+    300 │           expect(utf8ByteLength(over)).toBe(TEXT_LIMIT + 1);
+
+  i Unsafe fix: Use a template literal.
+
+    296 296 │                 'a'.repeat(TEXT_LIMIT - envelopeBytes - persianLetters * 2),
+    297 297 │             };
+    298     │ - ··········over·=·{·text:·atLimit.text·+·'a'·};
+        298 │ + ··········over·=·{·text:·`${atLimit.text}a`·};
+    299 299 │             expect(utf8ByteLength(atLimit)).toBe(TEXT_LIMIT);
+    300 300 │             expect(utf8ByteLength(over)).toBe(TEXT_LIMIT + 1);
+
+
+packages\logging\src\jsonl.ts:88:9 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    86 │       const safeEvent = /^[a-z][\w.-]{0,63}$/i.test(event) ? event : 'invalid-event';
+    87 │       const line =
+  > 88 │         JSON.stringify({
+       │         ^^^^^^^^^^^^^^^^
+  > 89 │           ts: new Date().toISOString(),
+        ...
+  > 93 │           ...sanitize(fields),
+  > 94 │         }) + '\n';
+       │         ^^^^^^^^^
+    95 │       const bytes = Buffer.byteLength(line, 'utf8');
+    96 │       if (bytes > maxBytes) return;
+
+  i Unsafe fix: Use a template literal.
+
+     86  86 │         const safeEvent = /^[a-z][\w.-]{0,63}$/i.test(event) ? event : 'invalid-event';
+     87  87 │         const line =
+     88     │ - ········JSON.stringify({
+         88 │ + ········`${JSON.stringify({
+     89  89 │             ts: new Date().toISOString(),
+     90  90 │             level,
+    ······· │
+     92  92 │             event: safeEvent,
+     93  93 │             ...sanitize(fields),
+     94     │ - ········})·+·'\n';
+         94 │ + ········})}\n`;
+     95  95 │         const bytes = Buffer.byteLength(line, 'utf8');
+     96  96 │         if (bytes > maxBytes) return;
+
+
+tools\check-features-first.test.ts:44:22 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    42 │ });
+    43 │ it('rejects missing requirement tags or multiple capabilities', () => {
+  > 44 │   const repo = setup(feature.replace('@req-PLAT-01', '') + 'Feature: Another\n');
+       │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    45 │   repo.commit();
+    46 │   expect(checkFeatures(repo.root, true).errors.length).toBeGreaterThan(0);
+
+  i Unsafe fix: Use a template literal.
+
+    42 42 │   });
+    43 43 │   it('rejects missing requirement tags or multiple capabilities', () => {
+    44    │ - ··const·repo·=·setup(feature.replace('@req-PLAT-01',·'')·+·'Feature:·Another\n');
+       44 │ + ··const·repo·=·setup(`${feature.replace('@req-PLAT-01',·'')}Feature:·Another\n`);
+    45 45 │     repo.commit();
+    46 46 │     expect(checkFeatures(repo.root, true).errors.length).toBeGreaterThan(0);
+
+
+tools\check-report.test.ts:22:10 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    20 │   counts = 'Counts: verified 0, partially verified 0, blocked 4',
+    21 │ ) {
+  > 22 │   return header + rows.join('\n') + '\n' + counts;
+       │          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    23 │ }
+    24 │ it('accepts an honest blocked report', () => {
+
+  i Unsafe fix: Use a template literal.
+
+     20  20 │     counts = 'Counts: verified 0, partially verified 0, blocked 4',
+     21  21 │   ) {
+     22     │ - ··return·header·+·rows.join('\n')·+·'\n'·+·counts;
+         22 │ + ··return·`${header·+·rows.join('\n')}\n${counts}`;
+     23  23 │   }
+     24  24 │   it('accepts an honest blocked report', () => {
+
+
+tools\check-report.test.ts:134:41 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    132 │   'rejects fabricated aggregate text: %s',
+    133 │   (text) => {
+  > 134 │     expect(validateReport(setup().root, report() + '\n' + text, ids).join()).toContain('aggregate');
+        │                                         ^^^^^^^^^^^^^^^^^^^^^^
+    135 │   },
+    136 │ );
+
+  i Unsafe fix: Use a template literal.
+
+    132 132 │     'rejects fabricated aggregate text: %s',
+    133 133 │     (text) => {
+    134     │ - ····expect(validateReport(setup().root,·report()·+·'\n'·+·text,·ids).join()).toContain('aggregate');
+        134 │ + ····expect(validateReport(setup().root,·`${report()}\n${text}`,·ids).join()).toContain('aggregate');
+    135 135 │     },
+    136 136 │   );
+
+
+tools\check-report.ts:155:21 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    153 │   const padded = phase.padStart(2, '0');
+    154 │   const directory = readdirSync(join(root, '.planning/phases')).find((name) =>
+  > 155 │     name.startsWith(padded + '-'),
+        │                     ^^^^^^^^^^^^
+    156 │   );
+    157 │   const file = directory
+
+  i Unsafe fix: Use a template literal.
+
+    153 153 │     const padded = phase.padStart(2, '0');
+    154 154 │     const directory = readdirSync(join(root, '.planning/phases')).find((name) =>
+    155     │ - ····name.startsWith(padded·+·'-'),
+        155 │ + ····name.startsWith(`${padded}-`),
+    156 156 │     );
+    157 157 │     const file = directory
+
+
+tools\lib\test-repo.ts:23:28 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    21 │     write(path: string, text: string) {
+    22 │       const file = resolve(root, path);
+  > 23 │       if (!file.startsWith(root + '\\') && !file.startsWith(root + '/'))
+       │                            ^^^^^^^^^^^
+    24 │         throw new Error('Test path outside owned repo');
+    25 │       mkdirSync(dirname(file), { recursive: true });
+
+  i Unsafe fix: Use a template literal.
+
+    21 21 │       write(path: string, text: string) {
+    22 22 │         const file = resolve(root, path);
+    23    │ - ······if·(!file.startsWith(root·+·'\\')·&&·!file.startsWith(root·+·'/'))
+       23 │ + ······if·(!file.startsWith(`${root}\\`)·&&·!file.startsWith(root·+·'/'))
+    24 24 │           throw new Error('Test path outside owned repo');
+    25 25 │         mkdirSync(dirname(file), { recursive: true });
+
+
+tools\lib\test-repo.ts:23:61 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    21 │     write(path: string, text: string) {
+    22 │       const file = resolve(root, path);
+  > 23 │       if (!file.startsWith(root + '\\') && !file.startsWith(root + '/'))
+       │                                                             ^^^^^^^^^^
+    24 │         throw new Error('Test path outside owned repo');
+    25 │       mkdirSync(dirname(file), { recursive: true });
+
+  i Unsafe fix: Use a template literal.
+
+    21 21 │       write(path: string, text: string) {
+    22 22 │         const file = resolve(root, path);
+    23    │ - ······if·(!file.startsWith(root·+·'\\')·&&·!file.startsWith(root·+·'/'))
+       23 │ + ······if·(!file.startsWith(root·+·'\\')·&&·!file.startsWith(`${root}/`))
+    24 24 │           throw new Error('Test path outside owned repo');
+    25 25 │         mkdirSync(dirname(file), { recursive: true });
+
+
+tools\license-scan.test.ts:150:38 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    148 │     expect(generated).toContain('FULL OFL TEXT');
+    149 │     expect(noticesCurrent(generated, undefined)).toBe(false);
+  > 150 │     expect(noticesCurrent(generated, generated + 'edit')).toBe(false);
+        │                                      ^^^^^^^^^^^^^^^^^^
+    151 │     expect(noticesCurrent(generated, generated)).toBe(true);
+    152 │   });
+
+  i Unsafe fix: Use a template literal.
+
+    148 148 │       expect(generated).toContain('FULL OFL TEXT');
+    149 149 │       expect(noticesCurrent(generated, undefined)).toBe(false);
+    150     │ - ····expect(noticesCurrent(generated,·generated·+·'edit')).toBe(false);
+        150 │ + ····expect(noticesCurrent(generated,·`${generated}edit`)).toBe(false);
+    151 151 │       expect(noticesCurrent(generated, generated)).toBe(true);
+    152 152 │     });
+
+
+tools\license-scan.ts:187:10 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    185 │   for (const entry of [...retained].sort((a, b) => a.label.localeCompare(b.label, 'en')))
+    186 │     sections.push(`${entry.label}\n${entry.text}`);
+  > 187 │   return sections.join('\n\n----------------------------------------\n\n') + '\n';
+        │          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    188 │ }
+    189 │ export function noticesCurrent(expected: string, actual: string | undefined): boolean {
+
+  i Unsafe fix: Use a template literal.
+
+    185 185 │     for (const entry of [...retained].sort((a, b) => a.label.localeCompare(b.label, 'en')))
+    186 186 │       sections.push(`${entry.label}\n${entry.text}`);
+    187     │ - ··return·sections.join('\n\n----------------------------------------\n\n')·+·'\n';
+        187 │ + ··return·`${sections.join('\n\n----------------------------------------\n\n')}\n`;
+    188 188 │   }
+    189 189 │   export function noticesCurrent(expected: string, actual: string | undefined): boolean {
+
+
+tools\smoke\build-manifest.ts:24:52 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    22 │   );
+    23 │   const manifest = buildManifest(packagedResources(dist));
+  > 24 │   writeFileSync(join(dist, 'build-manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
+       │                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    25 │   console.log(
+    26 │     `build-manifest: entries=${manifest.entries.length} maxRelUtf16=${manifest.maxRelUtf16}`,
+
+  i Unsafe fix: Use a template literal.
+
+    22 22 │     );
+    23 23 │     const manifest = buildManifest(packagedResources(dist));
+Checked 153 files in 160ms. No fixes applied.
+Found 13 infos.
+    24    │ - ··writeFileSync(join(dist,·'build-manifest.json'),·JSON.stringify(manifest,·null,·2)·+·'\n');
+       24 │ + ··writeFileSync(join(dist,·'build-manifest.json'),·`${JSON.stringify(manifest,·null,·2)}\n`);
+    25 25 │     console.log(
+    26 26 │       `build-manifest: entries=${manifest.entries.length} maxRelUtf16=${manifest.maxRelUtf16}`,
+
+
+tools\smoke\run-packaged-smoke.ts:338:22 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    336 │   // Evidence is committed to a public repository: the local home directory (and so the user name) is
+replaced by ~.
+    337 │   const home = JSON.stringify(homedir()).slice(1, -1);
+  > 338 │   writeFileSync(out, JSON.stringify(evidence, null, 2).replaceAll(home, '~') + '\n');
+        │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    339 │   console.log(
+    340 │     `packaged-smoke: verdict=${evidence.verdict}${failing.length ? ` failing=${failing.join(',')}` : ''}
+out=${out}`,
+
+  i Unsafe fix: Use a template literal.
+
+    336 336 │     // Evidence is committed to a public repository: the local home directory (and so the user name) is
+replaced by ~.
+    337 337 │     const home = JSON.stringify(homedir()).slice(1, -1);
+    338     │ - ··writeFileSync(out,·JSON.stringify(evidence,·null,·2).replaceAll(home,·'~')·+·'\n');
+        338 │ + ··writeFileSync(out,·`${JSON.stringify(evidence,·null,·2).replaceAll(home,·'~')}\n`);
+    339 339 │     console.log(
+    340 340 │       `packaged-smoke: verdict=${evidence.verdict}${failing.length ? ` failing=${failing.join(',')}` :
+''} out=${out}`,
+
+
+
+
+COMMAND: pnpm lint
+EXIT: 0
+pnpm : $ eslint .
+At line:2 char:106
++ ... $LASTEXITCODE }; pnpm lint *> $env:TEMP\danesh-newci-lint.txt; if ($L ...
++                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ eslint .:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+
+COMMAND: pnpm typecheck
+EXIT: 0
+pnpm : $ tsc -p tsconfig.json --noEmit && tsc -p apps/renderer/tsconfig.json --noEmit
+At line:2 char:201
++ ... EXITCODE }; pnpm typecheck *> $env:TEMP\danesh-newci-types.txt; if ($ ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ tsc -p tsconf...g.json --noEmit:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+
+COMMAND: pnpm depcruise
+EXIT: 0
+pnpm : $ depcruise apps packages tools --config .dependency-cruiser.cjs
+At line:2 char:302
++ ... EXITCODE }; pnpm depcruise *> $env:TEMP\danesh-newci-depcruise.txt; e ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ depcruise app...ncy-cruiser.cjs:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+✔ no dependency violations found (151 modules, 473 dependencies cruised)
+
+
+
+COMMAND: pnpm test
+EXIT: 0
+pnpm : $ vitest run
+At line:2 char:1
++ pnpm test *> $env:TEMP\danesh-newci-unit.txt; exit $LASTEXITCODE
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ vitest run:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+ RUN  v5.0.3 D:/workspace/AI/danesh
+
+load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+
+ Test Files  30 passed (30)
+      Tests  363 passed (363)
+   Start at  05:34:28
+   Duration  18.55s (tests 85%, import 11%, transform 3%)
+
+    Isolate  30 workers spawned · ~134ms startup each (spawn + environment, per file)
+             at least ~1.88s faster with isolate: false — reuses workers across files instead of one per file
+
+
+
+COMMAND: pnpm check:ci
+EXIT: 0
+pnpm : $ node tools/check-ci.ts
+At line:2 char:1
++ pnpm check:ci *> $env:TEMP\danesh-newci-ci.txt; if ($LASTEXITCODE -ne ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ node tools/check-ci.ts:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+check-ci: findings=0
+
+
+COMMAND: pnpm check:adr
+EXIT: 0
+pnpm : $ node tools/check-adr.ts
+At line:2 char:98
++ ... TEXITCODE }; pnpm check:adr *> $env:TEMP\danesh-newci-adr.txt; if ($L ...
++                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ node tools/check-adr.ts:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+check-adr: failures=0
+
+
+COMMAND: pnpm check:features --allow-unbound
+EXIT: 0
+pnpm : $ node tools/check-features-first.ts --allow-unbound
+At line:2 char:197
++ ... EXITCODE }; pnpm check:features --allow-unbound *> $env:TEMP\danesh-n ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ node tools/ch...--allow-unbound:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+INFO features/core/content-addressed-store.feature: not yet implemented packages/storage/src/cas.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/domain/src/jobs/fsm.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/domain/src/jobs/recovery.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/storage/src/jobs-repo.ts
+INFO features/core/durable-jobs.feature: not yet implemented apps/core/src/sample-job.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/policy.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/broker.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/guard.ts
+INFO features/core/engine-supervision.feature: not yet implemented packages/domain/src/supervision/backoff.ts
+INFO features/core/engine-supervision.feature: not yet implemented packages/domain/src/supervision/policy.ts
+INFO features/core/engine-supervision.feature: not yet implemented apps/main/src/supervisor.ts
+INFO features/ui/desktop-shell.feature: not yet implemented apps/main/src/window-chrome.ts
+INFO features/ui/engine-crash.feature: not yet implemented apps/main/src/supervisor.ts
+INFO features/ui/sample-job.feature: not yet implemented apps/renderer/src/sample-job/SampleJobCard.tsx
+INFO features/ui/sample-job.feature: not yet implemented apps/core/src/sample-job.ts
+INFO features/ui/zero-egress.feature: not yet implemented packages/egress/src/guard.ts
+INFO features/ui/zero-egress.feature: not yet implemented apps/core/src/checks/egress-zero.check.ts
+check-features-first: failures=0

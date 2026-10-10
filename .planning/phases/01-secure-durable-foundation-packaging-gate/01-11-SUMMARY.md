@@ -112,12 +112,13 @@ The final smoke run used the unpacked production app with a Persian library path
 
 ## Remaining phase work
 
-Plan 01-10 is still partially verified. Latest run 38013304000 completed successfully on Windows, including
-both E2E steps. macOS unit and packaging passed, but smoke p95 67 ms failed and E2E was skipped. The remaining
-macOS cause is unproven; bounded production-smoke diagnostics and a demonstrated timer-cleanup correction passed
-local Windows verification. See `01-10-SUMMARY.draft.md` and `evidence/tier-a-ci/38013304000/RUN.md`.
-Plan 01-11 remains complete locally, with macOS verification pending. A user-triggered push of diagnostics,
-green cross-platform CI and downloaded, validated artifacts are still necessary. Plan 01-12 remains gated.
+Plan 01-10 is still partially verified. Latest run 38015174157 at `1a1c397` failed both jobs: macOS unit/package
+passed, but smoke recorded idle p95 120 ms and loaded p95 143 ms; Windows unit tests lost the native probe worker
+with exit 3221226356. Both platforms skipped E2E. Authenticated access downloaded both artifacts; the exact macOS
+report is structurally valid and correctly rejected by the pass gate. No specific runtime cause was proved and
+no speculative correction was made. See `01-10-SUMMARY.draft.md` and `evidence/tier-a-ci/38015174157/RUN.md`.
+Plan 01-11 remains complete locally, with macOS E2E verification pending. Green cross-platform CI and current-run
+artifacts validated as passing are still necessary. Tier B remains separate; Plan 01-12 remains gated.
 No new downstream plan, push, publication or deployment occurred.
 
 ## Self-Check: PASSED

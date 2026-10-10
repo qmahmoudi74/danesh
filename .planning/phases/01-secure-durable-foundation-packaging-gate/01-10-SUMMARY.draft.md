@@ -26,6 +26,7 @@ systems and downloaded, validated artifacts. No push was performed in this sessi
 | 38010302448 | 9746e61 | macOS failed `ui-responsive`: 407 samples, p95 141 ms, max 324 ms | Public run/job HTML observed this session; no artifacts |
 | 38011901925 | 34e0ed7 | Both failed: Windows two 5000 ms unit timeouts; macOS 220 samples, p50 56 ms, p95 139 ms, max 156 ms | Public annotations and REST metadata; downloads refused without authentication |
 | 38013304000 | a3d87f2 | Windows completed successfully; macOS unit/package passed, smoke failed: 342 samples, p50 28 ms, p95 67 ms, max 97 ms | Public annotations and final REST job metadata; artifacts not downloaded/validated |
+| 38015174157 | 1a1c397 | Both failed: Windows native probe worker exit; macOS idle p95 120 ms and loaded p95 143 ms | Both ZIP artifacts/job logs retrieved with authenticated GitHub connector; hashes checked; actual macOS smoke validated as failing |
 
 Run 38011901925 failed Windows before packaging and macOS at packaged smoke. Exact public annotations are retained
 in `evidence/tier-a-ci/38011901925/public-annotations.txt`, with diagnosis and limitations in its `RUN.md`. REST
@@ -94,10 +95,41 @@ p95 13 ms, max 14 ms; separate idle 40 samples, p95 13 ms, max 13 ms. The new re
 See `evidence/01-10-diagnostics-smoke-win32-x64.json` and `evidence/01-10-diagnostics-verification.txt`.
 Windows results cannot establish macOS scheduling or timer behavior. No push or new downstream plan occurred.
 
+## Evaluation of the pushed diagnostics (2026-10-10)
+
+The user pushed all four diagnostic commits and supplied run 38015174157 at `1a1c397`. The run completed with
+failures on both platforms. Authenticated GitHub access is now available and successfully retrieved both artifact
+ZIPs and job logs. Both ZIP hashes match GitHub metadata. The current-run macOS smoke JSON is retained unchanged
+in `evidence/tier-a-ci/38015174157/macos/`; complete diagnosis and limitations are in that run's `RUN.md`.
+Historical Windows reports bundled from the repository are not evidence for this failed run: Windows unit tests
+failed before packaging, installed smoke or either E2E step could execute.
+
+macOS unit tests and packaging passed; all eight System check rows except responsiveness passed, as did external
+smoke security/package checks. Loaded 261 samples: p50 78 ms, p95 143 ms, max 155 ms. Independent pre-inference
+idle baseline: 22 samples, p50 22 ms, p95 120 ms, max 145 ms. Three-engine/LLM+TTS/LLM-only p95 values were
+151/145/143 ms (14/12/235 samples). No renderer long tasks were recorded; visibility was `visible`, consistent
+with disabled background throttling. Available parallelism was 3, total RAM 7 GiB; one-minute load averages
+were 5.594 before and 9.067 after. LLM check elapsed about 30.142 s with 0.952 s measured host CPU and 28.691 s
+setup/load; the binary is Metal, despite the old generic CPU label. CPU is not GPU time and RSS is not peak memory.
+
+High idle latency shows concurrent inference is not necessary for this run's failing tail. Scheduling/runner
+pressure is a supported hypothesis, not a proven specific defect. The baseline is only a two-second startup
+observation. Missing process priority/App Nap, synchronized CPU/scheduler traces, settled idle/post-engine
+observations and GPU setup timing prevent selecting a reliable correction. No further flag/thread change was made.
+
+Windows's native probe worker exited with 3221226356 (`0xC0000374`), leaving 357 passing tests and no passing
+results for its six probe tests. This is separate from earlier timeout failures; no native crash stack or faulting
+module was supplied. Local full unit verification passed all 363 tests, so the hosted crash remains unproven locally.
+All required static and CI/ADR/features checks passed. Exact summary recomputation matched the downloaded smoke;
+its schema/diagnostics are valid, while the pass validator correctly rejects responsiveness. Outputs are retained
+in `evidence/tier-a-ci/38015174157/verification.txt`. No app code, packaging, E2E or downstream plan was changed/run
+locally this session. Both hosted jobs skipped E2E after their respective failures.
+
 ## Remaining work
 
-- A user-triggered push of the diagnostic commits, inspection of the next macOS smoke evidence, and an evidence-based
-  correction if needed; then green CI on both platforms and artifact download/validation.
+- Diagnose macOS scheduling/runner pressure with synchronized process/timer observations and obtain a Windows native
+  probe crash stack before choosing a correction. A diagnostic rerun must retain the original policy and concurrency.
+- Green CI on both platforms, including E2E, with current-run artifacts downloaded and validated as passing.
 - Plan 01-12 CAS is ready in its existing plan and acceptance scenarios, but remains gated; do not start 01-13.
 - Tier B clean-machine verification on both target operating systems remains separate from hosted CI.
 
