@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 import { effectiveTheme } from '@danesh/contracts/preferences.ts';
 import { TEST_HOOKS_SENTINEL } from '@danesh/contracts/test-rpc.ts';
 import { createJsonlLogger } from '@danesh/logging/jsonl.ts';
-import { app } from 'electron';
+import { app, powerSaveBlocker } from 'electron';
 import { startCore } from './core-link.ts';
 import { getChromiumBlockedCount, installChromiumEgressBlock } from './egress-l1.ts';
 import { createPreferenceStore } from './preferences.ts';
@@ -63,6 +63,11 @@ function start(libraryRoot: string, smokeRun: SmokeRun | null): void {
   app
     .whenReady()
     .then(() => {
+      // macOS puts an app without a visible window into App Nap, which coalesces its timers; Chromium's throttling
+      // switches cannot prevent that. A user's Danesh window is visible, so the headless run holds the activity a
+      // visible app has (an NSProcessInfo activity), to measure the same scheduling. Thresholds are unchanged.
+      if (smokeRun && process.platform === 'darwin')
+        powerSaveBlocker.start('prevent-app-suspension');
       installChromiumEgressBlock(logger, devUrl);
       registerAppProtocol(join(import.meta.dirname, '../renderer'));
 
