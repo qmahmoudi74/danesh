@@ -1,9 +1,10 @@
 import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { join } from 'node:path';
-import { expect } from '@playwright/test';
+import { join, resolve } from 'node:path';
+import { _electron, expect } from '@playwright/test';
 import type Database from 'better-sqlite3';
+import { SmokeReportSchema } from '../../packages/contracts/src/smoke-report.ts';
 import { EngineEchoOutputSchema } from '../../packages/contracts/src/test-rpc.ts';
 import { Given, Then, When } from './fixtures.ts';
 
@@ -16,6 +17,11 @@ Given(
 );
 Given('Danesh is launched with that library folder', async ({ harness }) => {
   await harness.launch();
+  expect(
+    await harness.app!.evaluate(({ app }) =>
+      app.commandLine.hasSwitch('disable-renderer-backgrounding'),
+    ),
+  ).toBe(false);
 });
 Given('the test build of Danesh is launched with that library folder', async ({ harness }) => {
   await harness.launch();
@@ -497,3 +503,55 @@ Then(/^the page remains on the app origin "app:\/\/danesh"$/, async ({ harness }
     ]),
   ).toEqual(['complete', 'دانش']);
 });
+
+Given(
+  'Danesh is launched headlessly in smoke mode with that library folder',
+  async ({ harness, libraryRoot }) => {
+    const require = createRequire(import.meta.url);
+    const env: Record<string, string> = Object.fromEntries(
+      Object.entries(process.env).flatMap(([key, value]) =>
+        value === undefined ? [] : [[key, value]],
+      ),
+    );
+    delete env.ELECTRON_RUN_AS_NODE;
+    harness.app = await _electron.launch({
+      executablePath: env.DANESH_TEST_EXE ?? (require('electron') as string),
+      args: [
+        ...(env.DANESH_TEST_EXE ? [] : [resolve('apps/desktop')]),
+        `--user-data-dir=${libraryRoot}`,
+        '--smoke-test',
+        `--smoke-out=${join(libraryRoot, 'headless-report.json')}`,
+      ],
+      env,
+    });
+    harness.page = await harness.app.firstWindow();
+    await harness.page.waitForLoadState('domcontentloaded');
+  },
+);
+Then(
+  'the hidden renderer has foreground process scheduling and unthrottled timers',
+  async ({ harness }) => {
+    expect(
+      await harness.app!.evaluate(({ app, BrowserWindow }) => {
+        const window = BrowserWindow.getAllWindows()[0]!;
+        return {
+          visible: window.isVisible(),
+          backgroundThrottling: window.webContents.backgroundThrottling,
+          foregroundScheduling: app.commandLine.hasSwitch('disable-renderer-backgrounding'),
+        };
+      }),
+    ).toEqual({ visible: false, backgroundThrottling: false, foregroundScheduling: true });
+  },
+);
+Then(
+  'all three real engine probes finish and the renderer heartbeat meets the existing policy',
+  async ({ harness, libraryRoot }) => {
+    const reportPath = join(libraryRoot, 'headless-report.json');
+    await expect.poll(() => existsSync(reportPath), { timeout: 40_000 }).toBe(true);
+    const report = SmokeReportSchema.parse(JSON.parse(readFileSync(reportPath, 'utf8')));
+    for (const checkId of ['engine-llm', 'engine-ocr', 'engine-tts', 'ui-responsive']) {
+      expect(report.checks.find((check) => check.checkId === checkId)?.status).toBe('pass');
+    }
+    await harness.close();
+  },
+);

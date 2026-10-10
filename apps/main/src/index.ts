@@ -43,6 +43,9 @@ if (smoke && 'error' in smoke) {
 }
 
 function start(libraryRoot: string, smokeRun: SmokeRun | null): void {
+  // Timer throttling and process priority are separate. Measure the hidden smoke renderer
+  // with the same scheduling priority as a visible UI while the engine hosts compete for CPU.
+  if (smokeRun) app.commandLine.appendSwitch('disable-renderer-backgrounding');
   const logger = createJsonlLogger({ dir: join(libraryRoot, 'logs'), name: 'main' });
   const preferences = createPreferenceStore(libraryRoot, () =>
     logger.log('preferences.save-failed', {}, 'error'),
