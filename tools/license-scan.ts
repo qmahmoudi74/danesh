@@ -114,10 +114,27 @@ export function parseLockedPackages(text: string): LockedPackage[] {
   return records;
 }
 
+/** CI's Windows pnpm is a .cmd shim; invoke its JavaScript entry point directly when available. */
+export function runPnpm(args: readonly string[], cwd: string): string {
+  const entry = process.env.npm_execpath;
+  const options = { cwd, encoding: 'utf8' as const, maxBuffer: 16 * 1024 * 1024 };
+  if (entry && /\.(?:cjs|mjs|js)$/i.test(entry)) {
+    return execFileSync(process.execPath, [entry, ...args], options);
+  }
+  if (process.platform === 'win32') {
+    // Only fixed developer-tool arguments are accepted; no user input enters cmd.exe.
+    if (args.some((arg) => !/^[A-Za-z0-9_./=-]+$/.test(arg))) {
+      throw new Error('Unsupported pnpm command argument');
+    }
+    return execFileSync(process.env.ComSpec ?? 'cmd.exe', ['/d', '/s', '/c', `pnpm ${args.join(' ')}`], options);
+  }
+  return execFileSync('pnpm', [...args], options);
+}
+
 function collectInstalled(repoRoot: string): PackageLicense[] {
   const packages = new Map<string, PackageLicense>();
   for (const cwd of [repoRoot, join(repoRoot, 'apps/desktop')]) {
-    const output = execFileSync('pnpm', ['licenses', 'list', '--json'], { cwd, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 });
+    const output = runPnpm(['licenses', 'list', '--json'], cwd);
     const list = JSON.parse(output) as Record<string, LicenseListEntry[]>;
     for (const entry of Object.values(list).flat()) {
       for (const path of entry.paths) {
@@ -170,7 +187,7 @@ export function scan(repoRoot: string, writeNotices = false): { scanned: number;
   });
   texts.push({ label: 'caniuse-lite (CC-BY-4.0 browser data; https://github.com/browserslist/caniuse-lite)', text: readFileSync(join(repoRoot, 'node_modules/caniuse-lite/LICENSE'), 'utf8') });
   for (const exception of policy.reviewedExceptions) for (const evidence of exception.evidence) if (!existsSync(join(repoRoot, evidence))) failures.push(`Missing exception evidence: ${evidence}`);
-  const production = JSON.parse(execFileSync('pnpm', ['--dir', 'apps/desktop', 'list', '--prod', '--depth', 'Infinity', '--json'], { cwd: repoRoot, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 })) as ProductionNode[];
+  const production = JSON.parse(runPnpm(['--dir', 'apps/desktop', 'list', '--prod', '--depth', 'Infinity', '--json'], repoRoot)) as ProductionNode[];
   // Hoisted unsavedDependencies include tooling; only declared production edges establish reachability.
   failures.push(...checkBuildOnlyDependencies(production, policy));
   const generated = generateNotices(all, (pkg) => {

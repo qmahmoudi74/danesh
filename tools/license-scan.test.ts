@@ -1,9 +1,29 @@
-import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'node:fs';
-import { licenseAllowed, checkBinary, checkCoverage, checkBuildOnlyDependencies, generateNotices, noticesCurrent, parseLockedPackages, type LicensePolicy, type BinaryEntry } from './license-scan.ts';
+import { describe, it, expect, vi } from 'vitest';
+import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, dirname, resolve } from 'node:path';
+import { licenseAllowed, checkBinary, checkCoverage, checkBuildOnlyDependencies, generateNotices, noticesCurrent, parseLockedPackages, runPnpm, type LicensePolicy, type BinaryEntry } from './license-scan.ts';
 const policy = JSON.parse(readFileSync('tools/license-policy.json', 'utf8')) as LicensePolicy;
 const pkg = (license?: string) => ({ name: 'fixture', version: '1.0.0', license });
 const binary = (license: string): BinaryEntry => ({ component: 'fixture', license, shippedIn: 'fixture', source: 'https://example.invalid', reviewedOn: '2026-10-10', obligations: [], status: 'reviewed' });
+
+it.runIf(process.platform === 'win32')('runs a Windows pnpm.cmd shim and preserves failure', () => {
+  const root = mkdtempSync(join(tmpdir(), 'danesh-pnpm-shim-'));
+  const shim = join(root, 'pnpm.cmd');
+  vi.stubEnv('npm_execpath', undefined);
+  vi.stubEnv('PATH', `${root};${process.env.SystemRoot}\\System32`);
+  try {
+    writeFileSync(shim, '@echo off\r\necho {"shim":true}\r\n');
+    expect(JSON.parse(runPnpm(['licenses', 'list', '--json'], root))).toEqual({ shim: true });
+    expect(() => runPnpm(['--json&echo'], root)).toThrow('Unsupported pnpm command argument');
+    writeFileSync(shim, '@echo off\r\nexit /b 7\r\n');
+    expect(() => runPnpm(['licenses', 'list', '--json'], root)).toThrow();
+  } finally {
+    vi.unstubAllEnvs();
+    if (dirname(resolve(root)) !== resolve(tmpdir())) throw new Error('Unsafe fixture cleanup');
+    rmSync(root, { recursive: true, force: true });
+  }
+});
 describe('license gate', () => {
   it.each(['MIT', 'MIT OR GPL-3.0-only', '(BSD-2-Clause OR MIT OR Apache-2.0)', 'Apache 2.0', 'Apache-2.0 WITH LLVM-exception'])('accepts a permitted branch: %s', (license) => { expect(licenseAllowed(pkg(license), policy)).toBe(true); });
   it.each(['MIT AND GPL-3.0-only', 'GPL-2.0+', 'LGPL-2.1-or-later', 'AGPL-3.0-only', '', 'UNKNOWN', 'BSD', 'SEE LICENSE IN LICENSE.md', 'MIT OR made-up', 'MIT AND CC-BY-4.0'])('rejects unapproved declaration: %s', (license) => { expect(licenseAllowed(pkg(license), policy)).toBe(false); });
