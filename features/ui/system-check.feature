@@ -6,6 +6,13 @@ Feature: Local System check with visible results and JSON export
   Background:
     Given an isolated library folder whose path contains Persian letters and a space
 
+  @plan-01-12 @req-PLAT-08 @kind-persistence
+  Scenario: Core verifies a persistent content-addressed blob
+    Given Danesh is launched with that library folder on System check
+    When I run System check
+    Then the blob storage row passes in report position three
+    And its reported SHA-256 names a real verified blob in the library
+
   @plan-01-06 @kind-happy
   Scenario: System check waits for an explicit first run
     Given Danesh is launched with that library folder
