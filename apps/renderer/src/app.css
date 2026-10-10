@@ -949,3 +949,84 @@ h1[tabindex="-1"]:focus-visible {
   background: var(--color-paper);
   border: 1px solid var(--color-border-subtle);
 }
+
+/* ---------- Document view and extracted-text reader ---------- */
+.document-view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mode-switch {
+  display: inline-flex;
+}
+.mode-option[data-selected] {
+  background: var(--color-selected);
+  border-color: var(--color-text);
+}
+.extraction-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-inline-size: 480px;
+}
+.progress-track {
+  display: block;
+  block-size: 6px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-subtle);
+}
+.progress-fill {
+  display: block;
+  block-size: 100%;
+  background: var(--color-accent);
+  transition: inline-size var(--duration-base) var(--ease-standard);
+}
+.reader {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.reader-attention p {
+  margin: 0;
+  color: var(--color-warn);
+  font-weight: 600;
+}
+.reader-text {
+  max-inline-size: 72ch;
+  user-select: text;
+  cursor: text;
+}
+.reader-page {
+  padding-block: 16px 8px;
+  border-block-start: 1px solid var(--color-border-subtle);
+}
+.reader-page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--color-text-muted);
+}
+.reader-heading {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.6;
+  margin: 16px 0 8px;
+}
+.reader-paragraph {
+  font-size: 17px;
+  line-height: 2;
+  margin: 0 0 12px;
+  overflow-wrap: anywhere;
+}
+.reader-paragraph[dir="ltr"],
+.reader-heading[dir="ltr"] {
+  text-align: start;
+}
+.page-status {
+  margin: 4px 0 8px;
+}
+.page-status.needs-ocr,
+.page-status.needs-review {
+  color: var(--color-warn);
+}

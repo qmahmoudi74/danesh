@@ -13,7 +13,7 @@ const sampleBytes = buildPdf({
 const pageWidths = new WeakMap<object, number>();
 
 /** Writes a source file outside the library's own folders and makes Main's open dialog return it. */
-async function pickFile(
+export async function pickFile(
   harness: { app: import('@playwright/test').ElectronApplication | undefined },
   libraryRoot: string,
   fileName: string,
@@ -28,19 +28,19 @@ async function pickFile(
   }, path);
 }
 
-async function openLibrary(page: Page) {
+export async function openLibrary(page: Page) {
   await page.getByRole('navigation').getByRole('link', { name: 'کتابخانه', exact: true }).click();
   await expect(
     page.getByRole('heading', { name: 'کتابخانه', level: 1, exact: true }),
   ).toBeVisible();
 }
 
-async function importFromLibrary(page: Page) {
+export async function importFromLibrary(page: Page) {
   await openLibrary(page);
   await page.getByRole('main').getByRole('button', { name: 'افزودن PDF', exact: true }).click();
 }
 
-const documentRows = (page: Page) =>
+export const documentRows = (page: Page) =>
   page.getByRole('list', { name: 'فایل‌های کتابخانه' }).getByRole('listitem');
 
 async function expectPageDrawn(page: Page, number: number, total: number) {

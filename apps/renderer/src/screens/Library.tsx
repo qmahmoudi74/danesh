@@ -1,9 +1,10 @@
 import type { LibraryDocument } from '@danesh/contracts/rpc.ts';
 import { useCallback, useEffect, useState } from 'react';
-import { Button, Heading } from 'react-aria-components';
+import { Button, Heading, ToggleButton, ToggleButtonGroup } from 'react-aria-components';
 import { AppShell, Ltr } from '../components/Layout.tsx';
 import { PdfViewer } from '../components/PdfViewer.tsx';
 import { Banner, NoticeBanner } from '../components/Status.tsx';
+import { TextReader } from '../components/TextReader.tsx';
 import { formatNumber } from '../lib/copy.ts';
 import { chooseAndImportPdf, loadDocuments, type Notice, takeCarried } from '../lib/documents.tsx';
 
@@ -35,6 +36,54 @@ function DocumentRow({ entry, onOpen }: { entry: LibraryDocument; onOpen: () => 
         باز کردن
       </Button>
     </li>
+  );
+}
+
+type Mode = { kind: 'original'; page: number } | { kind: 'text' };
+
+/** One open document: its original pages or its extracted text, switchable at any time. */
+function DocumentView({
+  document: entry,
+  onClose,
+}: {
+  document: LibraryDocument;
+  onClose: () => void;
+}) {
+  const [mode, setMode] = useState<Mode>({ kind: 'original', page: 1 });
+  return (
+    <section className="document-view" aria-label={`سند ${entry.title}`}>
+      <div className="viewer-head">
+        <Button className="button" onPress={onClose}>
+          بازگشت به کتابخانه
+        </Button>
+        <ToggleButtonGroup
+          className="mode-switch"
+          aria-label="نمای سند"
+          selectionMode="single"
+          disallowEmptySelection
+          selectedKeys={[mode.kind]}
+          onSelectionChange={(keys) => {
+            const next = [...keys][0];
+            setMode(next === 'text' ? { kind: 'text' } : { kind: 'original', page: 1 });
+          }}
+        >
+          <ToggleButton id="original" className="button mode-option">
+            نسخه اصلی
+          </ToggleButton>
+          <ToggleButton id="text" className="button mode-option">
+            متن استخراج‌شده
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </div>
+      {mode.kind === 'original' ? (
+        <PdfViewer key={mode.page} document={entry} initialPage={mode.page} />
+      ) : (
+        <TextReader
+          documentId={entry.documentId}
+          onShowOriginal={(page) => setMode({ kind: 'original', page })}
+        />
+      )}
+    </section>
   );
 }
 
@@ -74,7 +123,7 @@ export function Library() {
         <Heading level={1} tabIndex={-1} className="heading">
           <bdi>{open.title}</bdi>
         </Heading>
-        <PdfViewer document={open} onClose={() => setOpenId(undefined)} />
+        <DocumentView document={open} onClose={() => setOpenId(undefined)} />
       </AppShell>
     );
   }

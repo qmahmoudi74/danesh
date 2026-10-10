@@ -37,6 +37,7 @@ export default defineConfig(({ mode }) => {
               import.meta.dirname,
               '../../packages/engines/ocr-probe/src/host.ts',
             ),
+            'engine-pdf': resolve(import.meta.dirname, '../../packages/engines/pdf/src/host.ts'),
             'engine-tts': resolve(
               import.meta.dirname,
               '../../packages/engines/tts-probe/src/host.ts',

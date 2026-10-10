@@ -1,3 +1,4 @@
+import { BoxSchema, DirectionSchema, PdfPageStatusSchema } from './pdf.ts';
 import { ResponsivenessInputSchema } from './responsiveness.ts';
 import { z } from './schema.ts';
 import { CheckIdSchema, SmokeReportSchema } from './smoke-report.ts';
@@ -63,6 +64,36 @@ export const ImportFailureSchema = z.enum([
 ]);
 export type ImportFailure = z.infer<typeof ImportFailureSchema>;
 const FILE_TIMEOUT_MS = 120_000;
+const PageNumbers = z.array(z.number().int().positive()).max(100_000);
+/** interrupted: recorded as running, but no worker is running it (Danesh was closed or crashed). */
+export const ExtractionStatusSchema = z.strictObject({
+  state: z.enum(['none', 'running', 'interrupted', 'completed', 'failed']),
+  pagesDone: z.number().int().nonnegative(),
+  pageCount: z.number().int().nonnegative(),
+  errorClass: z.string().max(64).optional(),
+  needsOcr: PageNumbers,
+  needsReview: PageNumbers,
+});
+export type ExtractionStatus = z.infer<typeof ExtractionStatusSchema>;
+export const TextBlockSchema = z.strictObject({
+  blockId: z.string().regex(/^[0-9a-f]{24}$/),
+  pageNumber: z.number().int().positive(),
+  ordinal: z.number().int().nonnegative(),
+  kind: z.enum(['heading', 'paragraph']),
+  normalizedText: z.string().max(200_000),
+  direction: DirectionSchema,
+  box: BoxSchema,
+  flags: z.array(z.string().max(64)).max(16),
+});
+export const TextPageSchema = z.strictObject({
+  pageNumber: z.number().int().positive(),
+  status: PdfPageStatusSchema,
+  flags: z.array(z.string().max(64)).max(16),
+  blocks: z.array(TextBlockSchema).max(10_000),
+});
+export type TextPage = z.infer<typeof TextPageSchema>;
+/** Pages per documents.text call: bounded messages for long documents. */
+export const TEXT_PAGES_PER_CALL = 25;
 export const rpcMethods: Record<string, RpcMethod> = {
   'documents.list': {
     input: z.strictObject({}),
@@ -78,6 +109,30 @@ export const rpcMethods: Record<string, RpcMethod> = {
     ]),
     maxInputBytes: 256,
     timeoutMs: FILE_TIMEOUT_MS,
+  },
+  'documents.extract': {
+    input: z.strictObject({ documentId: z.string().uuid() }),
+    output: ExtractionStatusSchema,
+    maxInputBytes: 256,
+  },
+  'documents.extraction': {
+    input: z.strictObject({ documentId: z.string().uuid() }),
+    output: ExtractionStatusSchema,
+    maxInputBytes: 256,
+  },
+  'documents.text': {
+    input: z
+      .strictObject({
+        documentId: z.string().uuid(),
+        fromPage: z.number().int().positive(),
+        toPage: z.number().int().positive(),
+      })
+      .refine(
+        (range) =>
+          range.toPage >= range.fromPage && range.toPage - range.fromPage < TEXT_PAGES_PER_CALL,
+      ),
+    output: z.strictObject({ pages: z.array(TextPageSchema).max(TEXT_PAGES_PER_CALL) }),
+    maxInputBytes: 256,
   },
   // The verified original bytes, for the page viewer.
   'documents.content': {

@@ -1,5 +1,5 @@
 import { z } from './schema.ts';
-export const HostKindSchema = z.enum(['sample', 'llm', 'ocr', 'tts']);
+export const HostKindSchema = z.enum(['sample', 'llm', 'ocr', 'tts', 'pdf']);
 export type HostKind = z.infer<typeof HostKindSchema>;
 const LogEventSchema = z.string().regex(/^[a-z][\w.-]{0,63}$/i);
 const AssetPath = z.string().min(1).max(32767);
@@ -32,7 +32,19 @@ export const FaultInputSchema = z.strictObject({
   type: z.literal('fault'),
   mode: z.literal('crash'),
 });
+/** PDF host: paths come from Core (a verified content-addressed blob), never from the page. */
+export const PdfInspectInputSchema = z.strictObject({
+  type: z.literal('pdf-inspect'),
+  path: AssetPath,
+});
+export const PdfExtractPageInputSchema = z.strictObject({
+  type: z.literal('pdf-extract-page'),
+  path: AssetPath,
+  pageNumber: z.number().int().positive().max(100_000),
+});
 export const RunInputSchema = z.discriminatedUnion('type', [
+  PdfInspectInputSchema,
+  PdfExtractPageInputSchema,
   EchoInputSchema,
   LlmProbeInputSchema,
   OcrProbeInputSchema,

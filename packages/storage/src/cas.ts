@@ -173,6 +173,16 @@ export function createCas({
     return removed;
   }
 
-  return { put, get: (sha256: string) => readVerified(sha256, true), has, pathFor, sweepTmp };
+  return {
+    put,
+    get: (sha256: string) => readVerified(sha256, true),
+    /** Re-hashes a blob without holding it in memory; throws CasIntegrityError when the bytes changed. */
+    verify: async (sha256: string): Promise<void> => {
+      await readVerified(sha256, false);
+    },
+    has,
+    pathFor,
+    sweepTmp,
+  };
 }
 export type Cas = ReturnType<typeof createCas>;

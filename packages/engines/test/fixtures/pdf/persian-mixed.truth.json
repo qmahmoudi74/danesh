@@ -1,0 +1,51 @@
+{
+  "producer": "Chromium 152.0.7977.130 printToPDF (Electron 44.7.0)",
+  "title": "مبانی یادگیری با دانش",
+  "pages": [
+    [
+      {
+        "kind": "heading",
+        "text": "فصل ۱: آشنایی با کتابخانهٔ دانش"
+      },
+      {
+        "kind": "paragraph",
+        "text": "دانش یک محیط یادگیری محلی است که فایل‌های PDF شما را نگه می‌دارد و بدون اینترنت کار می‌کند. هدف آن یادگیری پایدار است، نه فقط خواندن سریع."
+      },
+      {
+        "kind": "paragraph",
+        "text": "در این فصل می‌خواهیم با سه بخش اصلی آشنا شویم: کتابخانه، خواننده و تمرین. هر بخش جداگانه بررسی می‌شود."
+      },
+      {
+        "kind": "heading",
+        "text": "نکته‌های مهم"
+      },
+      {
+        "kind": "paragraph",
+        "text": "فایل اصلی هرگز تغییر نمی‌کند و متن استخراج‌شده جداگانه ذخیره می‌شود."
+      }
+    ],
+    [
+      {
+        "kind": "heading",
+        "text": "فصل ۲: نمادهای فنی و متن دوزبانه"
+      },
+      {
+        "kind": "paragraph",
+        "text": "رابطهٔ معروف E = mc² را در فیزیک دیده‌اید؛ همچنین شرط x ≤ 10 در برنامه‌نویسی رایج است."
+      },
+      {
+        "kind": "paragraph",
+        "text": "نسخهٔ 2.4.1 از کتابخانهٔ Node.js در سال ۱۴۰۵ منتشر شد و نشانی آن https://example.org/docs است."
+      },
+      {
+        "kind": "paragraph",
+        "text": "Danesh keeps the original PDF and stores extracted text separately, with page provenance."
+      }
+    ],
+    [
+      {
+        "kind": "image"
+      }
+    ]
+  ]
+}

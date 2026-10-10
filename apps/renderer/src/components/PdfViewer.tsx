@@ -4,7 +4,6 @@ import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from 'react-aria-components';
 import { formatNumber } from '../lib/copy.ts';
-import { Ltr } from './Layout.tsx';
 import { Banner } from './Status.tsx';
 
 const ZOOM_STEPS = [0.5, 0.75, 1, 1.25, 1.5, 2, 3];
@@ -29,13 +28,13 @@ async function openPdf(bytes: Uint8Array): Promise<{ task: PDFDocumentLoadingTas
  */
 export function PdfViewer({
   document: entry,
-  onClose,
+  initialPage = 1,
 }: {
   document: LibraryDocument;
-  onClose: () => void;
+  initialPage?: number;
 }) {
   const [load, setLoad] = useState<Load>({ state: 'loading' });
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(initialPage);
   const [zoomIndex, setZoomIndex] = useState(DEFAULT_ZOOM_INDEX);
   const [rendered, setRendered] = useState(false);
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -117,14 +116,6 @@ export function PdfViewer({
 
   return (
     <section className="viewer" aria-label={`صفحه‌های اصلی ${entry.title}`}>
-      <div className="viewer-head">
-        <Button className="button" onPress={onClose}>
-          بازگشت به کتابخانه
-        </Button>
-        <p className="caption">
-          نمای صفحه‌های اصلی فایل <Ltr>PDF</Ltr>. متن این فایل هنوز استخراج نشده است.
-        </p>
-      </div>
       {load.state === 'failed' ? (
         <Banner variant="error" alert title={load.message} />
       ) : (

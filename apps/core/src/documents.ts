@@ -5,7 +5,7 @@ import type { ImportFailure, LibraryDocument } from '@danesh/contracts/rpc.ts';
 import type { Cas } from '@danesh/storage/cas.ts';
 import type { Db } from '@danesh/storage/db.ts';
 import { addDocument, type DocumentRow, getDocument } from '@danesh/storage/documents.ts';
-import { inspectPdf, PdfRejected } from './pdf-inspect.ts';
+import type { PdfInspection } from './pdf-worker.ts';
 
 /** Larger files are refused for now: the viewer receives the whole original in one message. */
 export const MAX_PDF_BYTES = 512 * 1024 * 1024;
@@ -68,7 +68,7 @@ function titleFrom(fileName: string, metadataTitle: string | undefined): string 
  */
 export async function importPdf(
   source: { path: string; fileName: string },
-  { db, cas }: { db: Db; cas: Cas },
+  { db, cas, inspect }: { db: Db; cas: Cas; inspect: (path: string) => Promise<PdfInspection> },
 ): Promise<ImportResult> {
   let size: number;
   try {
@@ -80,11 +80,14 @@ export async function importPdf(
   }
   if (size > MAX_PDF_BYTES) return { ok: false, reason: 'too-large' };
 
-  let facts: Awaited<ReturnType<typeof inspectPdf>>;
+  // The isolated PDF host opens the file; Core never parses PDF content itself.
+  let facts: { pageCount: number; title?: string };
   try {
-    facts = await inspectPdf(source.path);
-  } catch (error) {
-    return { ok: false, reason: error instanceof PdfRejected ? error.reason : 'unreadable' };
+    const inspection = await inspect(source.path);
+    if (!inspection.ok) return { ok: false, reason: inspection.reason };
+    facts = inspection.facts;
+  } catch {
+    return { ok: false, reason: 'unreadable' };
   }
 
   let stored: { sha256: string; size: number };

@@ -8,3 +8,4 @@
 *.onnx binary
 *.traineddata binary
 *.node binary
+*.pdf binary

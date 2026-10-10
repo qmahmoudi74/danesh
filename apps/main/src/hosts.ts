@@ -8,6 +8,7 @@ const hostEntries: Record<HostKind, string> = {
   llm: 'engine-llm.js',
   ocr: 'engine-ocr.js',
   tts: 'engine-tts.js',
+  pdf: 'engine-pdf.js',
 };
 const children = new Map<HostKind, Electron.UtilityProcess>();
 const stopping = new Set<Electron.UtilityProcess>();

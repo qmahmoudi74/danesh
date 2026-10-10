@@ -1,0 +1,34 @@
+{
+  "producer": "Chromium 152.0.7977.130 printToPDF (Electron 44.7.0)",
+  "title": "Learning Report",
+  "pages": [
+    [
+      {
+        "kind": "heading",
+        "text": "Learning Report"
+      },
+      {
+        "kind": "paragraph",
+        "text": "This report summarizes how spaced practice improves delayed recall. It is a short fixture with two pages."
+      },
+      {
+        "kind": "heading",
+        "text": "Method"
+      },
+      {
+        "kind": "paragraph",
+        "text": "Learners reviewed twelve concepts over three weeks. Each review session lasted about 20 minutes."
+      }
+    ],
+    [
+      {
+        "kind": "heading",
+        "text": "Results"
+      },
+      {
+        "kind": "paragraph",
+        "text": "Recall after one week was 78% with spacing and 52% without it. The difference held for both groups."
+      }
+    ]
+  ]
+}

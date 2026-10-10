@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { join } from 'node:path';
 import { type Init, MainToCoreSchema } from '@danesh/contracts/control.ts';
 import { EchoInputSchema } from '@danesh/contracts/host-protocol.ts';
+import { EXTRACTOR_VERSION } from '@danesh/contracts/pdf.ts';
 import { rpcMethods } from '@danesh/contracts/rpc.ts';
 import { type CheckRunFixtureSchema, testRpcMethods } from '@danesh/contracts/test-rpc.ts';
 import { parentPort, type UtilityPort } from '@danesh/contracts/utility-port.ts';
@@ -9,10 +10,13 @@ import { createJsonlLogger, type JsonlLogger } from '@danesh/logging/jsonl.ts';
 import type { Cas } from '@danesh/storage/cas.ts';
 import { type LibraryOpen, recordSystemCheckProbe } from '@danesh/storage/db.ts';
 import { listDocuments } from '@danesh/storage/documents.ts';
+import { readExtractedPages } from '@danesh/storage/extraction.ts';
 import type { z } from 'zod';
 import { bootCas, bootLibrary, libraryStatus, requireReadable, requireWritable } from './boot.ts';
 import { createImportSources, importPdf, readOriginal, toLibraryDocument } from './documents.ts';
 import { createEngineClient } from './engine-client.ts';
+import { createExtractor } from './extraction.ts';
+import { createPdfWorker } from './pdf-worker.ts';
 import {
   createDiagRejectedHandler,
   createRpcServer,
@@ -37,6 +41,12 @@ async function engineEcho(): Promise<{ hostPid: number; corePid: number }> {
   if (EchoInputSchema.parse(output).value !== input.value) throw new Error('Echo mismatch');
   return { hostPid, corePid: process.pid };
 }
+const pdf = createPdfWorker(engines);
+const extractor = createExtractor({
+  cas: { verify: (sha) => requireCas().verify(sha), pathFor: (sha) => requireCas().pathFor(sha) },
+  pdf,
+  logger,
+});
 let init: Init | undefined;
 let library: LibraryOpen | undefined;
 let cas: Cas | undefined;
@@ -63,12 +73,34 @@ const handlers: Record<string, RpcHandler> = {
     const db = requireWritable(library);
     const source = importSources.take(input.token);
     if (!source) return { ok: false, reason: 'unknown-token' };
-    const result = await importPdf(source, { db, cas: requireCas() });
+    const result = await importPdf(source, {
+      db,
+      cas: requireCas(),
+      inspect: (path) => pdf.inspect(path),
+    });
     logger.log('document.import', {
       kind: result.ok ? (result.duplicate ? 'duplicate' : 'added') : result.reason,
     });
     return result;
   },
+  'documents.extract': (input: { documentId: string }) => {
+    const db = requireWritable(library);
+    extractor.start(db, input.documentId);
+    return extractor.status(db, input.documentId);
+  },
+  'documents.extraction': (input: { documentId: string }) =>
+    extractor.status(requireReadable(library), input.documentId),
+  'documents.text': (input: { documentId: string; fromPage: number; toPage: number }) => ({
+    pages: readExtractedPages(requireReadable(library), {
+      documentId: input.documentId,
+      version: EXTRACTOR_VERSION,
+      fromPage: input.fromPage,
+      toPage: input.toPage,
+    }).map((page) => ({
+      ...page,
+      blocks: page.blocks.map(({ rawText: _raw, ...block }) => block),
+    })),
+  }),
   'documents.content': async (input: { documentId: string }) => {
     const bytes = await readOriginal(input.documentId, {
       db: requireReadable(library),

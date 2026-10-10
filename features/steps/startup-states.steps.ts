@@ -75,6 +75,8 @@ const Sqlite = require('better-sqlite3') as typeof import('better-sqlite3');
 const latestSchemaVersion = readdirSync('packages/storage/migrations').filter((name) =>
   /^\d{4}_.+\.sql$/.test(name),
 ).length;
+/** The test build appends one failing migration after the shipped ones (apps/core/src/boot.ts). */
+const failingMigrationId = String(latestSchemaVersion + 1).padStart(4, '0');
 const initialSql = readFileSync('packages/storage/migrations/0001_init.sql', 'utf8');
 const libraryHashes = new WeakMap<object, string>();
 const refusedTitle = 'این داده‌ها با نسخهٔ جدیدتری از دانش ساخته شده‌اند';
@@ -227,7 +229,7 @@ Then(
   async ({ harness, libraryRoot }) => {
     const details = await openDetails(harness);
     expect(details).toContain(join(libraryRoot, 'backups'));
-    expect(details).toMatch(/failedMigrationId\s+0004/);
+    expect(details).toMatch(new RegExp(`failedMigrationId\\s+${failingMigrationId}\\b`));
   },
 );
 Then(
@@ -235,7 +237,7 @@ Then(
   async ({ harness, libraryRoot }) => {
     const text = await outsideTechnical(harness);
     expect(text).not.toContain(libraryRoot);
-    expect(text).not.toContain('0004');
+    expect(text).not.toContain(failingMigrationId);
   },
 );
 Then(

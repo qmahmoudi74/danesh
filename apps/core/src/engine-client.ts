@@ -170,6 +170,18 @@ export function createEngineClient({
     armFault(kind: HostKind): void {
       faults.add(kind);
     },
+    /** Keeps one host running across several tasks (a document's pages); `close` stops it. */
+    async session(kind: HostKind) {
+      const host = await ensureHost(kind);
+      return {
+        run: (input: RunInput, timeoutMs = 120_000) => run(kind, host, input, timeoutMs),
+        close: () => {
+          if (hosts.get(kind) !== host) return;
+          hosts.delete(kind);
+          requestStop(kind);
+        },
+      };
+    },
     async withHost(
       kind: HostKind,
       input: RunInput,

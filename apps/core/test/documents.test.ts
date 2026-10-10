@@ -6,8 +6,20 @@ import { type Db, openLibraryDb } from '@danesh/storage/db.ts';
 import { listDocuments } from '@danesh/storage/documents.ts';
 import { libraryPaths } from '@danesh/storage/library.ts';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { inspectPdf, PdfRejected } from '../../../packages/engines/pdf/src/pdf.ts';
 import { createImportSources, importPdf, readOriginal } from '../src/documents.ts';
+import type { PdfInspection } from '../src/pdf-worker.ts';
 import { buildCorruptPdf, buildPdf } from './fixtures/pdf-fixtures.ts';
+
+/** The PDF host's inspection, run in-process (the host wraps exactly this in its message handler). */
+async function inspect(path: string): Promise<PdfInspection> {
+  try {
+    return { ok: true, facts: await inspectPdf(path) };
+  } catch (error) {
+    if (error instanceof PdfRejected) return { ok: false, reason: error.reason };
+    throw error;
+  }
+}
 
 let parent: string;
 let root: string;
@@ -42,7 +54,7 @@ const blobCount = () =>
 describe('importPdf', () => {
   it('stores a readable PDF once and lists it with its metadata title and page count', async () => {
     const bytes = buildPdf({ pages: ['one', 'two', 'three'], title: 'مبانی Danesh' });
-    const result = await importPdf(source('کتاب نمونه.pdf', bytes), { db, cas });
+    const result = await importPdf(source('کتاب نمونه.pdf', bytes), { db, cas, inspect });
     expect(result).toMatchObject({
       ok: true,
       duplicate: false,
@@ -63,14 +75,18 @@ describe('importPdf', () => {
   });
 
   it('falls back to the file name when the PDF has no title', async () => {
-    const result = await importPdf(source('جزوه.pdf', buildPdf({ pages: ['x'] })), { db, cas });
+    const result = await importPdf(source('جزوه.pdf', buildPdf({ pages: ['x'] })), {
+      db,
+      cas,
+      inspect,
+    });
     expect(result).toMatchObject({ ok: true, document: { title: 'جزوه' } });
   });
 
   it('finds the existing entry when the same content is imported under another name', async () => {
     const bytes = buildPdf({ pages: ['one'], title: 'Same' });
-    const first = await importPdf(source('a.pdf', bytes), { db, cas });
-    const second = await importPdf(source('copy.pdf', bytes), { db, cas });
+    const first = await importPdf(source('a.pdf', bytes), { db, cas, inspect });
+    const second = await importPdf(source('copy.pdf', bytes), { db, cas, inspect });
     expect(second).toMatchObject({ ok: true, duplicate: true });
     if (!first.ok || !second.ok) throw new Error('import failed');
     expect(second.document.documentId).toBe(first.document.documentId);
@@ -84,7 +100,7 @@ describe('importPdf', () => {
     ['encrypted', buildPdf({ pages: ['secret'], encrypted: true })],
     ['damaged', buildCorruptPdf()],
   ])('refuses a %s file and adds nothing', async (reason, bytes) => {
-    const result = await importPdf(source('bad.pdf', bytes), { db, cas });
+    const result = await importPdf(source('bad.pdf', bytes), { db, cas, inspect });
     expect(result).toEqual({ ok: false, reason });
     expect(listDocuments(db)).toEqual([]);
   });
@@ -92,10 +108,7 @@ describe('importPdf', () => {
   it('reports an unreadable source instead of throwing', async () => {
     const result = await importPdf(
       { path: join(parent, 'missing.pdf'), fileName: 'missing.pdf' },
-      {
-        db,
-        cas,
-      },
+      { db, cas, inspect },
     );
     expect(result).toEqual({ ok: false, reason: 'unreadable' });
   });

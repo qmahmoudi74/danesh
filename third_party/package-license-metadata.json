@@ -5227,5 +5227,12 @@
     "license": "Apache-2.0",
     "integrity": "sha512-AVl138zALtfaAPvADulE0PZThbYzCBS79nL4pOSL/6Sm/4AH5A21BD9VHt97OlCuzJuCpmeZtAtkinisF4Vb1g==",
     "source": "https://registry.npmjs.org/pdfjs-dist/6.4.299"
+  },
+  {
+    "name": "bidi-js",
+    "version": "1.1.0",
+    "license": "MIT",
+    "integrity": "sha512-fX1Onk0tdVPC7obPWB5EbJ1z7NVhLq4m2xZLq2YXBkxzMXIGRpNMU88n0EPgWseKl12J7zXs7qrDxPK4sRs2fg==",
+    "source": "https://registry.npmjs.org/bidi-js/1.1.0"
   }
 ]

@@ -1,4 +1,4 @@
-# covers: packages/storage/src/documents.ts, apps/core/src/documents.ts, apps/core/src/pdf-inspect.ts, apps/renderer/src/screens/Library.tsx, apps/renderer/src/components/PdfViewer.tsx
+# covers: packages/storage/src/documents.ts, apps/core/src/documents.ts, packages/engines/pdf/src/pdf.ts, apps/renderer/src/screens/Library.tsx, apps/renderer/src/components/PdfViewer.tsx
 @ui @req-DOC-01 @req-DOC-02 @req-DOC-03 @req-DOC-05
 Feature: Import a PDF into the Library and view its original pages
   The first usable journey: the original is stored once, listed, and shown page by page, offline and across
