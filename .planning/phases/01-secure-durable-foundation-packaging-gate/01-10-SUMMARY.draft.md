@@ -25,8 +25,9 @@ systems and downloaded, validated artifacts. No push was performed in this sessi
 | 38010179906 | 32ea599 | Run failed; per-job details unavailable | Previous-session condensed REST observations, no artifacts |
 | 38010302448 | 9746e61 | macOS failed `ui-responsive`: 407 samples, p95 141 ms, max 324 ms | Public run/job HTML observed this session; no artifacts |
 | 38011901925 | 34e0ed7 | Both failed: Windows two 5000 ms unit timeouts; macOS 220 samples, p50 56 ms, p95 139 ms, max 156 ms | Public annotations and REST metadata; downloads refused without authentication |
+| 38013304000 | a3d87f2 | Windows completed successfully; macOS unit/package passed, smoke failed: 342 samples, p50 28 ms, p95 67 ms, max 97 ms | Public annotations and final REST job metadata; artifacts not downloaded/validated |
 
-The latest run failed Windows before packaging and macOS at packaged smoke. Exact public annotations are retained
+Run 38011901925 failed Windows before packaging and macOS at packaged smoke. Exact public annotations are retained
 in `evidence/tier-a-ci/38011901925/public-annotations.txt`, with diagnosis and limitations in its `RUN.md`. REST
 metadata was available this session; log downloads returned HTTP 403 and both artifact archives HTTP 401. No
 authenticated connector was available, and complete CI artifacts have not been downloaded or validated.
@@ -65,9 +66,38 @@ fuse scenario), including the hidden smoke regression and all Plan 01-11 startup
 One E2E attempt was invalidated by overlapping packaging, which replaced its test build; it was interrupted and
 rerun after packaging. Only the final independent build/run is used as E2E evidence.
 
+## Scientific diagnostic follow-up (2026-10-10)
+
+Run 38013304000 is now complete: Windows passed every applicable gate, including installed smoke and both E2E
+steps. macOS passed unit and packaging, failed responsiveness at p95 67 ms, and skipped E2E. No newer run was
+observed. Final metadata and annotations are retained in `evidence/tier-a-ci/38013304000/`; its `RUN.md` separates
+confirmed findings, hypotheses and metric limitations. The macOS artifact archive returned 401; CI artifacts
+remain undownloaded and unvalidated. The improved cross-run percentiles do not prove the remaining cause.
+
+No speculative native scheduling/thread change was made. New bounded diagnostics run in the actual production
+smoke: an independent two-second idle baseline, original loaded samples with elapsed timestamps, renderer long
+tasks without attribution, actual per-engine check start/end times, utility-process CPU/RSS and runner resources.
+Whole timer intervals are grouped by engine overlap; original policy, verdicts, sampling and parallel isolation
+remain intact. The final compact comparison survives the existing public annotation's output-tail limit.
+
+A demonstrated renderer cleanup defect was corrected: unsubscribe previously retained heartbeat/report timers.
+The regression failed against the old cleanup with two remaining timers, then passed after cancellation. This is
+not an established explanation of macOS p95. Contracts reject private/excessive/misaligned diagnostics; regression
+tests preserve exact heartbeat arithmetic, verify actual ordered engine timing and keep a failed loaded heartbeat
+failed despite a healthy idle baseline. The acceptance scenario was committed first in `d67ca0d`; implementation
+and regressions followed in `000b8c6`.
+
+Final Windows verification: all required static gates, licenses, CI/ADR/features checks passed; 363 unit tests,
+21 targeted tests, and 38 E2E scenarios passed with 31 intentional skips. Production NSIS was built, not installed
+locally in this follow-up. Persian-path unpacked smoke passed all seven checks; loaded 119 samples, p50 0 ms,
+p95 13 ms, max 14 ms; separate idle 40 samples, p95 13 ms, max 13 ms. The new report passed evidence validation.
+See `evidence/01-10-diagnostics-smoke-win32-x64.json` and `evidence/01-10-diagnostics-verification.txt`.
+Windows results cannot establish macOS scheduling or timer behavior. No push or new downstream plan occurred.
+
 ## Remaining work
 
-- A user-triggered CI rerun of the new commits on Windows and macOS, followed by artifact download and validation.
+- A user-triggered push of the diagnostic commits, inspection of the next macOS smoke evidence, and an evidence-based
+  correction if needed; then green CI on both platforms and artifact download/validation.
 - Plan 01-12 CAS is ready in its existing plan and acceptance scenarios, but remains gated; do not start 01-13.
 - Tier B clean-machine verification on both target operating systems remains separate from hosted CI.
 

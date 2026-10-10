@@ -112,12 +112,12 @@ The final smoke run used the unpacked production app with a Persian library path
 
 ## Remaining phase work
 
-Plan 01-10 is still partially verified. Run 38011901925 failed macOS responsiveness and two Windows unit tests
-at the 5000 ms timeout, including the fresh-library migration step. The focused follow-up bounds Vitest workers
-and redundant logging fixture I/O; it preserves production storage durability and passes local migration coverage.
-Hidden smoke renderer scheduling is corrected, but macOS results remain unverified. See `01-10-SUMMARY.draft.md`
-and `evidence/tier-a-ci/38011901925/RUN.md`. Plan 01-11 remains complete locally, with macOS verification pending.
-A user-triggered push/CI run and downloaded, validated artifacts are still necessary. Plan 01-12 remains gated.
+Plan 01-10 is still partially verified. Latest run 38013304000 completed successfully on Windows, including
+both E2E steps. macOS unit and packaging passed, but smoke p95 67 ms failed and E2E was skipped. The remaining
+macOS cause is unproven; bounded production-smoke diagnostics and a demonstrated timer-cleanup correction passed
+local Windows verification. See `01-10-SUMMARY.draft.md` and `evidence/tier-a-ci/38013304000/RUN.md`.
+Plan 01-11 remains complete locally, with macOS verification pending. A user-triggered push of diagnostics,
+green cross-platform CI and downloaded, validated artifacts are still necessary. Plan 01-12 remains gated.
 No new downstream plan, push, publication or deployment occurred.
 
 ## Self-Check: PASSED

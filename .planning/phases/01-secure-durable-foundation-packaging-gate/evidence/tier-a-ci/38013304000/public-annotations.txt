@@ -1,0 +1,6 @@
+Observed from public run HTML on 2026-10-10. These are annotation lines, not a downloaded log archive.
+Run: https://github.com/qmahmoudi74/danesh/actions/runs/38013304000
+macOS job: https://github.com/qmahmoudi74/danesh/actions/runs/38013304000/job/114097978322
+
+packaged-smoke: appRun: {"verdict":"fail","exitCode":1,"durationMs":28739}
+packaged-smoke: check ui-responsive: heartbeat outside policy {"sampleCount":342,"p50":28,"p95":67,"max":97,"intervalMs":50,"method":"nearest-rank","policy":"samples>=100, p95<=50ms, max<=250ms"}

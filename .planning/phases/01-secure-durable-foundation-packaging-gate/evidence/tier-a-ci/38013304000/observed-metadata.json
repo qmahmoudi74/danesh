@@ -1,0 +1,469 @@
+﻿{
+    "observedAt":  "2026-10-10T01:52:14.0815005Z",
+    "run":  {
+                "id":  38013304000,
+                "head_sha":  "a3d87f2619cb2d184ea1430fd95bd22cd2b30152",
+                "status":  "completed",
+                "conclusion":  "failure",
+                "html_url":  "https://github.com/qmahmoudi74/danesh/actions/runs/38013304000",
+                "created_at":  "2026-10-10T01:28:26Z",
+                "updated_at":  "2026-10-10T01:36:36Z"
+            },
+    "jobs":  [
+                 {
+                     "id":  114097978275,
+                     "name":  "build (windows-latest)",
+                     "status":  "completed",
+                     "conclusion":  "success",
+                     "html_url":  "https://github.com/qmahmoudi74/danesh/actions/runs/38013304000/job/114097978275",
+                     "started_at":  "2026-10-10T01:28:30Z",
+                     "completed_at":  "2026-10-10T01:36:35Z",
+                     "steps":  [
+                                   {
+                                       "name":  "Set up job",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  1,
+                                       "started_at":  "2026-10-10T01:28:31Z",
+                                       "completed_at":  "2026-10-10T01:28:34Z"
+                                   },
+                                   {
+                                       "name":  "Run actions/checkout@v7",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  2,
+                                       "started_at":  "2026-10-10T01:28:34Z",
+                                       "completed_at":  "2026-10-10T01:28:41Z"
+                                   },
+                                   {
+                                       "name":  "Run pnpm/action-setup@v6",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  3,
+                                       "started_at":  "2026-10-10T01:28:41Z",
+                                       "completed_at":  "2026-10-10T01:29:09Z"
+                                   },
+                                   {
+                                       "name":  "Run actions/setup-node@v7",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  4,
+                                       "started_at":  "2026-10-10T01:29:09Z",
+                                       "completed_at":  "2026-10-10T01:29:29Z"
+                                   },
+                                   {
+                                       "name":  "Run actions/cache@v6",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  5,
+                                       "started_at":  "2026-10-10T01:29:29Z",
+                                       "completed_at":  "2026-10-10T01:29:31Z"
+                                   },
+                                   {
+                                       "name":  "install",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  6,
+                                       "started_at":  "2026-10-10T01:29:31Z",
+                                       "completed_at":  "2026-10-10T01:29:41Z"
+                                   },
+                                   {
+                                       "name":  "format",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  7,
+                                       "started_at":  "2026-10-10T01:29:41Z",
+                                       "completed_at":  "2026-10-10T01:29:42Z"
+                                   },
+                                   {
+                                       "name":  "lint",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  8,
+                                       "started_at":  "2026-10-10T01:29:42Z",
+                                       "completed_at":  "2026-10-10T01:29:55Z"
+                                   },
+                                   {
+                                       "name":  "typecheck",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  9,
+                                       "started_at":  "2026-10-10T01:29:55Z",
+                                       "completed_at":  "2026-10-10T01:30:02Z"
+                                   },
+                                   {
+                                       "name":  "depcruise",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  10,
+                                       "started_at":  "2026-10-10T01:30:02Z",
+                                       "completed_at":  "2026-10-10T01:30:03Z"
+                                   },
+                                   {
+                                       "name":  "licenses",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  11,
+                                       "started_at":  "2026-10-10T01:30:03Z",
+                                       "completed_at":  "2026-10-10T01:30:04Z"
+                                   },
+                                   {
+                                       "name":  "adr",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  12,
+                                       "started_at":  "2026-10-10T01:30:04Z",
+                                       "completed_at":  "2026-10-10T01:30:05Z"
+                                   },
+                                   {
+                                       "name":  "features",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  13,
+                                       "started_at":  "2026-10-10T01:30:05Z",
+                                       "completed_at":  "2026-10-10T01:30:08Z"
+                                   },
+                                   {
+                                       "name":  "probes",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  14,
+                                       "started_at":  "2026-10-10T01:30:08Z",
+                                       "completed_at":  "2026-10-10T01:30:09Z"
+                                   },
+                                   {
+                                       "name":  "unit",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  15,
+                                       "started_at":  "2026-10-10T01:30:09Z",
+                                       "completed_at":  "2026-10-10T01:30:28Z"
+                                   },
+                                   {
+                                       "name":  "package",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  16,
+                                       "started_at":  "2026-10-10T01:30:28Z",
+                                       "completed_at":  "2026-10-10T01:31:58Z"
+                                   },
+                                   {
+                                       "name":  "smoke",
+                                       "status":  "completed",
+                                       "conclusion":  "skipped",
+                                       "number":  17,
+                                       "started_at":  "2026-10-10T01:31:58Z",
+                                       "completed_at":  "2026-10-10T01:31:58Z"
+                                   },
+                                   {
+                                       "name":  "smoke-windows",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  18,
+                                       "started_at":  "2026-10-10T01:31:58Z",
+                                       "completed_at":  "2026-10-10T01:32:40Z"
+                                   },
+                                   {
+                                       "name":  "e2e",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  19,
+                                       "started_at":  "2026-10-10T01:32:40Z",
+                                       "completed_at":  "2026-10-10T01:35:55Z"
+                                   },
+                                   {
+                                       "name":  "e2e-packaged",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  20,
+                                       "started_at":  "2026-10-10T01:35:55Z",
+                                       "completed_at":  "2026-10-10T01:36:28Z"
+                                   },
+                                   {
+                                       "name":  "Run actions/upload-artifact@v7",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  21,
+                                       "started_at":  "2026-10-10T01:36:28Z",
+                                       "completed_at":  "2026-10-10T01:36:30Z"
+                                   },
+                                   {
+                                       "name":  "Post Run actions/cache@v6",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  39,
+                                       "started_at":  "2026-10-10T01:36:30Z",
+                                       "completed_at":  "2026-10-10T01:36:31Z"
+                                   },
+                                   {
+                                       "name":  "Post Run actions/setup-node@v7",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  40,
+                                       "started_at":  "2026-10-10T01:36:31Z",
+                                       "completed_at":  "2026-10-10T01:36:31Z"
+                                   },
+                                   {
+                                       "name":  "Post Run pnpm/action-setup@v6",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  41,
+                                       "started_at":  "2026-10-10T01:36:31Z",
+                                       "completed_at":  "2026-10-10T01:36:31Z"
+                                   },
+                                   {
+                                       "name":  "Post Run actions/checkout@v7",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  42,
+                                       "started_at":  "2026-10-10T01:36:31Z",
+                                       "completed_at":  "2026-10-10T01:36:33Z"
+                                   },
+                                   {
+                                       "name":  "Complete job",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  43,
+                                       "started_at":  "2026-10-10T01:36:33Z",
+                                       "completed_at":  "2026-10-10T01:36:33Z"
+                                   }
+                               ]
+                 },
+                 {
+                     "id":  114097978322,
+                     "name":  "build (macos-latest)",
+                     "status":  "completed",
+                     "conclusion":  "failure",
+                     "html_url":  "https://github.com/qmahmoudi74/danesh/actions/runs/38013304000/job/114097978322",
+                     "started_at":  "2026-10-10T01:28:33Z",
+                     "completed_at":  "2026-10-10T01:31:09Z",
+                     "steps":  [
+                                   {
+                                       "name":  "Set up job",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  1,
+                                       "started_at":  "2026-10-10T01:28:33Z",
+                                       "completed_at":  "2026-10-10T01:28:36Z"
+                                   },
+                                   {
+                                       "name":  "Run actions/checkout@v7",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  2,
+                                       "started_at":  "2026-10-10T01:28:36Z",
+                                       "completed_at":  "2026-10-10T01:28:38Z"
+                                   },
+                                   {
+                                       "name":  "Run pnpm/action-setup@v6",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  3,
+                                       "started_at":  "2026-10-10T01:28:38Z",
+                                       "completed_at":  "2026-10-10T01:28:43Z"
+                                   },
+                                   {
+                                       "name":  "Run actions/setup-node@v7",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  4,
+                                       "started_at":  "2026-10-10T01:28:43Z",
+                                       "completed_at":  "2026-10-10T01:28:44Z"
+                                   },
+                                   {
+                                       "name":  "Run actions/cache@v6",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  5,
+                                       "started_at":  "2026-10-10T01:28:44Z",
+                                       "completed_at":  "2026-10-10T01:28:45Z"
+                                   },
+                                   {
+                                       "name":  "install",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  6,
+                                       "started_at":  "2026-10-10T01:28:45Z",
+                                       "completed_at":  "2026-10-10T01:28:55Z"
+                                   },
+                                   {
+                                       "name":  "format",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  7,
+                                       "started_at":  "2026-10-10T01:28:55Z",
+                                       "completed_at":  "2026-10-10T01:28:56Z"
+                                   },
+                                   {
+                                       "name":  "lint",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  8,
+                                       "started_at":  "2026-10-10T01:28:56Z",
+                                       "completed_at":  "2026-10-10T01:29:03Z"
+                                   },
+                                   {
+                                       "name":  "typecheck",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  9,
+                                       "started_at":  "2026-10-10T01:29:03Z",
+                                       "completed_at":  "2026-10-10T01:29:07Z"
+                                   },
+                                   {
+                                       "name":  "depcruise",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  10,
+                                       "started_at":  "2026-10-10T01:29:07Z",
+                                       "completed_at":  "2026-10-10T01:29:08Z"
+                                   },
+                                   {
+                                       "name":  "licenses",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  11,
+                                       "started_at":  "2026-10-10T01:29:08Z",
+                                       "completed_at":  "2026-10-10T01:29:08Z"
+                                   },
+                                   {
+                                       "name":  "adr",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  12,
+                                       "started_at":  "2026-10-10T01:29:08Z",
+                                       "completed_at":  "2026-10-10T01:29:09Z"
+                                   },
+                                   {
+                                       "name":  "features",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  13,
+                                       "started_at":  "2026-10-10T01:29:09Z",
+                                       "completed_at":  "2026-10-10T01:29:10Z"
+                                   },
+                                   {
+                                       "name":  "probes",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  14,
+                                       "started_at":  "2026-10-10T01:29:10Z",
+                                       "completed_at":  "2026-10-10T01:29:13Z"
+                                   },
+                                   {
+                                       "name":  "unit",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  15,
+                                       "started_at":  "2026-10-10T01:29:13Z",
+                                       "completed_at":  "2026-10-10T01:29:41Z"
+                                   },
+                                   {
+                                       "name":  "package",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  16,
+                                       "started_at":  "2026-10-10T01:29:41Z",
+                                       "completed_at":  "2026-10-10T01:30:34Z"
+                                   },
+                                   {
+                                       "name":  "smoke",
+                                       "status":  "completed",
+                                       "conclusion":  "failure",
+                                       "number":  17,
+                                       "started_at":  "2026-10-10T01:30:34Z",
+                                       "completed_at":  "2026-10-10T01:31:04Z"
+                                   },
+                                   {
+                                       "name":  "smoke-windows",
+                                       "status":  "completed",
+                                       "conclusion":  "skipped",
+                                       "number":  18,
+                                       "started_at":  "2026-10-10T01:31:04Z",
+                                       "completed_at":  "2026-10-10T01:31:04Z"
+                                   },
+                                   {
+                                       "name":  "e2e",
+                                       "status":  "completed",
+                                       "conclusion":  "skipped",
+                                       "number":  19,
+                                       "started_at":  "2026-10-10T01:31:04Z",
+                                       "completed_at":  "2026-10-10T01:31:04Z"
+                                   },
+                                   {
+                                       "name":  "e2e-packaged",
+                                       "status":  "completed",
+                                       "conclusion":  "skipped",
+                                       "number":  20,
+                                       "started_at":  "2026-10-10T01:31:04Z",
+                                       "completed_at":  "2026-10-10T01:31:04Z"
+                                   },
+                                   {
+                                       "name":  "Run actions/upload-artifact@v7",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  21,
+                                       "started_at":  "2026-10-10T01:31:04Z",
+                                       "completed_at":  "2026-10-10T01:31:06Z"
+                                   },
+                                   {
+                                       "name":  "Post Run actions/cache@v6",
+                                       "status":  "completed",
+                                       "conclusion":  "skipped",
+                                       "number":  39,
+                                       "started_at":  "2026-10-10T01:31:06Z",
+                                       "completed_at":  "2026-10-10T01:31:06Z"
+                                   },
+                                   {
+                                       "name":  "Post Run actions/setup-node@v7",
+                                       "status":  "completed",
+                                       "conclusion":  "skipped",
+                                       "number":  40,
+                                       "started_at":  "2026-10-10T01:31:06Z",
+                                       "completed_at":  "2026-10-10T01:31:06Z"
+                                   },
+                                   {
+                                       "name":  "Post Run pnpm/action-setup@v6",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  41,
+                                       "started_at":  "2026-10-10T01:31:06Z",
+                                       "completed_at":  "2026-10-10T01:31:06Z"
+                                   },
+                                   {
+                                       "name":  "Post Run actions/checkout@v7",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  42,
+                                       "started_at":  "2026-10-10T01:31:06Z",
+                                       "completed_at":  "2026-10-10T01:31:06Z"
+                                   },
+                                   {
+                                       "name":  "Complete job",
+                                       "status":  "completed",
+                                       "conclusion":  "success",
+                                       "number":  43,
+                                       "started_at":  "2026-10-10T01:31:06Z",
+                                       "completed_at":  "2026-10-10T01:31:07Z"
+                                   }
+                               ]
+                 }
+             ],
+    "artifacts":  [
+                      {
+                          "id":  11655707550,
+                          "name":  "evidence-windows-latest",
+                          "size_in_bytes":  3396178,
+                          "expired":  false,
+                          "archive_download_url":  "https://api.github.com/repos/qmahmoudi74/danesh/actions/artifacts/11655707550/zip"
+                      },
+                      {
+                          "id":  11654587275,
+                          "name":  "evidence-macos-latest",
+                          "size_in_bytes":  3398667,
+                          "expired":  false,
+                          "archive_download_url":  "https://api.github.com/repos/qmahmoudi74/danesh/actions/artifacts/11654587275/zip"
+                      }
+                  ],
+    "latestRunId":  38013304000
+}

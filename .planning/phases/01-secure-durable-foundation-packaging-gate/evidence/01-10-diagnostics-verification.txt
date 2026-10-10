@@ -1,0 +1,897 @@
+Danesh focused responsiveness diagnosis, 2026-10-10, Windows x64 only.
+Implementation: 000b8c6; features-first acceptance: d67ca0d.
+Final gates are recorded below. The expected failing cleanup reproduction used the old cleanup temporarily; the fix was restored before final verification.
+PowerShell wraps pnpm script banners from stderr as NativeCommandError even on exit 0; recorded exits are native LASTEXITCODE values.
+Production NSIS was built but not installed locally. Prior historical installed evidence is untouched. Packaging and E2E builds were sequential.
+Loaded heartbeat policy and sample methodology are unchanged. No macOS execution, CI artifact validation, push or downstream plan execution is claimed.
+
+COMMAND: pnpm check:format
+EXIT: 0
+pnpm : $ biome check
+At line:2 char:56
++ ... -final.txt; pnpm check:format *> $env:TEMP\danesh-diag-check-format-f ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ biome check:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+apps\core\src\system-check.ts:89:23 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    87 │     let created = false;
+    88 │     try {
+  > 89 │       const content = JSON.stringify(SmokeReportSchema.parse(report), null, 2) + '\n';
+       │                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    90 │       const file = await open(temporary, 'wx');
+    91 │       created = true;
+
+  i Unsafe fix: Use a template literal.
+
+     87  87 │       let created = false;
+     88  88 │       try {
+     89     │ - ······const·content·=·JSON.stringify(SmokeReportSchema.parse(report),·null,·2)·+·'\n';
+         89 │ + ······const·content·=·`${JSON.stringify(SmokeReportSchema.parse(report),·null,·2)}\n`;
+     90  90 │         const file = await open(temporary, 'wx');
+     91  91 │         created = true;
+
+
+packages\contracts\test\ipc-validation.feature.test.ts:298:26 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    296 │               'a'.repeat(TEXT_LIMIT - envelopeBytes - persianLetters * 2),
+    297 │           };
+  > 298 │           over = { text: atLimit.text + 'a' };
+        │                          ^^^^^^^^^^^^^^^^^^
+    299 │           expect(utf8ByteLength(atLimit)).toBe(TEXT_LIMIT);
+    300 │           expect(utf8ByteLength(over)).toBe(TEXT_LIMIT + 1);
+
+  i Unsafe fix: Use a template literal.
+
+    296 296 │                 'a'.repeat(TEXT_LIMIT - envelopeBytes - persianLetters * 2),
+    297 297 │             };
+    298     │ - ··········over·=·{·text:·atLimit.text·+·'a'·};
+        298 │ + ··········over·=·{·text:·`${atLimit.text}a`·};
+    299 299 │             expect(utf8ByteLength(atLimit)).toBe(TEXT_LIMIT);
+    300 300 │             expect(utf8ByteLength(over)).toBe(TEXT_LIMIT + 1);
+
+
+packages\logging\src\jsonl.ts:88:9 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    86 │       const safeEvent = /^[a-z][\w.-]{0,63}$/i.test(event) ? event : 'invalid-event';
+    87 │       const line =
+  > 88 │         JSON.stringify({
+       │         ^^^^^^^^^^^^^^^^
+  > 89 │           ts: new Date().toISOString(),
+        ...
+  > 93 │           ...sanitize(fields),
+  > 94 │         }) + '\n';
+       │         ^^^^^^^^^
+    95 │       const bytes = Buffer.byteLength(line, 'utf8');
+    96 │       if (bytes > maxBytes) return;
+
+  i Unsafe fix: Use a template literal.
+
+     86  86 │         const safeEvent = /^[a-z][\w.-]{0,63}$/i.test(event) ? event : 'invalid-event';
+     87  87 │         const line =
+     88     │ - ········JSON.stringify({
+         88 │ + ········`${JSON.stringify({
+     89  89 │             ts: new Date().toISOString(),
+     90  90 │             level,
+    ······· │
+     92  92 │             event: safeEvent,
+     93  93 │             ...sanitize(fields),
+     94     │ - ········})·+·'\n';
+         94 │ + ········})}\n`;
+     95  95 │         const bytes = Buffer.byteLength(line, 'utf8');
+     96  96 │         if (bytes > maxBytes) return;
+
+
+tools\check-features-first.test.ts:44:22 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    42 │ });
+    43 │ it('rejects missing requirement tags or multiple capabilities', () => {
+  > 44 │   const repo = setup(feature.replace('@req-PLAT-01', '') + 'Feature: Another\n');
+       │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    45 │   repo.commit();
+    46 │   expect(checkFeatures(repo.root, true).errors.length).toBeGreaterThan(0);
+
+  i Unsafe fix: Use a template literal.
+
+    42 42 │   });
+    43 43 │   it('rejects missing requirement tags or multiple capabilities', () => {
+    44    │ - ··const·repo·=·setup(feature.replace('@req-PLAT-01',·'')·+·'Feature:·Another\n');
+       44 │ + ··const·repo·=·setup(`${feature.replace('@req-PLAT-01',·'')}Feature:·Another\n`);
+    45 45 │     repo.commit();
+    46 46 │     expect(checkFeatures(repo.root, true).errors.length).toBeGreaterThan(0);
+
+
+tools\check-report.test.ts:22:10 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    20 │   counts = 'Counts: verified 0, partially verified 0, blocked 4',
+    21 │ ) {
+  > 22 │   return header + rows.join('\n') + '\n' + counts;
+       │          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    23 │ }
+    24 │ it('accepts an honest blocked report', () => {
+
+  i Unsafe fix: Use a template literal.
+
+     20  20 │     counts = 'Counts: verified 0, partially verified 0, blocked 4',
+     21  21 │   ) {
+     22     │ - ··return·header·+·rows.join('\n')·+·'\n'·+·counts;
+         22 │ + ··return·`${header·+·rows.join('\n')}\n${counts}`;
+     23  23 │   }
+     24  24 │   it('accepts an honest blocked report', () => {
+
+
+tools\check-report.test.ts:134:41 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    132 │   'rejects fabricated aggregate text: %s',
+    133 │   (text) => {
+  > 134 │     expect(validateReport(setup().root, report() + '\n' + text, ids).join()).toContain('aggregate');
+        │                                         ^^^^^^^^^^^^^^^^^^^^^^
+    135 │   },
+    136 │ );
+
+  i Unsafe fix: Use a template literal.
+
+    132 132 │     'rejects fabricated aggregate text: %s',
+    133 133 │     (text) => {
+    134     │ - ····expect(validateReport(setup().root,·report()·+·'\n'·+·text,·ids).join()).toContain('aggregate');
+        134 │ + ····expect(validateReport(setup().root,·`${report()}\n${text}`,·ids).join()).toContain('aggregate');
+    135 135 │     },
+    136 136 │   );
+
+
+tools\check-report.ts:155:21 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    153 │   const padded = phase.padStart(2, '0');
+    154 │   const directory = readdirSync(join(root, '.planning/phases')).find((name) =>
+  > 155 │     name.startsWith(padded + '-'),
+        │                     ^^^^^^^^^^^^
+    156 │   );
+    157 │   const file = directory
+
+  i Unsafe fix: Use a template literal.
+
+    153 153 │     const padded = phase.padStart(2, '0');
+    154 154 │     const directory = readdirSync(join(root, '.planning/phases')).find((name) =>
+    155     │ - ····name.startsWith(padded·+·'-'),
+        155 │ + ····name.startsWith(`${padded}-`),
+    156 156 │     );
+    157 157 │     const file = directory
+
+
+tools\lib\test-repo.ts:23:28 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    21 │     write(path: string, text: string) {
+    22 │       const file = resolve(root, path);
+  > 23 │       if (!file.startsWith(root + '\\') && !file.startsWith(root + '/'))
+       │                            ^^^^^^^^^^^
+    24 │         throw new Error('Test path outside owned repo');
+    25 │       mkdirSync(dirname(file), { recursive: true });
+
+  i Unsafe fix: Use a template literal.
+
+    21 21 │       write(path: string, text: string) {
+    22 22 │         const file = resolve(root, path);
+    23    │ - ······if·(!file.startsWith(root·+·'\\')·&&·!file.startsWith(root·+·'/'))
+       23 │ + ······if·(!file.startsWith(`${root}\\`)·&&·!file.startsWith(root·+·'/'))
+    24 24 │           throw new Error('Test path outside owned repo');
+    25 25 │         mkdirSync(dirname(file), { recursive: true });
+
+
+tools\lib\test-repo.ts:23:61 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    21 │     write(path: string, text: string) {
+    22 │       const file = resolve(root, path);
+  > 23 │       if (!file.startsWith(root + '\\') && !file.startsWith(root + '/'))
+       │                                                             ^^^^^^^^^^
+    24 │         throw new Error('Test path outside owned repo');
+    25 │       mkdirSync(dirname(file), { recursive: true });
+
+  i Unsafe fix: Use a template literal.
+
+    21 21 │       write(path: string, text: string) {
+    22 22 │         const file = resolve(root, path);
+    23    │ - ······if·(!file.startsWith(root·+·'\\')·&&·!file.startsWith(root·+·'/'))
+       23 │ + ······if·(!file.startsWith(root·+·'\\')·&&·!file.startsWith(`${root}/`))
+    24 24 │           throw new Error('Test path outside owned repo');
+    25 25 │         mkdirSync(dirname(file), { recursive: true });
+
+
+tools\license-scan.test.ts:150:38 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    148 │     expect(generated).toContain('FULL OFL TEXT');
+    149 │     expect(noticesCurrent(generated, undefined)).toBe(false);
+  > 150 │     expect(noticesCurrent(generated, generated + 'edit')).toBe(false);
+        │                                      ^^^^^^^^^^^^^^^^^^
+    151 │     expect(noticesCurrent(generated, generated)).toBe(true);
+    152 │   });
+
+  i Unsafe fix: Use a template literal.
+
+    148 148 │       expect(generated).toContain('FULL OFL TEXT');
+    149 149 │       expect(noticesCurrent(generated, undefined)).toBe(false);
+    150     │ - ····expect(noticesCurrent(generated,·generated·+·'edit')).toBe(false);
+        150 │ + ····expect(noticesCurrent(generated,·`${generated}edit`)).toBe(false);
+    151 151 │       expect(noticesCurrent(generated, generated)).toBe(true);
+    152 152 │     });
+
+
+tools\license-scan.ts:187:10 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    185 │   for (const entry of [...retained].sort((a, b) => a.label.localeCompare(b.label, 'en')))
+    186 │     sections.push(`${entry.label}\n${entry.text}`);
+  > 187 │   return sections.join('\n\n----------------------------------------\n\n') + '\n';
+        │          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    188 │ }
+    189 │ export function noticesCurrent(expected: string, actual: string | undefined): boolean {
+
+  i Unsafe fix: Use a template literal.
+
+    185 185 │     for (const entry of [...retained].sort((a, b) => a.label.localeCompare(b.label, 'en')))
+    186 186 │       sections.push(`${entry.label}\n${entry.text}`);
+    187     │ - ··return·sections.join('\n\n----------------------------------------\n\n')·+·'\n';
+        187 │ + ··return·`${sections.join('\n\n----------------------------------------\n\n')}\n`;
+    188 188 │   }
+    189 189 │   export function noticesCurrent(expected: string, actual: string | undefined): boolean {
+
+
+tools\smoke\build-manifest.ts:24:52 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    22 │   );
+    23 │   const manifest = buildManifest(packagedResources(dist));
+  > 24 │   writeFileSync(join(dist, 'build-manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
+       │                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    25 │   console.log(
+    26 │     `build-manifest: entries=${manifest.entries.length} maxRelUtf16=${manifest.maxRelUtf16}`,
+
+  i Unsafe fix: Use a template literal.
+
+    22 22 │     );
+    23 23 │     const manifest = buildManifest(packagedResources(dist));
+    24    │ - ··writeFileSync(join(dist,·'build-manifest.json'),·JSON.stringify(manifest,·null,·2)·+·'\n');
+       24 │ + ··writeFileSync(join(dist,·'build-manifest.json'),·`${JSON.stringify(manifest,·null,·2)}\n`);
+    25 25 │     console.log(
+    26 26 │       `build-manifest: entries=${manifest.entries.length} maxRelUtf16=${manifest.maxRelUtf16}`,
+
+
+tools\smoke\run-packaged-smoke.ts:338:22 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  i Template literals are preferred over string concatenation.
+
+    336 │   // Evidence is committed to a public repository: the local home directory (and so the user name) is
+replaced by ~.
+    337 │   const home = JSON.stringify(homedir()).slice(1, -1);
+  > 338 │   writeFileSync(out, JSON.stringify(evidence, null, 2).replaceAll(home, '~') + '\n');
+        │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    339 │   console.log(
+    340 │     `packaged-smoke: verdict=${evidence.verdict}${failing.length ? ` failing=${failing.join(',')}` : ''}
+out=${out}`,
+
+  i Unsafe fix: Use a template literal.
+
+    336 336 │     // Evidence is committed to a public repository: the local home directory (and so the user name) is
+replaced by ~.
+    337 337 │     const home = JSON.stringify(homedir()).slice(1, -1);
+    338     │ - ··writeFileSync(out,·JSON.stringify(evidence,·null,·2).replaceAll(home,·'~')·+·'\n');
+        338 │ + ··writeFileSync(out,·`${JSON.stringify(evidence,·null,·2).replaceAll(home,·'~')}\n`);
+    339 339 │     console.log(
+    340 340 │       `packaged-smoke: verdict=${evidence.verdict}${failing.length ? ` failing=${failing.join(',')}` :
+''} out=${out}`,
+
+
+Checked 153 files in 432ms. No fixes applied.
+Found 13 infos.
+
+
+COMMAND: pnpm lint
+EXIT: 0
+pnpm : $ eslint .
+At line:2 char:172
++ ... EXITCODE }; pnpm lint *> $env:TEMP\danesh-diag-lint-final.txt; if ($L ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ eslint .:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+
+COMMAND: pnpm typecheck
+EXIT: 0
+pnpm : $ tsc -p tsconfig.json --noEmit && tsc -p apps/renderer/tsconfig.json --noEmit
+At line:2 char:272
++ ... EXITCODE }; pnpm typecheck *> $env:TEMP\danesh-diag-typecheck-final.t ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ tsc -p tsconf...g.json --noEmit:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+
+COMMAND: pnpm depcruise
+EXIT: 0
+pnpm : $ depcruise apps packages tools --config .dependency-cruiser.cjs
+At line:2 char:319
++ ... EXITCODE }; pnpm depcruise *> $env:TEMP\danesh-diag-depcruise-final.t ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ depcruise app...ncy-cruiser.cjs:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+✔ no dependency violations found (151 modules, 473 dependencies cruised)
+
+
+
+COMMAND: pnpm licenses:scan
+EXIT: 0
+pnpm : $ node tools/license-scan.ts
+At line:2 char:284
++ ... STEXITCODE; pnpm licenses:scan *> "$env:TEMP\danesh-diag-licenses.txt ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ node tools/license-scan.ts:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+WARNING needs-review: Electron FFmpeg: Research A6 assumption; verify binary contents/terms, notices, source and relinking before release
+WARNING needs-review: DirectML.dll: Verify actual DLL redistribution terms and embedded notices before release
+WARNING needs-review: stories15M-q4_0.gguf: Research A5 upstream inherited grant needs verification before obtaining or shipping
+WARNING needs-review: fa_IR-mana-medium.onnx and .onnx.json: Preserve model MIT notice; record CC0 dataset provenance; verify artifacts before shipping
+WARNING needs-review: eng.traineddata: Preserve Apache license; verify artifact before shipping
+WARNING needs-review: @reflink/reflink native addon (transitive dependency): Confirm which production dependency pulls it in and whether it is needed at runtime
+license-scan: scanned=748 lockfile=746 failures=0 notices=ok
+
+
+COMMAND: pnpm check:ci
+EXIT: 0
+pnpm : $ node tools/check-ci.ts
+At line:2 char:1
++ pnpm check:ci *> $env:TEMP\danesh-diag-ci.txt; if ($LASTEXITCODE -ne  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ node tools/check-ci.ts:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+check-ci: findings=0
+
+
+COMMAND: pnpm check:adr
+EXIT: 0
+pnpm : $ node tools/check-adr.ts
+At line:2 char:97
++ ... STEXITCODE }; pnpm check:adr *> $env:TEMP\danesh-diag-adr.txt; if ($L ...
++                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ node tools/check-adr.ts:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+check-adr: failures=0
+
+
+COMMAND: pnpm check:features --allow-unbound (after implementation commit)
+EXIT: 0
+pnpm : $ node tools/check-features-first.ts --allow-unbound
+At line:2 char:105
++ ... EXITCODE }; pnpm check:features --allow-unbound *> $env:TEMP\danesh-d ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ node tools/ch...--allow-unbound:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+INFO features/core/content-addressed-store.feature: not yet implemented packages/storage/src/cas.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/domain/src/jobs/fsm.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/domain/src/jobs/recovery.ts
+INFO features/core/durable-jobs.feature: not yet implemented packages/storage/src/jobs-repo.ts
+INFO features/core/durable-jobs.feature: not yet implemented apps/core/src/sample-job.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/policy.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/broker.ts
+INFO features/core/egress-policy.feature: not yet implemented packages/egress/src/guard.ts
+INFO features/core/engine-supervision.feature: not yet implemented packages/domain/src/supervision/backoff.ts
+INFO features/core/engine-supervision.feature: not yet implemented packages/domain/src/supervision/policy.ts
+INFO features/core/engine-supervision.feature: not yet implemented apps/main/src/supervisor.ts
+INFO features/ui/desktop-shell.feature: not yet implemented apps/main/src/window-chrome.ts
+INFO features/ui/engine-crash.feature: not yet implemented apps/main/src/supervisor.ts
+INFO features/ui/sample-job.feature: not yet implemented apps/renderer/src/sample-job/SampleJobCard.tsx
+INFO features/ui/sample-job.feature: not yet implemented apps/core/src/sample-job.ts
+INFO features/ui/zero-egress.feature: not yet implemented packages/egress/src/guard.ts
+INFO features/ui/zero-egress.feature: not yet implemented apps/core/src/checks/egress-zero.check.ts
+check-features-first: failures=0
+
+
+COMMAND: pnpm test (committed implementation 000b8c6)
+EXIT: 0
+pnpm : $ vitest run
+At line:2 char:1
++ pnpm test *> $env:TEMP\danesh-diag-unit-committed.txt; if ($LASTEXITC ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ vitest run:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+ RUN  v5.0.3 D:/workspace/AI/danesh
+
+load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+
+ Test Files  30 passed (30)
+      Tests  363 passed (363)
+   Start at  05:22:58
+   Duration  18.14s (tests 81%, import 15%, transform 4%)
+
+    Isolate  30 workers spawned · ~121ms startup each (spawn + environment, per file)
+             at least ~1.69s faster with isolate: false — reuses workers across files instead of one per file
+
+
+
+COMMAND: pnpm vitest run apps/renderer/test/heartbeat.test.ts packages/contracts/test/responsiveness.test.ts tools/smoke/responsiveness-diagnostics.test.ts apps/core/test/system-check.test.ts apps/core/test/engines.test.ts
+EXIT: 0
+
+ RUN  v5.0.3 D:/workspace/AI/danesh
+
+
+ Test Files  5 passed (5)
+      Tests  21 passed (21)
+   Start at  05:15:21
+   Duration  2.22s (tests 56%, import 28%, transform 15%, worker 1%)
+
+
+
+COMMAND: pnpm vitest run tools/smoke/responsiveness-diagnostics.test.ts (final summary output)
+EXIT: 0
+
+ RUN  v5.0.3 D:/workspace/AI/danesh
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  05:21:58
+   Duration  253ms (import 60%, transform 34%, tests 3%, worker 2%)
+
+
+
+COMMAND: Regression reproduction: restore old unsubscribe-only cleanup; pnpm exec vitest run --project renderer apps/renderer/test/heartbeat.test.ts -t cancels
+EXIT: 1
+
+ RUN  v5.0.3 D:/workspace/AI/danesh
+
+ ❯ |renderer| apps/renderer/test/heartbeat.test.ts (3 tests | 1 failed | 2 skipped) 12ms
+   × cancels an in-flight heartbeat and its deferred report when the renderer unsubscribes 11ms
+pnpm :
+At line:2 char:1
++ pnpm exec vitest run --project renderer apps/renderer/test/heartbeat. ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |renderer| apps/renderer/test/heartbeat.test.ts > cancels an in-flight heartbeat and its deferred report when
+the renderer unsubscribes
+AssertionError: expected 2 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 2
+
+ ❯ apps/renderer/test/heartbeat.test.ts:36:30
+     34|   dispose();
+     35|   expect(unsubscribe).toHaveBeenCalledOnce();
+     36|   expect(vi.getTimerCount()).toBe(0);
+       |                              ^
+     37|   vi.advanceTimersByTime(6000);
+     38|   expect(call).not.toHaveBeenCalled();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 skipped (3)
+   Start at  05:15:16
+   Duration  370ms (import 58%, transform 34%, tests 5%, worker 3%)
+
+
+
+COMMAND: pnpm package (completed before E2E build)
+EXIT: 0
+pnpm : $ pnpm --dir apps/desktop run package
+At line:2 char:1
++ pnpm package *> "$env:TEMP\danesh-diag-package.txt"; $result = $LASTE ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ pnpm --dir apps/desktop run package:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+$ electron-vite build && node ../../tools/assert-no-test-hooks.ts --out out && electron-builder --config
+electron-builder.yml --publish never && node ../../tools/smoke/build-manifest.ts --dist dist
+vite v7.3.7 building ssr environment for production...
+transforming...
+✓ 156 modules transformed.
+rendering chunks...
+out/main/chunks/utility-port-D7xZV9pN.js    0.18 kB
+out/main/engine-sample.js                   0.31 kB
+out/main/engine-ocr.js                      1.59 kB
+out/main/engine-llm.js                      1.68 kB
+out/main/engine-tts.js                      2.40 kB
+out/main/chunks/host-runtime-VcTxp7j5.js    2.94 kB
+out/main/chunks/jsonl-Cpmo0zXx.js           4.21 kB
+out/main/index.js                          31.83 kB
+out/main/core.js                           43.21 kB
+out/main/chunks/envelope-DDmbtabG.js      198.82 kB
+✓ built in 758ms
+vite v7.3.7 building ssr environment for production...
+transforming...
+✓ 105 modules transformed.
+rendering chunks...
+out/preload/index.cjs  203.81 kB
+✓ built in 474ms
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 1462 modules transformed.
+rendering chunks...
+../desktop/out/renderer/index.html                                                 0.46 kB
+../desktop/out/renderer/assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2     21.86 kB
+../desktop/out/renderer/assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2         34.52 kB
+../desktop/out/renderer/assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2        46.31 kB
+../desktop/out/renderer/assets/index-BR64K7Cm.css                                 28.99 kB
+../desktop/out/renderer/assets/index-D9CR8kOi.js                               1,099.53 kB
+✓ built in 2.58s
+assert-no-test-hooks: expect-absent markers=0 ok
+  • electron-builder  version=26.17.0 os=10.0.29683
+  • loaded configuration  file=D:\workspace\AI\danesh\apps\desktop\electron-builder.yml
+  • packageManager not detected by file, falling back to environment detection  resolvedPackageManager=pnpm detected=D:\workspace\AI\danesh\apps\desktop
+  • detected workspace root for project using packageManager field  pm=pnpm config=pnpm@12.9.1 resolved=D:\workspace\AI\danesh projectDir=D:\workspace\AI\danesh\apps\desktop
+  • skipped dependencies rebuild  reason=npmRebuild is set to false
+  • packaging       platform=win32 arch=x64 electron=44.7.0 appOutDir=dist\win-unpacked
+  • downloaded      label=electron progress=100%
+  • downloaded electron zip extracted successfully  output=D:\workspace\AI\danesh\apps\desktop\dist\win-unpacked
+  • searching for node modules  pm=pnpm searchDir=D:\workspace\AI\danesh\apps\desktop
+  • duplicate dependency references  dependencies=["fs-extra@11.4.1","stdout-update@4.0.1","strip-ansi@7.2.0","which@6.0.1","yargs@17.7.3","is-fullwidth-code-point@5.1.0","string-width@4.2.3","strip-ansi@6.0.1"]
+  • platform-specific optional dependencies not bundled — add them to your project's optionalDependencies if your app requires them (pnpm 10+ does not auto-install transitive platform binaries)  dependencies=["@node-llama-cpp/linux-arm64@3.22.1","@node-llama-cpp/linux-armv7l@3.22.1","@node-llama-cpp/linux-riscv64@3.22.1","@node-llama-cpp/linux-x64@3.22.1","@node-llama-cpp/linux-x64-cuda@3.22.1","@node-llama-cpp/linux-x64-cuda-ext@3.22.1","@node-llama-cpp/linux-x64-vulkan@3.22.1","@reflink/reflink-darwin-arm64@0.1.19","@reflink/reflink-darwin-x64@0.1.19","@reflink/reflink-linux-arm64-gnu@0.1.19","@reflink/reflink-linux-arm64-musl@0.1.19","@reflink/reflink-linux-x64-gnu@0.1.19","@reflink/reflink-linux-x64-musl@0.1.19","@reflink/reflink-win32-arm64-msvc@0.1.19"]
+  • missing optional dependencies  dependencies=["@node-llama-cpp/mac-arm64-metal@3.22.1","@node-llama-cpp/mac-x64@3.22.1"]
+  • updating asar integrity executable resource  executablePath=dist\win-unpacked\Danesh.exe
+  • executing @electron/fuses  electronPath=dist\win-unpacked\Danesh.exe
+  • executable resource editing and code signing skipped — signAndEditExecutable is false. To skip only code signing while keeping icon and metadata applied, use signExecutable: false instead.  exe=dist\win-unpacked\Danesh.exe
+  • building        target=nsis file=dist\Danesh Setup 0.1.0.exe archs=x64 oneClick=false perMachine=false
+  • default Electron icon is used  reason=application icon is not set
+  • no code signing certificate configured, signing is skipped  path=dist\Danesh Setup 0.1.0.__uninstaller.exe
+  • no code signing certificate configured, signing is skipped  path=dist\Danesh Setup 0.1.0.exe
+  • building block map  blockMapFile=dist\Danesh Setup 0.1.0.exe.blockmap
+build-manifest: entries=85 maxRelUtf16=95
+
+
+COMMAND: pnpm test:e2e (38 passed, 31 intentional skips)
+EXIT: 0
+pnpm : $ node tools/run-e2e.ts
+At line:2 char:1
++ pnpm test:e2e *> "$env:TEMP\danesh-diag-e2e.txt"; $result = $LASTEXIT ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ node tools/run-e2e.ts:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+$ pnpm --dir apps/desktop run build:test
+$ electron-vite build --mode test
+vite v7.3.7 building ssr environment for test...
+transforming...
+✓ 156 modules transformed.
+rendering chunks...
+out/main/chunks/utility-port-D7xZV9pN.js    0.18 kB
+out/main/engine-sample.js                   0.31 kB
+out/main/engine-ocr.js                      1.59 kB
+out/main/engine-llm.js                      1.68 kB
+out/main/engine-tts.js                      2.40 kB
+out/main/chunks/host-runtime-HbsrzvIY.js    3.17 kB
+out/main/chunks/jsonl-LnwN2tiz.js           5.54 kB
+out/main/index.js                          32.45 kB
+out/main/core.js                           45.32 kB
+out/main/chunks/envelope-C5h0wXdf.js      198.86 kB
+✓ built in 599ms
+vite v7.3.7 building ssr environment for test...
+transforming...
+✓ 105 modules transformed.
+rendering chunks...
+out/preload/index.cjs  205.17 kB
+✓ built in 398ms
+vite v7.3.7 building client environment for test...
+transforming...
+✓ 1462 modules transformed.
+rendering chunks...
+../desktop/out/renderer/index.html                                                 0.46 kB
+../desktop/out/renderer/assets/vazirmatn-latin-ext-wght-normal-tDTa1Fj6.woff2     21.86 kB
+../desktop/out/renderer/assets/vazirmatn-latin-wght-normal-BFexNX-K.woff2         34.52 kB
+../desktop/out/renderer/assets/vazirmatn-arabic-wght-normal-Cafbb7Zc.woff2        46.31 kB
+../desktop/out/renderer/assets/index-BR64K7Cm.css                                 28.99 kB
+../desktop/out/renderer/assets/index-D9CR8kOi.js                               1,099.53 kB
+✓ built in 1.93s
+
+Running 69 tests using 1 worker
+
+(node:12324) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21536) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+[node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+Debugger ending on ws://127.0.0.1:64019/d1431969-066d-4ce0-bdb7-7c9615ff2a4f
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok  1 apps\desktop\.features-gen\app-shell.feature.spec.js:10:3 › An honest Persian-first shell behind a closed preload API › System check reaches the database through Core @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-happy (7.6s)
+Debugger ending on ws://127.0.0.1:64024/60f39698-abe7-4547-bc29-668f62578a81
+For help, see: https://nodejs.org/learn/getting-started/debugging
+[34104:1010/051737.114:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
+WaitForGetOffsetInRange.
+[34104:1010/051737.114:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
+WaitForGetOffsetInRange.
+  ok  2 apps\desktop\.features-gen\app-shell.feature.spec.js:17:3 › An honest Persian-first shell behind a closed preload API › The page has no Node access or raw IPC surface @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-invalid (818ms)
+Debugger ending on ws://127.0.0.1:64028/aacaa496-d322-4d58-a83b-2ca626854c9f
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok  3 apps\desktop\.features-gen\app-shell.feature.spec.js:25:3 › An honest Persian-first shell behind a closed preload API › Core and the sample host run in separate processes @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-edge (1.0s)
+(node:29680) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+[node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+Debugger ending on ws://127.0.0.1:64032/4c6353d5-cbb7-4994-9770-c51c7b7be049
+For help, see: https://nodejs.org/learn/getting-started/debugging
+(node:36952) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+[node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+Debugger ending on ws://127.0.0.1:64038/71224ff1-41de-4661-89cd-3b8c88eb51fa
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok  4 apps\desktop\.features-gen\app-shell.feature.spec.js:31:3 › An honest Persian-first shell behind a closed preload API › The database probe row survives a relaunch @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-persistence (14.9s)
+Debugger ending on ws://127.0.0.1:64046/345d4c45-5705-4fb3-9567-27b7cc3b909f
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok  5 apps\desktop\.features-gen\app-shell.feature.spec.js:39:3 › An honest Persian-first shell behind a closed preload API › Home states the foundation scope in Persian @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-06 @kind-happy (750ms)
+Debugger ending on ws://127.0.0.1:64051/e49f10c2-2fdd-4b14-bf23-693bbcc4543e
+For help, see: https://nodejs.org/learn/getting-started/debugging
+[37580:1010/051754.612:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
+WaitForGetOffsetInRange.
+[37580:1010/051754.612:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
+WaitForGetOffsetInRange.
+  ok  6 apps\desktop\.features-gen\app-shell.feature.spec.js:49:3 › An honest Persian-first shell behind a closed preload API › Keyboard navigation focuses the heading and unknown routes return Home @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-06 @kind-edge (758ms)
+Debugger ending on ws://127.0.0.1:64055/a6aa4170-3f26-4e0d-9589-3e821137bbfe
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok  7 apps\desktop\.features-gen\app-shell.feature.spec.js:58:3 › An honest Persian-first shell behind a closed preload API › A malformed ping is rejected without logging Persian input @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-07 @kind-invalid (617ms)
+Debugger ending on ws://127.0.0.1:64059/8a8f8380-ebb7-493d-92dc-7d3cb5cdf165
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:64063/522a4912-9cb2-4dba-9727-e2fcce6dd71f
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok  8 apps\desktop\.features-gen\app-shell.feature.spec.js:66:3 › An honest Persian-first shell behind a closed preload API › Both routes obey CSP and reject external navigation @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-07 @kind-edge (5.8s)
+Debugger ending on ws://127.0.0.1:55504/31c92440-1614-4fb1-ac73-36d422966eac
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok  9 apps\desktop\.features-gen\app-shell.feature.spec.js:76:3 › An honest Persian-first shell behind a closed preload API › A rejected call leaves the private connection usable @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-07 @kind-recovery (799ms)
+  ok 10 apps\desktop\.features-gen\app-shell.feature.spec.js:83:3 › An honest Persian-first shell behind a closed preload API › Hidden smoke mode measures responsiveness with foreground scheduling @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-09 @kind-edge (9.4s)
+  ok 11 apps\desktop\.features-gen\app-shell.feature.spec.js:89:3 › An honest Persian-first shell behind a closed preload API › Smoke evidence separates idle timer delay from engine load @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-09 @kind-edge (9.3s)
+Waiting for the debugger to disconnect...
+  ok 12 apps\desktop\.features-gen\desktop-shell.feature.spec.js:10:3 › A custom, themed desktop shell that keeps native window behavior › Custom title bar controls act on the real window @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-happy (1.2s)
+Debugger ending on ws://127.0.0.1:54738/1ef29984-347e-4fff-aab6-f5b41cbd9187
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:54743/95ce0263-8d32-42d5-8999-2a6e015dec94
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 13 apps\desktop\.features-gen\desktop-shell.feature.spec.js:25:3 › A custom, themed desktop shell that keeps native window behavior › The theme choice and window size survive a relaunch @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-persistence (1.9s)
+Debugger ending on ws://127.0.0.1:54748/b23255cd-c63e-4e63-8896-a6400de972e7
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 14 apps\desktop\.features-gen\desktop-shell.feature.spec.js:36:3 › A custom, themed desktop shell that keeps native window behavior › System theme follows the operating system live @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-edge (839ms)
+Debugger ending on ws://127.0.0.1:54752/d08d6725-7e12-4f7f-ad9c-6fd1ca78e076
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 15 apps\desktop\.features-gen\desktop-shell.feature.spec.js:45:3 › A custom, themed desktop shell that keeps native window behavior › Malformed window and theme requests are rejected before any effect @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-invalid (960ms)
+Debugger ending on ws://127.0.0.1:54756/81e06b87-d72b-418a-852b-c61efea01742
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:54760/47a5a8e7-a2b6-40c5-b4ff-ab4c4e58ec3c
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 16 apps\desktop\.features-gen\desktop-shell.feature.spec.js:55:3 › A custom, themed desktop shell that keeps native window behavior › Corrupted preferences and off-screen bounds never block start-up @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-recovery (1.9s)
+Debugger ending on ws://127.0.0.1:54764/75847058-2a50-4ff6-a445-35827fc5c58b
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:54769/2160a8c1-632f-4a3b-80bd-b18e3d8e97a4
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 17 apps\desktop\.features-gen\desktop-shell.feature.spec.js:64:3 › A custom, themed desktop shell that keeps native window behavior › The sidebar collapses to a named rail and navigates @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-edge (1.9s)
+Debugger ending on ws://127.0.0.1:54773/1607e174-927c-489b-9800-11e5ae7d644f
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 18 apps\desktop\.features-gen\desktop-shell.feature.spec.js:76:3 › A custom, themed desktop shell that keeps native window behavior › Reduced motion removes animation @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-edge (728ms)
+Debugger ending on ws://127.0.0.1:54777/69fd1a7d-9732-4cae-8a19-964654448ed4
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 19 apps\desktop\.features-gen\desktop-shell.feature.spec.js:82:3 › A custom, themed desktop shell that keeps native window behavior › Keyboard shortcuts work without a menu bar and on any keyboard layout @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-edge (509ms)
+Debugger ending on ws://127.0.0.1:54781/0ab4cd14-2230-4d75-9509-cfa49658335b
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 20 apps\desktop\.features-gen\desktop-shell.feature.spec.js:94:3 › A custom, themed desktop shell that keeps native window behavior › The title bar carries no application menu @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-edge (485ms)
+  -  21 apps\desktop\.features-gen\engine-crash.feature.spec.js:13:10 › Engine crashes and Core restarts leave the window usable › A healthy host completes work without a recovery notice @ui @req-PLAT-04 @plan-01-14 @kind-happy
+  -  22 apps\desktop\.features-gen\engine-crash.feature.spec.js:27:12 › Engine crashes and Core restarts leave the window usable › An unexpected host exit restarts only that host › Example #1 @ui @req-PLAT-04 @plan-01-14 @kind-recovery
+  -  23 apps\desktop\.features-gen\engine-crash.feature.spec.js:42:12 › Engine crashes and Core restarts leave the window usable › An unexpected host exit restarts only that host › Example #2 @ui @req-PLAT-04 @plan-01-14 @kind-recovery
+  -  24 apps\desktop\.features-gen\engine-crash.feature.spec.js:57:12 › Engine crashes and Core restarts leave the window usable › An unexpected host exit restarts only that host › Example #3 @ui @req-PLAT-04 @plan-01-14 @kind-recovery
+  -  25 apps\desktop\.features-gen\engine-crash.feature.spec.js:72:12 › Engine crashes and Core restarts leave the window usable › An unexpected host exit restarts only that host › Example #4 @ui @req-PLAT-04 @plan-01-14 @kind-recovery
+  -  26 apps\desktop\.features-gen\engine-crash.feature.spec.js:87:12 › Engine crashes and Core restarts leave the window usable › An unexpected host exit restarts only that host › Example #5 @ui @req-PLAT-04 @plan-01-14 @kind-recovery
+  -  27 apps\desktop\.features-gen\engine-crash.feature.spec.js:102:12 › Engine crashes and Core restarts leave the window usable › An unexpected host exit restarts only that host › Example #6 @ui @req-PLAT-04 @plan-01-14 @kind-recovery
+  -  28 apps\desktop\.features-gen\engine-crash.feature.spec.js:119:10 › Engine crashes and Core restarts leave the window usable › Repeated crashes quarantine one task without discarding other work @ui @req-PLAT-04 @plan-01-14 @kind-edge
+  -  29 apps\desktop\.features-gen\engine-crash.feature.spec.js:132:10 › Engine crashes and Core restarts leave the window usable › Core killed mid-job is respawned and reconnects without window reload @ui @req-PLAT-04 @plan-01-14 @kind-recovery
+  -  30 apps\desktop\.features-gen\engine-crash.feature.spec.js:146:10 › Engine crashes and Core restarts leave the window usable › Invalid host messages are rejected and logged without their payload @ui @req-PLAT-04 @plan-01-14 @kind-invalid
+  -  31 apps\desktop\.features-gen\engine-crash.feature.spec.js:158:10 › Engine crashes and Core restarts leave the window usable › Closing Danesh stops every child without restarts @ui @req-PLAT-04 @plan-01-14 @kind-cancellation
+  -  32 apps\desktop\.features-gen\engine-crash.feature.spec.js:171:10 › Engine crashes and Core restarts leave the window usable › Crash and restart evidence remains local across relaunch @ui @req-PLAT-04 @plan-01-14 @kind-persistence
+  -  33 apps\desktop\.features-gen\sample-job.feature.spec.js:13:10 › A clearly labelled sample job demonstrates durable progress › The sample job completes twelve chunks with auditable attempts @ui @req-JOB-03 @req-PLAT-04 @plan-01-13 @kind-happy
+  -  34 apps\desktop\.features-gen\sample-job.feature.spec.js:29:10 › A clearly labelled sample job demonstrates durable progress › Killing and relaunching the app resumes without redoing committed chunks @ui @req-JOB-03 @req-PLAT-04 @plan-01-13 @kind-recovery
+  -  35 apps\desktop\.features-gen\sample-job.feature.spec.js:45:10 › A clearly labelled sample job demonstrates durable progress › Home exposes background activity only while a job runs @ui @req-JOB-03 @req-PLAT-04 @plan-01-13 @kind-edge
+  -  36 apps\desktop\.features-gen\sample-job.feature.spec.js:59:10 › A clearly labelled sample job demonstrates durable progress › Starting again preserves the previous job record @ui @req-JOB-03 @req-PLAT-04 @plan-01-13 @kind-persistence
+  -  37 apps\desktop\.features-gen\sample-job.feature.spec.js:72:10 › A clearly labelled sample job demonstrates durable progress › A persistent chunk failure preserves progress and offers a targeted retry @ui @req-JOB-03 @req-PLAT-04 @plan-01-13 @kind-invalid
+  -  38 apps\desktop\.features-gen\sample-job.feature.spec.js:89:10 › A clearly labelled sample job demonstrates durable progress › An engine crash retries only the in-flight chunk @ui @req-JOB-03 @req-PLAT-04 @plan-01-14 @kind-recovery
+  -  39 apps\desktop\.features-gen\sample-job.feature.spec.js:103:10 › A clearly labelled sample job demonstrates durable progress › The idle card clearly discloses the sample scope @ui @req-JOB-03 @req-PLAT-04 @plan-01-13 @kind-edge
+  -  40 apps\desktop\.features-gen\sample-job.feature.spec.js:117:12 › A clearly labelled sample job demonstrates durable progress › Chunk counts remain readable and expose non-color state cues › Example #1 @ui @req-JOB-03 @req-PLAT-04 @plan-01-13 @kind-edge
+  -  41 apps\desktop\.features-gen\sample-job.feature.spec.js:131:12 › A clearly labelled sample job demonstrates durable progress › Chunk counts remain readable and expose non-color state cues › Example #2 @ui @req-JOB-03 @req-PLAT-04 @plan-01-13 @kind-edge
+  -  42 apps\desktop\.features-gen\sample-job.feature.spec.js:145:12 › A clearly labelled sample job demonstrates durable progress › Chunk counts remain readable and expose non-color state cues › Example #3 @ui @req-JOB-03 @req-PLAT-04 @plan-01-13 @kind-edge
+Debugger ending on ws://127.0.0.1:54785/80f4949b-729b-49d0-a1d0-015f82f292d9
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 43 apps\desktop\.features-gen\startup-states.feature.spec.js:10:3 › Startup preserves data and exposes honest recovery states › Normal startup applies pending migrations before the foundation banner @ui @req-PLAT-06 @req-PLAT-07 @req-PLAT-04 @plan-01-11 @kind-happy (545ms)
+Debugger ending on ws://127.0.0.1:54789/09270fc3-9837-4b8c-b08b-d3447d71427f
+For help, see: https://nodejs.org/learn/getting-started/debugging
+(node:5228) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+[node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+Debugger ending on ws://127.0.0.1:54793/a1a38576-8fbf-4c50-a7dc-c287fc767b0a
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 44 apps\desktop\.features-gen\startup-states.feature.spec.js:17:3 › Startup preserves data and exposes honest recovery states › A newer database is refused without changing its bytes @ui @req-PLAT-06 @req-PLAT-07 @req-PLAT-04 @plan-01-11 @kind-invalid (8.6s)
+(node:37984) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+[node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+Debugger ending on ws://127.0.0.1:54867/3d256adb-53b0-422e-b993-857aaeaf8351
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 45 apps\desktop\.features-gen\startup-states.feature.spec.js:26:3 › Startup preserves data and exposes honest recovery states › Failed migration opens read-only and preserves prior rows @ui @req-PLAT-06 @req-PLAT-07 @req-PLAT-04 @plan-01-11 @kind-recovery (7.1s)
+Debugger ending on ws://127.0.0.1:54873/c7efe817-8583-48ec-8ae4-0361adbf2a49
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Debugger ending on ws://127.0.0.1:54877/daf6e5a3-3bad-47cf-95f8-a4975bc3e473
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 46 apps\desktop\.features-gen\startup-states.feature.spec.js:36:3 › Startup preserves data and exposes honest recovery states › An upgrade keeps data and takes no second backup on relaunch @ui @req-PLAT-06 @req-PLAT-07 @req-PLAT-04 @plan-01-11 @kind-persistence (1.1s)
+Debugger ending on ws://127.0.0.1:54881/ddb26d99-a6e5-47da-b20a-26ad0d544525
+For help, see: https://nodejs.org/learn/getting-started/debugging
+[24812:1010/051849.689:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
+WaitForGetOffsetInRange.
+[24812:1010/051849.689:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
+WaitForGetOffsetInRange.
+  ok 47 apps\desktop\.features-gen\startup-states.feature.spec.js:44:3 › Startup preserves data and exposes honest recovery states › A second instance focuses the first without opening another Core @ui @req-PLAT-06 @req-PLAT-07 @req-PLAT-04 @plan-01-07 @kind-edge (1.2s)
+  -  48 apps\desktop\.features-gen\startup-states.feature.spec.js:54:10 › Startup preserves data and exposes honest recovery states › Repeated Core boot failures offer app relaunch @ui @req-PLAT-06 @req-PLAT-07 @req-PLAT-04 @plan-01-14 @kind-recovery
+Debugger ending on ws://127.0.0.1:54888/a16cabf0-d7f1-407e-9f5a-6e3be6b739da
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 49 apps\desktop\.features-gen\startup-states.feature.spec.js:64:3 › Startup preserves data and exposes honest recovery states › Slow preparation keeps System check available @ui @req-PLAT-06 @req-PLAT-07 @req-PLAT-04 @plan-01-06 @kind-edge (8.6s)
+Debugger ending on ws://127.0.0.1:54893/d62594a0-41b7-4599-9a2b-2e1c7854b3e4
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 50 apps\desktop\.features-gen\system-check.feature.spec.js:10:3 › Local System check with visible results and JSON export › System check waits for an explicit first run @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-happy (908ms)
+(node:28924) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+[node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+Debugger ending on ws://127.0.0.1:54898/788bbabe-4181-48a1-9479-abbaf21bc201
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 51 apps\desktop\.features-gen\system-check.feature.spec.js:19:3 › Local System check with visible results and JSON export › Running updates each row and announces the actual summary @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-happy (8.5s)
+(node:37220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+[node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+Debugger ending on ws://127.0.0.1:59808/2bff0921-efaa-4aee-b563-181f197f9221
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 52 apps\desktop\.features-gen\system-check.feature.spec.js:31:3 › Local System check with visible results and JSON export › A slow run gives a hint without allowing duplicate execution @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-edge (18.2s)
+Debugger ending on ws://127.0.0.1:55434/1ca8f4fe-6d58-4f7e-88c7-b58738139d1e
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 53 apps\desktop\.features-gen\system-check.feature.spec.js:39:3 › Local System check with visible results and JSON export › The environment block preserves a Persian path with an apostrophe @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-edge (1.1s)
+(node:35260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+[node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+Debugger ending on ws://127.0.0.1:55438/c8b311cf-0384-4e73-a647-26c7e9410fc6
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 54 apps\desktop\.features-gen\system-check.feature.spec.js:47:3 › Local System check with visible results and JSON export › Exported JSON matches the displayed report @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-persistence (8.7s)
+(node:37524) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+[node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+Debugger ending on ws://127.0.0.1:55443/06a9c94d-ce27-49bd-9e58-d0bd267654f6
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 55 apps\desktop\.features-gen\system-check.feature.spec.js:58:3 › Local System check with visible results and JSON export › An unwritable export target reports an actionable error @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-invalid (7.8s)
+(node:36152) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+[node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+Debugger ending on ws://127.0.0.1:51018/c91ff04f-d6f3-4e61-8657-47a41edcd593
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 56 apps\desktop\.features-gen\system-check.feature.spec.js:66:3 › Local System check with visible results and JSON export › Cancelling the save dialog is silent @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-cancellation (7.9s)
+(node:36408) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+[node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+Debugger ending on ws://127.0.0.1:60850/da35438e-56d7-408b-a879-76e837439387
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 57 apps\desktop\.features-gen\system-check.feature.spec.js:74:3 › Local System check with visible results and JSON export › An unreachable Core offers a named retry that recovers the run @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-recovery (19.6s)
+Debugger ending on ws://127.0.0.1:58949/c7adea09-2fd6-40aa-be0e-d8869c607fdd
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 58 apps\desktop\.features-gen\system-check.feature.spec.js:84:3 › Local System check with visible results and JSON export › Partial reports retain their rows and render unknown ids honestly @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-06 @kind-edge (2.7s)
+  -  59 apps\desktop\.features-gen\system-check.feature.spec.js:93:3 › Local System check with visible results and JSON export › The test build reports its differing security fuses @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-08 @kind-edge
+(node:37332) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+[node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+Debugger ending on ws://127.0.0.1:58953/7b57c707-8918-4bf2-9827-275af8eaa7a2
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 60 apps\desktop\.features-gen\system-check.feature.spec.js:100:3 › Local System check with visible results and JSON export › Each packaging probe runs in its own host and reports its hash @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-09 @kind-happy (8.0s)
+(node:8492) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
+[node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
+[node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
+Debugger ending on ws://127.0.0.1:64095/ee78a0b2-5652-4966-a87b-fb4743695564
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 61 apps\desktop\.features-gen\system-check.feature.spec.js:109:3 › Local System check with visible results and JSON export › The interface stays responsive while all probes work @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-09 @kind-edge (7.6s)
+Debugger ending on ws://127.0.0.1:59733/506c753d-7090-4fb2-a0cd-0000e0ea9c93
+For help, see: https://nodejs.org/learn/getting-started/debugging
+  ok 62 apps\desktop\.features-gen\system-check.feature.spec.js:117:3 › Local System check with visible results and JSON export › A crashing OCR probe fails only its row @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-09 @kind-recovery (1.7s)
+  -  63 apps\desktop\.features-gen\system-check.feature.spec.js:132:12 › Local System check with visible results and JSON export › The full local check lists the OS rows in documented order › Example #1 @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-15 @kind-happy
+  -  64 apps\desktop\.features-gen\system-check.feature.spec.js:146:12 › Local System check with visible results and JSON export › The full local check lists the OS rows in documented order › Example #2 @ui @req-REL-02 @req-PLAT-03 @req-PLAT-11 @plan-01-15 @kind-happy
+  -  65 apps\desktop\.features-gen\zero-egress.feature.spec.js:13:10 › A monitored full check makes zero outbound connection attempts › Full System check remains offline with every engine host active @ui @req-PLAT-05 @plan-01-15 @kind-happy
+  -  66 apps\desktop\.features-gen\zero-egress.feature.spec.js:27:10 › A monitored full check makes zero outbound connection attempts › Independent observers detect deliberate test-only connections @ui @req-PLAT-05 @plan-01-15 @kind-edge
+  -  67 apps\desktop\.features-gen\zero-egress.feature.spec.js:41:10 › A monitored full check makes zero outbound connection attempts › Core and engine restarts retain the deny policy @ui @req-PLAT-05 @plan-01-15 @kind-recovery
+  -  68 apps\desktop\.features-gen\zero-egress.feature.spec.js:53:10 › A monitored full check makes zero outbound connection attempts › A blocked request log omits its private path and query @ui @req-PLAT-05 @plan-01-15 @kind-invalid
+  -  69 apps\desktop\.features-gen\zero-egress.feature.spec.js:66:10 › A monitored full check makes zero outbound connection attempts › Relaunch keeps the allowlist empty and the egress row successful @ui @req-PLAT-05 @plan-01-15 @kind-persistence
+
+  31 skipped
+  38 passed (3.1m)
+
+
+COMMAND: pnpm smoke:packaged --persian-paths --out .planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-10-diagnostics-smoke-win32-x64.json
+EXIT: 0
+pnpm : $ node tools/smoke/run-packaged-smoke.ts --persian-paths --out
+.planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-10-diagnostics-smoke-win32-x64.json
+At line:2 char:1
++ pnpm smoke:packaged --persian-paths --out .planning/phases/01-secure- ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ($ node tools/sm...-win32-x64.json:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+packaged-smoke: verdict=pass out=D:\workspace\AI\danesh\.planning\phases\01-secure-durable-foundation-packaging-gate\evidence\01-10-diagnostics-smoke-win32-x64.json
+packaged-smoke: runner-resources {"availableParallelism":24,"totalMemoryBytes":68044726272,"freeMemoryBeforeBytes":39710572544,"loadAverageBefore":[0,0,0],"loadAverageAvailable":false,"freeMemoryAfterBytes":39600603136,"loadAverageAfter":[0,0,0]}
+packaged-smoke: responsiveness-diagnostics {"available":true,"idle":{"count":40,"p50":0,"p95":13,"max":13,"buckets":[{"upperMs":0,"count":30},{"upperMs":10,"count":2},{"upperMs":25,"count":8},{"upperMs":50,"count":0},{"upperMs":100,"count":0},{"upperMs":250,"count":0},{"upperMs":9007199254740991,"count":0}]},"loaded":{"count":119,"p50":0,"p95":13,"max":14,"buckets":[{"upperMs":0,"count":93},{"upperMs":10,"count":2},{"upperMs":25,"count":24},{"upperMs":50,"count":0},{"upperMs":100,"count":0},{"upperMs":250,"count":0},{"upperMs":9007199254740991,"count":0}]},"phases":{"engine-llm+engine-ocr+engine-tts":{"count":8,"p50":0,"p95":13,"max":13,"buckets":[{"upperMs":0,"count":5},{"upperMs":10,"count":1},{"upperMs":25,"count":2},{"upperMs":50,"count":0},{"upperMs":100,"count":0},{"upperMs":250,"count":0},{"upperMs":9007199254740991,"count":0}]},"engine-llm+engine-tts":{"count":4,"p50":0,"p95":0,"max":0,"buckets":[{"upperMs":0,"count":4},{"upperMs":10,"count":0},{"upperMs":25,"count":0},{"upperMs":50,"count":0},{"upperMs":100,"count":0},{"upperMs":250,"count":0},{"upperMs":9007199254740991,"count":0}]},"engine-tts":{"count":26,"p50":0,"p95":13,"max":14,"buckets":[{"upperMs":0,"count":20},{"upperMs":10,"count":1},{"upperMs":25,"count":5},{"upperMs":50,"count":0},{"upperMs":100,"count":0},{"upperMs":250,"count":0},{"upperMs":9007199254740991,"count":0}]},"after-engines":{"count":81,"p50":0,"p95":13,"max":14,"buckets":[{"upperMs":0,"count":64},{"upperMs":10,"count":0},{"upperMs":25,"count":17},{"upperMs":50,"count":0},{"upperMs":100,"count":0},{"upperMs":250,"count":0},{"upperMs":9007199254740991,"count":0}]}},"longTasksSupported":true,"longTaskCount":0,"longestTaskMs":0,"visibility":"visible"}
+packaged-smoke: engine-timing engine-llm {"hostCpuUserMs":297,"hostCpuSystemMs":141,"hostRssAtFinishBytes":161636352,"checkStartedAtMs":1791597082263.1157,"checkFinishedAtMs":1791597082834.7727}
+packaged-smoke: engine-timing engine-ocr {"hostCpuUserMs":390,"hostCpuSystemMs":140,"hostRssAtFinishBytes":160555008,"checkStartedAtMs":1791597082263.4478,"checkFinishedAtMs":1791597082669.7673}
+packaged-smoke: engine-timing engine-tts {"hostCpuUserMs":1531,"hostCpuSystemMs":109,"hostRssAtFinishBytes":139862016,"checkStartedAtMs":1791597082263.58,"checkFinishedAtMs":1791597084155.0652}
+packaged-smoke: diagnosis {"idle":{"count":40,"p95":13,"max":13},"loaded":{"count":119,"p95":13,"max":14},"phases":{"engine-llm+engine-ocr+engine-tts":{"count":8,"p95":13,"max":13},"engine-llm+engine-tts":{"count":4,"p95":0,"max":0},"engine-tts":{"count":26,"p95":13,"max":14},"after-engines":{"count":81,"p95":13,"max":14}},"longTasksSupported":true,"longTaskCount":0,"longestTaskMs":0,"visibility":"visible"}
+
+
+COMMAND: Initial validator invocation mistakenly requested nonexistent db-writable; corrected below
+EXIT: 1
+node : FAIL required check db-writable is missing
+At line:2 char:77
++ ... t -Last 12; node tools/smoke/validate-evidence.ts --file .planning/ph ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (FAIL required c...able is missing:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+validate-evidence: failed (1)
+
+
+COMMAND: node tools/smoke/validate-evidence.ts --file .planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-10-diagnostics-smoke-win32-x64.json --require-persian-path --require-os win32 --require-check database --require-check engine-llm --require-check engine-ocr --require-check engine-tts --require-check ui-responsive
+EXIT: 0
+validate-evidence: ok app-launch,database,engine-llm,engine-ocr,engine-tts,ui-responsive,fuses
