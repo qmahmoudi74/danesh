@@ -1,0 +1,192 @@
+{
+  "runnerVersion": 1,
+  "recordedAt": "2026-10-10T01:01:22.228Z",
+  "platform": "win32",
+  "arch": "x64",
+  "appPath": "D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\Danesh.exe",
+  "items": {
+    "appRun": {
+      "verdict": "pass",
+      "exitCode": 0,
+      "durationMs": 9745
+    },
+    "persianLibraryPath": {
+      "verdict": "pass",
+      "path": "~\\AppData\\Local\\Temp\\danesh-smoke-XkZjdC\\ دانش آزمون\\کتابخانهٔ من",
+      "folder": "کتابخانهٔ من"
+    },
+    "fuses": {
+      "verdict": "pass",
+      "fuses": {
+        "RunAsNode": false,
+        "EnableNodeOptionsEnvironmentVariable": false,
+        "EnableNodeCliInspectArguments": false,
+        "EnableEmbeddedAsarIntegrityValidation": true,
+        "OnlyLoadAppFromAsar": true,
+        "GrantFileProtocolExtraPrivileges": false
+      },
+      "differing": []
+    },
+    "manifest": {
+      "verdict": "pass",
+      "entries": 85,
+      "missing": [],
+      "extra": [],
+      "changed": [],
+      "ok": true
+    },
+    "asarContents": {
+      "verdict": "pass",
+      "topLevel": [
+        "node_modules",
+        "out",
+        "package.json"
+      ],
+      "unexpected": []
+    },
+    "installPathBound": {
+      "verdict": "pass",
+      "userNameUtf16": 40,
+      "maxInstalledPathUtf16": 185,
+      "longestRel": "app.asar.unpacked/node_modules/@node-llama-cpp/win-x64/bins/win-x64/ggml-cpu-sapphirerapids.dll",
+      "limit": 260
+    },
+    "testHooks": {
+      "verdict": "pass",
+      "markers": []
+    },
+    "nsis": {
+      "verdict": "not-applicable"
+    },
+    "codesign": {
+      "verdict": "not-applicable"
+    }
+  },
+  "appReport": {
+    "schemaVersion": 1,
+    "appVersion": "0.1.0",
+    "electronVersion": "44.7.0",
+    "platform": "win32",
+    "arch": "x64",
+    "startedAt": "2026-10-10T01:01:15.727Z",
+    "finishedAt": "2026-10-10T01:01:21.874Z",
+    "overall": "pass",
+    "checks": [
+      {
+        "checkId": "app-launch",
+        "status": "pass",
+        "durationMs": 0,
+        "detail": "برنامه به‌درستی باز شد.",
+        "fields": {
+          "corePid": 30520,
+          "mainPid": 6424,
+          "appVersion": "0.1.0"
+        }
+      },
+      {
+        "checkId": "database",
+        "status": "pass",
+        "durationMs": 2,
+        "detail": "پایگاه داده باز شد و آمادهٔ استفاده است.",
+        "fields": {
+          "count": 1,
+          "corePid": 30520,
+          "dbPath": "~\\AppData\\Local\\Temp\\danesh-smoke-XkZjdC\\ دانش آزمون\\کتابخانهٔ من\\danesh.db",
+          "journal_mode": "wal",
+          "user_version": 2,
+          "nodeSqlite": "available",
+          "nodeSqliteVersion": "3.53.4"
+        }
+      },
+      {
+        "checkId": "engine-llm",
+        "status": "pass",
+        "durationMs": 747,
+        "detail": "generated 24 tokens at temperature 0",
+        "fields": {
+          "hostPid": 11516,
+          "corePid": 30520,
+          "entry": "D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\resources\\app.asar\\out\\main\\engine-llm.js",
+          "assets": "stories15M-q4_0.gguf",
+          "nativeLibrary": "\\\\?\\D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\resources\\app.asar.unpacked\\node_modules\\@node-llama-cpp\\win-x64\\bins\\win-x64\\llama-addon.node",
+          "nativeLibraryCount": 6,
+          "runtime": "node-llama-cpp 3.22.1 (CPU)",
+          "tokenCount": 24,
+          "loadMs": 320,
+          "generateMs": 36
+        },
+        "outputSha256": "76297550fbec3077fdd5f5d46a9af419078dd8cc6d5b7a1861d6d30b2abdf6c2"
+      },
+      {
+        "checkId": "engine-ocr",
+        "status": "pass",
+        "durationMs": 372,
+        "detail": "first word matches the sample",
+        "fields": {
+          "hostPid": 32224,
+          "corePid": 30520,
+          "entry": "D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\resources\\app.asar\\out\\main\\engine-ocr.js",
+          "assets": "eng.traineddata,testocr.png",
+          "runtime": "tesseract.js 7.0.0 (offline)",
+          "firstWord": "This",
+          "expectedFirstWord": "This",
+          "confidence": 95,
+          "durationMs": 275
+        },
+        "outputSha256": "76ef157baeb6ab275b7d90f310477a8060d5822aea2b2e05d480f459b016a6ed"
+      },
+      {
+        "checkId": "engine-tts",
+        "status": "pass",
+        "durationMs": 1910,
+        "detail": "synthesized 6400 samples",
+        "fields": {
+          "hostPid": 18924,
+          "corePid": 30520,
+          "entry": "D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\resources\\app.asar\\out\\main\\engine-tts.js",
+          "assets": "fa_IR-mana-medium.onnx,fa_IR-mana-medium.onnx.json",
+          "nativeLibrary": "\\\\?\\D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\resources\\app.asar.unpacked\\node_modules\\onnxruntime-node\\bin\\napi-v6\\win32\\x64\\onnxruntime_binding.node",
+          "nativeLibraryCount": 2,
+          "runtime": "onnxruntime-node 1.30.0 (CPU, no espeak-ng)",
+          "sampleCount": 6400,
+          "peak": 0.003898,
+          "loadedFrom": "path",
+          "durationMs": 1580
+        },
+        "outputSha256": "898a5a213192538ad59b3a1d88fb8ba46b692798692988e5110afe9324000943"
+      },
+      {
+        "checkId": "ui-responsive",
+        "status": "pass",
+        "durationMs": 4101,
+        "detail": "heartbeat within policy",
+        "fields": {
+          "sampleCount": 119,
+          "p50": 0,
+          "p95": 13,
+          "max": 14,
+          "intervalMs": 50,
+          "method": "nearest-rank",
+          "policy": "samples>=100, p95<=50ms, max<=250ms"
+        }
+      },
+      {
+        "checkId": "fuses",
+        "status": "pass",
+        "durationMs": 132,
+        "detail": "D-09 production fuses set",
+        "fields": {
+          "binary": "D:\\workspace\\AI\\danesh\\apps\\desktop\\dist\\win-unpacked\\Danesh.exe",
+          "RunAsNode": "false",
+          "EnableNodeOptionsEnvironmentVariable": "false",
+          "EnableNodeCliInspectArguments": "false",
+          "EnableEmbeddedAsarIntegrityValidation": "true",
+          "OnlyLoadAppFromAsar": "true",
+          "GrantFileProtocolExtraPrivileges": "false"
+        }
+      }
+    ]
+  },
+  "verdict": "pass",
+  "failing": []
+}

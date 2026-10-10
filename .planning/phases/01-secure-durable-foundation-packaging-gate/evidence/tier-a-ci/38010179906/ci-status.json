@@ -1,0 +1,11 @@
+{
+    "source":  "Condensed observations from successful public GitHub REST queries during this session; not raw API responses or downloaded artifacts",
+    "conclusion":  "failure",
+    "id":  "38010179906",
+    "sha":  "32ea599d50884b82ef279950d1ecd26f805b9e18",
+    "jobs":  [
+
+             ],
+    "html_url":  "https://github.com/qmahmoudi74/danesh/actions/runs/38010179906",
+    "artifactsDownloaded":  false
+}

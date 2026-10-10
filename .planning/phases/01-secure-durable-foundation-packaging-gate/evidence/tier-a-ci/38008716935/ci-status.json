@@ -1,0 +1,22 @@
+{
+    "source":  "Condensed observations from successful public GitHub REST queries during this session; not raw API responses or downloaded artifacts",
+    "conclusion":  "failure",
+    "id":  "38008716935",
+    "sha":  "00608268a30022029e5ee8933d52984f979305b2",
+    "jobs":  [
+                 {
+                     "conclusion":  "failure",
+                     "name":  "build (windows-latest)",
+                     "failedStep":  "licenses",
+                     "finding":  "spawnSync pnpm ENOENT"
+                 },
+                 {
+                     "conclusion":  "failure",
+                     "name":  "build (macos-latest)",
+                     "failedStep":  "smoke",
+                     "finding":  "packaged-smoke verdict=fail failing=appRun; detailed cause unavailable"
+                 }
+             ],
+    "html_url":  "https://github.com/qmahmoudi74/danesh/actions/runs/38008716935",
+    "artifactsDownloaded":  false
+}
