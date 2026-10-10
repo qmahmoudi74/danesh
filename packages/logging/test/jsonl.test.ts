@@ -71,7 +71,10 @@ describe('JSON-lines logger', () => {
   it('rotates within the size threshold and file-count limit', () =>
     withDir((dir) => {
       const logger = createJsonlLogger({ dir, name: 'core', maxBytes: 1024, maxFiles: 3 });
-      for (let index = 0; index < 200; index++)
+      // Forty records exceed retention several times without hundreds of redundant
+      // synchronous filesystem operations competing with the SQLite durability tests.
+      const recordCount = 40;
+      for (let index = 0; index < recordCount; index++)
         logger.log('rpc.rejected', {
           schema: 'system.ping',
           sender: 'renderer',
@@ -82,8 +85,15 @@ describe('JSON-lines logger', () => {
       for (const file of readdirSync(dir))
         expect(statSync(join(dir, file)).size).toBeLessThanOrEqual(1024);
       // The newest record is in the live file and the oldest ones were discarded.
-      expect(lines(join(dir, 'core.jsonl')).at(-1)!.byteLength).toBe(199);
-      expect(lines(join(dir, 'core.2.jsonl'))[0]!.byteLength).toBeGreaterThan(0);
+      const retained = ['core.2.jsonl', 'core.1.jsonl', 'core.jsonl'].flatMap((file) =>
+        lines(join(dir, file)).map((record) => record.byteLength),
+      );
+      expect(retained.at(-1)).toBe(recordCount - 1);
+      const oldest = retained[0] as number;
+      expect(oldest).toBeGreaterThan(0);
+      expect(retained).toEqual(
+        Array.from({ length: recordCount - oldest }, (_, index) => oldest + index),
+      );
     }));
   it('rejects unsafe names and bounds, and stops writing after close', () =>
     withDir((dir) => {
