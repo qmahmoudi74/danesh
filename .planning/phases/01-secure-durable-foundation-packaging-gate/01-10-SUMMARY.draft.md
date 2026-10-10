@@ -130,8 +130,24 @@ locally this session. Both hosted jobs skipped E2E after their respective failur
 - Diagnose macOS scheduling/runner pressure with synchronized process/timer observations and obtain a Windows native
   probe crash stack before choosing a correction. A diagnostic rerun must retain the original policy and concurrency.
 - Green CI on both platforms, including E2E, with current-run artifacts downloaded and validated as passing.
-- Plan 01-12 CAS is ready in its existing plan and acceptance scenarios, but remains gated; do not start 01-13.
+- Cross-platform acceptance remains open. Owner direction now permits Windows-first implementation of 01-12
+  and then 01-13 when enough execution budget remains to finish it; this does not close 01-10.
 - Tier B clean-machine verification on both target operating systems remains separate from hosted CI.
 
 REL-01 remains partially verified. This is a draft summary, not completion of Plan 01-10 or a macOS verification
-claim. The already-started Plan 01-11 local slice was resumed and finished; no new downstream plan was started.
+claim. The already-started Plan 01-11 local slice was resumed and finished in its original session.
+
+## Owner-approved Windows-first sequence (2026-10-10)
+
+The owner explicitly deferred macOS investigation and authorized implementing the approved Plan 01-12 while
+retaining all failed evidence, macOS support, unchanged CI, security and responsiveness policy. The latest observed
+run, https://github.com/qmahmoudi74/danesh/actions/runs/38016154277 at
+`c36666b415c139c9184805291aa8e2282ac3ea29`, passed Windows through installed smoke, full E2E and packaged E2E.
+The authenticated Windows artifact was downloaded, its ZIP hash matched metadata, and its fresh report passed
+validation; see `evidence/tier-a-ci/38016154277/RUN.md`. macOS failed at smoke and skipped E2E. No macOS diagnosis
+was performed in this session. The earlier native Windows probe worker crash remains a tracked reliability issue;
+it did not reproduce in the new hosted run or local 423-test suite.
+
+Plan 01-12 implementation is complete with Windows-only verification (`01-12-SUMMARY.md`). Plan 01-13 was not
+started because the remaining execution budget cannot cover its full implementation and crash/restart verification.
+Plan 01-10 stays partially verified and Tier B remains outstanding. No push or publication occurred.

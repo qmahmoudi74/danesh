@@ -118,8 +118,14 @@ with exit 3221226356. Both platforms skipped E2E. Authenticated access downloade
 report is structurally valid and correctly rejected by the pass gate. No specific runtime cause was proved and
 no speculative correction was made. See `01-10-SUMMARY.draft.md` and `evidence/tier-a-ci/38015174157/RUN.md`.
 Plan 01-11 remains complete locally, with macOS E2E verification pending. Green cross-platform CI and current-run
-artifacts validated as passing are still necessary. Tier B remains separate; Plan 01-12 remains gated.
-No new downstream plan, push, publication or deployment occurred.
+artifacts validated as passing are still necessary. Tier B remains separate.
+
+Owner direction on 2026-10-10 explicitly permits Windows-first Plan 01-12 development while 01-10 stays partial.
+The newer run 38016154277 at `c36666b` passed the complete Windows job, including 363 unit tests, installed smoke,
+full E2E and packaged E2E; its fresh Windows artifact was downloaded, hash checked and validated. macOS failed
+at smoke and skipped E2E. The earlier Windows native worker crash remains tracked. Plan 01-12 is now implemented
+and locally verified on Windows; see `01-12-SUMMARY.md`. This exception changes development sequencing only,
+with original platform/release criteria retained. Plan 01-13 was not started; no push or publication occurred.
 
 ## Self-Check: PASSED
 
