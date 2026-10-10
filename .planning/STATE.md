@@ -3,9 +3,9 @@ gsd_state_version: "1.0"
 current_phase: 1
 current_phase_name: Secure, Durable Foundation & Packaging Gate
 status: in_progress
-stopped_at: Owner-authorized PDF-01 increment (import, Library, original-page viewer) complete and verified on Windows; Phase 1 plan count unchanged at 11/16; Plan 01-13 next and not started; Plan 01-10 stays partial
+stopped_at: Owner-authorized increments PDF-01 (import, Library, original viewer) and PDF-02 (text extraction and reader, early Phase 2) complete on Windows; Windows CI green at 5436b02 (PDF-02 CI run pending at push time); Phase 1 plan count unchanged at 11/16; Plan 01-13 next and not started; Plan 01-10 partial (macOS smoke still failing)
 last_updated: "2026-10-10"
-last_activity: 2026-10-10 (PDF-01 committed: 433 unit tests, full E2E 45 passed/31 skipped, packaged PDF scenarios and production smoke passed; no push)
+last_activity: 2026-10-10 (Windows CI run 38021049327 green at 5436b02; PDF-02 committed with 445 unit tests, packaged PDF scenarios and production smoke passing; pushed)
 state_head: 833b26fe1a8d4cfcf48b0deaf4bdd3268f64172c
 progress:
   total_phases: 12
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-10-09)
 ## Current Position
 
 Phase: 1 (Secure, Durable Foundation & Packaging Gate) — IN PROGRESS
-Plan: 11 of 16 completed in current phase; Plan 01-13 Durable Job Kernel is next under the owner's Windows-first sequencing exception. Out-of-plan increment PDF-01 (first usable PDF journey) is complete on Windows; see PDF-01-SUMMARY.md. It completes no Phase 1 plan.
+Plan: 11 of 16 completed in current phase; Plan 01-13 Durable Job Kernel is next under the owner's Windows-first sequencing exception (its migration is now 0005_jobs.sql). Out-of-plan increments PDF-01 (import and original pages) and PDF-02 (text extraction and reader, an early slice of Phase 2) are complete on Windows; see PDF-01-SUMMARY.md and PDF-02-SUMMARY.md. They complete no Phase 1 plan and do not complete Phase 2.
 Status: Plan 01-12 implementation is complete and locally verified on Windows, with macOS unverified; canonical summary and evidence are committed. Plan 01-11 remains complete. Plan 01-10 stays partially verified: latest run 38016154277 at pushed commit c36666b passed the complete Windows job (363 unit tests, installed smoke, full and packaged E2E), but macOS failed at smoke and skipped E2E. Its fresh Windows artifact was downloaded through authenticated access, ZIP hash matched metadata and smoke passed validation. That pre-CAS CI run does not verify the new implementation. Earlier failed evidence and the Windows native worker crash remain tracked. No macOS investigation or policy/security/CI changes occurred. Plan 01-13 and 01-14 were not started. No push this session.
 Last activity: 2026-10-10 (CAS implementation d5095d0 and canonical summary/evidence 833b26f committed; required static, license, CI/ADR/features checks passed; 423 local unit tests, 152 storage tests, 39 full E2E, 2 packaged E2E and Persian-path production smoke passed; idle/loaded p95 both 13 ms)
 
@@ -58,6 +58,9 @@ Progress: [███████░░░] 69% of current-phase plans; Phase 1 r
 
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
+
+- [Owner direction 2026-10-10, CI]: Windows CI unit timeouts fixed without weakening assertions (cheaper fixtures, file-scoped 30 s deadlines for real-I/O test files). Run 38021049327 at 5436b02 passed the whole Windows job (unit, package, installed smoke, E2E, packaged E2E). macOS still fails only ui-responsive (idle p95 139 ms before any engine runs); accepted as temporarily unresolved by the owner.
+- [Owner direction 2026-10-10, PDF-02]: Early Phase 2 increment: an isolated `pdf` engine host (pdf.js) does import checks and page extraction; logical order is rebuilt from geometry with the Unicode bidi algorithm (bidi-js 1.1.0, MIT); raw and normalized text are stored separately with page boxes, stable block ids, flags and extractor version (migration 0004_extraction; jobs moved to 0005). The reader is a document mode. Evaluation covers Chromium-printed fixtures only (CER 0.10%, 1/991), so S-PDF remains open. ADR 0005 amended (still proposed).
 
 - [Owner direction 2026-10-10, PDF-01]: Ship a usable PDF journey before the remaining Phase 1 infrastructure. Done on Windows: pick PDF → pdf.js check in Core → original in CAS → `document` row (migration 0003) → Library → original pages in a pdf.js viewer → survives relaunch. Durable jobs move to migration 0004 (01-13-PLAN.md renamed accordingly). ADR 0005 (pdf.js, proposed). Drizzle stays deferred (pin approval). Encrypted PDFs are refused, not unlocked. No text extraction. macOS and CI not run for this increment. See PDF-01-SUMMARY.md.
 
@@ -108,5 +111,5 @@ Items acknowledged and deferred at milestone close, most recent first:
 ## Session Continuity
 
 Last session: 2026-10-10
-Stopped at: PDF-01 (first usable PDF journey) complete and verified on Windows; commits 2559c90, 2a78fcc plus docs. 11/16 Phase 1 plans and 0/12 phases complete (unchanged). Plan 01-10 stays partial, macOS deferred, Tier B outstanding, nothing pushed. Next: Plan 01-13 (durable job kernel, migration 0004), or the owner's next product milestone (text extraction spike S-PDF).
+Stopped at: PDF-02 (text extraction and reader) complete and verified locally on Windows; Windows CI green at 5436b02, the PDF-02 run was pending when this was written; pushed to origin/feat/danesh-phase-01. 11/16 Phase 1 plans and 0/12 phases complete (unchanged). Plan 01-10 partial (macOS smoke), Tier B outstanding. Next approved product milestone: broaden extraction evidence (S-PDF fixtures from other producers) and the reading view for multi-column, lists and tables; or Plan 01-13 (durable job kernel, migration 0005).
 Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-13-PLAN.md

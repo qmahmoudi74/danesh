@@ -35,9 +35,12 @@ still governs the extraction engine.
 
 Proposed and implemented for the increment: pdf.js 6.4.299.
 
-- Import check in Core (a utility process): pdf.js opens the file through a byte-range transport (pdf.js does not
-  treat an Electron utility process as Node, so it cannot open paths itself), reports page count and title, and
-  maps `PasswordException` to encrypted and `InvalidPDFException` to damaged. Nothing is extracted.
+- Import check and text extraction in the isolated `pdf` engine host (its own utility process; amended
+  2026-10-10 by PDF-02, previously inside Core): pdf.js opens the file through a byte-range transport (pdf.js does
+  not treat an Electron utility process as Node, so it cannot open paths itself), reports page count and title, and
+  maps `PasswordException` to encrypted and `InvalidPDFException` to damaged. Extraction rebuilds lines in visual
+  order from positions and recovers logical order with the Unicode bidi algorithm (`bidi-js` 1.1.0, MIT), because
+  pdf.js item order is not reading order for Persian. Core only stores the results.
 - Original-page viewer in the renderer: the verified original bytes arrive over the private Core port; pdf.js
   parses them in its own module Web Worker served from `app://danesh` and draws one page at a time into a canvas.
   Drawing a visible page is UI work, so it is the one PDF task allowed in the renderer; extraction will run in a
@@ -50,8 +53,8 @@ Proposed and implemented for the increment: pdf.js 6.4.299.
 
 - One dependency (no native code). `@napi-rs/canvas`, an optional pdf.js dependency for drawing in Node, is not
   installed (`ignoredOptionalDependencies`).
-- Core parses PDF structure on its own thread during an import. Imports of very large or broken PDFs can delay
-  other Core requests; moving the check into the planned PDF worker belongs with the durable job kernel.
+- PDF parsing no longer runs in Core (PDF-02): the `pdf` host takes one task at a time, an import can run between
+  two pages of an extraction, and the host stops after 20 s without work.
 - The viewer receives the whole original in one message; imports are capped at 512 MiB.
 
 ### Confirmation

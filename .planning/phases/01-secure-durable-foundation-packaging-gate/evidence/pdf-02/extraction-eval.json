@@ -1,0 +1,79 @@
+{
+  "extractor": "pdfjs-6.4.299+layout-1",
+  "generatedAt": "2026-10-10T03:52:01.606Z",
+  "scope": "Chromium-printed fixtures with known source text; not evidence for other PDF producers",
+  "totals": {
+    "pages": 5,
+    "characters": 991,
+    "edits": 1,
+    "cer": 0.0010090817356205853,
+    "blockKindsMatched": 5
+  },
+  "pages": [
+    {
+      "fixture": "english-report",
+      "page": 1,
+      "status": "text",
+      "expectedBlocks": 4,
+      "extractedBlocks": 4,
+      "kindsMatch": true,
+      "characters": 225,
+      "edits": 0,
+      "cer": 0,
+      "differences": []
+    },
+    {
+      "fixture": "english-report",
+      "page": 2,
+      "status": "text",
+      "expectedBlocks": 2,
+      "extractedBlocks": 2,
+      "kindsMatch": true,
+      "characters": 107,
+      "edits": 0,
+      "cer": 0,
+      "differences": []
+    },
+    {
+      "fixture": "persian-mixed",
+      "page": 1,
+      "status": "text",
+      "expectedBlocks": 5,
+      "extractedBlocks": 5,
+      "kindsMatch": true,
+      "characters": 355,
+      "edits": 0,
+      "cer": 0,
+      "differences": []
+    },
+    {
+      "fixture": "persian-mixed",
+      "page": 2,
+      "status": "text",
+      "expectedBlocks": 4,
+      "extractedBlocks": 4,
+      "kindsMatch": true,
+      "characters": 304,
+      "edits": 1,
+      "cer": 0.003289473684210526,
+      "differences": [
+        {
+          "expected": "رابطهٔ معروف E = mc² را در فیزیک دیده‌اید؛ همچنین شرط x ≤ 10 در برنامه‌نویسی رایج است.",
+          "extracted": "رابطهٔ معروف E = mc² را در فیزیک دیدهاید؛ همچنین شرط x ≤ 10 در برنامه‌نویسی رایج است."
+        }
+      ]
+    },
+    {
+      "fixture": "persian-mixed",
+      "page": 3,
+      "status": "needs-ocr",
+      "expectedBlocks": 0,
+      "extractedBlocks": 0,
+      "kindsMatch": true,
+      "characters": 0,
+      "edits": 0,
+      "cer": 0,
+      "differences": []
+    }
+  ]
+}
