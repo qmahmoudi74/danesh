@@ -59,3 +59,7 @@ Main, Core, pdf.js and the store unchanged. Offline: the app makes no network re
 - Large or broken PDFs are parsed on Core's thread during import; the job kernel should move this to a worker.
 - No text extraction, search, reader, deletion or rename. Rejected files leave no row, and the file is not stored.
 - Standard-14 and CJK font data are not bundled, so PDFs that rely on non-embedded fonts fall back to system fonts.
+
+## Product alignment amendment (2026-10-10)
+
+The owner reaffirmed the confirmed v1 brief: no PDF viewer or page-navigation UI. Original-page viewing described above is historical and has been removed. Library opens the provisional semantic Reader directly; each reconstructed block has inspectable stored raw text, stable block ID and page/region evidence. Immutable original blobs and existing extraction data remain unchanged. The original-byte renderer RPC was removed; internal PDF parsing/rasterization remains available. Acceptance was changed in 0a16d6a before implementation 73b091f. Affected Windows E2E: nine passed, with the one ambiguous English locator corrected and its focused scenario passing. This does not close Phase 2/3, S-PDF or full reconstruction-quality requirements.

@@ -91,3 +91,7 @@ Unicode map was flagged `needs-review`. An invoice's scanned page was flagged `n
   partial improvement, and still above the unchanged 50 ms policy, so macOS smoke still fails. The remaining lateness
   is unexplained; runner CPU contention is plausible but unmeasured. No thresholds, samples or engine checks were
   changed. No further macOS work was done.
+
+## Product alignment amendment (2026-10-10)
+
+The owner reaffirmed the confirmed v1 brief: no PDF viewer or page-navigation UI. Original-page viewing described above is historical and has been removed. Library opens the provisional semantic Reader directly; each reconstructed block has inspectable stored raw text, stable block ID and page/region evidence. Immutable original blobs and existing extraction data remain unchanged. The original-byte renderer RPC was removed; internal PDF parsing/rasterization remains available. Acceptance was changed in 0a16d6a before implementation 73b091f. Affected Windows E2E: nine passed, with the one ambiguous English locator corrected and its focused scenario passing. This does not close Phase 2/3, S-PDF or full reconstruction-quality requirements.
