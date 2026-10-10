@@ -30,6 +30,8 @@ export function workflowRunSteps(text: string): WorkflowStep[] {
   return steps.filter((step) => step.run);
 }
 
+/** Every workflow step runs through the annotating wrapper so failures are visible without log access. */
+export const STEP_PREFIX = 'node tools/ci-annotate.ts ';
 const OS_CONDITION: Record<NonNullable<CiStep['os']>, string> = { win32: "runner.os == 'Windows'", darwin: "runner.os == 'macOS'" };
 
 export function checkWorkflow(text: string, expected: CiStep[] = CI_STEPS): string[] {
@@ -47,7 +49,7 @@ export function checkWorkflow(text: string, expected: CiStep[] = CI_STEPS): stri
     const want = expected[index], have = actual[index];
     if (!want) { findings.push(`step ${index + 1}: unexpected workflow step "${have!.name}"`); continue; }
     if (!have) { findings.push(`step ${index + 1}: missing workflow step "${want.id}"`); continue; }
-    if (have.name !== want.id || have.run !== want.run) findings.push(`step ${index + 1}: workflow has "${have.name}: ${have.run}", ci-steps has "${want.id}: ${want.run}"`);
+    if (have.name !== want.id || have.run !== STEP_PREFIX + want.run) findings.push(`step ${index + 1}: workflow has "${have.name}: ${have.run}", ci-steps has "${want.id}: ${STEP_PREFIX}${want.run}"`);
     if ((have.if ?? '') !== (want.os ? OS_CONDITION[want.os] : '')) findings.push(`step ${index + 1} (${want.id}): os condition "${have.if ?? ''}" does not match ${want.os ?? 'all'}`);
     if (JSON.stringify(have.env) !== JSON.stringify(want.env ?? {})) findings.push(`step ${index + 1} (${want.id}): env ${JSON.stringify(have.env)} does not match ${JSON.stringify(want.env ?? {})}`);
   }

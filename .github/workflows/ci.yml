@@ -34,40 +34,40 @@ jobs:
           path: resources/probes
           key: probes-${{ hashFiles('tools/probes.lock.json') }}
       - name: install
-        run: pnpm install --frozen-lockfile
+        run: node tools/ci-annotate.ts pnpm install --frozen-lockfile
       - name: format
-        run: pnpm check:format
+        run: node tools/ci-annotate.ts pnpm check:format
       - name: lint
-        run: pnpm lint
+        run: node tools/ci-annotate.ts pnpm lint
       - name: typecheck
-        run: pnpm typecheck
+        run: node tools/ci-annotate.ts pnpm typecheck
       - name: depcruise
-        run: pnpm depcruise
+        run: node tools/ci-annotate.ts pnpm depcruise
       - name: licenses
-        run: pnpm licenses:scan
+        run: node tools/ci-annotate.ts pnpm licenses:scan
       - name: adr
-        run: pnpm check:adr
+        run: node tools/ci-annotate.ts pnpm check:adr
       - name: features
-        run: node tools/check-features-first.ts --allow-unbound
+        run: node tools/ci-annotate.ts node tools/check-features-first.ts --allow-unbound
       - name: probes
-        run: pnpm probes:fetch
+        run: node tools/ci-annotate.ts pnpm probes:fetch
       - name: unit
-        run: pnpm test
+        run: node tools/ci-annotate.ts pnpm test
       - name: package
-        run: pnpm package
+        run: node tools/ci-annotate.ts pnpm package
       - name: smoke
         if: runner.os == 'macOS'
-        run: pnpm smoke:packaged --persian-paths
+        run: node tools/ci-annotate.ts pnpm smoke:packaged --persian-paths
       - name: smoke-windows
         if: runner.os == 'Windows'
-        run: pnpm smoke:packaged --persian-paths --install-nsis
+        run: node tools/ci-annotate.ts pnpm smoke:packaged --persian-paths --install-nsis
       - name: e2e
-        run: pnpm test:e2e
+        run: node tools/ci-annotate.ts pnpm test:e2e
       - name: e2e-packaged
         env:
           DANESH_E2E_PACKAGED: '1'
           DANESH_E2E_GREP: '@plan-01-08'
-        run: pnpm test:e2e
+        run: node tools/ci-annotate.ts pnpm test:e2e
       - uses: actions/upload-artifact@v7
         if: always()
         with:
