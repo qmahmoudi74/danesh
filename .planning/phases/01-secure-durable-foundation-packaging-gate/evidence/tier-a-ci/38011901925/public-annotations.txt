@@ -51,7 +51,7 @@ $ node tools/smoke/run-packaged-smoke.ts --persian-paths
 packaged-smoke: verdict=fail failing=appRun out=/Users/runner/work/danesh/danesh/.planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-local/smoke-darwin-arm64.json
 packaged-smoke: appRun: {"verdict":"fail","exitCode":1,"durationMs":25798}
 packaged-smoke: check ui-responsive: heartbeat outside policy {"sampleCount":220,"p50":56,"p95":139,"max":156,"intervalMs":50,"method":"nearest-rank","policy":"samples>=100, p95<=50ms, max<=250ms"}
-[ELIFECYCLE] Command failed with exit code 
+[ELIFECYCLE] Command failed with exit code
 1.
 
 Due to capacity constraints, jobs targeting macOS arm64 runners may experience longer queue times.

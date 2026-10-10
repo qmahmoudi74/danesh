@@ -42,7 +42,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. User data lives in a versioned database with forward-only migrations. The app snapshots data before migrating, a failed migration leaves prior data intact and restorable, and a database written by a newer version is refused. Large artifacts are written atomically into a content-addressed store.
   5. Danesh's own license is recorded in an ADR. The ADR-with-spike template, the acceptance-scenarios-before-implementation practice and the evidence-path verification report (verified, partially verified, blocked) are all in use for this phase's own work.
 
-**Plans**: 10/16 plans executed (01-17 added by user direction 2026-10-10). Plan 01-11 is complete locally; 01-10 still needs a green CI rerun and artifact validation after macOS responsiveness failed. The latest plan-checker findings (3 blockers, 1 warning) were corrected directly and verified only by deterministic checks, NOT formally rechecked by the AI plan checker (2026-10-09).
+**Plans**: 10/16 plans executed (01-17 added by user direction 2026-10-10). Plan 01-11 is complete locally. Run 38011901925 failed both platforms; focused remedies passed local Windows checks but 01-10 still needs a user-triggered push, green cross-platform CI and validated artifacts. Plan 01-12 remains gated. The latest plan-checker findings (3 blockers, 1 warning) were corrected directly and verified only by deterministic checks, NOT formally rechecked by the AI plan checker (2026-10-09).
 
 Plans:
 **Wave 1**
@@ -67,13 +67,13 @@ Plans:
 - [x] 01-09-PLAN.md — LLM, OCR and TTS packaging probes in isolated hosts; UI responsiveness check
 
 **Wave 7** *(blocked on Wave 6 completion)*
-- [ ] 01-10-PLAN.md — CI and local parity implemented; GitHub runs observed, but macOS responsiveness and validated artifact evidence remain pending
+- [ ] 01-10-PLAN.md — CI implemented; both jobs failed run 38011901925; focused remedies verified locally, green CI and validated artifacts pending
 
 **Wave 8** *(blocked on Wave 7 completion)*
 - [x] 01-11-PLAN.md — Forward-only migrations, verified backups, newer-schema refusal and read-only recovery; existing local slice resumed and verified on Windows while the CI gate remains pending
 
 **Wave 9** *(blocked on Wave 8 completion)*
-- [ ] 01-12-PLAN.md — Content-addressed blob store with atomic writes
+- [ ] 01-12-PLAN.md — Content-addressed blob store with atomic writes; ready to execute once the 01-10 CI gate passes
 
 **Wave 10** *(blocked on Wave 9 completion)*
 - [ ] 01-13-PLAN.md — Durable job kernel and sample durable job with crash-safe resume

@@ -3,10 +3,10 @@ gsd_state_version: "1.0"
 current_phase: 1
 current_phase_name: Secure, Durable Foundation & Packaging Gate
 status: blocked
-stopped_at: Plan 01-11 complete locally; Plan 01-10 needs a user-triggered CI rerun and validated artifacts after the macOS responsiveness failure
+stopped_at: Focused CI remedies verified locally; Plan 01-10 needs a user-triggered push, green cross-platform CI and validated artifacts; Plan 01-12 remains gated
 last_updated: "2026-10-10"
-last_activity: 2026-10-10 (Plan 01-11 completed; probe CPU caps committed; latest macOS CI failure identified)
-state_head: 8b7bac7583d01f24a5e6fcd284ce7df8ac779631
+last_activity: 2026-10-10 (CI scheduling and test contention remedies committed; Windows checks passed; no push)
+state_head: 41cdd8f72e503290e2c6935b103bf343489f70ff
 progress:
   total_phases: 12
   completed_phases: 0
@@ -28,8 +28,8 @@ See: .planning/PROJECT.md (updated 2026-10-09)
 
 Phase: 1 (Secure, Durable Foundation & Packaging Gate) — IN PROGRESS
 Plan: 10 of 16 completed in current phase; reconcile the remaining 01-10 CI gate before starting another plan.
-Status: The already-started 01-11 local implementation is complete and committed. 01-10 remains partially verified: GitHub runs exist, but macOS failed responsiveness and artifacts have not been validated. No push this session.
-Last activity: 2026-10-10 (353 unit tests, 36 E2E passed, 31 intentional skips; Windows package and Persian-path smoke passed)
+Status: Plan 01-11 remains complete locally. 01-10 is partially verified: run 38011901925 failed both platforms. Focused local remedies are committed and await a user-triggered push, green CI and downloaded/validated artifacts. Plan 01-12 CAS was not started; 01-13 was not started. No push this session.
+Last activity: 2026-10-10 (353 unit tests, 100 targeted tests, 37 E2E passed, 31 intentional skips; Windows package and Persian-path smoke passed; heartbeat p95 13 ms, max 14 ms)
 
 Progress: [██████░░░░] 63% of current-phase plans; Phase 1 remains incomplete.
 
@@ -69,7 +69,7 @@ Recent decisions affecting current work:
 
 - [Phase 1]: User direction 2026-10-10 added Plan 01-17 (premium custom shell, System/Light/Dark themes, design system, motion). Design contract = 01-UI-SPEC.md Amendment A; executed before 01-07. macOS shell behavior is implemented but not yet run on macOS.
 
-- [Phase 1]: 01-10 has real GitHub runs. Latest observed run 38010302448 (9746e61) failed macOS ui-responsive: p95 141 ms, maximum 324 ms; no engine-loading failure was reported in its annotation. Concurrent probe CPU threads are now capped; a user-triggered rerun and downloaded/validated artifacts remain necessary. REL-01 is partially verified. No push this session.
+- [Phase 1]: Latest observed CI run 38011901925 (34e0ed7) failed both platforms: Windows logging rotation and fresh-library migration exceeded 5000 ms; macOS heartbeat p50 56 ms, p95 139 ms, max 156 ms. Valid hidden smoke startup now preserves renderer process priority; Vitest workers are bounded at two and redundant logging fixture I/O is reduced. All requested local Windows checks passed. The macOS cause and hosted Windows timing remain unconfirmed; CI logs/artifact archives require authenticated access (403/401). REL-01 stays partially verified. No push this session.
 
 - [Phase 1]: 01-11 resumed the previous session's unfinished implementation under adopt-d14 (plan auto_select, configured yolo mode). Read-only preflight guards versions and checksums; verified backups publish through an atomic hard link to avoid rename overwrites. Core write guard, recovery banners and System check are proven on Windows. A fresh migration failure without a verified backup reports failed instead of promising a backup. macOS remains unverified.
 
@@ -83,7 +83,7 @@ None yet.
 
 - ~~[Phase 1]: D-LICENSE needs a product decision~~ RESOLVED 2026-10-09: MIT for original source (user decision).
 - [Phase 1]: S-PACKAGE proven on Windows x64 (01-09: LLM, OCR, TTS in packaged utilityProcesses, installed into a Persian path). macOS still unproven until the 01-10 CI run and Tier B.
-- [Phase 1]: 01-10 CI is pending a rerun after bounded probe threads; latest macOS responsiveness failure is recorded in evidence/tier-a-ci/38010302448/RUN.md. No new downstream plan was started while this gate remains unresolved.
+- [Phase 1]: 01-10 requires a user-triggered push of the focused remedies, green CI on both platforms, and downloaded/validated artifacts. Latest observations and diagnosis: evidence/tier-a-ci/38011901925/RUN.md. Plan 01-12 CAS is ready in its existing approved plan/scenarios but remains gated. No new downstream plan was started.
 - [Phase 4]: D-COMMERCIAL and D-DISTRIB (model licenses, hosting mirrors, offline bundles) need decisions before the registry and downloads ship.
 - [Phase 10]: Persian TTS naturalness and voice licensing are unproven. S-TTS needs at least 3 native listeners and should start early.
 - [All engine phases]: There is no public Persian quality evidence for any candidate engine or model, so every choice is spike-gated with pass policies written first.
@@ -99,5 +99,5 @@ Items acknowledged and deferred at milestone close, most recent first:
 ## Session Continuity
 
 Last session: 2026-10-10
-Stopped at: Plan 01-11 complete locally; 01-10 requires a user-triggered CI rerun and artifact validation (see 01-10-SUMMARY.draft.md).
+Stopped at: Focused CI remedies committed and verified locally; 01-10 requires a user-triggered push, green cross-platform CI and artifact validation (see 01-10-SUMMARY.draft.md). Plan 01-12 remains gated.
 Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-10-PLAN.md

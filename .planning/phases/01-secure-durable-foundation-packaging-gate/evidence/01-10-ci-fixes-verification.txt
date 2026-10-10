@@ -2,7 +2,7 @@
 PowerShell wraps native stderr as NativeCommandError even on success; the exit codes below are actual LASTEXITCODE values.
 A separate E2E attempt overlapped packaging and was invalidated/interrupted; only the final E2E run below counts.
 Unit tests ran alongside Electron E2E and lint/typecheck work; packaged smoke ran alongside the final E2E build/initial scenarios using independent packaged resources.
-No macOS execution, installed NSIS run, push or full CI artifact validation occurred. Home paths are redacted as ~.
+No macOS execution, installed NSIS run, push or full CI artifact validation occurred. Home paths are redacted as ~; line endings and trailing whitespace are normalized.
 
 === Unchanged full unit baseline | exit=0 ===
 pnpm : $ vitest run
@@ -11,7 +11,7 @@ At line:2 char:1
 + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: ($ vitest run:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
- 
+
 
  RUN  v5.0.3 D:/workspace/AI/danesh
 
@@ -33,7 +33,7 @@ At line:2 char:51
 +                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: ($ node tools/run-e2e.ts:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
- 
+
 $ pnpm --dir apps/desktop run build:test
 $ electron-vite build --mode test
 vite v7.3.7 building ssr environment for test...
@@ -76,7 +76,7 @@ Running 1 test using 1 worker
   x  1 apps\desktop\.features-gen\app-shell.feature.spec.js:83:3 › An honest Persian-first shell behind a closed preload API › Hidden smoke mode measures responsiveness with foreground scheduling @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-09 @kind-edge (597ms)
 
 
-  1) apps\desktop\.features-gen\app-shell.feature.spec.js:83:3 › An honest Persian-first shell behind a closed preload API › Hidden smoke mode measures responsiveness with foreground scheduling @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-09 @kind-edge › Then the hidden renderer has foreground process scheduling and unthrottled timers 
+  1) apps\desktop\.features-gen\app-shell.feature.spec.js:83:3 › An honest Persian-first shell behind a closed preload API › Hidden smoke mode measures responsiveness with foreground scheduling @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-09 @kind-edge › Then the hidden renderer has foreground process scheduling and unthrottled timers
 
     Error: expect(received).toEqual(expected) // deep equality
 
@@ -105,7 +105,7 @@ Running 1 test using 1 worker
     Error Context: test-results\app-shell.feature-An-hones-5e12e--with-foreground-scheduling\error-context.md
 
   1 failed
-    apps\desktop\.features-gen\app-shell.feature.spec.js:83:3 › An honest Persian-first shell behind a closed preload API › Hidden smoke mode measures responsiveness with foreground scheduling @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-09 @kind-edge 
+    apps\desktop\.features-gen\app-shell.feature.spec.js:83:3 › An honest Persian-first shell behind a closed preload API › Hidden smoke mode measures responsiveness with foreground scheduling @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-09 @kind-edge
 [ELIFECYCLE] Command failed with exit code 1.
 
 
@@ -228,53 +228,53 @@ At line:2 char:1
 + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: ($ biome check:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
- 
+
 apps\core\src\system-check.ts:84:23 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   i Template literals are preferred over string concatenation.
-  
+
     82 │     let created = false;
     83 │     try {
   > 84 │       const content = JSON.stringify(SmokeReportSchema.parse(report), null, 2) + '\n';
        │                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     85 │       const file = await open(temporary, 'wx');
     86 │       created = true;
-  
+
   i Unsafe fix: Use a template literal.
-  
+
      82  82 │       let created = false;
      83  83 │       try {
      84     │ - ······const·content·=·JSON.stringify(SmokeReportSchema.parse(report),·null,·2)·+·'\n';
          84 │ + ······const·content·=·`${JSON.stringify(SmokeReportSchema.parse(report),·null,·2)}\n`;
      85  85 │         const file = await open(temporary, 'wx');
      86  86 │         created = true;
-  
+
 
 packages\contracts\test\ipc-validation.feature.test.ts:298:26 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━
 
   i Template literals are preferred over string concatenation.
-  
+
     296 │               'a'.repeat(TEXT_LIMIT - envelopeBytes - persianLetters * 2),
     297 │           };
   > 298 │           over = { text: atLimit.text + 'a' };
         │                          ^^^^^^^^^^^^^^^^^^
     299 │           expect(utf8ByteLength(atLimit)).toBe(TEXT_LIMIT);
     300 │           expect(utf8ByteLength(over)).toBe(TEXT_LIMIT + 1);
-  
+
   i Unsafe fix: Use a template literal.
-  
+
     296 296 │                 'a'.repeat(TEXT_LIMIT - envelopeBytes - persianLetters * 2),
     297 297 │             };
     298     │ - ··········over·=·{·text:·atLimit.text·+·'a'·};
         298 │ + ··········over·=·{·text:·`${atLimit.text}a`·};
     299 299 │             expect(utf8ByteLength(atLimit)).toBe(TEXT_LIMIT);
     300 300 │             expect(utf8ByteLength(over)).toBe(TEXT_LIMIT + 1);
-  
+
 
 packages\logging\src\jsonl.ts:88:9 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   i Template literals are preferred over string concatenation.
-  
+
     86 │       const safeEvent = /^[a-z][\w.-]{0,63}$/i.test(event) ? event : 'invalid-event';
     87 │       const line =
   > 88 │         JSON.stringify({
@@ -286,237 +286,237 @@ packages\logging\src\jsonl.ts:88:9 lint/style/useTemplate  FIXABLE  ━━━━
        │         ^^^^^^^^^
     95 │       const bytes = Buffer.byteLength(line, 'utf8');
     96 │       if (bytes > maxBytes) return;
-  
+
   i Unsafe fix: Use a template literal.
-  
+
      86  86 │         const safeEvent = /^[a-z][\w.-]{0,63}$/i.test(event) ? event : 'invalid-event';
      87  87 │         const line =
      88     │ - ········JSON.stringify({
          88 │ + ········`${JSON.stringify({
      89  89 │             ts: new Date().toISOString(),
      90  90 │             level,
-    ······· │ 
+    ······· │
      92  92 │             event: safeEvent,
      93  93 │             ...sanitize(fields),
      94     │ - ········})·+·'\n';
          94 │ + ········})}\n`;
      95  95 │         const bytes = Buffer.byteLength(line, 'utf8');
      96  96 │         if (bytes > maxBytes) return;
-  
+
 
 tools\check-features-first.test.ts:44:22 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   i Template literals are preferred over string concatenation.
-  
+
     42 │ });
     43 │ it('rejects missing requirement tags or multiple capabilities', () => {
   > 44 │   const repo = setup(feature.replace('@req-PLAT-01', '') + 'Feature: Another\n');
        │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     45 │   repo.commit();
     46 │   expect(checkFeatures(repo.root, true).errors.length).toBeGreaterThan(0);
-  
+
   i Unsafe fix: Use a template literal.
-  
+
     42 42 │   });
     43 43 │   it('rejects missing requirement tags or multiple capabilities', () => {
     44    │ - ··const·repo·=·setup(feature.replace('@req-PLAT-01',·'')·+·'Feature:·Another\n');
        44 │ + ··const·repo·=·setup(`${feature.replace('@req-PLAT-01',·'')}Feature:·Another\n`);
     45 45 │     repo.commit();
     46 46 │     expect(checkFeatures(repo.root, true).errors.length).toBeGreaterThan(0);
-  
+
 
 tools\check-report.test.ts:22:10 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   i Template literals are preferred over string concatenation.
-  
+
     20 │   counts = 'Counts: verified 0, partially verified 0, blocked 4',
     21 │ ) {
   > 22 │   return header + rows.join('\n') + '\n' + counts;
        │          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     23 │ }
     24 │ it('accepts an honest blocked report', () => {
-  
+
   i Unsafe fix: Use a template literal.
-  
+
      20  20 │     counts = 'Counts: verified 0, partially verified 0, blocked 4',
      21  21 │   ) {
      22     │ - ··return·header·+·rows.join('\n')·+·'\n'·+·counts;
          22 │ + ··return·`${header·+·rows.join('\n')}\n${counts}`;
      23  23 │   }
      24  24 │   it('accepts an honest blocked report', () => {
-  
+
 
 tools\check-report.test.ts:134:41 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   i Template literals are preferred over string concatenation.
-  
+
     132 │   'rejects fabricated aggregate text: %s',
     133 │   (text) => {
   > 134 │     expect(validateReport(setup().root, report() + '\n' + text, ids).join()).toContain('aggregate');
         │                                         ^^^^^^^^^^^^^^^^^^^^^^
     135 │   },
     136 │ );
-  
+
   i Unsafe fix: Use a template literal.
-  
+
     132 132 │     'rejects fabricated aggregate text: %s',
     133 133 │     (text) => {
     134     │ - ····expect(validateReport(setup().root,·report()·+·'\n'·+·text,·ids).join()).toContain('aggregate');
         134 │ + ····expect(validateReport(setup().root,·`${report()}\n${text}`,·ids).join()).toContain('aggregate');
     135 135 │     },
     136 136 │   );
-  
+
 
 tools\check-report.ts:155:21 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   i Template literals are preferred over string concatenation.
-  
+
     153 │   const padded = phase.padStart(2, '0');
     154 │   const directory = readdirSync(join(root, '.planning/phases')).find((name) =>
   > 155 │     name.startsWith(padded + '-'),
         │                     ^^^^^^^^^^^^
     156 │   );
     157 │   const file = directory
-  
+
   i Unsafe fix: Use a template literal.
-  
+
     153 153 │     const padded = phase.padStart(2, '0');
     154 154 │     const directory = readdirSync(join(root, '.planning/phases')).find((name) =>
     155     │ - ····name.startsWith(padded·+·'-'),
         155 │ + ····name.startsWith(`${padded}-`),
     156 156 │     );
     157 157 │     const file = directory
-  
+
 
 tools\lib\test-repo.ts:23:28 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   i Template literals are preferred over string concatenation.
-  
+
     21 │     write(path: string, text: string) {
     22 │       const file = resolve(root, path);
   > 23 │       if (!file.startsWith(root + '\\') && !file.startsWith(root + '/'))
        │                            ^^^^^^^^^^^
     24 │         throw new Error('Test path outside owned repo');
     25 │       mkdirSync(dirname(file), { recursive: true });
-  
+
   i Unsafe fix: Use a template literal.
-  
+
     21 21 │       write(path: string, text: string) {
     22 22 │         const file = resolve(root, path);
     23    │ - ······if·(!file.startsWith(root·+·'\\')·&&·!file.startsWith(root·+·'/'))
        23 │ + ······if·(!file.startsWith(`${root}\\`)·&&·!file.startsWith(root·+·'/'))
     24 24 │           throw new Error('Test path outside owned repo');
     25 25 │         mkdirSync(dirname(file), { recursive: true });
-  
+
 
 tools\lib\test-repo.ts:23:61 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   i Template literals are preferred over string concatenation.
-  
+
     21 │     write(path: string, text: string) {
     22 │       const file = resolve(root, path);
   > 23 │       if (!file.startsWith(root + '\\') && !file.startsWith(root + '/'))
        │                                                             ^^^^^^^^^^
     24 │         throw new Error('Test path outside owned repo');
     25 │       mkdirSync(dirname(file), { recursive: true });
-  
+
   i Unsafe fix: Use a template literal.
-  
+
     21 21 │       write(path: string, text: string) {
     22 22 │         const file = resolve(root, path);
     23    │ - ······if·(!file.startsWith(root·+·'\\')·&&·!file.startsWith(root·+·'/'))
        23 │ + ······if·(!file.startsWith(root·+·'\\')·&&·!file.startsWith(`${root}/`))
     24 24 │           throw new Error('Test path outside owned repo');
     25 25 │         mkdirSync(dirname(file), { recursive: true });
-  
+
 
 tools\license-scan.test.ts:150:38 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   i Template literals are preferred over string concatenation.
-  
+
     148 │     expect(generated).toContain('FULL OFL TEXT');
     149 │     expect(noticesCurrent(generated, undefined)).toBe(false);
   > 150 │     expect(noticesCurrent(generated, generated + 'edit')).toBe(false);
         │                                      ^^^^^^^^^^^^^^^^^^
     151 │     expect(noticesCurrent(generated, generated)).toBe(true);
     152 │   });
-  
+
   i Unsafe fix: Use a template literal.
-  
+
     148 148 │       expect(generated).toContain('FULL OFL TEXT');
     149 149 │       expect(noticesCurrent(generated, undefined)).toBe(false);
     150     │ - ····expect(noticesCurrent(generated,·generated·+·'edit')).toBe(false);
         150 │ + ····expect(noticesCurrent(generated,·`${generated}edit`)).toBe(false);
     151 151 │       expect(noticesCurrent(generated, generated)).toBe(true);
     152 152 │     });
-  
+
 
 tools\license-scan.ts:187:10 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   i Template literals are preferred over string concatenation.
-  
+
     185 │   for (const entry of [...retained].sort((a, b) => a.label.localeCompare(b.label, 'en')))
     186 │     sections.push(`${entry.label}\n${entry.text}`);
   > 187 │   return sections.join('\n\n----------------------------------------\n\n') + '\n';
         │          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     188 │ }
     189 │ export function noticesCurrent(expected: string, actual: string | undefined): boolean {
-  
+
   i Unsafe fix: Use a template literal.
-  
+
     185 185 │     for (const entry of [...retained].sort((a, b) => a.label.localeCompare(b.label, 'en')))
     186 186 │       sections.push(`${entry.label}\n${entry.text}`);
     187     │ - ··return·sections.join('\n\n----------------------------------------\n\n')·+·'\n';
         187 │ + ··return·`${sections.join('\n\n----------------------------------------\n\n')}\n`;
     188 188 │   }
     189 189 │   export function noticesCurrent(expected: string, actual: string | undefined): boolean {
-  
+
 
 tools\smoke\build-manifest.ts:24:52 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   i Template literals are preferred over string concatenation.
-  
+
     22 │   );
     23 │   const manifest = buildManifest(packagedResources(dist));
   > 24 │   writeFileSync(join(dist, 'build-manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
        │                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     25 │   console.log(
     26 │     `build-manifest: entries=${manifest.entries.length} maxRelUtf16=${manifest.maxRelUtf16}`,
-  
+
   i Unsafe fix: Use a template literal.
-  
+
     22 22 │     );
     23 23 │     const manifest = buildManifest(packagedResources(dist));
     24    │ - ··writeFileSync(join(dist,·'build-manifest.json'),·JSON.stringify(manifest,·null,·2)·+·'\n');
        24 │ + ··writeFileSync(join(dist,·'build-manifest.json'),·`${JSON.stringify(manifest,·null,·2)}\n`);
     25 25 │     console.log(
     26 26 │       `build-manifest: entries=${manifest.entries.length} maxRelUtf16=${manifest.maxRelUtf16}`,
-  
+
 
 tools\smoke\run-packaged-smoke.ts:322:22 lint/style/useTemplate  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   i Template literals are preferred over string concatenation.
-  
-    320 │   // Evidence is committed to a public repository: the local home directory (and so the user name) is 
+
+    320 │   // Evidence is committed to a public repository: the local home directory (and so the user name) is
 replaced by ~.
     321 │   const home = JSON.stringify(homedir()).slice(1, -1);
   > 322 │   writeFileSync(out, JSON.stringify(evidence, null, 2).replaceAll(home, '~') + '\n');
         │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     323 │   console.log(
-    324 │     `packaged-smoke: verdict=${evidence.verdict}${failing.length ? ` failing=${failing.join(',')}` : ''} 
+    324 │     `packaged-smoke: verdict=${evidence.verdict}${failing.length ? ` failing=${failing.join(',')}` : ''}
 out=${out}`,
-  
+
   i Unsafe fix: Use a template literal.
-  
-    320 320 │     // Evidence is committed to a public repository: the local home directory (and so the user name) is 
+
+    320 320 │     // Evidence is committed to a public repository: the local home directory (and so the user name) is
 replaced by ~.
     321 321 │     const home = JSON.stringify(homedir()).slice(1, -1);
     322     │ - ··writeFileSync(out,·JSON.stringify(evidence,·null,·2).replaceAll(home,·'~')·+·'\n');
         322 │ + ··writeFileSync(out,·`${JSON.stringify(evidence,·null,·2).replaceAll(home,·'~')}\n`);
     323 323 │     console.log(
-    324 324 │       `packaged-smoke: verdict=${evidence.verdict}${failing.length ? ` failing=${failing.join(',')}` : 
+    324 324 │       `packaged-smoke: verdict=${evidence.verdict}${failing.length ? ` failing=${failing.join(',')}` :
 ''} out=${out}`,
-  
+
 
 Checked 148 files in 224ms. No fixes applied.
 Found 13 infos.
@@ -529,7 +529,7 @@ At line:2 char:84
 +                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: ($ eslint .:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
- 
+
 
 
 === pnpm typecheck | exit=0 ===
@@ -539,7 +539,7 @@ At line:2 char:155
 +                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: ($ tsc -p tsconf...g.json --noEmit:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
- 
+
 
 
 === pnpm depcruise | exit=0 ===
@@ -549,7 +549,7 @@ At line:2 char:1
 + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: ($ depcruise app...ncy-cruiser.cjs:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
- 
+
 
 ✔ no dependency violations found (146 modules, 456 dependencies cruised)
 
@@ -562,7 +562,7 @@ At line:2 char:1
 + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: ($ node tools/license-scan.ts:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
- 
+
 WARNING needs-review: Electron FFmpeg: Research A6 assumption; verify binary contents/terms, notices, source and relinking before release
 WARNING needs-review: DirectML.dll: Verify actual DLL redistribution terms and embedded notices before release
 WARNING needs-review: stories15M-q4_0.gguf: Research A5 upstream inherited grant needs verification before obtaining or shipping
@@ -579,7 +579,7 @@ At line:2 char:1
 + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: ($ vitest run --reporter=verbose:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
- 
+
 
  RUN  v5.0.3 D:/workspace/AI/danesh
 
@@ -705,11 +705,11 @@ At line:2 char:1
  ✓ |core| apps/core/test/system-check.test.ts > Core report export capabilities > returns a typed write failure without creating a target or temporary file 237ms
  ✓ |core| apps/core/test/system-check.test.ts > Core report export capabilities > rejects relative export targets and bounds outstanding capabilities 221ms
  ✓ |core| apps/core/test/system-check.test.ts > Core report export capabilities > fails a check that exceeds its timeout and still runs the next one, never passing an unrun check 267ms
-stderr | packages/engines/test/probes.test.ts > packaging probes from a Persian + space + ZWNJ folder > LLM: generates 
+stderr | packages/engines/test/probes.test.ts > packaging probes from a Persian + space + ZWNJ folder > LLM: generates
 at least 8 tokens at temperature 0 with a full hash
 [node-llama-cpp] load: bad special token: 'tokenizer.ggml.seperator_token_id' = 4294967295, using default id -1
 
-stderr | packages/engines/test/probes.test.ts > packaging probes from a Persian + space + ZWNJ folder > LLM: generates 
+stderr | packages/engines/test/probes.test.ts > packaging probes from a Persian + space + ZWNJ folder > LLM: generates
 at least 8 tokens at temperature 0 with a full hash
 [node-llama-cpp] load: bad special token: 'tokenizer.ggml.padding_token_id' = 4294967295, using default id -1
 
@@ -717,7 +717,7 @@ at least 8 tokens at temperature 0 with a full hash
  ✓ |logging| packages/logging/test/jsonl.test.ts > JSON-lines logger > caps long strings and sanitizes event names 21ms
  ✓ |logging| packages/logging/test/jsonl.test.ts > JSON-lines logger > rotates within the size threshold and file-count limit 49ms
  ✓ |logging| packages/logging/test/jsonl.test.ts > JSON-lines logger > rejects unsafe names and bounds, and stops writing after close 2ms
-stderr | packages/engines/test/probes.test.ts > packaging probes from a Persian + space + ZWNJ folder > LLM: generates 
+stderr | packages/engines/test/probes.test.ts > packaging probes from a Persian + space + ZWNJ folder > LLM: generates
 at least 8 tokens at temperature 0 with a full hash
 [node-llama-cpp] llama_context: n_ctx_seq (256) > n_ctx_train (128) -- possible training context overflow
 
@@ -969,8 +969,8 @@ At line:2 char:1
 + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: ($ pnpm --dir apps/desktop run package:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
- 
-$ electron-vite build && node ../../tools/assert-no-test-hooks.ts --out out && electron-builder --config 
+
+$ electron-vite build && node ../../tools/assert-no-test-hooks.ts --out out && electron-builder --config
 electron-builder.yml --publish never && node ../../tools/smoke/build-manifest.ts --dist dist
 vite v7.3.7 building ssr environment for production...
 transforming...
@@ -1029,14 +1029,14 @@ build-manifest: entries=85 maxRelUtf16=95
 
 
 === pnpm smoke:packaged --persian-paths --out <new evidence path> | exit=0 ===
-pnpm : $ node tools/smoke/run-packaged-smoke.ts --persian-paths --out 
+pnpm : $ node tools/smoke/run-packaged-smoke.ts --persian-paths --out
 .planning/phases/01-secure-durable-foundation-packaging-gate/evidence/01-10-ci-fixes-smoke-win32-x64.json
 At line:2 char:1
 + pnpm smoke:packaged --persian-paths --out .planning/phases/01-secure- ...
 + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: ($ node tools/sm...-win32-x64.json:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
- 
+
 packaged-smoke: verdict=pass out=D:\workspace\AI\danesh\.planning\phases\01-secure-durable-foundation-packaging-gate\evidence\01-10-ci-fixes-smoke-win32-x64.json
 
 
@@ -1051,7 +1051,7 @@ At line:2 char:1
 + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: ($ node tools/run-e2e.ts:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
- 
+
 $ pnpm --dir apps/desktop run build:test
 $ electron-vite build --mode test
 vite v7.3.7 building ssr environment for test...
@@ -1101,9 +1101,9 @@ For help, see: https://nodejs.org/learn/getting-started/debugging
   ok  1 apps\desktop\.features-gen\app-shell.feature.spec.js:10:3 › An honest Persian-first shell behind a closed preload API › System check reaches the database through Core @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-happy (7.6s)
 Debugger ending on ws://127.0.0.1:55476/bab9e120-9f5e-45c2-b934-ca46fb1aad56
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[20004:1010/045110.756:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[20004:1010/045110.756:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[20004:1010/045110.756:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[20004:1010/045110.756:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
   ok  2 apps\desktop\.features-gen\app-shell.feature.spec.js:17:3 › An honest Persian-first shell behind a closed preload API › The page has no Node access or raw IPC surface @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-invalid (895ms)
 Debugger ending on ws://127.0.0.1:55481/0183224a-2426-4364-9444-155dfc805e77
@@ -1126,23 +1126,23 @@ For help, see: https://nodejs.org/learn/getting-started/debugging
   ok  4 apps\desktop\.features-gen\app-shell.feature.spec.js:31:3 › An honest Persian-first shell behind a closed preload API › The database probe row survives a relaunch @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-03 @kind-persistence (15.5s)
 Debugger ending on ws://127.0.0.1:55498/44ffc0d0-59f7-4305-a4fb-9b9adf77083b
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[21112:1010/045128.257:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[21112:1010/045128.257:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[21112:1010/045128.257:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[21112:1010/045128.257:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
   ok  5 apps\desktop\.features-gen\app-shell.feature.spec.js:39:3 › An honest Persian-first shell behind a closed preload API › Home states the foundation scope in Persian @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-06 @kind-happy (1.0s)
 Debugger ending on ws://127.0.0.1:55502/abad4767-3769-4700-af7e-203d3ee42e1a
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[36968:1010/045129.308:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[36968:1010/045129.308:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[36968:1010/045129.308:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[36968:1010/045129.308:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
   ok  6 apps\desktop\.features-gen\app-shell.feature.spec.js:49:3 › An honest Persian-first shell behind a closed preload API › Keyboard navigation focuses the heading and unknown routes return Home @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-06 @kind-edge (1.0s)
 Debugger ending on ws://127.0.0.1:55506/5c58266b-7422-4ab5-bc1e-511b4b07e802
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[15412:1010/045130.310:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[15412:1010/045130.310:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[15412:1010/045130.310:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[15412:1010/045130.310:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
   ok  7 apps\desktop\.features-gen\app-shell.feature.spec.js:58:3 › An honest Persian-first shell behind a closed preload API › A malformed ping is rejected without logging Persian input @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-07 @kind-invalid (977ms)
 Debugger ending on ws://127.0.0.1:55510/d41632c0-cdf7-44a4-b23f-9ba499086d14
@@ -1152,9 +1152,9 @@ For help, see: https://nodejs.org/learn/getting-started/debugging
   ok  8 apps\desktop\.features-gen\app-shell.feature.spec.js:66:3 › An honest Persian-first shell behind a closed preload API › Both routes obey CSP and reject external navigation @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-07 @kind-edge (6.3s)
 Debugger ending on ws://127.0.0.1:64636/e2354f6d-2563-40b8-ba9f-5ff92bb06a5a
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[28740:1010/045137.592:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[28740:1010/045137.592:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[28740:1010/045137.592:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[28740:1010/045137.592:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
   ok  9 apps\desktop\.features-gen\app-shell.feature.spec.js:76:3 › An honest Persian-first shell behind a closed preload API › A rejected call leaves the private connection usable @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-07 @kind-recovery (980ms)
   ok 10 apps\desktop\.features-gen\app-shell.feature.spec.js:83:3 › An honest Persian-first shell behind a closed preload API › Hidden smoke mode measures responsiveness with foreground scheduling @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-09 @kind-edge (7.5s)
@@ -1167,23 +1167,23 @@ For help, see: https://nodejs.org/learn/getting-started/debugging
   ok 12 apps\desktop\.features-gen\desktop-shell.feature.spec.js:25:3 › A custom, themed desktop shell that keeps native window behavior › The theme choice and window size survive a relaunch @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-persistence (2.5s)
 Debugger ending on ws://127.0.0.1:53082/a7b539fd-2afd-4a0b-a3e6-c11046942727
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[32000:1010/045150.424:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[32000:1010/045150.424:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[32000:1010/045150.424:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[32000:1010/045150.424:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
   ok 13 apps\desktop\.features-gen\desktop-shell.feature.spec.js:36:3 › A custom, themed desktop shell that keeps native window behavior › System theme follows the operating system live @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-edge (1.1s)
 Debugger ending on ws://127.0.0.1:53086/002e4ac0-a768-42c0-a300-480e2f2e2e28
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[2332:1010/045151.566:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[2332:1010/045151.566:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[2332:1010/045151.567:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[2332:1010/045151.567:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
   ok 14 apps\desktop\.features-gen\desktop-shell.feature.spec.js:45:3 › A custom, themed desktop shell that keeps native window behavior › Malformed window and theme requests are rejected before any effect @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-invalid (1.1s)
 Debugger ending on ws://127.0.0.1:63316/1780d8e9-ad76-4d6e-89ad-cbfad1e75e2e
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[36844:1010/045152.670:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[36844:1010/045152.670:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[36844:1010/045152.670:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[36844:1010/045152.670:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
 Debugger ending on ws://127.0.0.1:63320/2b7fa6d5-90af-4638-a37e-a9e3726ccf71
 For help, see: https://nodejs.org/learn/getting-started/debugging
@@ -1192,30 +1192,30 @@ Debugger ending on ws://127.0.0.1:63324/4736d5c1-9e48-4ba1-a372-55551c85f6cf
 For help, see: https://nodejs.org/learn/getting-started/debugging
 Debugger ending on ws://127.0.0.1:63328/615f7d4a-0790-49db-a9ed-6d66af07e59a
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[15044:1010/045156.910:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[15044:1010/045156.910:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[15044:1010/045156.911:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[15044:1010/045156.911:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
   ok 16 apps\desktop\.features-gen\desktop-shell.feature.spec.js:64:3 › A custom, themed desktop shell that keeps native window behavior › The sidebar collapses to a named rail and navigates @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-edge (3.3s)
 Debugger ending on ws://127.0.0.1:63332/6f5efb20-85bd-44fe-8178-c4f4af1afc18
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[12200:1010/045158.072:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[12200:1010/045158.072:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[12200:1010/045158.073:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[12200:1010/045158.073:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
   ok 17 apps\desktop\.features-gen\desktop-shell.feature.spec.js:76:3 › A custom, themed desktop shell that keeps native window behavior › Reduced motion removes animation @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-edge (1.1s)
 Debugger ending on ws://127.0.0.1:63337/8f006a59-915b-4828-9976-402bfa559872
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[2828:1010/045159.315:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[2828:1010/045159.315:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[2828:1010/045159.315:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[2828:1010/045159.315:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
   ok 18 apps\desktop\.features-gen\desktop-shell.feature.spec.js:82:3 › A custom, themed desktop shell that keeps native window behavior › Keyboard shortcuts work without a menu bar and on any keyboard layout @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-edge (1.2s)
 Debugger ending on ws://127.0.0.1:63341/a2c72e44-21f4-45d6-b363-77e5725a7769
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[29368:1010/045200.561:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[29368:1010/045200.561:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[29368:1010/045200.562:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[29368:1010/045200.562:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
   ok 19 apps\desktop\.features-gen\desktop-shell.feature.spec.js:94:3 › A custom, themed desktop shell that keeps native window behavior › The title bar carries no application menu @ui @req-PLAT-01 @req-PLAT-02 @req-PLAT-03 @plan-01-17 @kind-edge (1.2s)
   -  20 apps\desktop\.features-gen\engine-crash.feature.spec.js:13:10 › Engine crashes and Core restarts leave the window usable › A healthy host completes work without a recovery notice @ui @req-PLAT-04 @plan-01-14 @kind-happy
@@ -1242,16 +1242,16 @@ WaitForGetOffsetInRange.
   -  41 apps\desktop\.features-gen\sample-job.feature.spec.js:145:12 › A clearly labelled sample job demonstrates durable progress › Chunk counts remain readable and expose non-color state cues › Example #3 @ui @req-JOB-03 @req-PLAT-04 @plan-01-13 @kind-edge
 Debugger ending on ws://127.0.0.1:63345/17a6c29d-b4a6-495d-8152-e0a832d9b54c
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[14364:1010/045201.821:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[14364:1010/045201.821:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[14364:1010/045201.821:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[14364:1010/045201.821:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
   ok 42 apps\desktop\.features-gen\startup-states.feature.spec.js:10:3 › Startup preserves data and exposes honest recovery states › Normal startup applies pending migrations before the foundation banner @ui @req-PLAT-06 @req-PLAT-07 @req-PLAT-04 @plan-01-11 @kind-happy (1.2s)
 Debugger ending on ws://127.0.0.1:63350/065b3b55-97b6-453d-91d9-8c7a6bcc7665
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[16912:1010/045203.100:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[16912:1010/045203.100:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[16912:1010/045203.100:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[16912:1010/045203.100:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
 (node:11804) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `electron --trace-warnings ...` to show where the warning was created)
@@ -1276,9 +1276,9 @@ For help, see: https://nodejs.org/learn/getting-started/debugging
   ok 45 apps\desktop\.features-gen\startup-states.feature.spec.js:36:3 › Startup preserves data and exposes honest recovery states › An upgrade keeps data and takes no second backup on relaunch @ui @req-PLAT-06 @req-PLAT-07 @req-PLAT-04 @plan-01-11 @kind-persistence (1.4s)
 Debugger ending on ws://127.0.0.1:60916/ebd87a28-6720-421b-a767-f5ac903adb05
 For help, see: https://nodejs.org/learn/getting-started/debugging
-[33116:1010/045221.925:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[33116:1010/045221.925:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
-[33116:1010/045221.925:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after 
+[33116:1010/045221.925:ERROR:gpu\ipc\client\command_buffer_proxy_impl.cc:490] GPU state invalid after
 WaitForGetOffsetInRange.
   ok 46 apps\desktop\.features-gen\startup-states.feature.spec.js:44:3 › Startup preserves data and exposes honest recovery states › A second instance focuses the first without opening another Core @ui @req-PLAT-06 @req-PLAT-07 @req-PLAT-04 @plan-01-07 @kind-edge (883ms)
   -  47 apps\desktop\.features-gen\startup-states.feature.spec.js:54:10 › Startup preserves data and exposes honest recovery states › Repeated Core boot failures offer app relaunch @ui @req-PLAT-06 @req-PLAT-07 @req-PLAT-04 @plan-01-14 @kind-recovery
