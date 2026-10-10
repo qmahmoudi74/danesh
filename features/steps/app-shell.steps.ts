@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { join } from 'node:path';
 import { expect } from '@playwright/test';
@@ -151,7 +151,10 @@ Then(
     ) as { count: number; journal_mode: string; user_version: number };
     expect(fields.count).toBe(harness.firstCount + 1);
     expect(fields.journal_mode).toBe('wal');
-    expect(fields.user_version).toBe(1);
+    const migrationFiles = readdirSync('packages/storage/migrations')
+      .filter((name) => name.endsWith('.sql'))
+      .sort();
+    expect(fields.user_version).toBe(Number(migrationFiles.at(-1)?.slice(0, 4)));
     await harness.close();
     const Sqlite = createRequire(import.meta.url)('better-sqlite3') as typeof Database;
     const db = new Sqlite(join(libraryRoot, 'danesh.db'), { readonly: true });
@@ -160,17 +163,22 @@ Then(
         { id: 1 },
         { id: 2 },
       ]);
-      const sql = readFileSync('packages/storage/migrations/0001_init.sql', 'utf8').replace(
-        /\r\n/g,
-        '\n',
-      );
-      expect(db.prepare('SELECT id, checksum, app_version FROM schema_migration').all()).toEqual([
-        {
-          id: '0001',
-          checksum: createHash('sha256').update(sql).digest('hex'),
+      expect(
+        db.prepare('SELECT id, checksum, app_version FROM schema_migration ORDER BY id').all(),
+      ).toEqual(
+        migrationFiles.map((name) => ({
+          id: name.slice(0, 4),
+          checksum: createHash('sha256')
+            .update(
+              readFileSync(join('packages/storage/migrations', name), 'utf8').replace(
+                /\r\n/g,
+                '\n',
+              ),
+            )
+            .digest('hex'),
           app_version: '0.1.0',
-        },
-      ]);
+        })),
+      );
       expect(
         db
           .prepare('SELECT strict FROM pragma_table_list WHERE name IN (?, ?)')

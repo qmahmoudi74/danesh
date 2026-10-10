@@ -1,11 +1,11 @@
 import type { Init } from '@danesh/contracts/control.ts';
 import { CHECK_ORDER, type CheckResult } from '@danesh/contracts/smoke-report.ts';
-import type { Db } from '@danesh/storage/db.ts';
+import type { LibraryOpen } from '@danesh/storage/db.ts';
 import type { EngineClient } from '../engine-client.ts';
 
 export type CheckContext = {
   init: Init;
-  db: Db;
+  library: LibraryOpen | undefined;
   rendererConnected: boolean;
   engines: EngineClient;
   responsiveness: (

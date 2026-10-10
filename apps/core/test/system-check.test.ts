@@ -48,7 +48,7 @@ describe('Core report export capabilities', () => {
     const runId = randomUUID(),
       token = randomUUID(),
       path = join(repo.root, 'report.json');
-    await service.run(runId, port, facts, db);
+    await service.run(runId, port, facts, { state: 'ready', db });
     await writeFile(path, 'old file');
     service.addTarget(token, path);
     expect(await service.export(runId, token)).toEqual({ ok: true });
@@ -63,7 +63,7 @@ describe('Core report export capabilities', () => {
     const service = new SystemCheck(() => now, localChecks);
     const runId = randomUUID(),
       token = randomUUID();
-    await service.run(runId, port, facts, db);
+    await service.run(runId, port, facts, { state: 'ready', db });
     service.addTarget(token, join(repo.root, 'report.json'));
     now += 60000;
     expect(await service.export(runId, token)).toEqual({ ok: false, reason: 'unknown-token' });
@@ -83,7 +83,7 @@ describe('Core report export capabilities', () => {
     const service = new SystemCheck(Date.now, localChecks),
       runId = randomUUID(),
       token = randomUUID();
-    await service.run(runId, port, facts, db);
+    await service.run(runId, port, facts, { state: 'ready', db });
     service.addTarget(token, join(repo.root, 'missing', 'report.json'));
     expect(await service.export(runId, token)).toEqual({ ok: false, reason: 'write-failed' });
     expect(await service.export(runId, token)).toEqual({ ok: false, reason: 'unknown-token' });
@@ -114,7 +114,7 @@ describe('Core report export capabilities', () => {
       timeouts: { engine: 20, default: 20 },
     });
     const runId = randomUUID();
-    await service.run(runId, port, facts, db);
+    await service.run(runId, port, facts, { state: 'ready', db });
     const report = service.get(runId)!;
     expect(report.checks.map((check) => [check.checkId, check.status, check.detail])).toEqual([
       ['app-launch', 'fail', 'timeout'],

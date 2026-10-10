@@ -34,6 +34,12 @@ export const testRpcMethods: Record<string, RpcMethod> =
           output: z.strictObject({ ok: z.literal(true) }),
           maxInputBytes: 128,
         },
+        // Exercises the same write guard future write requests use; refused with READ_ONLY outside the ready state.
+        'test.writeProbe': {
+          input: z.strictObject({}),
+          output: z.strictObject({ ok: z.literal(true) }),
+          maxInputBytes: 128,
+        },
         'test.probeFault': {
           input: z.strictObject({ kind: z.enum(['llm', 'ocr', 'tts']), mode: z.literal('crash') }),
           output: z.strictObject({ ok: z.literal(true) }),

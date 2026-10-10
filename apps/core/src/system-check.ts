@@ -12,7 +12,7 @@ import {
 } from '@danesh/contracts/smoke-report.ts';
 import type { CheckRunFixtureSchema } from '@danesh/contracts/test-rpc.ts';
 import type { UtilityPort } from '@danesh/contracts/utility-port.ts';
-import type { Db } from '@danesh/storage/db.ts';
+import type { LibraryOpen } from '@danesh/storage/db.ts';
 import type { z } from 'zod';
 import { type Check, checks as registeredChecks } from './checks/registry.ts';
 import type { EngineClient } from './engine-client.ts';
@@ -152,7 +152,7 @@ export class SystemCheck {
     runId: string,
     port: UtilityPort,
     facts: Init,
-    database: Db,
+    library: LibraryOpen | undefined,
     fixture?: Fixture,
   ): Promise<void> {
     const startedAt = new Date().toISOString();
@@ -165,7 +165,7 @@ export class SystemCheck {
     else await yieldTurn();
     const context = {
       init: facts,
-      db: database,
+      library,
       rendererConnected: true,
       engines: this.engines!,
       responsiveness: (timeoutMs: number) => withTimeout(this.responsivenessFor(runId), timeoutMs),

@@ -23,8 +23,21 @@ export const DiagRejectedSchema = z.strictObject({
   ]),
   byteLength: z.number().int().min(0).max(100_000_000),
 });
+/** Library state shown on Home. Details are technical-only values (paths, versions, ids). */
+export const AppStatusSchema = z.strictObject({
+  state: z.enum(['starting', 'ready', 'refused-newer', 'read-only-recovery', 'failed']),
+  details: z.strictObject({
+    dbUserVersion: z.number().int().optional(),
+    supportedVersion: z.number().int().optional(),
+    backupPath: z.string().max(32767).optional(),
+    failedMigrationId: z.string().max(16).optional(),
+    errorClass: z.string().max(64).optional(),
+  }),
+});
+export type AppStatus = z.infer<typeof AppStatusSchema>;
 export const rpcMethods: Record<string, RpcMethod> = {
   'system.info': { input: z.strictObject({}), output: SystemInfoSchema, maxInputBytes: 1024 },
+  'app.status': { input: z.strictObject({}), output: AppStatusSchema, maxInputBytes: 256 },
   'system.ping': {
     input: z.strictObject({ n: z.number().int().min(0).max(1_000_000) }),
     output: z.strictObject({ n: z.number().int(), corePid: z.number().int().positive() }),

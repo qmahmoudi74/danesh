@@ -6,8 +6,9 @@ import { rpcMethods } from '@danesh/contracts/rpc.ts';
 import { type CheckRunFixtureSchema, testRpcMethods } from '@danesh/contracts/test-rpc.ts';
 import { parentPort, type UtilityPort } from '@danesh/contracts/utility-port.ts';
 import { createJsonlLogger, type JsonlLogger } from '@danesh/logging/jsonl.ts';
-import { type Db, openLibraryDb } from '@danesh/storage/db.ts';
+import { type LibraryOpen, recordSystemCheckProbe } from '@danesh/storage/db.ts';
 import type { z } from 'zod';
+import { bootLibrary, libraryStatus, requireWritable } from './boot.ts';
 import { createEngineClient } from './engine-client.ts';
 import { createDiagRejectedHandler, createRpcServer, type RpcHandler } from './rpc-server.ts';
 import { SystemCheck } from './system-check.ts';
@@ -29,7 +30,7 @@ async function engineEcho(): Promise<{ hostPid: number; corePid: number }> {
   return { hostPid, corePid: process.pid };
 }
 let init: Init | undefined;
-let db: Db | undefined;
+let library: LibraryOpen | undefined;
 const systemCheck = new SystemCheck(Date.now, { engines });
 let checkFixture: z.infer<typeof CheckRunFixtureSchema> | undefined;
 let stalledUntil = 0;
@@ -39,16 +40,17 @@ const handlers: Record<string, RpcHandler> = {
     const { appVersion, electronVersion, osName, osVersion, arch, locale, libraryRoot } = init!;
     return { appVersion, electronVersion, osName, osVersion, arch, locale, libraryRoot };
   },
+  'app.status': () => libraryStatus(library),
   'system.ping': (input: { n: number }) => ({ ...input, corePid: process.pid }),
   'systemCheck.run': (_input: Record<string, never>, port: UtilityPort) => {
     const runId = randomUUID();
     const fixture = __TEST_HOOKS__ ? checkFixture : undefined;
     checkFixture = undefined;
     const facts = init!,
-      database = db!;
+      opened = library;
     setImmediate(() => {
       void systemCheck
-        .run(runId, port, facts, database, fixture)
+        .run(runId, port, facts, opened, fixture)
         .catch(() => logger.log('system-check.failed', { sender: 'core' }, 'error'));
     });
     return { runId, checkIds: systemCheck.checkIds(facts, fixture) };
@@ -67,6 +69,10 @@ const handlers: Record<string, RpcHandler> = {
   'diag.rejected': createDiagRejectedHandler(methods, logger),
   ...(__TEST_HOOKS__
     ? {
+        'test.writeProbe': () => {
+          recordSystemCheckProbe(requireWritable(library));
+          return { ok: true };
+        },
         'test.engineEcho': () => engineEcho(),
         'test.checkRun': (input: z.infer<typeof CheckRunFixtureSchema>) => {
           checkFixture = input;
@@ -88,7 +94,7 @@ const rpcServer = createRpcServer({
   handlers,
   logger,
   sender: 'renderer',
-  ready: () => !!init && !!db,
+  ready: () => !!init && !!library,
   paused: () => __TEST_HOOKS__ && Date.now() < stalledUntil,
 });
 
@@ -106,7 +112,8 @@ parent.on('message', (message) => {
     if (init) return;
     init = control.data;
     coreLog = createJsonlLogger({ dir: join(init.libraryRoot, 'logs'), name: 'core' });
-    db = openLibraryDb(init.libraryRoot, init.appVersion);
+    library = bootLibrary(init.libraryRoot, init.appVersion);
+    logger.log('library.opened', { kind: library.state });
     parent.postMessage({ type: 'ready', corePid: process.pid });
   } else if (control.data.type === 'host-exited') {
     engines.hostExited(control.data.kind, control.data.exitCode, control.data.requested);
@@ -118,4 +125,6 @@ parent.on('message', (message) => {
     else if (control.data.type === 'host-port') engines.attach(control.data.kind, message.ports[0]);
   }
 });
-process.on('exit', () => db?.close());
+process.on('exit', () => {
+  if (library && 'db' in library) library.db.close();
+});

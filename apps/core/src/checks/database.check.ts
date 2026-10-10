@@ -25,10 +25,36 @@ function nodeSqliteProbe(): { nodeSqlite: string; nodeSqliteVersion: string } {
   }
 }
 
+/** Technical-only values for the report; paths and ids stay out of the primary message. */
+function flatDetails(details: object): Record<string, string | number> {
+  return Object.fromEntries(
+    Object.entries(details).filter(
+      (entry): entry is [string, string | number] =>
+        typeof entry[1] === 'string' || typeof entry[1] === 'number',
+    ),
+  );
+}
+
 export const check: Check = {
   id: 'database',
-  run({ db, init }) {
-    const probe = recordSystemCheckProbe(db);
+  run({ library, init }) {
+    const dbPath = join(init.libraryRoot, 'danesh.db');
+    // Only a ready library is writable: the other states report why the check could not run.
+    if (library?.state !== 'ready') {
+      return {
+        checkId: 'database',
+        status: 'fail',
+        durationMs: 0,
+        detail: `library state: ${library?.state ?? 'unavailable'}`,
+        fields: {
+          dbPath,
+          corePid: process.pid,
+          libraryState: library?.state ?? 'unavailable',
+          ...(library && 'details' in library ? flatDetails(library.details) : {}),
+        },
+      };
+    }
+    const probe = recordSystemCheckProbe(library.db);
     return {
       checkId: 'database',
       status: probe.readBack ? 'pass' : 'fail',
@@ -37,7 +63,7 @@ export const check: Check = {
       fields: {
         count: probe.count,
         corePid: process.pid,
-        dbPath: join(init.libraryRoot, 'danesh.db'),
+        dbPath,
         journal_mode: probe.journalMode,
         user_version: probe.userVersion,
         ...nodeSqliteProbe(),

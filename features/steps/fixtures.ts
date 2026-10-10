@@ -10,6 +10,8 @@ interface Harness {
   page: Page | undefined;
   firstCount: number;
   coreReadyDelayMs: number;
+  /** Extra environment for the next launch (test builds only), e.g. DANESH_TEST_FAIL_MIGRATION. */
+  extraEnv: Record<string, string>;
   coreStalledUntil: number;
   echo: { hostPid: number; corePid: number } | undefined;
   launch(): Promise<void>;
@@ -38,6 +40,7 @@ export const test = base.extend<{ libraryRoot: string; harness: Harness }>({
       page: undefined,
       firstCount: 0,
       coreReadyDelayMs: 0,
+      extraEnv: {},
       coreStalledUntil: 0,
       echo: undefined,
       async launch() {
@@ -47,6 +50,7 @@ export const test = base.extend<{ libraryRoot: string; harness: Harness }>({
           ),
         );
         delete env.ELECTRON_RUN_AS_NODE;
+        Object.assign(env, harness.extraEnv);
         const executablePath = env.DANESH_TEST_EXE ?? (require('electron') as string);
         harness.app = await _electron.launch({
           executablePath,
