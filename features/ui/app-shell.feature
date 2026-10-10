@@ -80,3 +80,9 @@ Feature: An honest Persian-first shell behind a closed preload API
     When a malformed call is rejected
     And a valid "system.ping" call is sent immediately afterwards
     Then the valid ping succeeds on the same connection
+
+  @plan-01-09 @kind-edge
+  Scenario: Hidden smoke mode measures responsiveness with foreground scheduling
+    Given Danesh is launched headlessly in smoke mode with that library folder
+    Then the hidden renderer has foreground process scheduling and unthrottled timers
+    And all three real engine probes finish and the renderer heartbeat meets the existing policy
