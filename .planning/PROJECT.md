@@ -210,7 +210,7 @@ All Active requirements are hypotheses until shipped and validated. Grouped by t
 | Greenfield build; prior Rust/C#/Next.js prototypes used as product/UI reference only | Clean architecture aligned with confirmed constraints; avoid inheriting prior tech debt | — Pending |
 | Electron + React + TypeScript, single-language authored code | One language for the whole app; native engines behind typed adapters where they earn their place | — Pending |
 | Local-first AI with embedded/native inference (no localhost servers, no cloud) | Privacy, offline operation, and no hidden data transfer | — Pending |
-| PDF-only import with no PDF viewer; Danesh renders its own reconstructed semantic content | The product is the reconstructed, teachable content, not page rendering | — Pending |
+| PDF-only import with no PDF viewer; Danesh renders its own reconstructed semantic content | The product is the reconstructed, teachable content, not page rendering | Confirmed by owner 2026-10-10; early viewer removed; semantic Reader remains partial |
 | Canonical semantic document model (stable block IDs + provenance) as source of truth, not Markdown | Enables provenance, citations, stale detection, and incremental updates | — Pending |
 | Hierarchical curriculum/list as primary knowledge view; no compulsory node graph | Calm, typography-first study experience | — Pending |
 | Natural local Persian/English TTS is a v1 requirement | Audio is part of the core learning experience, not an add-on | — Pending |
