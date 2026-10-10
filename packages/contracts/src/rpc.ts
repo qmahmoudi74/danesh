@@ -2,7 +2,13 @@ import { ResponsivenessInputSchema } from './responsiveness.ts';
 import { z } from './schema.ts';
 import { CheckIdSchema, SmokeReportSchema } from './smoke-report.ts';
 
-export type RpcMethod = { input: z.ZodType; output: z.ZodType; maxInputBytes: number };
+export type RpcMethod = {
+  input: z.ZodType;
+  output: z.ZodType;
+  maxInputBytes: number;
+  /** Deadline for one call; the default (10 s) suits everything except work proportional to a file's size. */
+  timeoutMs?: number;
+};
 export const SystemInfoSchema = z.strictObject({
   appVersion: z.string(),
   electronVersion: z.string(),
@@ -36,7 +42,50 @@ export const AppStatusSchema = z.strictObject({
   }),
 });
 export type AppStatus = z.infer<typeof AppStatusSchema>;
+/** A PDF in the library. Only the original is stored: nothing has been extracted from it yet. */
+export const DocumentSchema = z.strictObject({
+  documentId: z.string().uuid(),
+  title: z.string().min(1).max(1000),
+  fileName: z.string().min(1).max(1000),
+  byteSize: z.number().int().positive(),
+  pageCount: z.number().int().positive(),
+  importedAt: z.number().int().nonnegative(),
+  status: z.literal('original'),
+});
+export type LibraryDocument = z.infer<typeof DocumentSchema>;
+export const ImportFailureSchema = z.enum([
+  'not-pdf',
+  'encrypted',
+  'damaged',
+  'too-large',
+  'unreadable',
+  'unknown-token',
+]);
+export type ImportFailure = z.infer<typeof ImportFailureSchema>;
+const FILE_TIMEOUT_MS = 120_000;
 export const rpcMethods: Record<string, RpcMethod> = {
+  'documents.list': {
+    input: z.strictObject({}),
+    output: z.strictObject({ documents: z.array(DocumentSchema).max(100_000) }),
+    maxInputBytes: 128,
+  },
+  // The token comes from shell.choosePdf: Main registered the chosen path with Core; the page never names a path.
+  'documents.import': {
+    input: z.strictObject({ token: z.string().uuid() }),
+    output: z.discriminatedUnion('ok', [
+      z.strictObject({ ok: z.literal(true), document: DocumentSchema, duplicate: z.boolean() }),
+      z.strictObject({ ok: z.literal(false), reason: ImportFailureSchema }),
+    ]),
+    maxInputBytes: 256,
+    timeoutMs: FILE_TIMEOUT_MS,
+  },
+  // The verified original bytes, for the page viewer.
+  'documents.content': {
+    input: z.strictObject({ documentId: z.string().uuid() }),
+    output: z.strictObject({ bytes: z.instanceof(Uint8Array) }),
+    maxInputBytes: 256,
+    timeoutMs: FILE_TIMEOUT_MS,
+  },
   'system.info': { input: z.strictObject({}), output: SystemInfoSchema, maxInputBytes: 1024 },
   'app.status': { input: z.strictObject({}), output: AppStatusSchema, maxInputBytes: 256 },
   'system.ping': {

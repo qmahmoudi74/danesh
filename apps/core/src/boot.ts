@@ -29,6 +29,12 @@ export function libraryStatus(library: LibraryOpen | undefined): AppStatus {
   return { state: library.state, details: 'details' in library ? library.details : {} };
 }
 
+/** Reading needs an open database: a ready library, or one opened read-only after a failed migration. */
+export function requireReadable(library: LibraryOpen | undefined): Db {
+  if (library?.state === 'ready' || library?.state === 'read-only-recovery') return library.db;
+  throw new RpcHandlerError('UNAVAILABLE');
+}
+
 /** The single write guard: every request that writes goes through it and is refused with READ_ONLY otherwise. */
 export function requireWritable(library: LibraryOpen | undefined): Db {
   if (library?.state !== 'ready') throw new RpcHandlerError('READ_ONLY');

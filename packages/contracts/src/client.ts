@@ -75,7 +75,11 @@ export function createRpcClient(options: RpcClientOptions) {
       post = postMessage;
       connected();
     },
-    async call(method: string, input: unknown, timeoutMs = 10_000): Promise<unknown> {
+    async call(
+      method: string,
+      input: unknown,
+      timeoutMs = methods[method]?.timeoutMs ?? 10_000,
+    ): Promise<unknown> {
       const validation = validateRequest({ id: 1, method, input }, methods);
       if (!validation.ok) {
         onReject?.(validation);

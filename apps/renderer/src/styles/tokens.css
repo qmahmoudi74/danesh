@@ -32,6 +32,8 @@
   --color-on-danger-chrome: #ffffff;
   --color-brand-mark: #1b5e8c;
   --color-on-brand-mark: #faf8f4;
+  /* Original PDF pages are drawn on white in both themes, as printed. */
+  --color-paper: #ffffff;
   --shadow-overlay: none;
 
   /* Fixed swatches for the theme previews in Settings: they show each theme regardless of the active one. */
@@ -89,6 +91,7 @@
     --color-scrollbar-hover: #79736a;
     --color-brand-mark: #7fb2dc;
     --color-on-brand-mark: #161513;
+    --color-paper: #ffffff;
     --shadow-overlay: none;
   }
 }

@@ -6,13 +6,16 @@ export function AppShell({
   children,
   footer,
   home = false,
+  wide = false,
 }: {
   children: ReactNode;
   footer?: ReactNode;
   home?: boolean;
+  /** For the page viewer, which needs the whole content width. */
+  wide?: boolean;
 }) {
   return (
-    <main className={`app-shell ${home ? 'home' : ''}`}>
+    <main className={`app-shell ${home ? 'home' : ''} ${wide ? 'wide' : ''}`}>
       {children}
       {footer && <footer className="footer caption">{footer}</footer>}
     </main>

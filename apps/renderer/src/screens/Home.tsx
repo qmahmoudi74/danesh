@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import { Button, Disclosure, DisclosurePanel, Heading } from 'react-aria-components';
 import { Icon } from '../components/Icons.tsx';
 import { AppShell, Ltr, TechnicalDetail } from '../components/Layout.tsx';
-import { Banner } from '../components/Status.tsx';
+import { Banner, NoticeBanner } from '../components/Status.tsx';
 import { newerDatabaseBody, readOnlyDatabaseBody } from '../lib/copy.ts';
+import { carryToLibrary, chooseAndImportPdf, type Notice } from '../lib/documents.tsx';
 
 type CoreState = 'starting' | 'ready' | 'unreachable';
 
@@ -87,9 +88,8 @@ function StatusBanner({ status, slow }: { status: AppStatus | undefined; slow: b
       title="نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست"
       body={
         <>
-          این نسخه فقط زیرساخت امن و پایدار برنامه را آماده می‌کند. ورود فایل <Ltr>PDF</Ltr>، خواندن
-          و یادگیری در نسخه‌های بعدی اضافه می‌شود. تا آن زمان می‌توانید با «بررسی سامانه» وضعیت برنامه
-          را روی این رایانه ببینید.
+          در این نسخه می‌توانید فایل <Ltr>PDF</Ltr> را به کتابخانه بیفزایید و صفحه‌های اصلی آن را
+          ببینید. استخراج متن، خواندن فارسی و یادگیری در نسخه‌های بعدی اضافه می‌شود.
         </>
       }
     />
@@ -102,6 +102,20 @@ export function Home() {
   const [slow, setSlow] = useState(false);
   const [version, setVersion] = useState<string>();
   const [versionError, setVersionError] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [notice, setNotice] = useState<Notice>();
+
+  // A successful import continues on the Library screen; a refusal is explained here.
+  const importPdf = async () => {
+    setImporting(true);
+    setNotice(undefined);
+    const result = await chooseAndImportPdf();
+    setImporting(false);
+    if (result.document && result.notice) {
+      carryToLibrary(result.notice);
+      location.hash = '/library';
+    } else setNotice(result.notice);
+  };
 
   useEffect(
     () =>
@@ -163,15 +177,23 @@ export function Home() {
       ) : (
         <StatusBanner status={core === 'ready' ? status : undefined} slow={slow} />
       )}
-      <div>
+      <div className="actions">
+        {status?.state === 'ready' && (
+          <Button className="button primary" isPending={importing} onPress={() => void importPdf()}>
+            افزودن <Ltr>PDF</Ltr>
+          </Button>
+        )}
         <Button
-          className="button primary"
+          className="button"
           onPress={() => {
             location.hash = '/system-check';
           }}
         >
           بررسی سامانه
         </Button>
+      </div>
+      <div aria-live="polite">
+        <NoticeBanner notice={notice} />
       </div>
     </AppShell>
   );

@@ -8,10 +8,17 @@ import { parentPort, type UtilityPort } from '@danesh/contracts/utility-port.ts'
 import { createJsonlLogger, type JsonlLogger } from '@danesh/logging/jsonl.ts';
 import type { Cas } from '@danesh/storage/cas.ts';
 import { type LibraryOpen, recordSystemCheckProbe } from '@danesh/storage/db.ts';
+import { listDocuments } from '@danesh/storage/documents.ts';
 import type { z } from 'zod';
-import { bootCas, bootLibrary, libraryStatus, requireWritable } from './boot.ts';
+import { bootCas, bootLibrary, libraryStatus, requireReadable, requireWritable } from './boot.ts';
+import { createImportSources, importPdf, readOriginal, toLibraryDocument } from './documents.ts';
 import { createEngineClient } from './engine-client.ts';
-import { createDiagRejectedHandler, createRpcServer, type RpcHandler } from './rpc-server.ts';
+import {
+  createDiagRejectedHandler,
+  createRpcServer,
+  type RpcHandler,
+  RpcHandlerError,
+} from './rpc-server.ts';
 import { SystemCheck } from './system-check.ts';
 
 const parent = parentPort();
@@ -36,6 +43,12 @@ let cas: Cas | undefined;
 const systemCheck = new SystemCheck(Date.now, { engines });
 let checkFixture: z.infer<typeof CheckRunFixtureSchema> | undefined;
 let stalledUntil = 0;
+const importSources = createImportSources();
+
+function requireCas(): Cas {
+  if (!cas) throw new RpcHandlerError('UNAVAILABLE');
+  return cas;
+}
 
 const handlers: Record<string, RpcHandler> = {
   'system.info': () => {
@@ -43,6 +56,27 @@ const handlers: Record<string, RpcHandler> = {
     return { appVersion, electronVersion, osName, osVersion, arch, locale, libraryRoot };
   },
   'app.status': () => libraryStatus(library),
+  'documents.list': () => ({
+    documents: listDocuments(requireReadable(library)).map(toLibraryDocument),
+  }),
+  'documents.import': async (input: { token: string }) => {
+    const db = requireWritable(library);
+    const source = importSources.take(input.token);
+    if (!source) return { ok: false, reason: 'unknown-token' };
+    const result = await importPdf(source, { db, cas: requireCas() });
+    logger.log('document.import', {
+      kind: result.ok ? (result.duplicate ? 'duplicate' : 'added') : result.reason,
+    });
+    return result;
+  },
+  'documents.content': async (input: { documentId: string }) => {
+    const bytes = await readOriginal(input.documentId, {
+      db: requireReadable(library),
+      cas: requireCas(),
+    });
+    if (!bytes) throw new RpcHandlerError('UNAVAILABLE');
+    return { bytes };
+  },
   'system.ping': (input: { n: number }) => ({ ...input, corePid: process.pid }),
   'systemCheck.run': (_input: Record<string, never>, port: UtilityPort) => {
     const runId = randomUUID();
@@ -138,6 +172,9 @@ parent.on('message', (message) => {
   } else if (control.data.type === 'export-target') {
     systemCheck.addTarget(control.data.token, control.data.path, control.data.ttlMs);
     parent.postMessage({ type: 'export-target-ready', token: control.data.token });
+  } else if (control.data.type === 'import-source') {
+    importSources.add(control.data.token, control.data.path, control.data.fileName);
+    parent.postMessage({ type: 'import-source-ready', token: control.data.token });
   } else if (message.ports[0]) {
     if (control.data.type === 'renderer-port') rpcServer.attach(message.ports[0]);
     else if (control.data.type === 'host-port') engines.attach(control.data.kind, message.ports[0]);

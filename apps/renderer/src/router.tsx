@@ -6,11 +6,13 @@ import { installResponsivenessProbe } from './lib/heartbeat.ts';
 import { installSmokeRunner } from './lib/smoke.ts';
 import { useWindowState } from './lib/theme.ts';
 import { Home } from './screens/Home.tsx';
+import { Library } from './screens/Library.tsx';
 import { Settings } from './screens/Settings.tsx';
 import { SystemCheck } from './screens/SystemCheck.tsx';
 
 const screens: Record<Route, { name: string; title: string; render: () => React.ReactNode }> = {
   '#/': { name: 'خانه', title: 'دانش', render: () => <Home /> },
+  '#/library': { name: 'کتابخانه', title: 'کتابخانه — دانش', render: () => <Library /> },
   '#/system-check': {
     name: 'بررسی سامانه',
     title: 'بررسی سامانه — دانش',

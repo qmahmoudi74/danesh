@@ -77,7 +77,7 @@ describe('read-only preflight', () => {
       .prepare(
         'INSERT INTO schema_migration (id, checksum, applied_at, app_version) VALUES (?, ?, ?, ?)',
       )
-      .run('0003', 'a'.repeat(64), 1, 'newer');
+      .run('0099', 'a'.repeat(64), 1, 'newer');
     opened.db.pragma('user_version = 0');
     opened.db.close();
     const path = libraryPaths(root).db;

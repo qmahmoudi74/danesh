@@ -151,7 +151,7 @@ describe('license gate', () => {
     expect(noticesCurrent(generated, generated)).toBe(true);
   });
   it('reads both package sections in the real frozen lockfile', () => {
-    expect(parseLockedPackages(readFileSync('pnpm-lock.yaml', 'utf8'))).toHaveLength(746);
+    expect(parseLockedPackages(readFileSync('pnpm-lock.yaml', 'utf8'))).toHaveLength(747);
   });
   it('refuses an incomplete lockfile inventory', () => {
     expect(() =>

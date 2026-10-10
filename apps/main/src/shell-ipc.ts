@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { isAbsolute, join } from 'node:path';
+import { basename, isAbsolute, join } from 'node:path';
 import type { ThemePreference } from '@danesh/contracts/preferences.ts';
 import { shellEventPayloads, type WindowAction } from '@danesh/contracts/shell.ts';
 import type { JsonlLogger } from '@danesh/logging/jsonl.ts';
@@ -17,6 +17,7 @@ export function sendShellEvent(window: BrowserWindow, topic: string, payload: un
 
 export type ShellServices = {
   registerTarget: (token: string, path: string) => Promise<void>;
+  registerSource: (token: string, path: string, fileName: string) => Promise<void>;
   windowAction: (action: WindowAction) => void;
   windowState: () => unknown;
   getTheme: () => unknown;
@@ -52,8 +53,29 @@ export function registerShellIpc(
       choosing = false;
     }
   };
+  // The page learns only the file name and a single-use token; Core receives the path from Main.
+  const choosePdf = async () => {
+    if (choosing) throw new ShellFailure('UNAVAILABLE');
+    choosing = true;
+    try {
+      const result = await dialog.showOpenDialog(window, {
+        properties: ['openFile'],
+        filters: [{ name: 'PDF', extensions: ['pdf'] }],
+      });
+      const path = result.canceled ? undefined : result.filePaths[0];
+      if (!path) return { token: null };
+      if (!isAbsolute(path)) throw new ShellFailure('INVALID_INPUT');
+      const token = randomUUID();
+      const fileName = basename(path).slice(0, 1000);
+      await services.registerSource(token, path, fileName);
+      return { token, fileName };
+    } finally {
+      choosing = false;
+    }
+  };
   const handlers = {
     'shell.chooseExportPath': chooseExportPath,
+    'shell.choosePdf': choosePdf,
     'shell.window': ({ action }: { action: WindowAction }) => {
       services.windowAction(action);
       return {};

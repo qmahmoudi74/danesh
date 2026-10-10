@@ -33,11 +33,19 @@ export const MainToCoreSchema = z.discriminatedUnion('type', [
     path: z.string().min(1).max(32767),
     ttlMs: z.number().int().min(1000).max(600_000).optional(),
   }),
+  // A file the user chose to import; Core reads it once, by token, then forgets it.
+  z.strictObject({
+    type: z.literal('import-source'),
+    token: z.string().uuid(),
+    path: z.string().min(1).max(32767),
+    fileName: z.string().min(1).max(1000),
+  }),
 ]);
 export const CoreToMainSchema = z.discriminatedUnion('type', [
   z.strictObject({ type: z.literal('ready'), corePid: z.number().int().positive() }),
   z.strictObject({ type: z.literal('spawn-host'), kind: HostKindSchema }),
   z.strictObject({ type: z.literal('export-target-ready'), token: z.string().uuid() }),
+  z.strictObject({ type: z.literal('import-source-ready'), token: z.string().uuid() }),
   z.strictObject({ type: z.literal('stop-host'), kind: HostKindSchema }),
 ]);
 export type Init = z.infer<typeof InitSchema>;

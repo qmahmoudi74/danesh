@@ -25,6 +25,7 @@ function writeCollapsed(value: boolean): void {
 export type Destination = { route: Route; label: string; icon: IconName };
 export const destinations: Destination[] = [
   { route: '#/', label: 'خانه', icon: 'home' },
+  { route: '#/library', label: 'کتابخانه', icon: 'library' },
   { route: '#/system-check', label: 'بررسی سامانه', icon: 'activity' },
 ];
 export const settingsDestination: Destination = {

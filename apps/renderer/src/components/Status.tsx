@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Heading } from 'react-aria-components';
+import type { Notice } from '../lib/documents.tsx';
 import { Icon, type IconName } from './Icons.tsx';
 export type CheckStatus = 'pending' | 'running' | 'pass' | 'fail' | 'not-run' | 'warn';
 const statuses: Record<CheckStatus, { label: string; icon: IconName }> = {
@@ -60,4 +61,10 @@ export function Banner({
       </div>
     </div>
   );
+}
+
+/** The outcome of a user action, such as an import, shown once below the action. */
+export function NoticeBanner({ notice }: { notice: Notice | undefined }) {
+  if (!notice) return null;
+  return <Banner variant={notice.tone} body={notice.message} alert={notice.tone === 'error'} />;
 }

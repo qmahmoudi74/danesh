@@ -10,7 +10,8 @@ export type IconName =
   | 'home'
   | 'activity'
   | 'sliders'
-  | 'sidebar';
+  | 'sidebar'
+  | 'library';
 const paths: Record<IconName, React.ReactNode> = {
   'check-circle': (
     <>
@@ -53,6 +54,12 @@ const paths: Record<IconName, React.ReactNode> = {
       <path d="M3.5 6h7.25m4 0h1.75M3.5 14h1.75m4 0h7.25" />
       <circle cx="12.75" cy="6" r="2" />
       <circle cx="7.25" cy="14" r="2" />
+    </>
+  ),
+  library: (
+    <>
+      <path d="M3.5 3.5h3v13h-3zM8.5 3.5h3v13h-3z" />
+      <path d="m13.25 4.25 2.9-.75 2.35 12.6-2.9.75z" />
     </>
   ),
   sidebar: (

@@ -50,20 +50,33 @@ export function startCore({
     if (!window.isDestroyed()) publishState();
   });
 
-  // Export targets: Core must acknowledge a path before the renderer is given its token.
+  // Export targets and import sources: Core must acknowledge a path before the renderer is given its token.
   const pendingTargets = new Map<
     string,
     { resolve: () => void; timer: ReturnType<typeof setTimeout> }
   >();
-  const registerTarget = (token: string, path: string, ttlMs?: number) =>
+  const awaitAck = (token: string, send: () => void) =>
     new Promise<void>((resolve, reject) => {
       const timer = setTimeout(() => {
         pendingTargets.delete(token);
         reject(new Error('Core unavailable'));
       }, EXPORT_TARGET_TIMEOUT_MS);
       pendingTargets.set(token, { resolve, timer });
-      core.postMessage({ type: 'export-target', token, path, ...(ttlMs ? { ttlMs } : {}) });
+      send();
     });
+  const registerTarget = (token: string, path: string, ttlMs?: number) =>
+    awaitAck(token, () =>
+      core.postMessage({ type: 'export-target', token, path, ...(ttlMs ? { ttlMs } : {}) }),
+    );
+  const registerSource = (token: string, path: string, fileName: string) =>
+    awaitAck(token, () => core.postMessage({ type: 'import-source', token, path, fileName }));
+  const acknowledge = (token: string) => {
+    const target = pendingTargets.get(token);
+    if (!target) return;
+    clearTimeout(target.timer);
+    pendingTargets.delete(token);
+    target.resolve();
+  };
 
   // The private port is handed over when Core is ready AND the current page has said hello (once per page load).
   let coreReady = false;
@@ -105,13 +118,8 @@ export function startCore({
           publishState();
           connect();
         },
-        exportTargetReady: (token) => {
-          const target = pendingTargets.get(token);
-          if (!target) return;
-          clearTimeout(target.timer);
-          pendingTargets.delete(token);
-          target.resolve();
-        },
+        exportTargetReady: acknowledge,
+        importSourceReady: acknowledge,
         spawnHost: (kind) => spawnHost(kind, core),
         stopHost,
       },
@@ -144,6 +152,7 @@ export function startCore({
 
   return {
     registerTarget,
+    registerSource,
     stop: () => {
       killHosts();
       core.kill();

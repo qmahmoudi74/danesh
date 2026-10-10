@@ -224,26 +224,25 @@ Then('the banner title is «نسخهٔ پایه؛ امکانات مطالعه ه
     }),
   ).toBeVisible();
 });
-Then('the only action in the Home content is «بررسی سامانه»', async ({ harness }) => {
+Then('the Home content offers «افزودن PDF» and «بررسی سامانه»', async ({ harness }) => {
   const main = harness.page!.locator('main');
-  await expect(main.getByRole('button')).toHaveCount(1);
+  expect(await main.getByRole('button').allTextContents()).toEqual(['افزودن PDF', 'بررسی سامانه']);
   await expect(main.getByRole('link')).toHaveCount(0);
-  await expect(main.getByRole('button', { name: 'بررسی سامانه', exact: true })).toBeEnabled();
+  await expect(main.getByRole('button', { name: 'افزودن PDF', exact: true })).toBeEnabled();
   await expect(harness.page!.locator('footer bdi[dir="ltr"]')).toHaveText('0.1.0');
 });
-Then(
-  'the Home content has no import, reader, curriculum or search control',
-  async ({ harness }) => {
-    const main = harness.page!.locator('main');
-    expect(await main.getByRole('button').allTextContents()).toEqual(['بررسی سامانه']);
-    await expect(
-      main.locator('input, textarea, nav, [role="tablist"], [role="searchbox"]'),
-    ).toHaveCount(0);
-    expect(await harness.page!.getByRole('navigation').getByRole('link').allTextContents()).toEqual(
-      ['خانه', 'بررسی سامانه', 'تنظیمات'],
-    );
-  },
-);
+Then('the Home content has no reader, curriculum or search control', async ({ harness }) => {
+  const main = harness.page!.locator('main');
+  await expect(
+    main.locator('input, textarea, nav, canvas, [role="tablist"], [role="searchbox"]'),
+  ).toHaveCount(0);
+  expect(await harness.page!.getByRole('navigation').getByRole('link').allTextContents()).toEqual([
+    'خانه',
+    'کتابخانه',
+    'بررسی سامانه',
+    'تنظیمات',
+  ]);
+});
 Then('no disabled study-feature placeholder is shown', async ({ harness }) => {
   await expect(harness.page!.locator('button[disabled], [aria-disabled="true"]')).toHaveCount(0);
 });

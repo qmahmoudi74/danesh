@@ -8,6 +8,7 @@ export interface CoreControlHandlers {
   spawnHost: (kind: HostKind) => void;
   stopHost: (kind: HostKind) => void;
   exportTargetReady: (token: string) => void;
+  importSourceReady: (token: string) => void;
 }
 
 /** Main is the receiver of Core's control channel: every message is strictly validated, invalid ones are logged and dropped. */
@@ -34,6 +35,7 @@ export function handleCoreControl(
   const control = parsed.data;
   if (control.type === 'ready') handlers.ready(control.corePid);
   else if (control.type === 'export-target-ready') handlers.exportTargetReady(control.token);
+  else if (control.type === 'import-source-ready') handlers.importSourceReady(control.token);
   else if (control.type === 'stop-host') handlers.stopHost(control.kind);
   else handlers.spawnHost(control.kind);
 }

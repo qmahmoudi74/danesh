@@ -124,6 +124,7 @@ function start(libraryRoot: string, smokeRun: SmokeRun | null): void {
         window,
         {
           registerTarget: core.registerTarget,
+          registerSource: core.registerSource,
           windowAction: (action) => performWindowAction(window, action),
           windowState: () => readWindowState(window),
           getTheme: session.getTheme,

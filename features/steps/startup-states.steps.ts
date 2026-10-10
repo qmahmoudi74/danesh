@@ -71,6 +71,10 @@ Then('exactly one Core process has the library open', async ({ harness }) => {
 
 // Plan 01-11: start-up states driven by real library files created before launch.
 const Sqlite = require('better-sqlite3') as typeof import('better-sqlite3');
+/** The newest schema this build ships: one numbered migration file per version. */
+const latestSchemaVersion = readdirSync('packages/storage/migrations').filter((name) =>
+  /^\d{4}_.+\.sql$/.test(name),
+).length;
 const initialSql = readFileSync('packages/storage/migrations/0001_init.sql', 'utf8');
 const libraryHashes = new WeakMap<object, string>();
 const refusedTitle = 'این داده‌ها با نسخهٔ جدیدتری از دانش ساخته شده‌اند';
@@ -153,7 +157,7 @@ When('Danesh is launched with that library folder and Core becomes ready', async
   await expect(harness.page!.getByRole('heading', { name: infoTitle, exact: true })).toBeVisible();
 });
 Then('the pending migration has been applied', ({ libraryRoot }) => {
-  expect(readVersion(join(libraryRoot, 'danesh.db'))).toBe(2);
+  expect(readVersion(join(libraryRoot, 'danesh.db'))).toBe(latestSchemaVersion);
 });
 Then('Home shows «نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست»', async ({ harness }) => {
   await expect(harness.page!.getByRole('heading', { name: infoTitle, exact: true })).toBeVisible();
@@ -188,7 +192,7 @@ Then('database and supported schema versions appear only in «جزئیات فن�
   expect(await outsideTechnical(harness)).not.toMatch(/99|\b2\b|۹۹/);
   const details = await openDetails(harness);
   expect(details).toMatch(/dbUserVersion\s+99/);
-  expect(details).toMatch(/supportedVersion\s+2/);
+  expect(details).toMatch(new RegExp(`supportedVersion\\s+${latestSchemaVersion}\\b`));
 });
 Then(/^«بررسی سامانه» remains reachable through Home and the sidebar$/, async ({ harness }) => {
   await harness
@@ -223,7 +227,7 @@ Then(
   async ({ harness, libraryRoot }) => {
     const details = await openDetails(harness);
     expect(details).toContain(join(libraryRoot, 'backups'));
-    expect(details).toMatch(/failedMigrationId\s+0003/);
+    expect(details).toMatch(/failedMigrationId\s+0004/);
   },
 );
 Then(
@@ -231,7 +235,7 @@ Then(
   async ({ harness, libraryRoot }) => {
     const text = await outsideTechnical(harness);
     expect(text).not.toContain(libraryRoot);
-    expect(text).not.toContain('0003');
+    expect(text).not.toContain('0004');
   },
 );
 Then(

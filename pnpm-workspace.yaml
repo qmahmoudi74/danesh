@@ -3,6 +3,10 @@ packages:
 
 nodeLinker: hoisted
 
+# pdf.js only needs @napi-rs/canvas to rasterize in Node; Danesh renders pages in the renderer's own canvas.
+ignoredOptionalDependencies:
+  - "@napi-rs/canvas"
+
 allowBuilds:
   esbuild: true
   node-llama-cpp: false
