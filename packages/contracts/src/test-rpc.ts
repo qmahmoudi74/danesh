@@ -23,6 +23,8 @@ export const testRpcMethods: Record<string, RpcMethod> =
           input: z.strictObject({}),
           output: EngineEchoOutputSchema,
           maxInputBytes: 128,
+          // Starts a host process: the deadline covers a spawn on a busy machine.
+          timeoutMs: 30_000,
         },
         'test.checkRun': {
           input: CheckRunFixtureSchema,

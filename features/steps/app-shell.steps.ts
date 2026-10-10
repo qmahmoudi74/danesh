@@ -28,6 +28,13 @@ Given('the test build of Danesh is launched with that library folder', async ({ 
   await harness.launch();
 });
 When('a test-only echo travels through Core to the sample engine host', async ({ harness }) => {
+  // Core is ready once Home shows its library state; only then is the private port connected.
+  await expect(
+    harness.page!.getByRole('heading', {
+      name: 'نسخهٔ پایه؛ امکانات مطالعه هنوز در دسترس نیست',
+      exact: true,
+    }),
+  ).toBeVisible({ timeout: 30_000 });
   const output = await harness.page!.evaluate(() => window.danesh.call('test.engineEcho', {}));
   harness.echo = EngineEchoOutputSchema.parse(output);
 });
@@ -226,9 +233,10 @@ Then('the banner title is «نسخهٔ پایه؛ امکانات مطالعه ه
 });
 Then('the Home content offers «افزودن PDF» and «بررسی سامانه»', async ({ harness }) => {
   const main = harness.page!.locator('main');
+  // The import action appears once Home has the library state; wait for it before reading the list.
+  await expect(main.getByRole('button', { name: 'افزودن PDF', exact: true })).toBeEnabled();
   expect(await main.getByRole('button').allTextContents()).toEqual(['افزودن PDF', 'بررسی سامانه']);
   await expect(main.getByRole('link')).toHaveCount(0);
-  await expect(main.getByRole('button', { name: 'افزودن PDF', exact: true })).toBeEnabled();
   await expect(harness.page!.locator('footer bdi[dir="ltr"]')).toHaveText('0.1.0');
 });
 Then('the Home content has no reader, curriculum or search control', async ({ harness }) => {
