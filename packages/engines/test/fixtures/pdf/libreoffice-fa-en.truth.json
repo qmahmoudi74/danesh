@@ -1,0 +1,29 @@
+{
+  "producer": "LibreOffice 26.8.1.1",
+  "title": "راهنمای کوتاه کتابخانهٔ دانش",
+  "columns": 1,
+  "pages": [
+    [
+      {
+        "kind": "heading",
+        "text": "راهنمای کوتاه کتابخانهٔ دانش"
+      },
+      {
+        "kind": "paragraph",
+        "text": "دانش فایل‌های PDF شما را در پوشهٔ خودش نگه می‌دارد و هرگز فایل اصلی را تغییر نمی‌دهد. متن هر صفحه جداگانه استخراج می‌شود و برای خواندن بدون اینترنت ذخیره می‌ماند."
+      },
+      {
+        "kind": "heading",
+        "text": "نمادها و نشانی‌ها"
+      },
+      {
+        "kind": "paragraph",
+        "text": "رابطهٔ E = mc² و شرط x ≤ 10 باید دست‌نخورده بمانند. نسخهٔ 2.4.1 در سال ۱۴۰۵ منتشر شد و نشانی آن https://example.org/docs است. آیا «پرانتز (مانند این)» درست خوانده می‌شود؟"
+      },
+      {
+        "kind": "paragraph",
+        "text": "This English paragraph checks left-to-right text inside a right-to-left document, with numbers such as 3.14 and 42."
+      }
+    ]
+  ]
+}
