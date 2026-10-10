@@ -5,16 +5,26 @@ import { basename, dirname, join, resolve } from 'node:path';
 
 export function testRepository() {
   const root = mkdtempSync(join(tmpdir(), 'danesh-gate-'));
+  // Identity and signing come from the environment, so a fixture repository costs one process to create
+  // (process start-up dominates on hosted Windows runners).
+  const env = {
+    ...process.env,
+    GIT_AUTHOR_NAME: 'Danesh gate test',
+    GIT_AUTHOR_EMAIL: 'gate@example.invalid',
+    GIT_COMMITTER_NAME: 'Danesh gate test',
+    GIT_COMMITTER_EMAIL: 'gate@example.invalid',
+    GIT_CONFIG_COUNT: '1',
+    GIT_CONFIG_KEY_0: 'commit.gpgsign',
+    GIT_CONFIG_VALUE_0: 'false',
+  };
   const git = (...args: string[]) =>
     execFileSync('git', args, {
       cwd: root,
+      env,
       encoding: 'utf8',
       stdio: ['ignore', 'pipe', 'pipe'],
     }).trim();
   git('init', '-b', 'main');
-  git('config', 'user.name', 'Danesh gate test');
-  git('config', 'user.email', 'gate@example.invalid');
-  git('config', 'commit.gpgsign', 'false');
   return {
     root,
     git,

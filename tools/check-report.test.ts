@@ -1,6 +1,10 @@
-import { afterEach, expect, it } from 'vitest';
+import { afterEach, expect, it, vi } from 'vitest';
 import { validateReport } from './check-report.ts';
 import { testRepository } from './lib/test-repo.ts';
+
+// Each test builds a real git repository and runs git several times; process start-up on a hosted Windows
+// runner can exceed the 5 s default although every assertion holds.
+vi.setConfig({ testTimeout: 30_000 });
 
 const repos: ReturnType<typeof testRepository>[] = [];
 afterEach(() => {

@@ -13,7 +13,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { describeFeature, loadFeature } from '@amiceli/vitest-cucumber';
 import Database from 'better-sqlite3';
-import { afterAll, expect } from 'vitest';
+import { afterAll, expect, vi } from 'vitest';
 import { createVerifiedBackup, listBackups } from '../src/backup.ts';
 import { type LibraryOpen, openLibrary } from '../src/db.ts';
 import { libraryPaths } from '../src/library.ts';
@@ -27,6 +27,10 @@ import {
   runMigrations,
 } from '../src/migrate.ts';
 import { shippedMigrations } from '../src/migrations-index.ts';
+
+// These steps do real file I/O: copies, fsyncs, a 150 MB crash fixture and a forked writer that is killed. A hosted
+// Windows runner with on-access scanning can exceed the 5 s default on one step while every assertion still holds.
+vi.setConfig({ testTimeout: 30_000 });
 
 const feature = await loadFeature(resolve('features/core/storage-migrations.feature'));
 const [m1, m2] = shippedMigrations.slice().sort((a, b) => a.id.localeCompare(b.id)) as [
@@ -402,13 +406,15 @@ describeFeature(feature, ({ Scenario, ScenarioOutline }) => {
         root = newRoot();
         seed(root, [m1]);
         const db = new Database(libraryPaths(root).db);
-        // Large enough that VACUUM INTO is still copying when the kill arrives.
+        // Large enough (about 150 MB) that VACUUM INTO is still copying when the kill arrives. Building this test
+        // input needs no durability, so skip its journal and fsync; the live database is hashed after closing.
+        db.pragma('journal_mode = OFF');
+        db.pragma('synchronous = OFF');
         db.exec('CREATE TABLE bulk (id INTEGER PRIMARY KEY, payload BLOB)');
         const insert = db.prepare('INSERT INTO bulk (payload) VALUES (zeroblob(100000))');
         db.transaction(() => {
           for (let index = 0; index < 1500; index++) insert.run();
         })();
-        db.pragma('wal_checkpoint(TRUNCATE)');
         db.close();
         liveHash = sha(libraryPaths(root).db);
       });
