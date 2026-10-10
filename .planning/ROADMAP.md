@@ -73,7 +73,7 @@ Plans:
 - [x] 01-11-PLAN.md — Forward-only migrations, verified backups, newer-schema refusal and read-only recovery; existing local slice resumed and verified on Windows while the CI gate remains pending
 
 **Wave 9** *(blocked on Wave 8 completion)*
-- [ ] 01-12-PLAN.md — Content-addressed blob store with atomic writes; ready to execute once the 01-10 CI gate passes
+- [ ] 01-12-PLAN.md — Content-addressed blob store; owner authorizes Windows-first execution while 01-10 platform verification remains deferred (2026-10-10); release criteria unchanged
 
 **Wave 10** *(blocked on Wave 9 completion)*
 - [ ] 01-13-PLAN.md — Durable job kernel and sample durable job with crash-safe resume

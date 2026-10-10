@@ -2,7 +2,7 @@
 gsd_state_version: "1.0"
 current_phase: 1
 current_phase_name: Secure, Durable Foundation & Packaging Gate
-status: blocked
+status: in_progress
 stopped_at: Diagnostic CI failed both jobs; actual artifacts retrieved; macOS pre-inference lateness and Windows native worker crash need profiling; Plan 01-12 remains gated
 last_updated: "2026-10-10"
 last_activity: 2026-10-10 (authenticated CI artifacts evaluated; no speculative correction; 363 local unit tests passed; no push)
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-10-09)
 ## Current Position
 
 Phase: 1 (Secure, Durable Foundation & Packaging Gate) — IN PROGRESS
-Plan: 10 of 16 completed in current phase; reconcile the remaining 01-10 CI gate before starting another plan.
+Plan: 10 of 16 completed in current phase; execute Plan 01-12 under the owner's Windows-first sequencing exception.
 Status: Plan 01-11 remains complete locally. 01-10 is partially verified: latest run 38015174157 at pushed commit 1a1c397 failed both jobs. macOS unit/package passed; smoke idle p95 120 ms and loaded p95 143 ms, with E2E skipped. Windows unit tests lost the native probe worker (exit 3221226356); packaging/smoke/E2E were skipped. Both artifacts and job logs were retrieved through authenticated GitHub access; the actual macOS report is structurally valid and fails only responsiveness. No specific cause is proved, so no runtime correction was made. Plan 01-12 CAS and 01-13 were not started. No push this session.
 Last activity: 2026-10-10 (both artifact ZIP hashes checked; exact diagnostic distributions recomputed; failing pass gate preserved; required static and CI/ADR/features checks passed; 363 local Windows unit tests passed, without reproducing the hosted native crash; evidence/state-only updates)
 
@@ -58,6 +58,8 @@ Progress: [██████░░░░] 63% of current-phase plans; Phase 1 r
 
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
+
+- [Owner direction 2026-10-10]: Continue Windows-first implementation of approved Plan 01-12 (depends directly on completed 01-11) while 01-10 remains partially verified. This is a development-sequencing exception only: all cross-platform/release acceptance criteria, failed evidence, macOS support, security and CI remain intact. macOS investigation is deferred technical debt. Track the Windows native worker crash; investigate only if it reproduces locally or blocks current work. Plan 01-13 may follow only after verified 01-12 and with enough context to finish; do not start 01-14. No push is authorized.
 
 - [Roadmap]: The research's Foundation and Durable kernel phases were merged into Phase 1 to fit 12 phases. The kernel still precedes PDF import.
 - [Roadmap]: The complete model manager and runtime (Phase 4) precede document intelligence (Phase 5). The asset store comes before OCR, and the probe, registry and evals come before LLM use.
@@ -94,7 +96,8 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 | Category | Item | Status | Deferred At | Milestone |
 |----------|------|--------|-------------|-----------|
-| *(none)* | | | | |
+| Platform verification | macOS responsiveness and consumer-machine verification | Deferred by owner; original acceptance policy retained | 2026-10-10 | Phase 1 |
+| CI reliability | Windows native probe worker crash, exit 3221226356 | Tracked; investigate if reproduced locally or blocking current work | 2026-10-10 | Phase 1 |
 
 ## Session Continuity
 
