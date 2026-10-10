@@ -12,6 +12,7 @@ export const HOOK_MARKERS = [
   'DANESH_TEST_FAULTS_SENTINEL',
   'DANESH_TEST_HOST_HEAP_MB',
   'DANESH_TEST_WATCHDOG_MS',
+  'DANESH_TEST_CORE_BOOT_FAIL',
   'test.sampleDelay',
   'test.sampleChunks',
   'DANESH_TEST_HOOKS_SENTINEL',

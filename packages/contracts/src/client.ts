@@ -71,7 +71,13 @@ export function createRpcClient(options: RpcClientOptions) {
 
   return {
     attach(postMessage: (message: unknown) => void): void {
-      if (post || closed) return;
+      // A replacement transport invalidates all calls belonging to the old Core generation.
+      for (const [id, waiting] of pending) {
+        clearTimeout(waiting.timer);
+        pending.delete(id);
+        waiting.reject(rpcFailure('UNAVAILABLE'));
+      }
+      closed = false;
       post = postMessage;
       connected();
     },

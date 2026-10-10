@@ -2,7 +2,7 @@ import { existsSync, mkdtempSync, readdirSync, readFileSync, statSync } from 'no
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { describeFeature, loadFeature } from '@amiceli/vitest-cucumber';
-import { expect, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { createDiagRejectedHandler, createRpcServer } from '../../../apps/core/src/rpc-server.ts';
 import { createJsonlLogger } from '../../logging/src/jsonl.ts';
 import { createRpcClient, type RpcClient } from '../src/client.ts';
@@ -12,6 +12,38 @@ import { z } from '../src/schema.ts';
 import type { UtilityPort } from '../src/utility-port.ts';
 
 const feature = await loadFeature(resolve('features/core/ipc-validation.feature'));
+describe('replacement Core transport', () => {
+  it('rejects old calls, preserves subscriptions and accepts calls after reconnecting', async () => {
+    const onEvent = vi.fn();
+    const client = createRpcClient({
+      methods: rpcMethods,
+      events: { ready: z.strictObject({}) },
+      onEvent,
+    });
+    const original: unknown[] = [];
+    client.attach((message) => original.push(message));
+    const pending = client.call('system.ping', { n: 1 });
+    const rejected = expect(pending).rejects.toThrow('UNAVAILABLE');
+    await vi.waitFor(() => expect(original).toHaveLength(1));
+    const replacement: { id: number }[] = [];
+    client.attach((message) => replacement.push(message as { id: number }));
+    await rejected;
+    const next = client.call('system.ping', { n: 2 });
+    await vi.waitFor(() => expect(replacement).toHaveLength(1));
+    client.receive({ id: replacement[0]!.id, ok: true, output: { n: 2, corePid: 200 } });
+    await expect(next).resolves.toEqual({ n: 2, corePid: 200 });
+    client.receive({ topic: 'ready', payload: {} });
+    expect(onEvent).toHaveBeenCalledWith('ready', {});
+    client.close();
+    await expect(client.call('system.ping', { n: 3 })).rejects.toThrow('UNAVAILABLE');
+    client.attach((message) => replacement.push(message as { id: number }));
+    const restored = client.call('system.ping', { n: 4 });
+    await vi.waitFor(() => expect(replacement).toHaveLength(2));
+    client.receive({ id: replacement[1]!.id, ok: true, output: { n: 4, corePid: 201 } });
+    await expect(restored).resolves.toMatchObject({ n: 4 });
+    expect(client.pendingCount).toBe(0);
+  });
+});
 const TEXT_LIMIT = 64;
 // A fixture contract with a free-text field, used where the real contract has none (byte-limit cases).
 const methods: Record<string, RpcMethod> = {

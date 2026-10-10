@@ -22,6 +22,7 @@ export type ShellServices = {
   windowState: () => unknown;
   getTheme: () => unknown;
   setTheme: (theme: ThemePreference) => unknown;
+  canRelaunch: () => boolean;
   /** Returns false outside smoke mode, where the method is unavailable. */
   smokeDone: (overall: 'pass' | 'fail') => boolean;
 };
@@ -74,6 +75,12 @@ export function registerShellIpc(
     }
   };
   const handlers = {
+    'shell.relaunch': () => {
+      if (!services.canRelaunch()) throw new ShellFailure('UNAVAILABLE');
+      app.relaunch();
+      app.exit(0);
+      return {};
+    },
     'shell.chooseExportPath': chooseExportPath,
     'shell.choosePdf': choosePdf,
     'shell.window': ({ action }: { action: WindowAction }) => {

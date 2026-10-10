@@ -20,8 +20,14 @@ export const ThemeStateSchema = z.strictObject({ theme: ThemePreferenceSchema, d
 export type ThemeState = z.infer<typeof ThemeStateSchema>;
 export const RouteSchema = z.enum(['#/', '#/library', '#/system-check', '#/settings']);
 export type Route = z.infer<typeof RouteSchema>;
+export const CoreStateSchema = z.discriminatedUnion('state', [
+  z.strictObject({ state: z.enum(['starting', 'ready', 'unreachable']) }),
+  z.strictObject({ state: z.literal('failed'), logsDir: z.string().min(1).max(32767) }),
+]);
+export type CoreState = z.infer<typeof CoreStateSchema>;
 
 export const shellMethods: Record<string, RpcMethod> = {
+  'shell.relaunch': { input: z.strictObject({}), output: z.strictObject({}), maxInputBytes: 128 },
   'shell.chooseExportPath': {
     input: z.strictObject({}),
     output: ChooseExportOutputSchema,
@@ -53,7 +59,7 @@ export const shellMethods: Record<string, RpcMethod> = {
 };
 export const shellEventPayloads: Record<string, z.ZodType> = {
   'shell.navigate': z.strictObject({ route: RouteSchema }),
-  'shell.coreState': z.strictObject({ state: z.enum(['starting', 'ready', 'unreachable']) }),
+  'shell.coreState': CoreStateSchema,
   'shell.windowState': WindowStateSchema,
   'shell.theme': ThemeStateSchema,
   'shell.smokeRun': z.strictObject({ token: z.string().uuid() }),

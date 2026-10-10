@@ -154,3 +154,13 @@ it('cancels a pending restart on stop and refuses spawning into an open circuit'
   expect(children).toHaveLength(count);
   expect(events.at(-1)).toEqual({ type: 'circuit-open', kind: 'sample' });
 });
+it('lets an exit observer cancel the restart when Core has exhausted its boot budget', async () => {
+  const { supervisor, children } = setup();
+  supervisor.subscribe((event) => {
+    if (event.type === 'exited' && !event.requested) supervisor.requestStop(event.kind);
+  });
+  await supervisor.spawn('core');
+  children[0]!.exit(1);
+  await vi.advanceTimersByTimeAsync(20000);
+  expect(children).toHaveLength(1);
+});

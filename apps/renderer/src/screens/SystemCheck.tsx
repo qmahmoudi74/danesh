@@ -56,11 +56,12 @@ export function SystemCheck() {
     void loadEnvironment();
     const coreState = window.danesh.on('shell.coreState', (input) => {
       const state = shellEventPayloads['shell.coreState']!.safeParse(input);
-      if (
-        state.success &&
-        (state.data as { state: string }).state === 'unreachable' &&
-        busy.current
-      ) {
+      if (!state.success) return;
+      if ((state.data as { state: string }).state === 'ready') {
+        void loadEnvironment();
+        return;
+      }
+      if (busy.current) {
         busy.current = false;
         runId.current = undefined;
         setRunning(false);

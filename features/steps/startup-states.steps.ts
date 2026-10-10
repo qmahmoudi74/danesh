@@ -176,6 +176,9 @@ Then('Home shows «این داده‌ها با نسخهٔ جدیدتری از د
   await expect(
     harness.page!.getByRole('heading', { name: refusedTitle, exact: true }),
   ).toBeVisible();
+  await expect(
+    harness.page!.getByRole('button', { name: 'راه‌اندازی دوباره', exact: true }),
+  ).toHaveCount(0);
 });
 Then("the database file's SHA-256 is unchanged", async ({ harness, libraryRoot }) => {
   await harness.close();
@@ -223,6 +226,9 @@ Then('Home shows «برنامه در حالت فقط‌خواندنی باز ش�
   await expect(
     harness.page!.getByRole('heading', { name: readOnlyTitle, exact: true }),
   ).toBeVisible();
+  await expect(
+    harness.page!.getByRole('button', { name: 'راه‌اندازی دوباره', exact: true }),
+  ).toHaveCount(0);
 });
 Then(
   '«جزئیات فنی» shows the verified backup file path and failed migration id',
@@ -292,4 +298,81 @@ Then('the known rows remain and no additional backup is created', ({ libraryRoot
   expect(
     readdirSync(join(libraryRoot, 'backups')).filter((name) => name.endsWith('.db')),
   ).toHaveLength(1);
+});
+
+Given('the test build forces Core to fail at boot 3 times within 60000 ms', ({ harness }) => {
+  harness.extraEnv.DANESH_TEST_CORE_BOOT_FAIL = '1';
+});
+Then(
+  'Home shows «بخش اصلی برنامه اجرا نشد» with «راه‌اندازی دوباره»',
+  async ({ harness, libraryRoot }) => {
+    const page = harness.page!;
+    await expect(
+      page.getByRole('heading', { name: 'بخش اصلی برنامه اجرا نشد', exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByText(
+        'برنامه را ببندید و دوباره باز کنید. اگر مشکل ادامه داشت، جزئیات فنی را برای گزارش مشکل نگه دارید.',
+        { exact: true },
+      ),
+    ).toBeVisible();
+    await expect(page.getByRole('heading', { name: infoTitle, exact: true })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'راه‌اندازی دوباره', exact: true })).toBeEnabled();
+    const records = readFileSync(join(libraryRoot, 'logs', 'main.jsonl'), 'utf8')
+      .trim()
+      .split('\n')
+      .map((line) => JSON.parse(line) as { event: string; ts: string });
+    const crashes = records.filter((line) => line.event === 'core.crashed');
+    expect(crashes).toHaveLength(3);
+    expect(Date.parse(crashes[2]!.ts) - Date.parse(crashes[0]!.ts)).toBeLessThan(60000);
+    // Wait beyond the next 1000 ms backoff: the boot budget must cancel it.
+    await expect
+      .poll(async () =>
+        harness.app!.evaluate(
+          ({ app }) =>
+            app
+              .getAppMetrics()
+              .filter((metric) => (metric.serviceName || metric.name) === 'Danesh Core').length,
+        ),
+      )
+      .toBe(0);
+    await page.waitForTimeout(1200);
+    const after = readFileSync(join(libraryRoot, 'logs', 'main.jsonl'), 'utf8');
+    expect(after.match(/"event":"core.crashed"/g)).toHaveLength(3);
+    await expect(page.evaluate(() => window.danesh.call('system.ping', { n: 1 }))).rejects.toThrow(
+      'UNAVAILABLE',
+    );
+  },
+);
+Then('«جزئیات فنی» shows the logs folder path', async ({ harness, libraryRoot }) => {
+  const details = await openDetails(harness);
+  expect(details).toContain(join(libraryRoot, 'logs'));
+  expect(await outsideTechnical(harness)).not.toContain(libraryRoot);
+});
+Then('«بررسی سامانه» remains reachable through Home and the menu', async ({ harness }) => {
+  const page = harness.page!;
+  await page.getByRole('main').getByRole('button', { name: 'بررسی سامانه', exact: true }).click();
+  await expect(
+    page.getByRole('heading', { name: 'بررسی سامانه', level: 1, exact: true }),
+  ).toBeVisible();
+  await page.getByRole('navigation').getByRole('link', { name: 'خانه', exact: true }).click();
+  await reachSystemCheck(harness);
+  await page.getByRole('navigation').getByRole('link', { name: 'خانه', exact: true }).click();
+  // Verify the real Main handler's calls without launching an unmanaged extra app process.
+  await harness.app!.evaluate(({ app }) => {
+    const calls: string[] = [];
+    Object.assign(globalThis, { __relaunchCalls: calls });
+    app.relaunch = () => {
+      calls.push('relaunch');
+    };
+    app.exit = (code = 0) => {
+      calls.push('exit:' + code);
+    };
+  });
+  await page.getByRole('button', { name: 'راه‌اندازی دوباره', exact: true }).click();
+  await expect
+    .poll(() =>
+      harness.app!.evaluate(() => (globalThis as { __relaunchCalls?: string[] }).__relaunchCalls),
+    )
+    .toEqual(['relaunch', 'exit:0']);
 });

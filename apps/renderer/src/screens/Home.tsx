@@ -1,5 +1,5 @@
 import { type AppStatus, AppStatusSchema, SystemInfoSchema } from '@danesh/contracts/rpc.ts';
-import { shellEventPayloads } from '@danesh/contracts/shell.ts';
+import { type CoreState, CoreStateSchema } from '@danesh/contracts/shell.ts';
 import { useEffect, useState } from 'react';
 import { Button, Disclosure, DisclosurePanel, Heading, Link } from 'react-aria-components';
 import { Icon } from '../components/Icons.tsx';
@@ -8,8 +8,6 @@ import { Banner, NoticeBanner } from '../components/Status.tsx';
 import { newerDatabaseBody, readOnlyDatabaseBody } from '../lib/copy.ts';
 import { carryToLibrary, chooseAndImportPdf, type Notice } from '../lib/documents.tsx';
 import { useSampleJob } from '../lib/sample-job.ts';
-
-type CoreState = 'starting' | 'ready' | 'unreachable';
 
 const coreUnreachable = {
   title: 'بخش اصلی برنامه اجرا نشد',
@@ -99,7 +97,7 @@ function StatusBanner({ status, slow }: { status: AppStatus | undefined; slow: b
 
 export function Home() {
   const { job: sampleJob } = useSampleJob();
-  const [core, setCore] = useState<CoreState>('starting');
+  const [core, setCore] = useState<CoreState>({ state: 'starting' });
   const [status, setStatus] = useState<AppStatus>();
   const [slow, setSlow] = useState(false);
   const [version, setVersion] = useState<string>();
@@ -122,21 +120,21 @@ export function Home() {
   useEffect(
     () =>
       window.danesh.on('shell.coreState', (payload) => {
-        const parsed = shellEventPayloads['shell.coreState']?.safeParse(payload);
-        if (parsed?.success) setCore((parsed.data as { state: CoreState }).state);
+        const parsed = CoreStateSchema.safeParse(payload);
+        if (parsed.success) setCore(parsed.data);
       }),
     [],
   );
 
   useEffect(() => {
     setSlow(false);
-    if (core !== 'starting') return;
+    if (core.state !== 'starting') return;
     const timer = setTimeout(() => setSlow(true), 5000);
     return () => clearTimeout(timer);
   }, [core]);
 
   useEffect(() => {
-    if (core !== 'ready') return;
+    if (core.state !== 'ready') return;
     let active = true;
     window.danesh
       .call('system.info', {})
@@ -174,13 +172,32 @@ export function Home() {
       <Heading level={1} tabIndex={-1} className="display">
         دانش
       </Heading>
-      {core === 'unreachable' ? (
+      {core.state === 'failed' ? (
+        <Banner
+          variant="error"
+          alert
+          {...coreUnreachable}
+          actions={
+            <>
+              <Button
+                className="button"
+                onPress={() => {
+                  void window.danesh.call('shell.relaunch', {}).catch(() => setVersionError(true));
+                }}
+              >
+                راه‌اندازی دوباره
+              </Button>
+              <TechnicalDisclosure values={{ logsDir: core.logsDir }} />
+            </>
+          }
+        />
+      ) : core.state === 'unreachable' ? (
         <Banner variant="error" alert {...coreUnreachable} />
       ) : (
-        <StatusBanner status={core === 'ready' ? status : undefined} slow={slow} />
+        <StatusBanner status={core.state === 'ready' ? status : undefined} slow={slow} />
       )}
       <div className="actions">
-        {status?.state === 'ready' && (
+        {core.state === 'ready' && status?.state === 'ready' && (
           <Button className="button primary" isPending={importing} onPress={() => void importPdf()}>
             افزودن <Ltr>PDF</Ltr>
           </Button>

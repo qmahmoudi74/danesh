@@ -1,29 +1,32 @@
 import { type HostKind, HostKindSchema } from '@danesh/contracts/host-protocol.ts';
-import type { JsonlLogger } from '@danesh/logging/jsonl.ts';
 import { MessageChannelMain } from 'electron';
-import { createUtilitySupervisor } from './supervisor.ts';
+import type { createUtilitySupervisor } from './supervisor.ts';
 
 // Main refers to engine hosts by bundle file name only; it never imports an engine module (dependency-cruiser rule).
-const hostEntries: Record<HostKind, string> = {
+export const hostEntries: Record<HostKind, string> = {
   sample: 'engine-sample.js',
   llm: 'engine-llm.js',
   ocr: 'engine-ocr.js',
   tts: 'engine-tts.js',
   pdf: 'engine-pdf.js',
 };
-export function createHosts(core: Electron.UtilityProcess, logger: Pick<JsonlLogger, 'log'>) {
-  let stopped = false;
-  const supervisor = createUtilitySupervisor({
-    entries: hostEntries,
-    logger,
-    onSpawn: (kind, host) => {
-      const { port1, port2 } = new MessageChannelMain();
-      host.postMessage({ type: 'host-port', kind }, [port1]);
-      core.postMessage({ type: 'host-port', kind }, [port2]);
-    },
-  });
+export function brokerHost(
+  kind: string,
+  host: Electron.UtilityProcess,
+  core: Electron.UtilityProcess,
+) {
+  const { port1, port2 } = new MessageChannelMain();
+  host.postMessage({ type: 'host-port', kind }, [port1]);
+  core.postMessage({ type: 'host-port', kind }, [port2]);
+}
+
+export function createHosts(
+  supervisor: ReturnType<typeof createUtilitySupervisor>,
+  getCore: () => Electron.UtilityProcess | undefined,
+) {
   supervisor.subscribe((event) => {
-    if (stopped) return;
+    const core = getCore();
+    if (!core || event.kind === 'core') return;
     const kind = HostKindSchema.parse(event.kind);
     if (event.type === 'exited')
       core.postMessage({
@@ -37,9 +40,10 @@ export function createHosts(core: Electron.UtilityProcess, logger: Pick<JsonlLog
   });
   return {
     spawnHost(this: void, kind: HostKind): void {
-      if (stopped) return;
+      const core = getCore();
+      if (!core) return;
       void supervisor.spawn(kind).catch((error: unknown) => {
-        if (stopped) return;
+        if (getCore() !== core) return;
         const circuit = error instanceof Error && error.message === 'CircuitOpen';
         core.postMessage({
           type: 'host-start-failed',
@@ -51,8 +55,7 @@ export function createHosts(core: Electron.UtilityProcess, logger: Pick<JsonlLog
     stopHost: supervisor.requestStop,
     killUnexpected: supervisor.killUnexpected,
     stop(): void {
-      stopped = true;
-      supervisor.stopAll();
+      for (const kind of Object.keys(hostEntries)) supervisor.requestStop(kind);
     },
   };
 }

@@ -1,0 +1,526 @@
+{
+  "before": {
+    "snapshot": {
+      "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+      "state": "running",
+      "createdAt": 1791616785284,
+      "finishedAt": null,
+      "resumedFromUnit": null,
+      "notRedoneCount": 0,
+      "total": 12,
+      "committed": 3,
+      "chunks": [
+        {
+          "index": 1,
+          "state": "done",
+          "attempt": 1
+        },
+        {
+          "index": 2,
+          "state": "done",
+          "attempt": 1
+        },
+        {
+          "index": 3,
+          "state": "done",
+          "attempt": 1
+        },
+        {
+          "index": 4,
+          "state": "running",
+          "attempt": 1
+        },
+        {
+          "index": 5,
+          "state": "queued",
+          "attempt": 0
+        },
+        {
+          "index": 6,
+          "state": "queued",
+          "attempt": 0
+        },
+        {
+          "index": 7,
+          "state": "queued",
+          "attempt": 0
+        },
+        {
+          "index": 8,
+          "state": "queued",
+          "attempt": 0
+        },
+        {
+          "index": 9,
+          "state": "queued",
+          "attempt": 0
+        },
+        {
+          "index": 10,
+          "state": "queued",
+          "attempt": 0
+        },
+        {
+          "index": 11,
+          "state": "queued",
+          "attempt": 0
+        },
+        {
+          "index": 12,
+          "state": "queued",
+          "attempt": 0
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "taskId": 1,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "0",
+        "unitOrder": 0,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "ae63d73f59da443d846b8e16ada97b69",
+        "outputRef": "87a04c9017680a5ae7edf48dd720e2bf184ede439025ee97fe3467c7f0abaf02"
+      },
+      {
+        "taskId": 2,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "1",
+        "unitOrder": 1,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "ae63d73f59da443d846b8e16ada97b69",
+        "outputRef": "cae9492bc706ab0b9008e1a20aa834bc75a8229b827f28af50de01350f5aabec"
+      },
+      {
+        "taskId": 3,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "2",
+        "unitOrder": 2,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "ae63d73f59da443d846b8e16ada97b69",
+        "outputRef": "e1f54c0c83ecb21d4eb58275a841072010f0cb432ddba8499dc9b99cba25c97f"
+      },
+      {
+        "taskId": 4,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "3",
+        "unitOrder": 3,
+        "state": "running",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "ae63d73f59da443d846b8e16ada97b69",
+        "outputRef": null
+      },
+      {
+        "taskId": 5,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "4",
+        "unitOrder": 4,
+        "state": "queued",
+        "attempt": 0,
+        "maxAttempts": 3,
+        "bootId": null,
+        "outputRef": null
+      },
+      {
+        "taskId": 6,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "5",
+        "unitOrder": 5,
+        "state": "queued",
+        "attempt": 0,
+        "maxAttempts": 3,
+        "bootId": null,
+        "outputRef": null
+      },
+      {
+        "taskId": 7,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "6",
+        "unitOrder": 6,
+        "state": "queued",
+        "attempt": 0,
+        "maxAttempts": 3,
+        "bootId": null,
+        "outputRef": null
+      },
+      {
+        "taskId": 8,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "7",
+        "unitOrder": 7,
+        "state": "queued",
+        "attempt": 0,
+        "maxAttempts": 3,
+        "bootId": null,
+        "outputRef": null
+      },
+      {
+        "taskId": 9,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "8",
+        "unitOrder": 8,
+        "state": "queued",
+        "attempt": 0,
+        "maxAttempts": 3,
+        "bootId": null,
+        "outputRef": null
+      },
+      {
+        "taskId": 10,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "9",
+        "unitOrder": 9,
+        "state": "queued",
+        "attempt": 0,
+        "maxAttempts": 3,
+        "bootId": null,
+        "outputRef": null
+      },
+      {
+        "taskId": 11,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "10",
+        "unitOrder": 10,
+        "state": "queued",
+        "attempt": 0,
+        "maxAttempts": 3,
+        "bootId": null,
+        "outputRef": null
+      },
+      {
+        "taskId": 12,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "11",
+        "unitOrder": 11,
+        "state": "queued",
+        "attempt": 0,
+        "maxAttempts": 3,
+        "bootId": null,
+        "outputRef": null
+      }
+    ],
+    "executions": [
+      {
+        "taskId": 1,
+        "attempt": 1,
+        "outputRef": "87a04c9017680a5ae7edf48dd720e2bf184ede439025ee97fe3467c7f0abaf02"
+      },
+      {
+        "taskId": 2,
+        "attempt": 1,
+        "outputRef": "cae9492bc706ab0b9008e1a20aa834bc75a8229b827f28af50de01350f5aabec"
+      },
+      {
+        "taskId": 3,
+        "attempt": 1,
+        "outputRef": "e1f54c0c83ecb21d4eb58275a841072010f0cb432ddba8499dc9b99cba25c97f"
+      }
+    ]
+  },
+  "after": {
+    "snapshot": {
+      "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+      "state": "completed",
+      "createdAt": 1791616785284,
+      "finishedAt": 1791616793830,
+      "resumedFromUnit": 4,
+      "notRedoneCount": 3,
+      "total": 12,
+      "committed": 12,
+      "chunks": [
+        {
+          "index": 1,
+          "state": "done",
+          "attempt": 1
+        },
+        {
+          "index": 2,
+          "state": "done",
+          "attempt": 1
+        },
+        {
+          "index": 3,
+          "state": "done",
+          "attempt": 1
+        },
+        {
+          "index": 4,
+          "state": "done",
+          "attempt": 2
+        },
+        {
+          "index": 5,
+          "state": "done",
+          "attempt": 1
+        },
+        {
+          "index": 6,
+          "state": "done",
+          "attempt": 1
+        },
+        {
+          "index": 7,
+          "state": "done",
+          "attempt": 1
+        },
+        {
+          "index": 8,
+          "state": "done",
+          "attempt": 1
+        },
+        {
+          "index": 9,
+          "state": "done",
+          "attempt": 1
+        },
+        {
+          "index": 10,
+          "state": "done",
+          "attempt": 1
+        },
+        {
+          "index": 11,
+          "state": "done",
+          "attempt": 1
+        },
+        {
+          "index": 12,
+          "state": "done",
+          "attempt": 1
+        }
+      ]
+    },
+    "tasks": [
+      {
+        "taskId": 1,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "0",
+        "unitOrder": 0,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "ae63d73f59da443d846b8e16ada97b69",
+        "outputRef": "87a04c9017680a5ae7edf48dd720e2bf184ede439025ee97fe3467c7f0abaf02"
+      },
+      {
+        "taskId": 2,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "1",
+        "unitOrder": 1,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "ae63d73f59da443d846b8e16ada97b69",
+        "outputRef": "cae9492bc706ab0b9008e1a20aa834bc75a8229b827f28af50de01350f5aabec"
+      },
+      {
+        "taskId": 3,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "2",
+        "unitOrder": 2,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "ae63d73f59da443d846b8e16ada97b69",
+        "outputRef": "e1f54c0c83ecb21d4eb58275a841072010f0cb432ddba8499dc9b99cba25c97f"
+      },
+      {
+        "taskId": 4,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "3",
+        "unitOrder": 3,
+        "state": "done",
+        "attempt": 2,
+        "maxAttempts": 3,
+        "bootId": "7e792233775fde693a84ee90a5310d01",
+        "outputRef": "a3d917c98275c6be72e4603bd24429b041e27592a8c19a6db7f20a5aa8016e45"
+      },
+      {
+        "taskId": 5,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "4",
+        "unitOrder": 4,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "7e792233775fde693a84ee90a5310d01",
+        "outputRef": "b59e20f1af3972186abc1dee01ab16dd1da7e61bee0e05ac44ad3dfa23d090e9"
+      },
+      {
+        "taskId": 6,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "5",
+        "unitOrder": 5,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "7e792233775fde693a84ee90a5310d01",
+        "outputRef": "1b7dff8b39ee4d7dbf835cf5c4cc196cc89834e40598cf9cb4636c8ff313f2a8"
+      },
+      {
+        "taskId": 7,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "6",
+        "unitOrder": 6,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "7e792233775fde693a84ee90a5310d01",
+        "outputRef": "441bb81e8002cb5cb6871ed60017ceb20a7b08b8293ab35f6b7defd9a4f2f34b"
+      },
+      {
+        "taskId": 8,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "7",
+        "unitOrder": 7,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "7e792233775fde693a84ee90a5310d01",
+        "outputRef": "1acd4eba71ff09720ee9575355a16b0a5af97c3a62de21a5ccba3874b1c8590f"
+      },
+      {
+        "taskId": 9,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "8",
+        "unitOrder": 8,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "7e792233775fde693a84ee90a5310d01",
+        "outputRef": "37f5750f6692427e467c14339bd85348d03b3a93d272bed575ef174d49329a4c"
+      },
+      {
+        "taskId": 10,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "9",
+        "unitOrder": 9,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "7e792233775fde693a84ee90a5310d01",
+        "outputRef": "52d6b9dd0ef87a8464c349255bddcdabe47bb4a7798e24197c59697a6270d1e2"
+      },
+      {
+        "taskId": 11,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "10",
+        "unitOrder": 10,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "7e792233775fde693a84ee90a5310d01",
+        "outputRef": "af41d426681eb6474f6675746a63f9879ce9fad3ef29f3d63aa00a7fbef1ed4c"
+      },
+      {
+        "taskId": 12,
+        "jobId": "12e4cf66-5c9b-4051-996f-5ea94d0c6e39",
+        "unitKey": "11",
+        "unitOrder": 11,
+        "state": "done",
+        "attempt": 1,
+        "maxAttempts": 3,
+        "bootId": "7e792233775fde693a84ee90a5310d01",
+        "outputRef": "bd02786df8675c71d2bddbf3c0362ae68675a7050eadc4b55971b3bc77787abb"
+      }
+    ],
+    "executions": [
+      {
+        "taskId": 1,
+        "attempt": 1,
+        "outputRef": "87a04c9017680a5ae7edf48dd720e2bf184ede439025ee97fe3467c7f0abaf02"
+      },
+      {
+        "taskId": 2,
+        "attempt": 1,
+        "outputRef": "cae9492bc706ab0b9008e1a20aa834bc75a8229b827f28af50de01350f5aabec"
+      },
+      {
+        "taskId": 3,
+        "attempt": 1,
+        "outputRef": "e1f54c0c83ecb21d4eb58275a841072010f0cb432ddba8499dc9b99cba25c97f"
+      },
+      {
+        "taskId": 4,
+        "attempt": 2,
+        "outputRef": "a3d917c98275c6be72e4603bd24429b041e27592a8c19a6db7f20a5aa8016e45"
+      },
+      {
+        "taskId": 5,
+        "attempt": 1,
+        "outputRef": "b59e20f1af3972186abc1dee01ab16dd1da7e61bee0e05ac44ad3dfa23d090e9"
+      },
+      {
+        "taskId": 6,
+        "attempt": 1,
+        "outputRef": "1b7dff8b39ee4d7dbf835cf5c4cc196cc89834e40598cf9cb4636c8ff313f2a8"
+      },
+      {
+        "taskId": 7,
+        "attempt": 1,
+        "outputRef": "441bb81e8002cb5cb6871ed60017ceb20a7b08b8293ab35f6b7defd9a4f2f34b"
+      },
+      {
+        "taskId": 8,
+        "attempt": 1,
+        "outputRef": "1acd4eba71ff09720ee9575355a16b0a5af97c3a62de21a5ccba3874b1c8590f"
+      },
+      {
+        "taskId": 9,
+        "attempt": 1,
+        "outputRef": "37f5750f6692427e467c14339bd85348d03b3a93d272bed575ef174d49329a4c"
+      },
+      {
+        "taskId": 10,
+        "attempt": 1,
+        "outputRef": "52d6b9dd0ef87a8464c349255bddcdabe47bb4a7798e24197c59697a6270d1e2"
+      },
+      {
+        "taskId": 11,
+        "attempt": 1,
+        "outputRef": "af41d426681eb6474f6675746a63f9879ce9fad3ef29f3d63aa00a7fbef1ed4c"
+      },
+      {
+        "taskId": 12,
+        "attempt": 1,
+        "outputRef": "bd02786df8675c71d2bddbf3c0362ae68675a7050eadc4b55971b3bc77787abb"
+      }
+    ]
+  },
+  "pids": {
+    "main": 21912,
+    "window": 35276,
+    "core": 15220,
+    "others": [
+      13744
+    ]
+  },
+  "replacementCorePid": 26572,
+  "records": [
+    {
+      "ts": "2026-10-10T07:19:49.218Z",
+      "level": "warn",
+      "process": "main",
+      "event": "core.crashed",
+      "kind": "core",
+      "exitCode": 1,
+      "attempt": 1
+    },
+    {
+      "ts": "2026-10-10T07:19:49.474Z",
+      "level": "info",
+      "process": "main",
+      "event": "core.restarted",
+      "kind": "core",
+      "exitCode": 1,
+      "attempt": 1
+    }
+  ]
+}

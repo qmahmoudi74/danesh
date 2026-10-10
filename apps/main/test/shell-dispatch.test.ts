@@ -7,6 +7,23 @@ import { chromeWindowOptions, WINDOW_BACKGROUND } from '../src/policy/window-opt
 const request = (method: string, input: unknown) => ({ id: 1, method, input });
 
 describe('shell request pipeline', () => {
+  it('rejects untrusted or padded relaunch requests before executing the handler', async () => {
+    const relaunch = vi.fn(() => ({}));
+    const handlers = { 'shell.relaunch': relaunch };
+    for (const [trusted, input] of [
+      [false, {}],
+      [true, { path: 'other.exe' }],
+    ] as const) {
+      await expect(
+        dispatchShellRequest(trusted, request('shell.relaunch', input), handlers),
+      ).resolves.toMatchObject({ ok: false, error: { code: 'INVALID_INPUT' } });
+    }
+    expect(relaunch).not.toHaveBeenCalled();
+    await expect(
+      dispatchShellRequest(true, request('shell.relaunch', {}), handlers),
+    ).resolves.toEqual({ id: 1, ok: true, output: {} });
+    expect(relaunch).toHaveBeenCalledOnce();
+  });
   it('rejects untrusted senders, bad envelopes, unknown methods and invalid input before any handler runs', async () => {
     const handler = vi.fn(() => ({}));
     const handlers = { 'shell.window': handler };

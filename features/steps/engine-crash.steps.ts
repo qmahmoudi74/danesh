@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { expect, type Page } from '@playwright/test';
@@ -14,9 +15,10 @@ type Evidence = {
   job?: ReturnType<typeof readJobAudit>;
   logs?: Log[];
   children?: number[];
+  windowToken?: string;
 };
 const evidence = new WeakMap<Page, Evidence>();
-Before({ tags: '@plan-01-14' }, ({ harness }) => {
+Before({ tags: '@fault-matrix' }, ({ harness }) => {
   Object.assign(harness.extraEnv, {
     DANESH_TEST_HOST_HEAP_MB: '64',
     DANESH_TEST_WATCHDOG_MS: '2000',
@@ -69,6 +71,171 @@ function isAlive(pid: number) {
     return false;
   }
 }
+
+Given(
+  'a sample job has committed chunks and one in-flight chunk',
+  async ({ harness, libraryRoot }) => {
+    const page = harness.page!;
+    await ready(page);
+    await page.evaluate(async () => {
+      await window.danesh.call('test.sampleDelay', { ms: 1200 });
+      await window.danesh.call('sampleJob.start', {});
+    });
+    await expect.poll(async () => (await snapshot(page))?.committed).toBeGreaterThanOrEqual(3);
+    const job = (await snapshot(page))!;
+    const processIds = await harness.app!.evaluate(({ BrowserWindow }) => ({
+      main: process.pid,
+      window: BrowserWindow.getAllWindows()[0]!.webContents.getOSProcessId(),
+    }));
+    let hostPid: number | undefined;
+    await expect
+      .poll(async () => {
+        hostPid = await harness.app!.evaluate(
+          ({ app }) =>
+            app
+              .getAppMetrics()
+              .find(
+                (metric) =>
+                  metric.serviceName === 'Danesh sample' || metric.name === 'Danesh sample',
+              )?.pid,
+        );
+        return hostPid;
+      })
+      .toBeGreaterThan(0);
+    const audit = readJobAudit(libraryRoot, job.jobId);
+    expect(audit.tasks.filter((task) => task.state === 'running')).toHaveLength(1);
+    state(page).job = audit;
+    state(page).pids = { ...processIds, core: await corePid(page), others: [hostPid!] };
+    state(page).windowToken = await page.evaluate(() => {
+      const token = crypto.randomUUID();
+      document.documentElement.dataset.reconnectToken = token;
+      return token;
+    });
+    await page.evaluate(async () => {
+      const states: string[] = [];
+      Object.assign(window, { __coreStates: states });
+      window.danesh.on('shell.coreState', (value) =>
+        states.push((value as { state: string }).state),
+      );
+      await window.danesh.call('test.coreStall', { ms: 60000 });
+      const call = window.danesh.call('system.ping', { n: 99 });
+      Object.assign(window, {
+        __interruptedRpc: call.then(
+          () => 'unexpected-success',
+          (error) => (error as Error).message,
+        ),
+      });
+    });
+  },
+);
+When('Core is killed unexpectedly', ({ harness }) => {
+  process.kill(state(harness.page!).pids!.core, 'SIGKILL');
+});
+Then(
+  'Main respawns Core and re-brokers the renderer and host ports',
+  async ({ harness, libraryRoot }) => {
+    const page = harness.page!;
+    await ready(page);
+    expect(await corePid(page)).not.toBe(state(page).pids!.core);
+    await expect
+      .poll(
+        async () =>
+          (await logs(libraryRoot)).filter((line) => line.event === 'core.restarted').length,
+      )
+      .toBe(1);
+    const records = await logs(libraryRoot);
+    const crash = records.find((line) => line.event === 'core.crashed')!;
+    const restart = records.find((line) => line.event === 'core.restarted')!;
+    expect(Date.parse(restart.ts) - Date.parse(crash.ts)).toBeGreaterThanOrEqual(250);
+    for (const pid of [state(page).pids!.core, ...state(page).pids!.others])
+      await expect.poll(() => isAlive(pid)).toBe(false);
+    expect(
+      await page.evaluate(
+        () => (window as { __interruptedRpc?: Promise<string> }).__interruptedRpc,
+      ),
+    ).toBe('UNAVAILABLE');
+  },
+);
+Then('the window reconnects without reloading', async ({ harness, libraryRoot, $testInfo }) => {
+  const page = harness.page!;
+  expect(await page.locator('html').getAttribute('data-reconnect-token')).toBe(
+    state(page).windowToken,
+  );
+  const current = await harness.app!.evaluate(({ BrowserWindow }) => ({
+    main: process.pid,
+    window: BrowserWindow.getAllWindows()[0]!.webContents.getOSProcessId(),
+  }));
+  expect(current).toEqual({ main: state(page).pids!.main, window: state(page).pids!.window });
+  const states = await page.evaluate(() => (window as { __coreStates?: string[] }).__coreStates);
+  expect(states).toContain('starting');
+  expect(states?.at(-1)).toBe('ready');
+  await page.getByRole('button', { name: 'اجرای بررسی', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'ذخیرهٔ گزارش', exact: true })).toBeEnabled({
+    timeout: 60000,
+  });
+  for (const check of ['database', 'engine-llm', 'engine-ocr', 'engine-tts']) {
+    const row = page.locator('[data-check-id="' + check + '"]');
+    await row.getByRole('button', { name: 'جزئیات فنی', exact: true }).click();
+    const details = await row.locator('pre').textContent();
+    await writeFile(
+      $testInfo.outputPath(check + '-post-core.json'),
+      JSON.stringify(
+        { details, main: await logs(libraryRoot), core: await logs(libraryRoot, 'core') },
+        null,
+        2,
+      ),
+    );
+    await expect(page.locator('[data-check-id="' + check + '"]')).toHaveAttribute(
+      'data-status',
+      'pass',
+    );
+  }
+});
+Then(
+  'the job resumes without redoing any committed chunk',
+  async ({ harness, libraryRoot, $testInfo }) => {
+    const page = harness.page!;
+    await expect.poll(async () => (await snapshot(page))?.state).toBe('completed');
+    const before = state(page).job!;
+    const after = readJobAudit(libraryRoot, before.snapshot.jobId);
+    expect(after.executions).toHaveLength(12);
+    for (const task of before.tasks.filter((task) => task.state === 'done')) {
+      expect(after.tasks.find((next) => next.taskId === task.taskId)).toEqual(task);
+      expect(after.executions.find((entry) => entry.taskId === task.taskId)).toEqual(
+        before.executions.find((entry) => entry.taskId === task.taskId),
+      );
+    }
+    const interrupted = before.tasks.find((task) => task.state === 'running')!;
+    expect(after.tasks.find((task) => task.taskId === interrupted.taskId)).toMatchObject({
+      state: 'done',
+      attempt: 2,
+    });
+    for (const task of after.tasks.filter((task) => task.taskId !== interrupted.taskId))
+      expect(task.attempt).toBe(1);
+    for (const entry of after.executions) {
+      const bytes = await readFile(
+        join(libraryRoot, 'blobs', 'sha256', entry.outputRef.slice(0, 2), entry.outputRef),
+      );
+      expect(createHash('sha256').update(bytes).digest('hex')).toBe(entry.outputRef);
+    }
+    const path = $testInfo.outputPath('core-recovery-evidence.json');
+    await writeFile(
+      path,
+      JSON.stringify(
+        {
+          before,
+          after,
+          pids: state(page).pids,
+          replacementCorePid: await corePid(page),
+          records: (await logs(libraryRoot)).filter((line) => line.kind === 'core'),
+        },
+        null,
+        2,
+      ),
+    );
+    await $testInfo.attach('core-recovery-evidence', { path, contentType: 'application/json' });
+  },
+);
 
 When('a sample job runs with a healthy sample host', async ({ harness }) => {
   await ready(harness.page!);

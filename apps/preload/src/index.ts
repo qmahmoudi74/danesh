@@ -28,13 +28,21 @@ const client = createRpcClient({
   onReject: (rejection) => client.report(rejection),
 });
 
-let attached = false;
+let currentPort: MessagePort | undefined;
 ipcRenderer.on('danesh:port', (event) => {
   const port = event.ports[0];
-  if (!port || attached) return;
-  attached = true;
-  port.onmessage = ({ data }: MessageEvent<unknown>) => client.receive(data);
-  port.addEventListener('close', () => client.close());
+  if (!port) return;
+  if (currentPort) {
+    currentPort.onmessage = null;
+    currentPort.close();
+  }
+  currentPort = port;
+  port.onmessage = ({ data }: MessageEvent<unknown>) => {
+    if (currentPort === port) client.receive(data);
+  };
+  port.addEventListener('close', () => {
+    if (currentPort === port) client.close();
+  });
   client.attach((message) => port.postMessage(message));
   port.start();
 });
@@ -46,6 +54,18 @@ ipcRenderer.on('danesh:shell-event', (_event, data: unknown) => {
     ? shellEventPayloads[event.data.topic]?.safeParse(event.data.payload)
     : undefined;
   if (!payload?.success) return;
+  if (
+    event.data.topic === 'shell.coreState' &&
+    (payload.data as { state: string }).state !== 'ready' &&
+    (currentPort || (payload.data as { state: string }).state === 'failed')
+  ) {
+    if (currentPort) {
+      currentPort.onmessage = null;
+      currentPort.close();
+    }
+    currentPort = undefined;
+    client.close();
+  }
   if (replayable.has(event.data.topic)) latest.set(event.data.topic, payload.data);
   notify(event.data.topic, payload.data);
 });

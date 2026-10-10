@@ -132,7 +132,6 @@ Then("the reader's text can be selected and copied", async ({ harness }) => {
   await harness.app!.evaluate(async ({ BrowserWindow, clipboard }) => {
     await clipboard.writeText('');
     const contents = BrowserWindow.getAllWindows()[0]!.webContents;
-    // A real key press through Chromium's input path, as a user's Ctrl+C.
     contents.sendInputEvent({ type: 'keyDown', keyCode: 'C', modifiers: ['control'] });
     contents.sendInputEvent({ type: 'keyUp', keyCode: 'C', modifiers: ['control'] });
   });
@@ -145,7 +144,7 @@ When('I inspect the original excerpt for the mixed sentence', async ({ harness }
   const block = reader(harness.page!).locator('.reader-block', {
     has: harness.page!.locator('p.reader-paragraph', { hasText: 'E = mc²' }),
   });
-  await block.locator('summary').click();
+  await block.getByRole('button', { name: 'گزیدهٔ اصلی و شواهد این بخش', exact: true }).click();
 });
 Then(
   'its stored raw text and source-block provenance are shown without a PDF page viewer',
@@ -161,8 +160,8 @@ Then(
     const stored = rows.find((row) => row.block_id === id)!;
     expect(stored).toBeDefined();
     await expect(block.locator('blockquote')).toHaveText(stored.raw_text);
-    await expect(block.locator('details')).toContainText(id!);
-    await expect(block.locator('details')).toContainText('صفحهٔ ' + fa(stored.page_number));
+    await expect(block.locator('.source-evidence')).toContainText(id!);
+    await expect(block.locator('.source-evidence')).toContainText('صفحهٔ ' + fa(stored.page_number));
     await expect(harness.page!.locator('canvas')).toHaveCount(0);
   },
 );

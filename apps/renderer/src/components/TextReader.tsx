@@ -7,7 +7,7 @@ import {
 } from '@danesh/contracts/rpc.ts';
 import type { z } from '@danesh/contracts/schema.ts';
 import { type ReactNode, useCallback, useEffect, useState } from 'react';
-import { Button, Label, ProgressBar } from 'react-aria-components';
+import { Button, Disclosure, DisclosurePanel, Label, ProgressBar } from 'react-aria-components';
 import { formatNumber } from '../lib/copy.ts';
 import { Ltr } from './Layout.tsx';
 import { Banner } from './Status.tsx';
@@ -95,16 +95,20 @@ function PageText({ page }: { page: TextPage }) {
                 {note}
               </p>
             ))}
-            <details className="technical">
-              <summary>گزیدهٔ اصلی و شواهد این بخش</summary>
-              <p className="caption">
-                منبع: {label} · بخش <Ltr>{block.blockId}</Ltr>
-              </p>
-              <blockquote dir={textDirection(block.direction)}>{block.rawText}</blockquote>
-              <p className="caption">
-                محدوده در منبع: <Ltr>{block.box.join(', ')}</Ltr>
-              </p>
-            </details>
+            <Disclosure className="source-evidence">
+              <Button slot="trigger" className="button details-trigger">
+                گزیدهٔ اصلی و شواهد این بخش
+              </Button>
+              <DisclosurePanel className="technical">
+                <p className="caption">
+                  منبع: {label} · بخش <Ltr>{block.blockId}</Ltr>
+                </p>
+                <blockquote dir={textDirection(block.direction)}>{block.rawText}</blockquote>
+                <p className="caption">
+                  محدوده در منبع: <Ltr>{block.box.join(', ')}</Ltr>
+                </p>
+              </DisclosurePanel>
+            </Disclosure>
           </div>
         );
       })}

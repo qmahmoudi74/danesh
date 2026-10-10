@@ -67,17 +67,9 @@ export function createSupervisor({
       }
       entry.child = undefined;
       const decision = entry.policy.onExit({ requested: wasRequested, t: clock.now() });
-      emit({
-        type: 'exited',
-        kind,
-        code,
-        requested: wasRequested,
-        restartAttempt: wasRequested ? 0 : entry.policy.failureCount(),
-      });
       if (decision.action === 'circuit-open') {
         entry.waiting?.reject(new Error('CircuitOpen'));
         entry.waiting = undefined;
-        emit({ type: 'circuit-open', kind });
       } else if (decision.action === 'restart') {
         entry.timer = clock.setTimeout(() => {
           entry.timer = undefined;
@@ -89,6 +81,15 @@ export function createSupervisor({
           }
         }, decision.afterMs);
       }
+      // Observers may exhaust a boot budget and cancel this pending restart.
+      emit({
+        type: 'exited',
+        kind,
+        code,
+        requested: wasRequested,
+        restartAttempt: wasRequested ? 0 : entry.policy.failureCount(),
+      });
+      if (decision.action === 'circuit-open') emit({ type: 'circuit-open', kind });
     });
     entry.waiting?.resolve(child);
     entry.waiting = undefined;

@@ -1,0 +1,209 @@
+[
+  {
+    "fault": "abort",
+    "before": {
+      "main": 17712,
+      "window": 16364,
+      "others": [
+        16672,
+        2644
+      ],
+      "core": 35364
+    },
+    "killedHostPid": 9028,
+    "replacementHostPid": 27936,
+    "crash": {
+      "ts": "2026-10-10T07:19:10.721Z",
+      "level": "warn",
+      "process": "main",
+      "event": "host.crashed",
+      "kind": "ocr",
+      "exitCode": 134,
+      "attempt": 1
+    },
+    "restart": {
+      "ts": "2026-10-10T07:19:10.972Z",
+      "level": "info",
+      "process": "main",
+      "event": "host.restarted",
+      "kind": "ocr",
+      "exitCode": 134,
+      "attempt": 1
+    },
+    "watchdog": []
+  },
+  {
+    "fault": "exit0",
+    "before": {
+      "main": 35536,
+      "window": 8016,
+      "others": [
+        33296,
+        30136
+      ],
+      "core": 33292
+    },
+    "killedHostPid": 24088,
+    "replacementHostPid": 13408,
+    "crash": {
+      "ts": "2026-10-10T07:19:00.164Z",
+      "level": "warn",
+      "process": "main",
+      "event": "host.crashed",
+      "kind": "ocr",
+      "exitCode": 0,
+      "attempt": 1
+    },
+    "restart": {
+      "ts": "2026-10-10T07:19:00.424Z",
+      "level": "info",
+      "process": "main",
+      "event": "host.restarted",
+      "kind": "ocr",
+      "exitCode": 0,
+      "attempt": 1
+    },
+    "watchdog": []
+  },
+  {
+    "fault": "exit1",
+    "before": {
+      "main": 10168,
+      "window": 29476,
+      "others": [
+        17808,
+        6244
+      ],
+      "core": 33420
+    },
+    "killedHostPid": 15112,
+    "replacementHostPid": 13352,
+    "crash": {
+      "ts": "2026-10-10T07:19:05.424Z",
+      "level": "warn",
+      "process": "main",
+      "event": "host.crashed",
+      "kind": "ocr",
+      "exitCode": 1,
+      "attempt": 1
+    },
+    "restart": {
+      "ts": "2026-10-10T07:19:05.685Z",
+      "level": "info",
+      "process": "main",
+      "event": "host.restarted",
+      "kind": "ocr",
+      "exitCode": 1,
+      "attempt": 1
+    },
+    "watchdog": []
+  },
+  {
+    "fault": "kill",
+    "before": {
+      "main": 33708,
+      "window": 35764,
+      "others": [
+        4004,
+        8580
+      ],
+      "core": 3272
+    },
+    "killedHostPid": 8576,
+    "replacementHostPid": 30024,
+    "crash": {
+      "ts": "2026-10-10T07:18:54.874Z",
+      "level": "warn",
+      "process": "main",
+      "event": "host.crashed",
+      "kind": "ocr",
+      "exitCode": 1,
+      "attempt": 1
+    },
+    "restart": {
+      "ts": "2026-10-10T07:18:55.135Z",
+      "level": "info",
+      "process": "main",
+      "event": "host.restarted",
+      "kind": "ocr",
+      "exitCode": 1,
+      "attempt": 1
+    },
+    "watchdog": []
+  },
+  {
+    "fault": "oom",
+    "before": {
+      "main": 15440,
+      "window": 6296,
+      "others": [
+        7904,
+        7552
+      ],
+      "core": 14180
+    },
+    "killedHostPid": 12876,
+    "replacementHostPid": 3724,
+    "crash": {
+      "ts": "2026-10-10T07:19:23.537Z",
+      "level": "warn",
+      "process": "main",
+      "event": "host.crashed",
+      "kind": "ocr",
+      "exitCode": 0,
+      "attempt": 1
+    },
+    "restart": {
+      "ts": "2026-10-10T07:19:23.788Z",
+      "level": "info",
+      "process": "main",
+      "event": "host.restarted",
+      "kind": "ocr",
+      "exitCode": 0,
+      "attempt": 1
+    },
+    "watchdog": []
+  },
+  {
+    "fault": "spin",
+    "before": {
+      "main": 15348,
+      "window": 14648,
+      "others": [
+        33072,
+        32228
+      ],
+      "core": 19520
+    },
+    "killedHostPid": 10032,
+    "replacementHostPid": 4604,
+    "crash": {
+      "ts": "2026-10-10T07:19:18.197Z",
+      "level": "warn",
+      "process": "main",
+      "event": "host.crashed",
+      "kind": "ocr",
+      "exitCode": 1,
+      "attempt": 1
+    },
+    "restart": {
+      "ts": "2026-10-10T07:19:18.457Z",
+      "level": "info",
+      "process": "main",
+      "event": "host.restarted",
+      "kind": "ocr",
+      "exitCode": 1,
+      "attempt": 1
+    },
+    "watchdog": [
+      {
+        "ts": "2026-10-10T07:19:18.191Z",
+        "level": "warn",
+        "process": "core",
+        "event": "host.watchdog",
+        "kind": "ocr",
+        "pid": 10032
+      }
+    ]
+  }
+]

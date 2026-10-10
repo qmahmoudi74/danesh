@@ -5,6 +5,13 @@ import { shellEventPayloads, shellMethods } from '../src/shell.ts';
 import { testRpcMethods } from '../src/test-rpc.ts';
 
 describe('closed shell and export contracts', () => {
+  it('requires a bounded logs path only for failed Core state', () => {
+    const schema = shellEventPayloads['shell.coreState']!;
+    expect(schema.safeParse({ state: 'failed' }).success).toBe(false);
+    expect(schema.safeParse({ state: 'failed', logsDir: 'C:/library/logs' }).success).toBe(true);
+    expect(schema.safeParse({ state: 'ready', logsDir: 'C:/library/logs' }).success).toBe(false);
+    expect(schema.safeParse({ state: 'failed', logsDir: 'x'.repeat(32768) }).success).toBe(false);
+  });
   it('never accepts a renderer-supplied path', () => {
     expect(
       shellMethods['shell.chooseExportPath']!.input.safeParse({ path: 'C:/target.json' }).success,

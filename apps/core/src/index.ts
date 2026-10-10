@@ -273,6 +273,7 @@ parent.on('message', (message) => {
     if (init) return;
     init = control.data;
     coreLog = createJsonlLogger({ dir: join(init.libraryRoot, 'logs'), name: 'core' });
+    if (__TEST_HOOKS__ && process.env.DANESH_TEST_CORE_BOOT_FAIL === '1') process.exit(1);
     void initialize(init).catch(() => logger.log('core.startup-failed', {}, 'error'));
   } else if (control.data.type === 'host-exited') {
     engines.hostExited(

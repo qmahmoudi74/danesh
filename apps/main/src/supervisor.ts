@@ -21,7 +21,7 @@ export function createUtilitySupervisor({
         const entry = entries[kind];
         if (!entry) throw new Error('Unknown child kind');
         const child = utilityProcess.fork(join(import.meta.dirname, entry), [], {
-          serviceName: `Danesh ${kind}`,
+          serviceName: kind === 'core' ? 'Danesh Core' : `Danesh ${kind}`,
           stdio: ['ignore', 'pipe', 'pipe'],
           ...(__TEST_HOOKS__ && kind !== 'core' && process.env.DANESH_TEST_HOST_HEAP_MB === '64'
             ? { execArgv: ['--js-flags=--max-old-space-size=64'] }
@@ -59,10 +59,11 @@ export function createUtilitySupervisor({
     },
   });
   supervisor.subscribe((event) => {
+    const prefix = event.kind === 'core' ? 'core' : 'host';
     if (event.type === 'exited') {
       exits.set(event.kind, event.code);
       logger.log(
-        event.requested ? 'host.stopped' : 'host.crashed',
+        event.requested ? `${prefix}.stopped` : `${prefix}.crashed`,
         {
           kind: event.kind,
           exitCode: event.code,
@@ -71,17 +72,17 @@ export function createUtilitySupervisor({
         event.requested ? 'info' : 'warn',
       );
     } else if (event.type === 'restarted')
-      logger.log('host.restarted', {
+      logger.log(`${prefix}.restarted`, {
         kind: event.kind,
         exitCode: exits.get(event.kind),
         attempt: event.attempt,
       });
-    else logger.log('host.circuit-open', { kind: event.kind }, 'error');
+    else logger.log(`${prefix}.circuit-open`, { kind: event.kind }, 'error');
   });
   return {
     ...supervisor,
     requestStop(this: void, kind: string): void {
-      logger.log('host.stop-requested', { kind });
+      logger.log(kind === 'core' ? 'core.stop-requested' : 'host.stop-requested', { kind });
       supervisor.requestStop(kind);
     },
     /** An unrequested stop: its exit still goes through crash policy. */
@@ -96,7 +97,7 @@ export function createUtilitySupervisor({
     },
     stopAll(): void {
       for (const kind of Object.keys(entries)) {
-        logger.log('host.stop-requested', { kind });
+        logger.log(kind === 'core' ? 'core.stop-requested' : 'host.stop-requested', { kind });
         supervisor.requestStop(kind);
       }
     },
