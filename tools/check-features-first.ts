@@ -64,8 +64,12 @@ export function checkFeatures(
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
     const result = checkFeatures(process.cwd(), process.argv.includes('--allow-unbound'));
-    result.info.forEach((line) => console.log(`INFO ${line}`));
-    result.errors.forEach((line) => console.error(`FAIL ${line}`));
+    result.info.forEach((line) => {
+      console.log(`INFO ${line}`);
+    });
+    result.errors.forEach((line) => {
+      console.error(`FAIL ${line}`);
+    });
     console.log(`check-features-first: failures=${result.errors.length}`);
     process.exitCode = result.errors.length ? 1 : 0;
   } catch (error) {

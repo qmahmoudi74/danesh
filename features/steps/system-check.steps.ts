@@ -554,7 +554,9 @@ Then('the host ids differ from Main, Core and the renderer', async ({ harness })
 Then('model names, versions and hashes appear only inside «جزئیات فنی»', async ({ harness }) => {
   const outside = await harness.page!.locator('main').evaluate((main) => {
     const copy = main.cloneNode(true) as HTMLElement;
-    copy.querySelectorAll('.technical').forEach((node) => node.remove());
+    copy.querySelectorAll('.technical').forEach((node) => {
+      node.remove();
+    });
     return copy.innerText;
   });
   expect(outside).not.toMatch(

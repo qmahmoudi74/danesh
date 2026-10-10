@@ -323,6 +323,16 @@ async function main(): Promise<number> {
   console.log(
     `packaged-smoke: verdict=${evidence.verdict}${failing.length ? ` failing=${failing.join(',')}` : ''} out=${out}`,
   );
+  for (const name of failing) {
+    console.error(`packaged-smoke: ${name}: ${JSON.stringify(items[name])}`);
+  }
+  for (const check of run.report?.checks ?? []) {
+    if (check.status !== 'pass') {
+      console.error(
+        `packaged-smoke: check ${check.checkId}: ${check.detail} ${JSON.stringify(check.fields)}`,
+      );
+    }
+  }
   return failing.length ? 1 : 0;
 }
 

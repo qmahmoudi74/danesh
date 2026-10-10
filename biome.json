@@ -52,16 +52,12 @@
       },
       "complexity": {
         "noImportantStyles": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "error",
+        "noTsIgnore": "error"
       }
-    },
-    "includes": [
-      "biome.json",
-      "apps/main/src/**",
-      "apps/main/test/**",
-      "apps/preload/src/**",
-      "apps/renderer/src/**",
-      "apps/renderer/test/**"
-    ]
+    }
   },
   "css": {
     "parser": {

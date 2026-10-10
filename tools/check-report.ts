@@ -181,7 +181,9 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
     const phase = process.argv[phaseIndex + 1];
     if (phaseIndex < 0 || !phase) throw new Error('Usage: node tools/check-report.ts --phase <NN>');
     const result = checkReport(process.cwd(), phase);
-    result.errors.forEach((error) => console.error(`FAIL ${error}`));
+    result.errors.forEach((error) => {
+      console.error(`FAIL ${error}`);
+    });
     if (result.errors.length) process.exitCode = 1;
     else
       console.log(

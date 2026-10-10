@@ -13,7 +13,7 @@ export const check: Check = {
     const fields: Record<string, string | boolean> = {
       binary: fuseBinaryPath(init.exePath, init.platform),
     };
-    let wire;
+    let wire: Awaited<ReturnType<typeof readFuseWire>>;
     try {
       wire = await readFuseWire(fields.binary as string);
     } catch {

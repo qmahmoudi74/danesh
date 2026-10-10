@@ -202,7 +202,7 @@ export function parseLockedPackages(text: string): LockedPackage[] {
       current = undefined;
     }
     if (!inPackages) continue;
-    const entry = /^  ['"]?([^'"\s]+)['"]?:$/.exec(line);
+    const entry = /^ {2}['"]?([^'"\s]+)['"]?:$/.exec(line);
     if (entry?.[1]) {
       declaredCount++;
       const id = entry[1];

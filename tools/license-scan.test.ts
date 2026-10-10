@@ -29,6 +29,7 @@ const binary = (license: string): BinaryEntry => ({
 
 it.runIf(process.platform === 'win32')('runs a Windows pnpm.cmd shim and preserves failure', () => {
   const root = mkdtempSync(join(tmpdir(), 'danesh-pnpm-shim-'));
+  if (dirname(resolve(root)) !== resolve(tmpdir())) throw new Error('Unsafe fixture cleanup');
   const shim = join(root, 'pnpm.cmd');
   vi.stubEnv('npm_execpath', undefined);
   vi.stubEnv('PATH', `${root};${process.env.SystemRoot}\\System32`);
@@ -40,7 +41,6 @@ it.runIf(process.platform === 'win32')('runs a Windows pnpm.cmd shim and preserv
     expect(() => runPnpm(['licenses', 'list', '--json'], root)).toThrow();
   } finally {
     vi.unstubAllEnvs();
-    if (dirname(resolve(root)) !== resolve(tmpdir())) throw new Error('Unsafe fixture cleanup');
     rmSync(root, { recursive: true, force: true });
   }
 });

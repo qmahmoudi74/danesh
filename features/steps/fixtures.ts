@@ -17,17 +17,18 @@ interface Harness {
 }
 const require = createRequire(import.meta.url);
 export const test = base.extend<{ libraryRoot: string; harness: Harness }>({
+  // biome-ignore lint/correctness/noEmptyPattern: Playwright discovers fixture dependencies by destructuring.
   libraryRoot: async ({}, use) => {
     const root = await mkdtemp(join(tmpdir(), "دانش آزمون '"));
+    const target = resolve(root);
+    if (
+      dirname(target) !== resolve(tmpdir()) ||
+      !target.startsWith(resolve(tmpdir(), 'دانش آزمون '))
+    )
+      throw new Error('Unsafe test cleanup path');
     try {
       await use(root);
     } finally {
-      const target = resolve(root);
-      if (
-        dirname(target) !== resolve(tmpdir()) ||
-        !target.startsWith(resolve(tmpdir(), 'دانش آزمون '))
-      )
-        throw new Error('Unsafe test cleanup path');
       await rm(target, { recursive: true, force: true });
     }
   },
@@ -80,10 +81,7 @@ export const test = base.extend<{ libraryRoot: string; harness: Harness }>({
           .locator('meta[property="csp-nonce"]')
           .getAttribute('content');
         const response = await harness.page.reload({ waitUntil: 'domcontentloaded' });
-        if (
-          !response ||
-          !response.headers()['content-security-policy']?.includes("connect-src 'none'")
-        )
+        if (!response?.headers()['content-security-policy']?.includes("connect-src 'none'"))
           throw new Error('Missing restrictive CSP header');
         const secondNonce = await harness.page
           .locator('meta[property="csp-nonce"]')

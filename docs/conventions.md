@@ -44,6 +44,19 @@ with its component, hook and test together). Do not add layers such as `services
 
 ## TypeScript
 
+Biome formats all maintained app, package, tool, step, type and root/editor configuration sources (2 spaces,
+100 columns, LF), orders imports and runs general lint. Generated builds, test outputs, vendored GSD code and
+retained third-party license evidence are excluded. It rejects explicit `any` and TypeScript suppression comments.
+
+ESLint remains for the TypeScript-aware `recommendedTypeCheckedOnly` rules: unsafe assignment/call/member/return/
+argument/enum/unary operations; floating or misused promises; invalid await and missing await; unnecessary assertions
+and redundant/duplicate type constituents; invalid string/template/plus operands; array deletion/iteration;
+implied eval; unbound methods; throwing or rejecting non-Errors. General ESLint preset rules are removed.
+`ban-ts-comment` additionally rejects whole-file `ts-nocheck` and requires a reason for `ts-expect-error`; Biome owns
+the `ts-ignore` prohibition. Explicit `any` and `ts-ignore` are errors, preserving the former ESLint severity.
+Its two security restrictions additionally reject network globals outside the approved egress/build-fetch tools
+and `dangerouslySetInnerHTML` in React. TypeScript strict checking and dependency boundaries remain separate gates.
+
 - `strict` plus `noUncheckedIndexedAccess`. No `any`; `unknown` plus a zod parse at every trust boundary.
 - Validate data from outside the process once, at the edge, and pass typed values inward.
 - Errors: throw `Error` subclasses with a stable `name`/`code` for expected failures; catch only where you can act.

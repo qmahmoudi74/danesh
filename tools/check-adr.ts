@@ -102,7 +102,9 @@ export function checkAdrs(root: string): string[] {
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try {
     const errors = checkAdrs(process.cwd());
-    errors.forEach((error) => console.error(`FAIL ${error}`));
+    errors.forEach((error) => {
+      console.error(`FAIL ${error}`);
+    });
     console.log(`check-adr: failures=${errors.length}`);
     process.exitCode = errors.length ? 1 : 0;
   } catch (error) {

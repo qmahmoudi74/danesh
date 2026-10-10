@@ -13,10 +13,13 @@ export default [
       'evidence-tmp/**',
     ],
   },
-  ...tseslint.configs.recommendedTypeChecked.map((config) => ({
-    ...config,
-    files: ['**/*.ts', '**/*.tsx'],
-  })),
+  // Biome owns general rules; retain the parser/plugin and rules that require TypeScript's type graph.
+  ...tseslint.configs.recommendedTypeCheckedOnly
+    .filter((config) => config.name !== 'typescript-eslint/eslint-recommended')
+    .map((config) => ({
+      ...config,
+      files: ['**/*.ts', '**/*.tsx'],
+    })),
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
@@ -24,6 +27,16 @@ export default [
     },
     rules: {
       '@typescript-eslint/no-floating-promises': 'error',
+      // Biome handles @ts-ignore; keep the stronger policy for whole-file suppression and expect-error reasons.
+      '@typescript-eslint/ban-ts-comment': [
+        'error',
+        {
+          'ts-ignore': false,
+          'ts-nocheck': true,
+          'ts-expect-error': 'allow-with-description',
+          'ts-check': false,
+        },
+      ],
       'no-restricted-globals': ['error', 'fetch', 'XMLHttpRequest', 'WebSocket', 'EventSource'],
     },
   },

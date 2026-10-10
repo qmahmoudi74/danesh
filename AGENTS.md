@@ -23,8 +23,8 @@ Conventions in detail: [docs/conventions.md](docs/conventions.md). Read that bef
 
 ## Code style (enforced by Biome and ESLint)
 
-- `pnpm format` formats; `pnpm check:format` verifies. Biome covers the folders listed in `biome.json`; when you
-  substantially change code in another folder, format it and add the folder to `biome.json` in the same commit.
+- `pnpm format` formats; `pnpm check:format` verifies. Biome covers maintained app, package, tool, step, type and
+  root/editor configuration sources. Keep generated output, vendored code and retained license evidence excluded.
 - Biome owns formatting, import order and general lint. ESLint owns type-aware and security rules. Do not add rules to
   one that the other already enforces.
 - Readable code first: descriptive names, short functions, early returns, no clever one-liners, comments explain why.
