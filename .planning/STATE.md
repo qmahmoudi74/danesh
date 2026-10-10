@@ -3,16 +3,16 @@ gsd_state_version: "1.0"
 current_phase: 1
 current_phase_name: Secure, Durable Foundation & Packaging Gate
 status: in_progress
-stopped_at: PDF-01 and PDF-02 (text extraction and reader, early Phase 2) complete; Windows CI green at e473b92 (run 38024316170, owner-confirmed); macOS smoke still fails ui-responsive (one App Nap fix improved idle p95 140->62 ms, still above 50 ms); Phase 1 plan count unchanged at 11/16; Plan 01-13 next and not started
+stopped_at: Plan 01-13 complete on Windows; Plan 01-14 Task 1 steps 1-3 checkpointed; next step 4 Electron adapter; 12/16 plans, 0/12 phases; 01-10 and Tier B open
 last_updated: "2026-10-10"
-last_activity: 2026-10-10 (Windows CI green at e473b92; PDF-02 pushed; 445 unit tests, 49 full E2E, 10 packaged PDF scenarios and production smoke passed locally)
-state_head: 833b26fe1a8d4cfcf48b0deaf4bdd3268f64172c
+last_activity: 2026-10-10 (273 domain/storage tests, 10 packaged scenarios and installed Persian-path smoke passed; broad regression failures corrected with focused subsets)
+state_head: ca815aa813de6433c390c98c5da62c5ba1aefd35
 progress:
   total_phases: 12
   completed_phases: 0
   total_plans: 16
-  completed_plans: 11
-  percent: 69
+  completed_plans: 12
+  percent: 75
 ---
 
 # Project State
@@ -27,16 +27,16 @@ See: .planning/PROJECT.md (updated 2026-10-09)
 ## Current Position
 
 Phase: 1 (Secure, Durable Foundation & Packaging Gate) — IN PROGRESS
-Plan: 11 of 16 completed in current phase; Plan 01-13 Durable Job Kernel is next under the owner's Windows-first sequencing exception (its migration is now 0005_jobs.sql). Out-of-plan increments PDF-01 (import and original pages) and PDF-02 (text extraction and reader, an early slice of Phase 2) are complete on Windows; see PDF-01-SUMMARY.md and PDF-02-SUMMARY.md. They complete no Phase 1 plan and do not complete Phase 2.
-Status: Plan 01-12 implementation is complete and locally verified on Windows, with macOS unverified; canonical summary and evidence are committed. Plan 01-11 remains complete. Plan 01-10 stays partially verified: latest run 38016154277 at pushed commit c36666b passed the complete Windows job (363 unit tests, installed smoke, full and packaged E2E), but macOS failed at smoke and skipped E2E. Its fresh Windows artifact was downloaded through authenticated access, ZIP hash matched metadata and smoke passed validation. That pre-CAS CI run does not verify the new implementation. Earlier failed evidence and the Windows native worker crash remain tracked. No macOS investigation or policy/security/CI changes occurred. Plan 01-13 and 01-14 were not started. No push this session.
-Last activity: 2026-10-10 (CAS implementation d5095d0 and canonical summary/evidence 833b26f committed; required static, license, CI/ADR/features checks passed; 423 local unit tests, 152 storage tests, 39 full E2E, 2 packaged E2E and Persian-path production smoke passed; idle/loaded p95 both 13 ms)
+Plan: 12 of 16 completed. Plan 01-13 passed all three tasks locally on Windows, including migration 0005, real crash recovery and all nine UI scenarios. Plan 01-14 has only Task 1 steps 1-3 implemented; its Electron adapter and live acceptance remain pending. PDF-01/PDF-02 remain early out-of-plan increments, not Phase 2 completion.
+Status: Plan 01-13 complete with Windows-only verification; see canonical summary and saved smoke. Plan 01-14 is a pure policy/supervisor checkpoint with nine passing fake-clock tests, not a completed task or plan. Latest pre-push CI run 38026098213 failed formatting on both platforms; maintenance 55626a6 fixes the mechanical errors locally. Prior Windows run 38024316170 at e473b92 was owner-confirmed green. New implementation CI remains unverified. Plan 01-10 stays partial, macOS responsiveness investigation is deferred, and Tier B remains outstanding.
+Last activity: 2026-10-10 (kernel f77d1a0, host/Core/UI 05809fb, pure supervision e51e8c7, packaged assertions 0d6872d, summaries/evidence ca815aa. Required static/security/history gates pass. Broad units: 570 pass, one theme-token failure corrected with five passing focused tests. Broad E2E: 51 pass, seven duplicate-status-region failures corrected with 22 passing affected scenarios. No clean full-suite rerun is claimed. Domain/storage: 273 pass; packaged E2E: 10 pass; installed smoke: pass, local idle/loaded p95 12/13 ms.)
 
-Progress: [███████░░░] 69% of current-phase plans; Phase 1 remains incomplete.
+Progress: [████████░░] 75% of current-phase plans; Phase 1 remains incomplete.
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
+- Total plans completed: 12
 - Average duration: -
 - Total execution time: Not measured
 
@@ -44,10 +44,10 @@ Progress: [███████░░░] 69% of current-phase plans; Phase 1 r
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1 | 11/16 completed | Not measured | Not measured |
+| 1 | 12/16 completed | Not measured | Not measured |
 
 **Recent Trend:**
-- Last 5 plans: 01-07, 01-08, 01-09, 01-11, 01-12 (completed; durations not measured)
+- Last 5 plans: 01-08, 01-09, 01-11, 01-12, 01-13 (completed; durations not measured)
 - Trend: -
 
 *Updated after each plan completion*
@@ -59,12 +59,14 @@ Progress: [███████░░░] 69% of current-phase plans; Phase 1 r
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- [Current owner direction 2026-10-10]: Execute approved plans in dependency order; commit and push verified work to origin/feat/danesh-phase-01 without asking again. Use focused tests while coding, broad checks at meaningful integration checkpoints and corrective subsets after failures. Keep macOS/Tier B gates intact. Plan 01-13 is Windows-verified complete; 01-14 has only its pure domain checkpoint. Do not start 01-15 before 01-14 completes.
+
 - [Owner direction 2026-10-10, CI]: Windows CI unit timeouts fixed without weakening assertions (cheaper fixtures, file-scoped 30 s deadlines for real-I/O test files). Run 38021049327 at 5436b02 passed the whole Windows job (unit, package, installed smoke, E2E, packaged E2E). macOS still fails only ui-responsive (idle p95 139 ms before any engine runs); accepted as temporarily unresolved by the owner.
 - [Owner direction 2026-10-10, PDF-02]: Early Phase 2 increment: an isolated `pdf` engine host (pdf.js) does import checks and page extraction; logical order is rebuilt from geometry with the Unicode bidi algorithm (bidi-js 1.1.0, MIT); raw and normalized text are stored separately with page boxes, stable block ids, flags and extractor version (migration 0004_extraction; jobs moved to 0005). The reader is a document mode. Evaluation covers Chromium-printed fixtures only (CER 0.10%, 1/991), so S-PDF remains open. ADR 0005 amended (still proposed).
 
 - [Owner direction 2026-10-10, PDF-01]: Ship a usable PDF journey before the remaining Phase 1 infrastructure. Done on Windows: pick PDF → pdf.js check in Core → original in CAS → `document` row (migration 0003) → Library → original pages in a pdf.js viewer → survives relaunch. Durable jobs move to migration 0004 (01-13-PLAN.md renamed accordingly). ADR 0005 (pdf.js, proposed). Drizzle stays deferred (pin approval). Encrypted PDFs are refused, not unlocked. No text extraction. macOS and CI not run for this increment. See PDF-01-SUMMARY.md.
 
-- [Owner direction 2026-10-10]: Continue Windows-first implementation of approved Plan 01-12 (depends directly on completed 01-11) while 01-10 remains partially verified. This is a development-sequencing exception only: all cross-platform/release acceptance criteria, failed evidence, macOS support, security and CI remain intact. macOS investigation is deferred technical debt. Track the Windows native worker crash; investigate only if it reproduces locally or blocks current work. Plan 01-13 may follow only after verified 01-12 and with enough context to finish; do not start 01-14. No push is authorized.
+- [Historical owner direction, superseded by current strict execution]: The earlier session limited development to 01-12/13 and prohibited pushing or starting 01-14. The current request explicitly authorizes verified pushes and successive dependency-ready plans; cross-platform/release criteria remain unchanged.
 
 - [Phase 1]: Plan 01-12 is complete with Windows-only verification. CAS streams bounded writes, syncs before atomic non-overwriting hard-link publication, verifies every read and duplicate, and sweeps only CAS-owned partials before Core opens/migrates the library. Unsupported links fail closed rather than risking a rename overwrite; backup temporary data is preserved. All existing CAS Gherkin scenarios, real killed-writer tests, packaged CAS UI and production smoke passed. Plan 01-13 was not started because remaining execution budget cannot cover its full durable job implementation and crash/restart verification; resume its approved plan next. See 01-12-SUMMARY.md.
 
@@ -88,13 +90,15 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+- Resume Plan 01-14 Task 1 step 4; exact remaining steps and commands are recorded in 01-14-SUMMARY.md.
 
 ### Blockers/Concerns
 
+- [Minor PDF issue]: The intermittent viewer canvas assertion did not reproduce in six focused PDF Library scenarios or the broad regression. Its real-pixel assertion is preserved; investigate if it reproduces or blocks required functionality.
+
 - ~~[Phase 1]: D-LICENSE needs a product decision~~ RESOLVED 2026-10-09: MIT for original source (user decision).
 - [Phase 1]: S-PACKAGE proven on Windows x64 with native engines and installed Persian-path smoke. Earlier macOS diagnostics loaded all three engines, but the complete smoke/E2E gate and Tier B remain unsatisfied.
-- [Phase 1]: 01-10 still needs green CI including E2E on both platforms and current-run passing artifact validation. Latest run 38016154277 passed Windows but failed macOS smoke. Prior actual diagnosis remains at evidence/tier-a-ci/38015174157/RUN.md; new Windows evidence is at evidence/tier-a-ci/38016154277/RUN.md. macOS investigation is deferred by the owner; the Windows native probe crash remains tracked and is investigated only if locally reproduced or blocking. Plan 01-12 is implemented and Windows verified; Plan 01-13 is next. Tier B clean-machine verification remains separate and outstanding.
+- [Phase 1]: 01-10 still needs passing current-run artifacts and green CI/E2E on both platforms. Prior authenticated evidence remains in evidence/tier-a-ci. Windows run 38024316170 at e473b92 was owner-confirmed green; last macOS smoke remained above 50 ms (idle 62 ms, loaded 113 ms). Latest pre-push run 38026098213 failed formatting before smoke. New CI is unverified. macOS investigation is deferred; Tier B is separate and outstanding. Earlier Windows native probe crash did not reproduce locally and remains tracked.
 - [Phase 4]: D-COMMERCIAL and D-DISTRIB (model licenses, hosting mirrors, offline bundles) need decisions before the registry and downloads ship.
 - [Phase 10]: Persian TTS naturalness and voice licensing are unproven. S-TTS needs at least 3 native listeners and should start early.
 - [All engine phases]: There is no public Persian quality evidence for any candidate engine or model, so every choice is spike-gated with pass policies written first.
@@ -111,5 +115,5 @@ Items acknowledged and deferred at milestone close, most recent first:
 ## Session Continuity
 
 Last session: 2026-10-10
-Stopped at: PDF-02 complete and pushed; Windows CI green at e473b92 (run 38024316170). 11/16 Phase 1 plans and 0/12 phases complete (unchanged). Plan 01-10 partial (macOS smoke), Tier B outstanding. Next approved product milestone: broaden extraction evidence (S-PDF fixtures from other producers) and reading-order for multi-column pages, lists and tables; or Plan 01-13 (durable job kernel, migration 0005).
-Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-13-PLAN.md
+Stopped at: Plan 01-13 complete on Windows; Plan 01-14 Task 1 steps 1-3 checkpointed. 12/16 plans, 0/12 phases complete. Resume Task 1 step 4, Electron supervision adapter/hosts lifecycle, then guarded kill and sample-job host-kill acceptance. PLAT-04 remains pending. Verified pushes are authorized; new CI unverified. No further live integration was started because remaining session capacity cannot safely cover the implementation and required crash matrix.
+Resume file: .planning/phases/01-secure-durable-foundation-packaging-gate/01-14-PLAN.md

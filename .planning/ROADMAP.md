@@ -42,7 +42,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. User data lives in a versioned database with forward-only migrations. The app snapshots data before migrating, a failed migration leaves prior data intact and restorable, and a database written by a newer version is refused. Large artifacts are written atomically into a content-addressed store.
   5. Danesh's own license is recorded in an ADR. The ADR-with-spike template, the acceptance-scenarios-before-implementation practice and the evidence-path verification report (verified, partially verified, blocked) are all in use for this phase's own work.
 
-**Plans**: 10/16 plans executed (01-17 added by user direction 2026-10-10). Plan 01-11 is complete locally. Latest run 38015174157 failed both jobs: macOS idle p95 120 ms/loaded p95 143 ms, Windows native probe worker crash. Both artifacts were downloaded with authenticated access and the macOS report was validated as failing; no specific runtime correction is proved. Plan 01-10 still needs diagnosis, green cross-platform CI including E2E and current-run artifacts validated as passing. Plan 01-12 remains gated. The latest plan-checker findings (3 blockers, 1 warning) were corrected directly and verified only by deterministic checks, NOT formally rechecked by the AI plan checker (2026-10-09).
+**Plans**: 12/16 plans executed (01-17 added by user direction 2026-10-10). Plans 01-11/12/13 are locally verified on Windows under the owner-approved sequencing exception. Plan 01-14 has only a pure domain checkpoint; live integration and acceptance remain pending. Plan 01-10 remains partial: cross-platform CI/E2E and Tier B are open, macOS investigation is deferred, and failed evidence is preserved. Latest pre-push run 38026098213 failed formatting on both platforms; local maintenance fixes passed. Earlier Windows run 38024316170 at e473b92 was owner-confirmed green; new implementation CI is unverified. Plan-checker corrections were verified deterministically, not formally rechecked by the AI checker (2026-10-09).
 
 Plans:
 **Wave 1**
@@ -67,7 +67,7 @@ Plans:
 - [x] 01-09-PLAN.md — LLM, OCR and TTS packaging probes in isolated hosts; UI responsiveness check
 
 **Wave 7** *(blocked on Wave 6 completion)*
-- [ ] 01-10-PLAN.md — Partially verified; latest run 38016154277 passed Windows with fresh artifact validated, macOS smoke failed; owner defers macOS investigation, native worker crash remains tracked, cross-platform and Tier B acceptance unchanged
+- [ ] 01-10-PLAN.md — Partially verified; prior Windows CI green, macOS responsiveness deferred; pre-push run 38026098213 failed formatting, new implementation CI unverified; cross-platform and Tier B requirements unchanged
 
 **Wave 8** *(blocked on Wave 7 completion)*
 - [x] 01-11-PLAN.md — Forward-only migrations, verified backups, newer-schema refusal and read-only recovery; existing local slice resumed and verified on Windows while the CI gate remains pending
@@ -76,10 +76,10 @@ Plans:
 - [x] 01-12-PLAN.md — Content-addressed blob store, Core startup cleanup and real System Check; implementation complete and verified on Windows only under owner-approved sequencing exception (2026-10-10); macOS unverified, 01-10 and release criteria unchanged
 
 **Wave 10** *(blocked on Wave 9 completion)*
-- [ ] 01-13-PLAN.md — Durable job kernel and sample durable job with crash-safe resume; next approved Windows-first implementation, not started
+- [x] 01-13-PLAN.md — All three durable-job tasks verified on Windows: transactional kernel, real crash recovery, all nine sample-job UI scenarios; macOS execution unverified and release gates unchanged
 
 **Wave 11** *(blocked on Wave 10 completion)*
-- [ ] 01-14-PLAN.md — Engine and Core supervision: crash/OOM containment with backoff
+- [ ] 01-14-PLAN.md — In progress: Task 1 steps 1-3 pure backoff/policy/supervisor checkpointed; resume step 4 Electron adapter, then all live crash/watchdog/Core/UI acceptance
 
 **Wave 12** *(blocked on Wave 11 completion)*
 - [ ] 01-15-PLAN.md — Default-deny egress proof: Node guard, empty allowlist policy and broker skeleton, egress-zero check, network-monitored E2E with positive controls
@@ -345,7 +345,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Secure, Durable Foundation & Packaging Gate | 11/16 | In Progress (Windows-first; cross-platform verification pending) | - |
+| 1. Secure, Durable Foundation & Packaging Gate | 12/16 | In Progress (Windows-first; cross-platform verification pending) | - |
 | 2. PDF Import & Faithful Canonical Model | 0/TBD | Not started | - |
 | 3. Persian-First Semantic Reader, Outline & Search | 0/TBD | Not started | - |
 | 4. Local Model Manager & AI Runtime | 0/TBD | Not started | - |

@@ -27,7 +27,7 @@ Requirements for the initial release. Each maps to exactly one roadmap phase.
 
 - [ ] **JOB-01**: User can see every long-running job (import, OCR, translation, synthesis, TTS, download) on demand, with its current stage, progress and status.
 - [ ] **JOB-02**: User can pause, resume, cancel and retry any job.
-- [ ] **JOB-03**: Jobs resume automatically after an app restart or crash. Completed work is not redone and verified output is not lost.
+- [x] **JOB-03**: Jobs resume automatically after an app restart or crash. Completed work is not redone and verified output is not lost. (Plan 01-13 verified on Windows; macOS execution pending.)
 - [ ] **JOB-04**: A failing unit (e.g. a corrupt page) is quarantined and reported, and the rest of the job still completes, marked "completed with issues".
 - [ ] **JOB-05**: Heavy work is bounded: at most one heavy model is resident and a memory budget is enforced. Interactive requests take priority over background jobs.
 
@@ -286,7 +286,7 @@ Which phases cover which requirements. Filled in during roadmap creation.
 | PLAT-11 | Phase 1 | Pending |
 | JOB-01 | Phase 2 | Pending |
 | JOB-02 | Phase 2 | Pending |
-| JOB-03 | Phase 1 | Pending |
+| JOB-03 | Phase 1 | Complete (Windows; macOS execution pending) |
 | JOB-04 | Phase 2 | Pending |
 | JOB-05 | Phase 4 | Pending |
 | DOC-01 | Phase 2 | Pending |
