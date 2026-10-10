@@ -22,7 +22,8 @@ export async function runLlmProbe({ modelPath }: { modelPath: string }): Promise
     const model = await llama.loadModel({ modelPath });
     const loadMs = Math.round(performance.now() - started);
     try {
-      const context = await model.createContext({ contextSize: 256 });
+      // The three probes run concurrently; leave CPU capacity for the renderer and Core on small machines.
+      const context = await model.createContext({ contextSize: 256, threads: 2 });
       try {
         const completion = new LlamaCompletion({ contextSequence: context.getSequence() });
         const generated = performance.now();

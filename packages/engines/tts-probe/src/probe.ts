@@ -41,11 +41,17 @@ export async function runTtsProbe({
   const ids = phonemeIds(config.phoneme_id_map, TTS_PHONEMES);
   let session: ort.InferenceSession;
   let loadedFrom: 'path' | 'buffer' = 'path';
+  // ORT otherwise allocates a pool across available cores while the LLM and OCR probes also run.
+  const sessionOptions: ort.InferenceSession.SessionOptions = {
+    intraOpNumThreads: 1,
+    interOpNumThreads: 1,
+    executionMode: 'sequential',
+  };
   try {
-    session = await ort.InferenceSession.create(modelPath);
+    session = await ort.InferenceSession.create(modelPath, sessionOptions);
   } catch {
     loadedFrom = 'buffer';
-    session = await ort.InferenceSession.create(await readFile(modelPath));
+    session = await ort.InferenceSession.create(await readFile(modelPath), sessionOptions);
   }
   try {
     const feeds = {
