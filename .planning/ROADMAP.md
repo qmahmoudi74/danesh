@@ -42,7 +42,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. User data lives in a versioned database with forward-only migrations. The app snapshots data before migrating, a failed migration leaves prior data intact and restorable, and a database written by a newer version is refused. Large artifacts are written atomically into a content-addressed store.
   5. Danesh's own license is recorded in an ADR. The ADR-with-spike template, the acceptance-scenarios-before-implementation practice and the evidence-path verification report (verified, partially verified, blocked) are all in use for this phase's own work.
 
-**Plans**: 9/16 plans executed (01-17 added by user direction 2026-10-10) — planning complete and ready for implementation; the latest plan-checker findings (3 blockers, 1 warning) were corrected directly and verified only by deterministic checks, NOT formally rechecked by the AI plan checker (2026-10-09)
+**Plans**: 10/16 plans executed (01-17 added by user direction 2026-10-10). Plan 01-11 is complete locally; 01-10 still needs a green CI rerun and artifact validation after macOS responsiveness failed. The latest plan-checker findings (3 blockers, 1 warning) were corrected directly and verified only by deterministic checks, NOT formally rechecked by the AI plan checker (2026-10-09).
 
 Plans:
 **Wave 1**
@@ -67,10 +67,10 @@ Plans:
 - [x] 01-09-PLAN.md — LLM, OCR and TTS packaging probes in isolated hosts; UI responsiveness check
 
 **Wave 7** *(blocked on Wave 6 completion)*
-- [ ] 01-10-PLAN.md — CI on Windows and macOS, local CI parity, Tier B runbooks, first GitHub run (user push)
+- [ ] 01-10-PLAN.md — CI and local parity implemented; GitHub runs observed, but macOS responsiveness and validated artifact evidence remain pending
 
 **Wave 8** *(blocked on Wave 7 completion)*
-- [ ] 01-11-PLAN.md — Forward-only migrations, verified backups, newer-schema refusal, read-only recovery
+- [x] 01-11-PLAN.md — Forward-only migrations, verified backups, newer-schema refusal and read-only recovery; existing local slice resumed and verified on Windows while the CI gate remains pending
 
 **Wave 9** *(blocked on Wave 8 completion)*
 - [ ] 01-12-PLAN.md — Content-addressed blob store with atomic writes
@@ -345,7 +345,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Secure, Durable Foundation & Packaging Gate | 5/15 | In Progress | - |
+| 1. Secure, Durable Foundation & Packaging Gate | 10/16 | In Progress | - |
 | 2. PDF Import & Faithful Canonical Model | 0/TBD | Not started | - |
 | 3. Persian-First Semantic Reader, Outline & Search | 0/TBD | Not started | - |
 | 4. Local Model Manager & AI Runtime | 0/TBD | Not started | - |
