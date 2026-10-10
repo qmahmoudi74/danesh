@@ -14,7 +14,7 @@ Requirements for the initial release. Each maps to exactly one roadmap phase.
 - [ ] **PLAT-01**: The renderer runs sandboxed with context isolation, no Node integration and a restrictive CSP. It reaches the backend only through a closed, typed API.
 - [ ] **PLAT-02**: Every IPC/RPC message is schema-validated by the receiving process. Invalid payloads are rejected and logged locally.
 - [ ] **PLAT-03**: Heavy work (PDF parsing, OCR, inference, embeddings, TTS) runs in isolated processes. The UI stays responsive (typing, scrolling, navigation) while jobs run.
-- [ ] **PLAT-04**: A crash or out-of-memory in an engine process never takes down the app. The affected task is marked retriable and the engine restarts with backoff.
+- [x] **PLAT-04**: A crash or out-of-memory in an engine process never takes down the app. The affected task is marked retriable and the engine restarts with backoff.
 - [ ] **PLAT-05**: Outbound network access is denied by default. Only explicit, user-controlled paths (web research, model downloads, opt-in update check) can open connections. An automated test verifies this with the network blocked.
 - [x] **PLAT-06**: User data lives in a versioned local database with forward-only migrations. The app refuses to open a database written by a newer version.
 - [x] **PLAT-07**: The app automatically snapshots the user's data before any schema migration. A failed migration leaves prior data intact and restorable.
@@ -276,7 +276,7 @@ Which phases cover which requirements. Filled in during roadmap creation.
 | PLAT-01 | Phase 1 | Pending |
 | PLAT-02 | Phase 1 | Pending |
 | PLAT-03 | Phase 1 | Pending |
-| PLAT-04 | Phase 1 | Pending |
+| PLAT-04 | Phase 1 | Complete (Windows local acceptance; macOS evidence pending); 01-14-SUMMARY.md |
 | PLAT-05 | Phase 1 | Pending |
 | PLAT-06 | Phase 1 | Complete (Windows; macOS platform evidence pending) |
 | PLAT-07 | Phase 1 | Complete (Windows; macOS platform evidence pending) |
