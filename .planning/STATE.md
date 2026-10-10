@@ -35,6 +35,27 @@ Progress: [████████░░] 75% of current-phase plans; Phase 1 r
 
 ## Performance Metrics
 
+## Product capabilities (2026-10-10)
+
+Plan counts measure Phase 1 engineering execution only, never overall Danesh delivery.
+
+| Outcome | Status | Requirements and actual evidence / missing behavior |
+|---------|--------|----------------------------------------------------|
+| Faithful PDF ingestion | Partially implemented | DOC-01..09; PDF-01/02 summaries: immutable CAS originals, deduplication, refusal, provisional heading/paragraph extraction. Printed fixtures only; full canonical types and real-world fidelity not verified. |
+| Semantic Reader | Partially implemented | READ-01..12; PDF-02 and brief-alignment E2E: selectable mixed-direction text, source-block raw excerpts. No PDF viewer. Outline, saved position, search and concept navigation missing. |
+| Local AI runtime | Partially implemented | MODEL-01..08; 01-09 native offline probes and supervised processes. No user model registry, downloads or task-quality evaluation. |
+| Document intelligence | Not implemented | DOC-06, DOC-10..14, DOC-20; scanned pages are explicitly marked needs-OCR; structured OCR/layout pipeline not delivered. |
+| Knowledge map and curriculum | Not implemented | KNOW-01..09; Phase 6 has no implementation. |
+| Translation and normalization | Not implemented | LANG-01..08; Phase 7 has no implementation. |
+| Grounded lessons and Q&A | Not implemented | LESSON-01..10; Phase 8 has no implementation. |
+| Active learning and memory | Not implemented | LEARN-01..10; Phase 9 has no implementation or delayed recall evidence. |
+| Natural local audio | Partially implemented | AUDIO-01..09; 01-09 TTS packaging probe only. No learner playback, Persian naturalness/listener evaluation or cached lesson audio. |
+| Privacy, portability and release readiness | Partially implemented | PLAT-01..08, DATA-01..06, REL-01..08; 01-11/12/13 Windows storage/recovery verified. Full process egress, portability and signed release missing; 01-10 and Tier B blocked on platform evidence. |
+
+Owner decision: the latest product direction supersedes PDF-01's original-page UI. The confirmed brief already excludes PDF viewing/navigation. The revised acceptance scenarios were committed in 0a16d6a before implementation. Immutable originals, existing extraction data and internal PDF engines are retained. Roadmap review found no further direct contradiction: Phases 3/6/7/9 specify semantic reading, hierarchical curriculum, full-complexity normalization and retrieval-only recall evidence.
+
+Brief-alignment verification: 9/10 affected PDF scenarios passed initially; the English direction assertion selected both semantic text and its now-inspectable excerpt. Scoped it to the semantic paragraph and the focused scenario passed. No weakened direction/provenance/integrity assertion; no broad rerun claimed. Plan 01-14 Tasks 1/2 are now implemented in 30a0827 and 752ec93; Task 3 remains in progress. Its final acceptance is not yet claimed.
+
 **Velocity:**
 - Total plans completed: 12
 - Average duration: -

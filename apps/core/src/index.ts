@@ -20,7 +20,7 @@ import {
   requireReadable,
   requireWritable,
 } from './boot.ts';
-import { createImportSources, importPdf, readOriginal, toLibraryDocument } from './documents.ts';
+import { createImportSources, importPdf, toLibraryDocument } from './documents.ts';
 import { createEngineClient } from './engine-client.ts';
 import { createExtractor } from './extraction.ts';
 import { createPdfWorker } from './pdf-worker.ts';
@@ -130,19 +130,8 @@ const handlers: Record<string, RpcHandler> = {
       version: EXTRACTOR_VERSION,
       fromPage: input.fromPage,
       toPage: input.toPage,
-    }).map((page) => ({
-      ...page,
-      blocks: page.blocks.map(({ rawText: _raw, ...block }) => block),
-    })),
+    }),
   }),
-  'documents.content': async (input: { documentId: string }) => {
-    const bytes = await readOriginal(input.documentId, {
-      db: requireReadable(library),
-      cas: requireCas(),
-    });
-    if (!bytes) throw new RpcHandlerError('UNAVAILABLE');
-    return { bytes };
-  },
   'system.ping': (input: { n: number }) => ({ ...input, corePid: process.pid }),
   'systemCheck.run': (_input: Record<string, never>, port: UtilityPort) => {
     const runId = randomUUID();

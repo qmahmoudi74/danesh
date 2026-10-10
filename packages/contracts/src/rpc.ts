@@ -82,6 +82,7 @@ export const TextBlockSchema = z.strictObject({
   ordinal: z.number().int().nonnegative(),
   kind: z.enum(['heading', 'paragraph']),
   normalizedText: z.string().max(200_000),
+  rawText: z.string().max(200_000),
   direction: DirectionSchema,
   box: BoxSchema,
   flags: z.array(z.string().max(64)).max(16),
@@ -149,13 +150,6 @@ export const rpcMethods: Record<string, RpcMethod> = {
       ),
     output: z.strictObject({ pages: z.array(TextPageSchema).max(TEXT_PAGES_PER_CALL) }),
     maxInputBytes: 256,
-  },
-  // The verified original bytes, for the page viewer.
-  'documents.content': {
-    input: z.strictObject({ documentId: z.string().uuid() }),
-    output: z.strictObject({ bytes: z.instanceof(Uint8Array) }),
-    maxInputBytes: 256,
-    timeoutMs: FILE_TIMEOUT_MS,
   },
   'system.info': { input: z.strictObject({}), output: SystemInfoSchema, maxInputBytes: 1024 },
   'app.status': { input: z.strictObject({}), output: AppStatusSchema, maxInputBytes: 256 },

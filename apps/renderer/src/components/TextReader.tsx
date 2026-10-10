@@ -54,22 +54,13 @@ async function loadAllPages(documentId: string, pageCount: number): Promise<Text
   return pages;
 }
 
-function PageText({
-  page,
-  onShowOriginal,
-}: {
-  page: TextPage;
-  onShowOriginal: (page: number) => void;
-}) {
+function PageText({ page }: { page: TextPage }) {
   const label = `صفحهٔ ${formatNumber(page.pageNumber)}`;
   const statusLabel = pageStatusLabels[page.status];
   return (
     <section className="reader-page" aria-label={label} data-page={page.pageNumber}>
       <div className="reader-page-head">
         <span className="label">{label}</span>
-        <Button className="link" onPress={() => onShowOriginal(page.pageNumber)}>
-          دیدن این صفحه در نسخهٔ اصلی
-        </Button>
       </div>
       {statusLabel && <p className={`caption page-status ${page.status}`}>{statusLabel}</p>}
       {page.flags.map((flag) =>
@@ -104,6 +95,16 @@ function PageText({
                 {note}
               </p>
             ))}
+            <details className="technical">
+              <summary>گزیدهٔ اصلی و شواهد این بخش</summary>
+              <p className="caption">
+                منبع: {label} · بخش <Ltr>{block.blockId}</Ltr>
+              </p>
+              <blockquote dir={textDirection(block.direction)}>{block.rawText}</blockquote>
+              <p className="caption">
+                محدوده در منبع: <Ltr>{block.box.join(', ')}</Ltr>
+              </p>
+            </details>
           </div>
         );
       })}
@@ -115,13 +116,7 @@ function PageText({
  * The extracted-text mode of a document: starts or continues extraction, shows page progress, then the stored
  * text as selectable Persian-first blocks with page provenance and the pages that need OCR or review.
  */
-export function TextReader({
-  documentId,
-  onShowOriginal,
-}: {
-  documentId: string;
-  onShowOriginal: (page: number) => void;
-}) {
+export function TextReader({ documentId }: { documentId: string }) {
   const [status, setStatus] = useState<ExtractionStatus>();
   const [pages, setPages] = useState<TextPage[]>();
   const [failed, setFailed] = useState(false);
@@ -239,7 +234,7 @@ export function TextReader({
       <Banner
         variant="info"
         title="متن بازسازی‌شده، بازبینی‌نشده"
-        body="این متن به‌طور خودکار از فایل بیرون کشیده و ترتیب خواندن و عنوان‌های آن حدس زده شده است. برای اطمینان با نسخهٔ اصلی مقایسه کنید."
+        body="این متن به‌طور خودکار از فایل بیرون کشیده و ترتیب خواندن و عنوان‌های آن حدس زده شده است. گزیدهٔ اصلی و شواهد هر بخش در دسترس است؛ بخش‌های ناقص نیازمند بازبینی‌اند."
       />
       {(status.needsOcr.length > 0 || status.needsReview.length > 0) && (
         <div className="reader-attention" role="note">
@@ -258,7 +253,7 @@ export function TextReader({
       ) : (
         <article className="reader-text" aria-label="متن استخراج‌شده">
           {pages.map((page) => (
-            <PageText key={page.pageNumber} page={page} onShowOriginal={onShowOriginal} />
+            <PageText key={page.pageNumber} page={page} />
           ))}
         </article>
       )}

@@ -29,10 +29,6 @@ const reader = (page: Page) => page.getByRole('article', { name: 'متن است�
 async function openText(page: Page, title: string) {
   await openLibrary(page);
   await page.getByRole('button', { name: `باز کردن ${title}`, exact: true }).click();
-  await page
-    .getByRole('radio', { name: 'متن استخراج‌شده' })
-    .or(page.getByRole('button', { name: 'متن استخراج‌شده', exact: true }))
-    .click();
 }
 
 Given(
@@ -48,7 +44,7 @@ Given(
   },
 );
 
-When('I open it and choose «متن استخراج‌شده»', async ({ harness }) => {
+When('I open it in the semantic Reader', async ({ harness }) => {
   await openText(harness.page!, opened.get(harness)!.title);
 });
 
@@ -145,21 +141,31 @@ Then("the reader's text can be selected and copied", async ({ harness }) => {
     .toBe(expected);
 });
 
-When('I switch to «نسخه اصلی»', async ({ harness }) => {
-  await harness
-    .page!.getByRole('radio', { name: 'نسخه اصلی' })
-    .or(harness.page!.getByRole('button', { name: 'نسخه اصلی', exact: true }))
-    .click();
+When('I inspect the original excerpt for the mixed sentence', async ({ harness }) => {
+  const block = reader(harness.page!).locator('.reader-block', {
+    has: harness.page!.locator('p.reader-paragraph', { hasText: 'E = mc²' }),
+  });
+  await block.locator('summary').click();
 });
-Then('the original page is drawn', async ({ harness }) => {
-  await expect(harness.page!.locator('canvas.viewer-page')).toHaveAttribute(
-    'data-rendered',
-    'true',
-    {
-      timeout: 15_000,
-    },
-  );
-});
+Then(
+  'its stored raw text and source-block provenance are shown without a PDF page viewer',
+  async ({ harness, libraryRoot }) => {
+    const block = reader(harness.page!).locator('.reader-block', {
+      has: harness.page!.locator('p.reader-paragraph', { hasText: 'E = mc²' }),
+    });
+    const id = await block.locator('[data-block-id]').getAttribute('data-block-id');
+    const rows = readDb<{ block_id: string; raw_text: string; page_number: number }>(
+      libraryRoot,
+      'SELECT block_id, raw_text, page_number FROM extracted_block',
+    );
+    const stored = rows.find((row) => row.block_id === id)!;
+    expect(stored).toBeDefined();
+    await expect(block.locator('blockquote')).toHaveText(stored.raw_text);
+    await expect(block.locator('details')).toContainText(id!);
+    await expect(block.locator('details')).toContainText('صفحهٔ ' + fa(stored.page_number));
+    await expect(harness.page!.locator('canvas')).toHaveCount(0);
+  },
+);
 
 Then(
   "opening the document's extracted text shows the same blocks without extracting again",
@@ -197,10 +203,9 @@ Then(
       'ltr',
     );
     const truth = truthOf('english-report.pdf');
-    await expect(text.getByText(truth.pages[1]![1]!.text!, { exact: true })).toHaveAttribute(
-      'dir',
-      'ltr',
-    );
+    await expect(
+      text.locator('p.reader-paragraph').filter({ hasText: truth.pages[1]![1]!.text! }),
+    ).toHaveAttribute('dir', 'ltr');
   },
 );
 

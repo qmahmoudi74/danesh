@@ -10,7 +10,6 @@ const sampleBytes = buildPdf({
   pages: ['Danesh page one', 'Danesh page two', 'Danesh page three'],
   title: 'مبانی Danesh',
 });
-const pageWidths = new WeakMap<object, number>();
 
 /** Writes a source file outside the library's own folders and makes Main's open dialog return it. */
 export async function pickFile(
@@ -43,28 +42,10 @@ export async function importFromLibrary(page: Page) {
 export const documentRows = (page: Page) =>
   page.getByRole('list', { name: 'فایل‌های کتابخانه' }).getByRole('listitem');
 
-async function expectPageDrawn(page: Page, number: number, total: number) {
-  const canvas = page.getByRole('img', {
-    name: `صفحهٔ ${persianDigits(number)} از ${persianDigits(total)}`,
-    exact: true,
-  });
-  await expect(canvas).toHaveAttribute('data-rendered', 'true', { timeout: 15_000 });
-  // The canvas holds real ink, not only the white page background.
-  const inked = await canvas.evaluate((element) => {
-    const target = element as HTMLCanvasElement;
-    const pixels = target.getContext('2d')!.getImageData(0, 0, target.width, target.height).data;
-    let dark = 0;
-    for (let index = 0; index < pixels.length; index += 4) if (pixels[index]! < 128) dark++;
-    return dark;
-  });
-  expect(inked).toBeGreaterThan(100);
-  // pdf.js and its worker run under the unchanged content security policy.
-  expect(
-    await page.evaluate(() => (window as { __cspViolations?: string[] }).__cspViolations),
-  ).toEqual([]);
-  await expect(
-    page.getByText(`صفحهٔ ${persianDigits(number)} از ${persianDigits(total)}`, { exact: true }),
-  ).toBeVisible();
+async function expectSemanticReader(page: Page) {
+  await expect(page.getByRole('button', { name: 'استخراج متن', exact: true })).toBeVisible();
+  await expect(page.locator('canvas')).toHaveCount(0);
+  await expect(page.locator('.mode-switch, .viewer-controls')).toHaveCount(0);
 }
 
 When(
@@ -93,34 +74,19 @@ When('I open «مبانی Danesh» from the Library', async ({ harness }) => {
   await harness.page!.getByRole('button', { name: 'باز کردن مبانی Danesh', exact: true }).click();
 });
 Then(
-  /^page (\d+) of (\d+) is drawn inside Danesh$/,
-  async ({ harness }, number: string, total: string) => {
-    await expectPageDrawn(harness.page!, Number(number), Number(total));
+  'the semantic Reader offers extraction without PDF viewing or page navigation',
+  async ({ harness }) => {
+    await expectSemanticReader(harness.page!);
   },
 );
-When('I go to the next page', async ({ harness }) => {
-  await harness.page!.getByRole('button', { name: 'صفحهٔ بعد', exact: true }).click();
-});
-When('I zoom in', async ({ harness }) => {
-  const canvas = harness.page!.locator('canvas.viewer-page');
-  pageWidths.set(harness, (await canvas.boundingBox())!.width);
-  await harness.page!.getByRole('button', { name: 'بزرگ‌نمایی', exact: true }).click();
-});
-Then('the page is drawn wider than before', async ({ harness }) => {
-  const canvas = harness.page!.locator('canvas.viewer-page');
-  await expect(canvas).toHaveAttribute('data-rendered', 'true');
-  await expect
-    .poll(async () => (await canvas.boundingBox())!.width)
-    .toBeGreaterThan(pageWidths.get(harness)! * 1.2);
-});
 Then('the Library still lists «مبانی Danesh» once', async ({ harness }) => {
   await openLibrary(harness.page!);
   await expect(documentRows(harness.page!)).toHaveCount(1);
   await expect(documentRows(harness.page!).first()).toContainText('مبانی Danesh');
 });
-Then('opening it draws page 1 of 3', async ({ harness }) => {
+Then('opening it offers semantic extraction', async ({ harness }) => {
   await harness.page!.getByRole('button', { name: 'باز کردن مبانی Danesh', exact: true }).click();
-  await expectPageDrawn(harness.page!, 1, 3);
+  await expectSemanticReader(harness.page!);
 });
 
 When('the 3-page file «کتاب نمونه.pdf» has been imported', async ({ harness, libraryRoot }) => {
