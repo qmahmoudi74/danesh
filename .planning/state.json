@@ -66,8 +66,8 @@
   ],
   "next": {
     "command": "/gsd-execute-phase 1",
-    "label": "Plan 01-10 CI rerun and artifact validation",
-    "reason": "10 of 16 plans complete; Plan 01-11 is complete locally. Run 38011901925 failed both platforms. Focused smoke scheduling and unit contention remedies passed local Windows checks and are committed, awaiting user push, green cross-platform CI and validated artifacts. Plan 01-12 CAS remains gated; Plan 01-13 was not started. Automatic chaining remains disabled."
+    "label": "Plan 01-10 macOS smoke diagnosis and artifact validation",
+    "reason": "10 of 16 plans complete; Plan 01-11 is complete locally. Latest run 38013304000 passed Windows, including installed smoke and both E2E steps. macOS unit/package passed but smoke p95 67 ms failed and E2E was skipped. Remaining macOS cause is unproven. Bounded production-smoke diagnostics and a confirmed unsubscribe timer cleanup fix passed local Windows verification and are committed, awaiting user push and actual macOS evidence, then an evidence-based correction if needed, green cross-platform CI and validated artifacts. Plan 01-12 CAS remains gated; Plan 01-13 was not started. Automatic chaining remains disabled."
   },
   "updated_at": "2026-10-10"
 }
