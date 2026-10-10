@@ -1,3 +1,4 @@
+import { SampleChunkInputSchema } from './jobs.ts';
 import { z } from './schema.ts';
 export const HostKindSchema = z.enum(['sample', 'llm', 'ocr', 'tts', 'pdf']);
 export type HostKind = z.infer<typeof HostKindSchema>;
@@ -43,6 +44,7 @@ export const PdfExtractPageInputSchema = z.strictObject({
   pageNumber: z.number().int().positive().max(100_000),
 });
 export const RunInputSchema = z.discriminatedUnion('type', [
+  SampleChunkInputSchema,
   PdfInspectInputSchema,
   PdfExtractPageInputSchema,
   EchoInputSchema,

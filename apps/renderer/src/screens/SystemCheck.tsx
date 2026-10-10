@@ -20,6 +20,7 @@ import { Icon } from '../components/Icons.tsx';
 import { AppShell, Ltr, TechnicalDetail } from '../components/Layout.tsx';
 import { Banner } from '../components/Status.tsx';
 import { exportFailure, summary, unreachable } from '../lib/copy.ts';
+import { SampleJobCard } from '../sample-job/SampleJobCard.tsx';
 
 export function SystemCheck() {
   const [report, setReport] = useState<SmokeReport>();
@@ -29,6 +30,7 @@ export function SystemCheck() {
   const [slow, setSlow] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
+  const [sampleAnnouncement, setSampleAnnouncement] = useState('');
   const [environment, setEnvironment] = useState<SystemInfo>();
   const [infoError, setInfoError] = useState(false);
   const runId = useRef<string | undefined>(undefined);
@@ -252,6 +254,7 @@ export function SystemCheck() {
         />
       )}
       <div className="summary" role="status" aria-live="polite" aria-atomic="true">
+        <span className="sr-only">{sampleAnnouncement}</span>
         {message && (
           <Banner
             variant={running ? 'info' : message === exportFailure || failures ? 'error' : 'success'}
@@ -302,6 +305,7 @@ export function SystemCheck() {
           )}
         </DisclosurePanel>
       </Disclosure>
+      <SampleJobCard announce={setSampleAnnouncement} />
     </AppShell>
   );
 }

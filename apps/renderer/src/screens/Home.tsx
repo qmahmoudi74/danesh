@@ -1,12 +1,13 @@
 import { type AppStatus, AppStatusSchema, SystemInfoSchema } from '@danesh/contracts/rpc.ts';
 import { shellEventPayloads } from '@danesh/contracts/shell.ts';
 import { useEffect, useState } from 'react';
-import { Button, Disclosure, DisclosurePanel, Heading } from 'react-aria-components';
+import { Button, Disclosure, DisclosurePanel, Heading, Link } from 'react-aria-components';
 import { Icon } from '../components/Icons.tsx';
 import { AppShell, Ltr, TechnicalDetail } from '../components/Layout.tsx';
 import { Banner, NoticeBanner } from '../components/Status.tsx';
 import { newerDatabaseBody, readOnlyDatabaseBody } from '../lib/copy.ts';
 import { carryToLibrary, chooseAndImportPdf, type Notice } from '../lib/documents.tsx';
+import { useSampleJob } from '../lib/sample-job.ts';
 
 type CoreState = 'starting' | 'ready' | 'unreachable';
 
@@ -97,6 +98,7 @@ function StatusBanner({ status, slow }: { status: AppStatus | undefined; slow: b
 }
 
 export function Home() {
+  const { job: sampleJob } = useSampleJob();
   const [core, setCore] = useState<CoreState>('starting');
   const [status, setStatus] = useState<AppStatus>();
   const [slow, setSlow] = useState(false);
@@ -195,6 +197,11 @@ export function Home() {
       <div aria-live="polite">
         <NoticeBanner notice={notice} />
       </div>
+      {(sampleJob?.state === 'queued' || sampleJob?.state === 'running') && (
+        <p className="background-activity">
+          کار نمونه در حال انجام است. <Link href="#/system-check">مشاهده</Link>
+        </p>
+      )}
     </AppShell>
   );
 }

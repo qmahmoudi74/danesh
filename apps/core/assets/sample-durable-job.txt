@@ -1,0 +1,5 @@
+دانش از داده‌های شما مراقبت می‌کند. این متن کوتاه برای آزمایش کار پایدار نوشته شده است.
+کار به بخش‌های کوچک تقسیم می‌شود. فقط بخش‌هایی که نتیجهٔ آن‌ها ذخیره شده است انجام‌شده به شمار می‌آیند.
+اگر برنامه بسته شود، کار از بخش نیمه‌کاره ادامه پیدا می‌کند. بخش‌های انجام‌شده دوباره اجرا نمی‌شوند.
+This original sample belongs to Danesh. It contains no private files or third-party passages.
+A task publishes its verified bytes before committing its completion. Recovery keeps committed work intact.

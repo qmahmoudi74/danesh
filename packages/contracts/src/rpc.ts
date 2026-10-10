@@ -1,3 +1,4 @@
+import { SampleJobSnapshotSchema } from './jobs.ts';
 import { BoxSchema, DirectionSchema, PdfPageStatusSchema } from './pdf.ts';
 import { ResponsivenessInputSchema } from './responsiveness.ts';
 import { z } from './schema.ts';
@@ -95,6 +96,21 @@ export type TextPage = z.infer<typeof TextPageSchema>;
 /** Pages per documents.text call: bounded messages for long documents. */
 export const TEXT_PAGES_PER_CALL = 25;
 export const rpcMethods: Record<string, RpcMethod> = {
+  'sampleJob.start': {
+    input: z.strictObject({}),
+    output: z.strictObject({ jobId: z.string().uuid() }),
+    maxInputBytes: 128,
+  },
+  'sampleJob.get': {
+    input: z.strictObject({}),
+    output: SampleJobSnapshotSchema.nullable(),
+    maxInputBytes: 128,
+  },
+  'sampleJob.retry': {
+    input: z.strictObject({ jobId: z.string().uuid() }),
+    output: z.strictObject({ jobId: z.string().uuid() }),
+    maxInputBytes: 256,
+  },
   'documents.list': {
     input: z.strictObject({}),
     output: z.strictObject({ documents: z.array(DocumentSchema).max(100_000) }),
@@ -205,6 +221,7 @@ export const RpcResponseSchema = z.discriminatedUnion('ok', [
   }),
 ]);
 export const eventPayloads: Record<string, z.ZodType> = {
+  'sampleJob.changed': z.strictObject({ jobId: z.string().uuid() }),
   'systemCheck.progress': z.strictObject({
     runId: z.string().uuid(),
     checkId: CheckIdSchema,

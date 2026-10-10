@@ -27,6 +27,26 @@ function fakeHost(
 }
 
 describe('engine client', () => {
+  it('a delayed requested exit cannot reject the next host task of the same kind', async () => {
+    let starts = 0;
+    const client = createEngineClient({
+      requestSpawn: (kind) => {
+        starts++;
+        if (starts === 2) client.hostExited(kind, 0, true);
+        queueMicrotask(() => client.attach(kind, port));
+      },
+      requestStop: () => undefined,
+      logger: { log: () => undefined },
+    });
+    const port = fakeHost((message, reply) => {
+      if (message.type === 'hello') reply({ type: 'hello-ack', hostPid: starts, kind: 'sample' });
+      else reply({ type: 'result', taskId: message.taskId, ok: true, output: {} });
+    });
+    await client.withHost('sample', { type: 'echo', value: 'first' });
+    await expect(
+      client.withHost('sample', { type: 'echo', value: 'second' }),
+    ).resolves.toMatchObject({ hostPid: 2 });
+  });
   it('spawns on demand, runs one task, and stops the host again', async () => {
     const calls: string[] = [];
     const client = createEngineClient({

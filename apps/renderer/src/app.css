@@ -1030,3 +1030,81 @@ h1[tabindex="-1"]:focus-visible {
 .page-status.needs-review {
   color: var(--color-warn);
 }
+
+.sample-job {
+  display: grid;
+  gap: 16px;
+  border-block-start: 1px solid var(--color-border-subtle);
+  padding-block-start: 24px;
+}
+.sample-job-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sample-tag {
+  background: var(--color-info-tint);
+  padding: 4px 8px;
+  font-size: 12px;
+}
+.chunk-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.chunk-cell {
+  inline-size: 16px;
+  block-size: 16px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed var(--color-border-control);
+  font-size: 12px;
+  line-height: 1;
+}
+.chunk-cell.running {
+  border: 2px solid var(--color-accent);
+}
+.chunk-cell.done {
+  border: 1px solid var(--color-pass);
+  background: var(--color-pass);
+  color: var(--color-on-pass);
+}
+.chunk-cell.failed,
+.chunk-cell.quarantined {
+  border: 1px solid var(--color-fail);
+  background: var(--color-fail-tint);
+  color: var(--color-fail);
+}
+.sample-progress {
+  block-size: 6px;
+  background: var(--color-border-subtle);
+}
+.sample-progress-fill {
+  block-size: 100%;
+  background: var(--color-accent);
+}
+.sample-detail-scroll {
+  max-block-size: 320px;
+  overflow: auto;
+  overflow-wrap: anywhere;
+}
+.sample-detail-scroll table {
+  border-collapse: collapse;
+  inline-size: 100%;
+  text-align: start;
+}
+.sample-detail-scroll th,
+.sample-detail-scroll td {
+  padding: 8px;
+  border-block-end: 1px solid var(--color-border-subtle);
+}
+.sample-detail-scroll dd {
+  margin-inline: 0;
+}
+.background-activity {
+  display: flex;
+  gap: 8px;
+}

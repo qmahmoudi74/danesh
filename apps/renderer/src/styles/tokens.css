@@ -34,6 +34,7 @@
   --color-on-brand-mark: #faf8f4;
   /* Original PDF pages are drawn on white in both themes, as printed. */
   --color-paper: #ffffff;
+  --color-on-pass: #ffffff;
   --shadow-overlay: none;
 
   /* Fixed swatches for the theme previews in Settings: they show each theme regardless of the active one. */
@@ -81,6 +82,7 @@
     --color-border-subtle: #36332e;
     --color-focus: #a9d1f2;
     --color-pass: #7ccb98;
+    --color-on-pass: #ffffff;
     --color-pass-tint: #1d3326;
     --color-fail: #f2968c;
     --color-fail-tint: #3d2220;

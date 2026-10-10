@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { randomBytes, randomUUID } from 'node:crypto';
 import { join } from 'node:path';
 import { type Init, MainToCoreSchema } from '@danesh/contracts/control.ts';
 import { EchoInputSchema } from '@danesh/contracts/host-protocol.ts';
@@ -12,7 +12,14 @@ import { type LibraryOpen, recordSystemCheckProbe } from '@danesh/storage/db.ts'
 import { listDocuments } from '@danesh/storage/documents.ts';
 import { readExtractedPages } from '@danesh/storage/extraction.ts';
 import type { z } from 'zod';
-import { bootCas, bootLibrary, libraryStatus, requireReadable, requireWritable } from './boot.ts';
+import {
+  bootCas,
+  bootJobs,
+  bootLibrary,
+  libraryStatus,
+  requireReadable,
+  requireWritable,
+} from './boot.ts';
 import { createImportSources, importPdf, readOriginal, toLibraryDocument } from './documents.ts';
 import { createEngineClient } from './engine-client.ts';
 import { createExtractor } from './extraction.ts';
@@ -23,6 +30,7 @@ import {
   type RpcHandler,
   RpcHandlerError,
 } from './rpc-server.ts';
+import { createSampleJob, type SampleJob } from './sample-job.ts';
 import { SystemCheck } from './system-check.ts';
 
 const parent = parentPort();
@@ -50,6 +58,9 @@ const extractor = createExtractor({
 let init: Init | undefined;
 let library: LibraryOpen | undefined;
 let cas: Cas | undefined;
+let sampleJob: SampleJob | undefined;
+let rendererPort: UtilityPort | undefined;
+const bootId = randomBytes(16).toString('hex');
 const systemCheck = new SystemCheck(Date.now, { engines });
 let checkFixture: z.infer<typeof CheckRunFixtureSchema> | undefined;
 let stalledUntil = 0;
@@ -61,6 +72,21 @@ function requireCas(): Cas {
 }
 
 const handlers: Record<string, RpcHandler> = {
+  'sampleJob.get': () => {
+    requireReadable(library);
+    return sampleJob?.get() ?? null;
+  },
+  'sampleJob.start': () => {
+    requireWritable(library);
+    if (!sampleJob) throw new RpcHandlerError('UNAVAILABLE');
+    return sampleJob.start();
+  },
+  'sampleJob.retry': (input: { jobId: string }) => {
+    requireWritable(library);
+    if (!sampleJob || sampleJob.get()?.jobId !== input.jobId)
+      throw new RpcHandlerError('INVALID_INPUT');
+    return sampleJob.retry(input.jobId);
+  },
   'system.info': () => {
     const { appVersion, electronVersion, osName, osVersion, arch, locale, libraryRoot } = init!;
     return { appVersion, electronVersion, osName, osVersion, arch, locale, libraryRoot };
@@ -143,6 +169,18 @@ const handlers: Record<string, RpcHandler> = {
   'diag.rejected': createDiagRejectedHandler(methods, logger),
   ...(__TEST_HOOKS__
     ? {
+        'test.sampleFault': (input: { chunkIndex: number; mode: 'always-fail' | 'none' }) => {
+          sampleJob?.setFault(input.chunkIndex, input.mode);
+          return { ok: true };
+        },
+        'test.sampleDelay': (input: { ms: number }) => {
+          sampleJob?.setDelay(input.ms);
+          return { ok: true };
+        },
+        'test.sampleChunks': (input: { n: number }) => {
+          sampleJob?.setChunks(input.n);
+          return { ok: true };
+        },
         'test.writeProbe': () => {
           recordSystemCheckProbe(requireWritable(library));
           return { ok: true };
@@ -176,6 +214,19 @@ async function initialize(facts: Init): Promise<void> {
   try {
     cas = await bootCas(facts.libraryRoot);
     library = bootLibrary(facts.libraryRoot, facts.appVersion);
+    if (library.state === 'ready') {
+      const repo = bootJobs(library.db, bootId);
+      sampleJob = createSampleJob({
+        repo,
+        cas,
+        engines,
+        bootId,
+        logger,
+        notify: (jobId) =>
+          rendererPort?.postMessage({ topic: 'sampleJob.changed', payload: { jobId } }),
+      });
+      sampleJob.resume();
+    }
   } catch {
     library = { state: 'failed', details: { errorClass: 'CasStartupFailed' } };
     logger.log('cas.startup-failed', {}, 'error');
@@ -208,10 +259,14 @@ parent.on('message', (message) => {
     importSources.add(control.data.token, control.data.path, control.data.fileName);
     parent.postMessage({ type: 'import-source-ready', token: control.data.token });
   } else if (message.ports[0]) {
-    if (control.data.type === 'renderer-port') rpcServer.attach(message.ports[0]);
-    else if (control.data.type === 'host-port') engines.attach(control.data.kind, message.ports[0]);
+    if (control.data.type === 'renderer-port') {
+      rendererPort = message.ports[0];
+      rpcServer.attach(rendererPort);
+    } else if (control.data.type === 'host-port')
+      engines.attach(control.data.kind, message.ports[0]);
   }
 });
 process.on('exit', () => {
+  sampleJob?.dispose();
   if (library && 'db' in library) library.db.close();
 });

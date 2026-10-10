@@ -19,6 +19,24 @@ export const TEST_HOOKS_SENTINEL =
 export const testRpcMethods: Record<string, RpcMethod> =
   typeof __TEST_HOOKS__ !== 'undefined' && __TEST_HOOKS__
     ? {
+        'test.sampleFault': {
+          input: z.strictObject({
+            chunkIndex: z.number().int().min(1).max(64),
+            mode: z.enum(['always-fail', 'none']),
+          }),
+          output: z.strictObject({ ok: z.literal(true) }),
+          maxInputBytes: 256,
+        },
+        'test.sampleDelay': {
+          input: z.strictObject({ ms: z.number().int().min(0).max(10_000) }),
+          output: z.strictObject({ ok: z.literal(true) }),
+          maxInputBytes: 128,
+        },
+        'test.sampleChunks': {
+          input: z.strictObject({ n: z.number().int().min(1).max(64) }),
+          output: z.strictObject({ ok: z.literal(true) }),
+          maxInputBytes: 128,
+        },
         'test.engineEcho': {
           input: z.strictObject({}),
           output: EngineEchoOutputSchema,

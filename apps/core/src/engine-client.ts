@@ -123,6 +123,8 @@ export function createEngineClient({
   };
 
   const hostExited = (kind: HostKind, exitCode: number, requested: boolean): void => {
+    // withHost/session already removed a stopped host. Its late acknowledgement belongs to that old host.
+    if (requested) return;
     hosts.delete(kind);
     if (!requested) logger.log('host.exit', { kind, exitCode }, 'warn');
     const waiter = waiting.get(kind);

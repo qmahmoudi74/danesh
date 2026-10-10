@@ -4,6 +4,9 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 export const HOOK_MARKERS = [
+  'test.sampleFault',
+  'test.sampleDelay',
+  'test.sampleChunks',
   'DANESH_TEST_HOOKS_SENTINEL',
   'test.engineEcho',
   'test.coreStall',

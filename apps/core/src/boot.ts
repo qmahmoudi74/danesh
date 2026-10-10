@@ -1,6 +1,7 @@
 import type { AppStatus } from '@danesh/contracts/rpc.ts';
 import { createCas } from '@danesh/storage/cas.ts';
 import { type Db, type LibraryOpen, openLibrary } from '@danesh/storage/db.ts';
+import { createJobsRepo } from '@danesh/storage/jobs-repo.ts';
 import { libraryPaths } from '@danesh/storage/library.ts';
 import { shippedMigrations } from '@danesh/storage/migrations-index.ts';
 import { RpcHandlerError } from './rpc-server.ts';
@@ -11,6 +12,13 @@ export async function bootCas(root: string) {
   const cas = createCas({ blobsDir: paths.blobs, tmpDir: paths.tmp });
   await cas.sweepTmp();
   return cas;
+}
+
+/** Only a writable, successfully migrated library may recover tasks. */
+export function bootJobs(db: Db, bootId: string) {
+  const repo = createJobsRepo(db);
+  repo.recover(bootId);
+  return repo;
 }
 
 /** Opens the library: migrate if needed, refuse a newer database, or fall back to read-only recovery. */
