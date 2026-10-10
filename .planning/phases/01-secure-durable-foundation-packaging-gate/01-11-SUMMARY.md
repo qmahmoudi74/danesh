@@ -112,11 +112,13 @@ The final smoke run used the unpacked production app with a Persian library path
 
 ## Remaining phase work
 
-Plan 01-10 is still partially verified: the latest public macOS CI run failed responsiveness, and its artifacts
-have not been downloaded/validated. CPU caps are a candidate remedy, unverified on macOS. See
-`01-10-SUMMARY.draft.md` and `evidence/tier-a-ci/38010302448/RUN.md`. The original push gate is no longer the actual
-stop point; a new user-triggered CI run is needed. This session finished the already-started local Plan 01-11
-slice without claiming completion of that CI gate. No new downstream plan, push, publication or deployment occurred.
+Plan 01-10 is still partially verified. Run 38011901925 failed macOS responsiveness and two Windows unit tests
+at the 5000 ms timeout, including the fresh-library migration step. The focused follow-up bounds Vitest workers
+and redundant logging fixture I/O; it preserves production storage durability and passes local migration coverage.
+Hidden smoke renderer scheduling is corrected, but macOS results remain unverified. See `01-10-SUMMARY.draft.md`
+and `evidence/tier-a-ci/38011901925/RUN.md`. Plan 01-11 remains complete locally, with macOS verification pending.
+A user-triggered push/CI run and downloaded, validated artifacts are still necessary. Plan 01-12 remains gated.
+No new downstream plan, push, publication or deployment occurred.
 
 ## Self-Check: PASSED
 

@@ -1,0 +1,57 @@
+Process completed with exit code 1.
+
+✓  tools  tools/check-features-first.test.ts (11 tests) 9884ms
+   ✓ rejects a feature with no scenarios 741ms
+   ✓ rejects missing cancellation without a reason 707ms
+   ✓ accepts an explicit justified not-applicable kind 542ms
+   ✓ rejects duplicate scenario names 734ms
+   ✓ rejects missing requirement tags or multiple capabilities 471ms
+   ✓ rejects steps and implementation added with the feature 657ms
+   ✓ rejects an implementation added before its feature 1140ms
+   ✓ accepts features strictly before their steps and implementation 1202ms
+   ✓ requires steps unless allow-unbound is explicit 1468ms
+   ✓ reports unimplemented covered paths as information 1640ms
+   ✓ handles outlines as scenarios 581ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL   logging  packages/logging/test/jsonl.test.ts > JSON-lines logger > rotates within the size threshold and file-count limit
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ packages/logging/test/jsonl.test.ts:71:3
+     69|       expect(second!.event).toBe('invalid-event');
+     70|     }));
+     71|   it('rotates within the size threshold and file-count limit', () =>
+       |   ^
+     72|     withDir((dir) => {
+     73|       const logger = createJsonlLogger({ dir, name: 'core', maxBytes: …
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+ FAIL   storage  packages/storage/test/storage-migrations.feature.test.ts > Feature: Forward-only migrations with verified restorable backups > Scenario: A fresh library reaches the newest schema without a backup > When the migration runner opens the library
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ Object.scenarioDescribe [as describeHandler] node_modules/@amiceli/vitest-cucumber/dist/describe-feature-CdxOfcs4.mjs:150:6
+ ❯ node_modules/@amiceli/vitest-cucumber/dist/describe-feature-CdxOfcs4.mjs:685:11
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+ Test Files  2 failed | 25 passed (27)
+      Tests  2 failed | 351 passed (353)
+   Start at  01:09:02
+   Duration  44.32s (tests 83%, transform 13%, import 4%)
+  Transform   core  transforming modules took 8.64s · 25% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             on CI this only helps when the cache directory is persisted between runs
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+::error file=D%3A/a/danesh/danesh/packages/logging/test/jsonl.test.ts,title=[logging] packages/logging/test/jsonl.test.ts > JSON-lines logger > rotates within the size threshold and file-count limit,line=71,column=3::Error: Test timed out in 5000ms.%0AIf this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".%0A ❯ packages/logging/test/jsonl.test.ts:71:3%0A%0A
+[ELIFECYCLE] Test failed. See above for more details.
+
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ packages/logging/test/jsonl.test.ts:71:3
+
+Process completed with exit code 1.
+
+$ node tools/smoke/run-packaged-smoke.ts --persian-paths
+packaged-smoke: verdict=fail failing=appRun out=/Users/runner/work/danesh/danesh/.planning/phases/01-secure-durable-foundation-packaging-gate/evidence/tier-a-local/smoke-darwin-arm64.json
+packaged-smoke: appRun: {"verdict":"fail","exitCode":1,"durationMs":25798}
+packaged-smoke: check ui-responsive: heartbeat outside policy {"sampleCount":220,"p50":56,"p95":139,"max":156,"intervalMs":50,"method":"nearest-rank","policy":"samples>=100, p95<=50ms, max<=250ms"}
+[ELIFECYCLE] Command failed with exit code 
+1.
+
+Due to capacity constraints, jobs targeting macOS arm64 runners may experience longer queue times.
