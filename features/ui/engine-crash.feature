@@ -14,6 +14,7 @@ Feature: Engine crashes and Core restarts leave the window usable
     And no engine restart is recorded or recovery notice shown
 
   @plan-01-14 @kind-recovery
+  @fault-matrix
   Scenario Outline: An unexpected host exit restarts only that host
     Given the test build of Danesh is launched with that library folder on System check
     And an engine probe is running with the Core and other hosts' process ids recorded
